@@ -1,0 +1,334 @@
+
+/* ---------------------- */
+/* BODY                   */
+/* ---------------------- */
+body {
+  font-family: 'DejaVu Serif', 'Times New Roman', Times;
+  font-size: 12px;
+  text-align: center;
+  background-color: #f0f0f0;
+  margin: 0px;
+  padding: 0px;
+}
+
+
+
+/* ---------------------- */
+/* PAGE                   */
+/* ---------------------- */
+#page {
+  width: 75%;
+  margin: 0px auto; 
+  padding: 0px 0px;
+}
+
+
+
+/* ---------------------- */
+/* MENU                   */
+/* ---------------------- */
+#menu, #menu ul {
+  font-family: 'DejaVu Sans', Arial, Helvetica;
+  font-size: 13px;
+  text-align: left;
+  text-transform: lowercase;
+  list-style: none;
+  background-color: #000000;
+  margin: 0px;
+  padding: 0px;
+  text-align: center;
+  line-height: 30px;
+}
+#menu li {
+  display: inline;
+  padding: 0px 5px;
+  margin: 0px;
+  white-space: nowrap;
+  border-right: 1px solid #ccc;
+  color: #f0faaa;
+}
+#menu ul > li:last-child { 
+  border-right: 0px;  
+}
+#menu li a {
+  color: #f0faaa;
+  font-weight: normal;
+  text-decoration: none;
+  border: 0px;
+}
+#menu li a:hover {
+  color: #f0faaa;
+  border-bottom: 1px solid #f0faaa;
+}
+
+
+/* ---------------------- */
+/* HEADER                 */
+/* ---------------------- */
+#header {
+  margin: 0px;
+  text-align: left;
+  background-color: #352726;
+  padding: 0px 4px 0px 4px;
+  border-top: 1px dotted #f2f2f2; 
+}
+#header .logo {
+  display: inline;
+  border: 0px;
+}
+#header a {
+  border: 0px;
+}
+
+
+
+/* ---------------------- */
+/* BREADCRUMB             */
+/* ---------------------- */
+#breadcrumb {
+  font-family: 'DejaVu Sans', Arial, Helvetica;
+  font-size: 12px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #cccccc;
+  line-height: 30px;
+  text-align: left;
+  padding-left: 40px;
+  font-weight: bold;
+  color: #a0a0a0;
+}
+#breadcrumb a {
+  text-decoration: none;
+  color: #a0a0a0;
+  border: 0px;
+}
+#breadcrumb .current {
+  color: #352726;
+}
+
+
+
+/* ---------------------- */
+/* CONTENT                */
+/* ---------------------- */
+#content {
+  margin: 0px;
+  background-color: #ffffff;
+  text-align: left;
+  padding: 15px 0px;
+}
+
+
+/* ---------------------- */
+/* NOTICE                 */
+/* ---------------------- */
+.notice {
+  border: 1px dotted #888;
+  padding: 5px;
+  background-color: #F3F3F3;
+  font-size: 12px;
+  line-height: 17px;
+}
+
+
+
+/* ---------------------- */
+/* HEADERS                */
+/* ---------------------- */
+h1 {
+  font-family: 'DejaVu Sans', Arial, Helvetica;
+  font-size: 24px;
+  font-weight: bold;
+  font-variant: small-caps;
+  margin-left: 40px;
+  margin-right: 40px;
+  margin-top: 10px;
+  margin-bottom: 40px;
+  border-left: 5px solid #352726;
+  padding: 5px 10px; 
+}
+h1.hidden {
+  display: none;
+}
+h2 {
+  font-family: 'DejaVu Sans', Arial, Helvetica;
+  font-size: 20px;
+  font-weight: bold;
+  color: #352726;
+  margin-top: 35px;
+  margin-bottom: 25px;
+  margin-left: 40px;
+  margin-right: 40px;
+  border-left: 5px solid #99cc33;
+  padding: 3px 10px;
+}
+#content > h2:first-child {
+  margin-top: 10px;
+}
+h3 {
+  font-family: 'DejaVu Sans', Arial, Helvetica;
+  font-size: 16px;
+  font-weight: bold;
+  color: #352726;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  margin-left: 40px;
+  margin-right: 40px;
+  border-left: 3px dotted #99cc33;
+  padding: 3px 10px;
+}
+h4 {
+  font-family: 'DejaVu Sans', Arial, Helvetica;
+  font-size: 11px;
+  font-style: italic;
+  font-weight: bold;
+  color: #352726;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  margin-left: 40px;
+  margin-right: 40px;
+  border-left: 1px dotted #99cc33;
+  padding: 3px 10px;
+}
+#author {
+  font-size: 12px;
+  text-align:right;
+  margin-bottom: 50px;
+}
+
+
+/* ---------------------- */
+/* FOOTER                 */
+/* ---------------------- */
+#footer {
+  border-top: 1px solid #cccccc;
+  font-size: 11px;
+  background-color: #fcfef0;
+  padding: 10px 35px 5px 35px;
+  text-align: left;
+  margin-bottom: 30px;
+}
+#footer > #twitter {
+  display: inline;
+  line-height: 30px;
+}
+#footer > #twitter a {
+  text-decoration: none;
+  border: 0px;
+}
+#footer > #sourceforge {
+  display: inline;
+  line-height: 35px;
+  float:right;
+  margin-left: 10px;
+}
+#footer > #sourceforge a {
+  text-decoration: none;
+  border: 0px;
+}
+#footer #copy {
+  display: inline;
+  text-align: right;
+  line-height: 30px;
+  float:right;
+}
+
+
+
+/* ---------------------- */
+/* TT, CODE && STRINGS    */
+/* ---------------------- */
+kbd, tt, code {
+  font-family: 'DejaVu Sans Mono', 'Courier New', Courier, monospace;
+}
+kbd, tt {
+  color: #707070;
+  font-weight: bold;
+}
+code {
+  border: 1px solid #cccccc;
+  background-color: #f2f2f2;
+  font-size: 12px;
+  margin: 25px 50px;
+  display: block;
+  padding: 8px 15px;
+}
+span.string {
+  color: blue;
+}
+span.comment {
+  font-style: italic;
+  color: green;
+}
+
+
+
+/* ---------------------- */
+/* OTHER                  */
+/* ---------------------- */
+p, ul, ol {
+  margin: 20px 40px;
+  text-align: justify;
+}
+li {
+  margin-top: 5px;
+}
+a {
+  text-decoration: none;
+  color: #352726;
+  border-bottom: 1px dotted #352726;
+}
+a:hover {
+  color: #99cc33;
+  border-bottom: 1px solid #99cc33;
+}
+a img {
+  border: 0px;
+}
+ul li ul {
+  padding-left: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+div.widetable {
+  text-align: center;
+  margin: 0px 20px;
+}
+.widetable table {
+  text-align: left;
+  padding: 0px;
+  width: 100%;
+}
+.widetable table th {
+  border-collapse: collapse;
+  padding: 5px 10px;
+}
+.widetable table td {
+  border-collapse: collapse;
+  background-color: #f0f0f0;
+  padding: 5px 10px;
+}
+
+.caption {
+  margin-left: 40px;
+}
+
+.googledocsiframecontainer {
+  text-align: center;
+}
+
+
+
+/* ---------------------- */
+/* TEAM TABLE             */
+/* ---------------------- */
+#teamTable th {
+  font-size: 13px; 
+} 
+#teamTable td {
+  font-size: 12px; 
+}
+
+#workingOn {
+  margin-top: 80px;
+  font-size: 11px; 
+}

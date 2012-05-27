@@ -1,0 +1,26 @@
+-classpath
+'/home/daniel/workspace/thymeleaf/target/classes:/home/daniel/.m2/repository/org/javassist/javassist/3.14.0-GA/javassist-3.14.0-GA.jar:/home/daniel/.m2/repository/org/apache/ant/ant-launcher/1.7.0/ant-launcher-1.7.0.jar:/home/daniel/.m2/repository/net/sourceforge/htmlcleaner/htmlcleaner/2.2/htmlcleaner-2.2.jar:/home/daniel/.m2/repository/org/apache/ant/ant/1.7.0/ant-1.7.0.jar:/home/daniel/.m2/repository/javax/servlet/servlet-api/2.5/servlet-api-2.5.jar:/home/daniel/.m2/repository/org/jdom/jdom/1.1/jdom-1.1.jar:/home/daniel/.m2/repository/org/slf4j/slf4j-api/1.6.1/slf4j-api-1.6.1.jar:/home/daniel/.m2/repository/ognl/ognl/3.0/ognl-3.0.jar'
+-encoding
+'UTF-8'
+-protected
+-sourcepath
+'/home/daniel/workspace/thymeleaf/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2011 <a href="http://www.thymeleaf.org">The THYMELEAF team</a>. All Rights Reserved.'
+-charset
+'UTF-8'
+-d
+'/home/daniel/workspace/thymeleaf/target/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'thymeleaf 1.0.0-beta4-SNAPSHOT API'
+-link
+'http://java.sun.com/j2se/1.5.0/docs/api'
+-noqualifier
+'java.lang'
+-use
+-version
+-windowtitle
+'thymeleaf 1.0.0-beta4-SNAPSHOT API'

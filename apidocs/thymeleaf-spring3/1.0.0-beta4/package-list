@@ -1,0 +1,11 @@
+org.springframework.web.servlet.tags.form
+org.thymeleaf.spring3
+org.thymeleaf.spring3.context
+org.thymeleaf.spring3.dialect
+org.thymeleaf.spring3.expression
+org.thymeleaf.spring3.expression.spel
+org.thymeleaf.spring3.messageresolver
+org.thymeleaf.spring3.naming
+org.thymeleaf.spring3.processor.attr
+org.thymeleaf.spring3.util
+org.thymeleaf.spring3.view
