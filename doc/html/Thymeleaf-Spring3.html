@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+
+<head>
+	<title>Tutorial: Thymeleaf + Spring 3</title>
+	<meta charset="utf-8">
+	<meta name="generator" content="pandoc">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<meta name="format-detection" content="telephone=no"/>
+
+	<link rel="icon" href="images/icon.png"/>
+	<link rel="stylesheet" href="styles/fonts/open-sans.css"/>
+	<link rel="stylesheet" href="styles/fonts/source-sans-pro.css"/>
+	<link rel="stylesheet" href="styles/normalize.css"/>
+	<link rel="stylesheet" href="styles/thymeleaf.css"/>
+	<link rel="stylesheet" href="styles/thymeleaf-screen.css" media="screen"/>
+	<link rel="stylesheet" href="styles/thymeleaf-print.css" media="print"/>
+
+	<script src="scripts/prettify.min.js"></script>
+	<script src="scripts/jquery-1.9.1.min.js"></script>
+	<script src="scripts/thymeleaf.js"></script>
+
+</head>
+
+<body>
+
+	<div id="documentation-wrapper">
+
+	<div id="title-block-wrapper">
+		<header id="title-block">
+			<img id="doc-banner" class="banner" src="images/header.png" alt="Thymeleaf logo"/>
+			<h1 id="doc-title" class="title">Tutorial: Thymeleaf + Spring 3</h1>
+			<div id="doc-info">
+				<div id="doc-version">
+					<span class="info-header">Document version:</span> 20130426 - 26 April 2013
+				</div>
+				<div id="project-version">
+					<span class="info-header">Project Version:</span> 2.0.16
+				</div>
+				<div id="project-website">
+					<span class="info-header">Project web site:</span>
+					<a href="http://www.thymeleaf.org">http://www.thymeleaf.org</a>
+				</div>
+			</div>
+		</header>
+	</div>
+
+	<div id="toc-wrapper">
+		<nav id="toc">
+<ul>
+<li><a href="#integrating-thymeleaf-with-spring-3">1 Integrating Thymeleaf with Spring 3</a></li>
+<li><a href="#the-springstandard-dialect">2 The SpringStandard Dialect</a></li>
+<li><a href="#views-and-view-resolvers">3 Views and View Resolvers</a><ul>
+<li><a href="#views-and-view-resolvers-in-spring-mvc">3.1 Views and View Resolvers in Spring MVC</a></li>
+<li><a href="#views-and-view-resolvers-in-thymeleaf">3.2 Views and View Resolvers in Thymeleaf</a></li>
+</ul></li>
+<li><a href="#spring-thyme-seed-starter-manager">4 Spring Thyme Seed Starter Manager</a><ul>
+<li><a href="#the-concept">4.1 The Concept</a></li>
+<li><a href="#business-layer">4.2 Business Layer</a></li>
+<li><a href="#spring-mvc-configuration">4.3 Spring MVC configuration</a></li>
+<li><a href="#the-controller">4.4 The Controller</a><ul>
+<li><a href="#model-attributes">Model Attributes</a></li>
+<li><a href="#property-editors">Property Editors</a></li>
+<li><a href="#mapped-methods">Mapped methods</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#listing-seed-starter-data">5 Listing Seed Starter Data</a></li>
+<li><a href="#creating-a-form">6 Creating a Form</a><ul>
+<li><a href="#handling-the-command-object">6.1 Handling the command object</a></li>
+<li><a href="#inputs">6.2 Inputs</a></li>
+<li><a href="#checkbox-fields">6.3 Checkbox fields</a></li>
+<li><a href="#radio-button-fields">6.4 Radio Button fields</a></li>
+<li><a href="#dropdownlist-selectors">6.5 Dropdown/List selectors</a></li>
+<li><a href="#dynamic-fields">6.6 Dynamic fields</a></li>
+</ul></li>
+<li><a href="#validation-and-error-messages">7 Validation and error messages</a></li>
+<li><a href="#its-still-a-prototype">8 It's still a prototype!</a></li>
+<li><a href="#spring-webflow-integration">9 Spring WebFlow integration</a><ul>
+<li><a href="#basic-configuration">9.1 Basic configuration</a></li>
+<li><a href="#ajax-fragments">9.2 Ajax fragments</a></li>
+</ul></li>
+</ul>
+		</nav>
+	</div>
+
+	<div id="content-wrapper">
+		<div id="content">
+<section id="integrating-thymeleaf-with-spring-3" class="level1">
+<h1><a href="#integrating-thymeleaf-with-spring-3">1 Integrating Thymeleaf with Spring 3</a></h1>
+<p>Thymeleaf offers a set of Spring integrations that allow you to use it as a full-featured substitute for JSP in Spring MVC applications.</p>
+<p>These integrations are a separate library called <code>thymeleaf-spring3</code> and packed in a separate <code>.jar</code> file (<code>thymeleaf-spring3-{version}.jar</code>), which has to be added to your classpath in order to use these integrations in your applications.</p>
+<p>This will allow you to:</p>
+<ul>
+<li>Make the mapped methods in your Spring MVC <code>@Controller</code> objects forward to templates managed by Thymeleaf, exactly like you do with JSPs.</li>
+<li>Use <strong>Spring Expression Language</strong> (Spring EL) instead of OGNL in your templates.</li>
+<li>Create forms in your templates that are completely integrated with your form-backing beans and result bindings, including the use of property editors and validation error handling.</li>
+<li>Display internationalization messages from messages files managed by Spring (through the usual <code>MessageSource</code> objects).</li>
+</ul>
+<p>Note that in order to fully understand this tutorial, you should have first gone through the <em>&quot;Using Thymeleaf&quot;</em> tutorial, which explains the Standard Dialect in depth.</p>
+</section>
+<section id="the-springstandard-dialect" class="level1">
+<h1><a href="#the-springstandard-dialect">2 The SpringStandard Dialect</a></h1>
+<p>In order to achieve an easier and better integration, Thymeleaf provides a dialect which specifically implements all the needed features for it to work correctly with Spring.</p>
+<p>This specific dialect is based on the Thymeleaf Standard Dialect and is implemented in a class called <code>org.thymeleaf.spring3.dialect.SpringStandardDialect</code>, which in fact extends from <code>org.thymeleaf.standard.StandardDialect</code>.</p>
+<p>Besides all the features already present in the Standard Dialect – and therefore inherited –, the SpringStandard Dialect introduces the following specific features:</p>
+<ul>
+<li>Use of Spring Expression Language (Spring EL) as a variable expression language, instead of OGNL. Consequently, all <code>${...}</code> and <code>*{...}</code> expressions will be evaluated by Spring's Expression Language engine.</li>
+<li>A new beans special variable that allows you to access any bean in your application context inside variable expressions: <code>${beans.myBean.doSomething()}</code></li>
+<li>New attributes for form processing: <code>th:field</code> and <code>th:errors,</code> besides a new implementation of <code>th:object</code> that allows it to be used for form command selection.</li>
+<li>New DTDs for validation, including these new attributes, as well as new corresponding DOCTYPE translation rules.</li>
+</ul>
+<p>Note that <em>you shouldn't use this dialect directly in a normal TemplateEngine object</em> as a part of its configuration. Instead, you should instance a new template engine class that performs all the required configuration steps: <code>org.thymeleaf.spring3.SpringTemplateEngine</code>.</p>
+<p>An example bean configuration:</p>
+<pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;bean</span><span class="ot"> id=</span><span class="st">&quot;templateResolver&quot;</span>
+<span class="er">       class=&quot;org.thymeleaf.templateresolver.ServletContextTemplateResolver&quot;</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;property</span><span class="ot"> name=</span><span class="st">&quot;prefix&quot;</span><span class="ot"> value=</span><span class="st">&quot;/WEB-INF/templates/&quot;</span> <span class="kw">/&gt;</span>
+  <span class="kw">&lt;property</span><span class="ot"> name=</span><span class="st">&quot;suffix&quot;</span><span class="ot"> value=</span><span class="st">&quot;.html&quot;</span> <span class="kw">/&gt;</span>
+  <span class="kw">&lt;property</span><span class="ot"> name=</span><span class="st">&quot;templateMode&quot;</span><span class="ot"> value=</span><span class="st">&quot;HTML5&quot;</span> <span class="kw">/&gt;</span>
+<span class="kw">&lt;/bean&gt;</span>
+    
+<span class="kw">&lt;bean</span><span class="ot"> id=</span><span class="st">&quot;templateEngine&quot;</span>
+<span class="er">      class=&quot;org.thymeleaf.spring3.SpringTemplateEngine&quot;</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;property</span><span class="ot"> name=</span><span class="st">&quot;templateResolver&quot;</span><span class="ot"> ref=</span><span class="st">&quot;templateResolver&quot;</span> <span class="kw">/&gt;</span>
+<span class="kw">&lt;/bean&gt;</span></code></pre>
+</section>
+<section id="views-and-view-resolvers" class="level1">
+<h1><a href="#views-and-view-resolvers">3 Views and View Resolvers</a></h1>
+<section id="views-and-view-resolvers-in-spring-mvc" class="level2">
+<h2><a href="#views-and-view-resolvers-in-spring-mvc">3.1 Views and View Resolvers in Spring MVC</a></h2>
+<p>There are two interfaces in Spring MVC that conform the core of its templating system:</p>
+<ul>
+<li><code>org.springframework.web.servlet.View</code></li>
+<li><code>org.springframework.web.servlet.ViewResolver</code></li>
+</ul>
+<p>Views model pages in our applications and allow us to modify and predefine their behaviour by defining them as beans. Views are in charge of rendering the actual HTML interface, usually by the execution of some template engine like JSP (or Thymeleaf).</p>
+<p>ViewResolvers are the objects in charge of obtaining view objects for a specific operation and locale. Tipically, controllers ask ViewResolvers to forward to a view with a specific name (a String returned by the controller method), and then all the view resolvers in the application execute in ordered chain until one of them is able to resolve that view, in which case a View object is returned and control is passed to it for the renderization of HTML.</p>
+<blockquote>
+<p>Note that not all pages in our applications have to be defined as Views, but only those which behaviour we wish to be non-standard or configured in a specific way (for example, by wiring some special beans to it. If a ViewResolver is asked a view that has no corresponding bean –which is the common case–, a new View object is created ad hoc and returned.</p>
+</blockquote>
+<p>A typical configuration for a JSP+JSTL ViewResolver in a Spring MVC application looks like this:</p>
+<pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;bean</span><span class="ot"> class=</span><span class="st">&quot;org.springframework.web.servlet.view.InternalResourceViewResolver&quot;</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;property</span><span class="ot"> name=</span><span class="st">&quot;viewClass&quot;</span><span class="ot"> value=</span><span class="st">&quot;org.springframework.web.servlet.view.JstlView&quot;</span> <span class="kw">/&gt;</span>
+  <span class="kw">&lt;property</span><span class="ot"> name=</span><span class="st">&quot;prefix&quot;</span><span class="ot"> value=</span><span class="st">&quot;/WEB-INF/jsps/&quot;</span> <span class="kw">/&gt;</span>
+  <span class="kw">&lt;property</span><span class="ot"> name=</span><span class="st">&quot;suffix&quot;</span><span class="ot"> value=</span><span class="st">&quot;.jsp&quot;</span> <span class="kw">/&gt;</span>
+  <span class="kw">&lt;property</span><span class="ot"> name=</span><span class="st">&quot;order&quot;</span><span class="ot"> value=</span><span class="st">&quot;2&quot;</span> <span class="kw">/&gt;</span>
+  <span class="kw">&lt;property</span><span class="ot"> name=</span><span class="st">&quot;viewNames&quot;</span><span class="ot"> value=</span><span class="st">&quot;*jsp&quot;</span> <span class="kw">/&gt;</span>
+<span class="kw">&lt;/bean&gt;</span></code></pre>
+<p>A quick look at its properties is enough to know about how it's configured:</p>
+<ul>
+<li><code>viewClass</code> establishes the class of the View instances. This is needed for a JSP resolver, but it will not be needed at all when we're working with Thymeleaf.</li>
+<li><code>prefix</code> and <code>suffix</code> work in a similar way to the attributes of the same names in Thymeleaf's TemplateResolver objects.</li>
+<li><code>order</code> establishes the order in which the ViewResolver will be queried in the chain.</li>
+<li><code>viewNames</code> allows the definition (with wildcards) of the view names that will be resolved by this ViewResolver.</li>
+</ul>
+</section>
+<section id="views-and-view-resolvers-in-thymeleaf" class="level2">
+<h2><a href="#views-and-view-resolvers-in-thymeleaf">3.2 Views and View Resolvers in Thymeleaf</a></h2>
+<p>Thymeleaf offers implementations for the two interfaces mentioned above:</p>
+<ul>
+<li><code>org.thymeleaf.spring3.view.ThymeleafView</code></li>
+<li><code>org.thymeleaf.spring3.view.ThymeleafViewResolver</code></li>
+</ul>
+<p>These two classes will be in charge of processing Thymeleaf templates as a result of your controllers' executions.</p>
+<p>Configuration of the View Resolver is very similar to that of JSP:</p>
+<pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;bean</span><span class="ot"> class=</span><span class="st">&quot;org.thymeleaf.spring3.view.ThymeleafViewResolver&quot;</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;property</span><span class="ot"> name=</span><span class="st">&quot;templateEngine&quot;</span><span class="ot"> ref=</span><span class="st">&quot;templateEngine&quot;</span> <span class="kw">/&gt;</span>
+  <span class="kw">&lt;property</span><span class="ot"> name=</span><span class="st">&quot;order&quot;</span><span class="ot"> value=</span><span class="st">&quot;1&quot;</span> <span class="kw">/&gt;</span>
+  <span class="kw">&lt;property</span><span class="ot"> name=</span><span class="st">&quot;viewNames&quot;</span><span class="ot"> value=</span><span class="st">&quot;*.html,*.xhtml&quot;</span> <span class="kw">/&gt;</span>
+<span class="kw">&lt;/bean&gt;</span></code></pre>
+<p>The <code>templateEngine</code> parameter is, of course, the <code>SpringTemplateEngine</code> object we defined in the previous chapter. The other two (<code>order</code> and <code>viewNames</code>) are both optional, and have the same meaning as in the JSP ViewResolver we saw before.</p>
+<p>Note that we do not need <code>prefix</code> or <code>suffix</code> parameters, because this are already specified in the Template Resolver (which in turn is passed to the Template Engine). And what if we wanted to define a <code>View</code> bean and add some static variables to it? Easy:</p>
+<pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;bean</span><span class="ot"> name=</span><span class="st">&quot;main&quot;</span><span class="ot"> class=</span><span class="st">&quot;org.thymeleaf.spring3.view.ThymeleafView&quot;</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;property</span><span class="ot"> name=</span><span class="st">&quot;staticVariables&quot;</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;map&gt;</span>
+      <span class="kw">&lt;entry</span><span class="ot"> key=</span><span class="st">&quot;footer&quot;</span><span class="ot"> value=</span><span class="st">&quot;Some company: </span><span class="dv">&amp;lt;</span><span class="st">b</span><span class="dv">&amp;gt;</span><span class="st">ACME</span><span class="dv">&amp;lt;</span><span class="st">/b</span><span class="dv">&amp;gt;</span><span class="st">&quot;</span> <span class="kw">/&gt;</span>
+    <span class="kw">&lt;/map&gt;</span>
+  <span class="kw">&lt;/property&gt;</span>
+<span class="kw">&lt;/bean&gt;</span></code></pre>
+</section>
+</section>
+<section id="spring-thyme-seed-starter-manager" class="level1">
+<h1><a href="#spring-thyme-seed-starter-manager">4 Spring Thyme Seed Starter Manager</a></h1>
+<section id="the-concept" class="level2">
+<h2><a href="#the-concept">4.1 The Concept</a></h2>
+<p>At Thymeleaf we're huge fans of thyme, and every spring we prepare our seed starting kits with good soil and our favourite seeds, place them under the Spanish sun and patiently wait for our new plants to grow.</p>
+<p>But this year we got fed up with sticking labels to the seed starter containers for knowing which seed was in each cell of the container, so we decided to prepare an application using Spring MVC and Thymeleaf to help us catalogue our starters: <em>The Spring Thyme SeedStarter Manager</em>.</p>
+<figure>
+<img src="images/thymeleaf-spring3/stsm-view.png" alt="STSM front page" /><figcaption>STSM front page</figcaption>
+</figure>
+<p>In a similar way to the Good Thymes Virtual Grocery application we developed in the <em>Using Thymeleaf</em> tutorial, the STSM will allow us to exemplify the most important aspects of the integration of Thymeleaf as a template engine for Spring MVC.</p>
+</section>
+<section id="business-layer" class="level2">
+<h2><a href="#business-layer">4.2 Business Layer</a></h2>
+<p>We will need a very simple business layer for our application. First of all, let's have a look at our model entities:</p>
+<figure>
+<img src="images/thymeleaf-spring3/stsm-model.png" alt="STSM model" /><figcaption>STSM model</figcaption>
+</figure>
+<p>A couple of very simple service classes will provide the required business methods. Like:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="fu">@Service</span>
+<span class="kw">public</span> <span class="kw">class</span> SeedStarterService {
+
+    <span class="fu">@Autowired</span>
+    private SeedStarterRepository seedstarterRepository; 
+
+    public List&lt;SeedStarter&gt; <span class="fu">findAll</span>() {
+        return <span class="kw">this</span>.<span class="fu">seedstarterRepository</span>.<span class="fu">findAll</span>();
+    }
+
+    public <span class="dt">void</span> <span class="fu">add</span>(<span class="dt">final</span> SeedStarter seedStarter) {
+        this.<span class="fu">seedstarterRepository</span>.<span class="fu">add</span>(seedStarter);
+    }
+
+}</code></pre>
+<p>And:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="fu">@Service</span>
+<span class="kw">public</span> <span class="kw">class</span> VarietyService {
+
+    <span class="fu">@Autowired</span>
+    private VarietyRepository varietyRepository; 
+
+    public List&lt;Variety&gt; <span class="fu">findAll</span>() {
+        return <span class="kw">this</span>.<span class="fu">varietyRepository</span>.<span class="fu">findAll</span>();
+    }
+
+    public Variety <span class="fu">findById</span>(<span class="dt">final</span> Integer id) {
+        return <span class="kw">this</span>.<span class="fu">varietyRepository</span>.<span class="fu">findById</span>(id);
+    }
+
+}</code></pre>
+</section>
+<section id="spring-mvc-configuration" class="level2">
+<h2><a href="#spring-mvc-configuration">4.3 Spring MVC configuration</a></h2>
+<p>Next we need to set up the Spring MVC configuration for the application, which will include not only the standard Spring MVC artifacts like resource handling or annotation scanning, but also the creation of the Template Engine and View Resolver instances.</p>
+<pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;?xml</span> version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;<span class="kw">?&gt;</span>
+<span class="kw">&lt;beans</span><span class="ot"> xmlns=</span><span class="st">&quot;http://www.springframework.org/schema/beans&quot;</span>
+<span class="er">       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span> 
+<span class="er">       xmlns:mvc=&quot;http://www.springframework.org/schema/mvc&quot;</span>
+<span class="er">       xmlns:context=&quot;http://www.springframework.org/schema/context&quot;</span>
+<span class="er">       xsi:schemaLocation=&quot;http://www.springframework.org/schema/mvc</span>
+<span class="er">                           http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd</span>
+<span class="er">                           http://www.springframework.org/schema/beans</span>
+<span class="er">                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd</span>
+<span class="er">                           http://www.springframework.org/schema/context</span>
+<span class="er">                           http://www.springframework.org/schema/context/spring-context-3.0.xsd&quot;</span><span class="kw">&gt;</span>
+    
+    
+  <span class="co">&lt;!-- **************************************************************** --&gt;</span>
+  <span class="co">&lt;!--  RESOURCE FOLDERS CONFIGURATION                                  --&gt;</span>
+  <span class="co">&lt;!--  Dispatcher configuration for serving static resources           --&gt;</span>
+  <span class="co">&lt;!-- **************************************************************** --&gt;</span>
+  <span class="kw">&lt;mvc:resources</span><span class="ot"> location=</span><span class="st">&quot;/images/&quot;</span><span class="ot"> mapping=</span><span class="st">&quot;/images/**&quot;</span> <span class="kw">/&gt;</span>
+  <span class="kw">&lt;mvc:resources</span><span class="ot"> location=</span><span class="st">&quot;/css/&quot;</span><span class="ot"> mapping=</span><span class="st">&quot;/css/**&quot;</span> <span class="kw">/&gt;</span>
+    
+
+  <span class="co">&lt;!-- **************************************************************** --&gt;</span>
+  <span class="co">&lt;!--  SPRING ANNOTATION PROCESSING                                    --&gt;</span>
+  <span class="co">&lt;!-- **************************************************************** --&gt;</span>
+  <span class="kw">&lt;mvc:annotation-driven</span> <span class="kw">/&gt;</span>
+  <span class="kw">&lt;context:component-scan</span><span class="ot"> base-package=</span><span class="st">&quot;thymeleafexamples.stsm&quot;</span> <span class="kw">/&gt;</span>
+
+
+  <span class="co">&lt;!-- **************************************************************** --&gt;</span>
+  <span class="co">&lt;!--  MESSAGE EXTERNALIZATION/INTERNATIONALIZATION                    --&gt;</span>
+  <span class="co">&lt;!--  Standard Spring MessageSource implementation                    --&gt;</span>
+  <span class="co">&lt;!-- **************************************************************** --&gt;</span>
+  <span class="kw">&lt;bean</span><span class="ot"> id=</span><span class="st">&quot;messageSource&quot;</span><span class="ot"> class=</span><span class="st">&quot;org.springframework.context.support.ResourceBundleMessageSource&quot;</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;property</span><span class="ot"> name=</span><span class="st">&quot;basename&quot;</span><span class="ot"> value=</span><span class="st">&quot;Messages&quot;</span> <span class="kw">/&gt;</span>
+  <span class="kw">&lt;/bean&gt;</span>
+
+
+  <span class="co">&lt;!-- **************************************************************** --&gt;</span>
+  <span class="co">&lt;!--  THYMELEAF-SPECIFIC ARTIFACTS                                    --&gt;</span>
+  <span class="co">&lt;!--  TemplateResolver &lt;- TemplateEngine &lt;- ViewResolver              --&gt;</span>
+  <span class="co">&lt;!-- **************************************************************** --&gt;</span>
+
+  <span class="kw">&lt;bean</span><span class="ot"> id=</span><span class="st">&quot;templateResolver&quot;</span>
+<span class="er">        class=&quot;org.thymeleaf.templateresolver.ServletContextTemplateResolver&quot;</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;property</span><span class="ot"> name=</span><span class="st">&quot;prefix&quot;</span><span class="ot"> value=</span><span class="st">&quot;/WEB-INF/templates/&quot;</span> <span class="kw">/&gt;</span>
+    <span class="kw">&lt;property</span><span class="ot"> name=</span><span class="st">&quot;suffix&quot;</span><span class="ot"> value=</span><span class="st">&quot;.html&quot;</span> <span class="kw">/&gt;</span>
+    <span class="kw">&lt;property</span><span class="ot"> name=</span><span class="st">&quot;templateMode&quot;</span><span class="ot"> value=</span><span class="st">&quot;HTML5&quot;</span> <span class="kw">/&gt;</span>
+  <span class="kw">&lt;/bean&gt;</span>
+    
+  <span class="kw">&lt;bean</span><span class="ot"> id=</span><span class="st">&quot;templateEngine&quot;</span>
+<span class="er">        class=&quot;org.thymeleaf.spring3.SpringTemplateEngine&quot;</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;property</span><span class="ot"> name=</span><span class="st">&quot;templateResolver&quot;</span><span class="ot"> ref=</span><span class="st">&quot;templateResolver&quot;</span> <span class="kw">/&gt;</span>
+  <span class="kw">&lt;/bean&gt;</span>
+   
+  <span class="kw">&lt;bean</span><span class="ot"> class=</span><span class="st">&quot;org.thymeleaf.spring3.view.ThymeleafViewResolver&quot;</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;property</span><span class="ot"> name=</span><span class="st">&quot;templateEngine&quot;</span><span class="ot"> ref=</span><span class="st">&quot;templateEngine&quot;</span> <span class="kw">/&gt;</span>
+  <span class="kw">&lt;/bean&gt;</span>    
+
+    
+<span class="kw">&lt;/beans&gt;</span></code></pre>
+<p>Important: Note that we have selected HTML5 as a template mode.</p>
+</section>
+<section id="the-controller" class="level2">
+<h2><a href="#the-controller">4.4 The Controller</a></h2>
+<p>Of course, we will also need a controller for our application. As the STSM will only contain one web page with a list of seed starters and a form for adding new ones, we will write only one controller class for all the server interactions:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="fu">@Controller</span>
+<span class="kw">public</span> <span class="kw">class</span> SeedStarterMngController {
+
+    <span class="fu">@Autowired</span>
+    private MessageSource messageSource;
+
+    <span class="fu">@Autowired</span>
+    private VarietyService varietyService;
+    
+    <span class="fu">@Autowired</span>
+    private SeedStarterService seedStarterService;
+
+    ...
+
+}</code></pre>
+<p>Now let's see what we can add to this controller class.</p>
+<section id="model-attributes" class="level3">
+<h3><a href="#model-attributes">Model Attributes</a></h3>
+<p>First we will add some model attributes that we will need in the page:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="fu">@ModelAttribute</span>(<span class="st">&quot;allTypes&quot;</span>)
+<span class="kw">public</span> List&lt;Type&gt; <span class="fu">populateTypes</span>() {
+    return Arrays.<span class="fu">asList</span>(Type.<span class="fu">ALL</span>);
+}
+    
+<span class="fu">@ModelAttribute</span>(<span class="st">&quot;allFeatures&quot;</span>)
+<span class="kw">public</span> List&lt;Feature&gt; <span class="fu">populateFeatures</span>() {
+    return Arrays.<span class="fu">asList</span>(Feature.<span class="fu">ALL</span>);
+}
+    
+<span class="fu">@ModelAttribute</span>(<span class="st">&quot;allVarieties&quot;</span>)
+<span class="kw">public</span> List&lt;Variety&gt; <span class="fu">populateVarieties</span>() {
+    return <span class="kw">this</span>.<span class="fu">varietyService</span>.<span class="fu">findAll</span>();
+}
+    
+<span class="fu">@ModelAttribute</span>(<span class="st">&quot;allSeedStarters&quot;</span>)
+<span class="kw">public</span> List&lt;SeedStarter&gt; <span class="fu">populateSeedStarters</span>() {
+    return <span class="kw">this</span>.<span class="fu">seedStarterService</span>.<span class="fu">findAll</span>();
+}</code></pre>
+</section>
+<section id="property-editors" class="level3">
+<h3><a href="#property-editors">Property Editors</a></h3>
+<p>Property Editors in a Spring MVC application allow forms to contain fields of types other than String, and define the way in which values of these types will be converted to and from String so that they can be shown in form inputs and transmitted over the network when users click submit.</p>
+<p>We will need two property editors: one for <code>java.util.Date</code> objects (locale-dependent) and a second one for <code>Variety</code> objects.</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="fu">@InitBinder</span>
+<span class="kw">public</span> <span class="dt">void</span> <span class="fu">initDateBinder</span>(<span class="dt">final</span> WebDataBinder dataBinder, <span class="dt">final</span> Locale locale) {
+    final String dateformat = 
+        this.<span class="fu">messageSource</span>.<span class="fu">getMessage</span>(<span class="st">&quot;date.format&quot;</span>, <span class="kw">null</span>, locale);
+    final SimpleDateFormat sdf = <span class="kw">new</span> SimpleDateFormat(dateformat);
+    sdf.<span class="fu">setLenient</span>(<span class="kw">false</span>);
+    dataBinder.<span class="fu">registerCustomEditor</span>(Date.<span class="fu">class</span>, <span class="kw">new</span> <span class="fu">CustomDateEditor</span>(sdf, <span class="kw">false</span>));
+}
+
+<span class="fu">@InitBinder</span>
+<span class="kw">public</span> <span class="dt">void</span> <span class="fu">initVarietyBinder</span>(<span class="dt">final</span> WebDataBinder dataBinder) {
+    dataBinder.<span class="fu">registerCustomEditor</span>(Variety.<span class="fu">class</span>, <span class="kw">new</span> <span class="fu">VarietyPropertyEditor</span>(<span class="kw">this</span>.<span class="fu">varietyService</span>));
+}</code></pre>
+</section>
+<section id="mapped-methods" class="level3">
+<h3><a href="#mapped-methods">Mapped methods</a></h3>
+<p>And now the most important part of a controller, the mapped methods: one for showing the form page, and other for processing the addition of new Seed Starter objects.</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="fu">@RequestMapping</span>({<span class="st">&quot;/&quot;</span>,<span class="st">&quot;/seedstartermng&quot;</span>})
+<span class="kw">public</span> String <span class="fu">showSeedstarters</span>(<span class="dt">final</span> SeedStarter seedStarter) {
+    seedStarter.<span class="fu">setDatePlanted</span>(Calendar.<span class="fu">getInstance</span>().<span class="fu">getTime</span>());
+    return <span class="st">&quot;seedstartermng&quot;</span>;
+}
+
+<span class="fu">@RequestMapping</span>(value=<span class="st">&quot;/seedstartermng&quot;</span>, params={<span class="st">&quot;save&quot;</span>})
+<span class="kw">public</span> String <span class="fu">saveSeedstarter</span>(
+        final SeedStarter seedStarter, <span class="dt">final</span> BindingResult bindingResult, <span class="dt">final</span> ModelMap model) {
+    <span class="fu">if</span> (bindingResult.<span class="fu">hasErrors</span>()) {
+        return <span class="st">&quot;seedstartermng&quot;</span>;
+    }
+    this.<span class="fu">seedStarterService</span>.<span class="fu">add</span>(seedStarter);
+    model.<span class="fu">clear</span>();
+    return <span class="st">&quot;redirect:/seedstartermng&quot;</span>;
+}</code></pre>
+</section>
+</section>
+</section>
+<section id="listing-seed-starter-data" class="level1">
+<h1><a href="#listing-seed-starter-data">5 Listing Seed Starter Data</a></h1>
+<p>The first thing that our <code>/WEB-INF/templates/seedstartermng.html</code> page will show is a listing with the seed starters currently stored. For this we will need some externalized messages and also some expression evaluation on model attributes. Like this:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;div</span><span class="ot"> class=</span><span class="st">&quot;seedstarterlist&quot;</span><span class="ot"> th:unless=</span><span class="st">&quot;${#lists.isEmpty(allSeedStarters)}&quot;</span><span class="kw">&gt;</span>
+    
+  <span class="kw">&lt;h2</span><span class="ot"> th:text=</span><span class="st">&quot;#{title.list}&quot;</span><span class="kw">&gt;</span>List of Seed Starters<span class="kw">&lt;/h2&gt;</span>
+  
+  <span class="kw">&lt;table&gt;</span>
+    <span class="kw">&lt;thead&gt;</span>
+      <span class="kw">&lt;tr&gt;</span>
+        <span class="kw">&lt;th</span><span class="ot"> th:text=</span><span class="st">&quot;#{seedstarter.datePlanted}&quot;</span><span class="kw">&gt;</span>Date Planted<span class="kw">&lt;/th&gt;</span>
+        <span class="kw">&lt;th</span><span class="ot"> th:text=</span><span class="st">&quot;#{seedstarter.covered}&quot;</span><span class="kw">&gt;</span>Covered<span class="kw">&lt;/th&gt;</span>
+        <span class="kw">&lt;th</span><span class="ot"> th:text=</span><span class="st">&quot;#{seedstarter.type}&quot;</span><span class="kw">&gt;</span>Type<span class="kw">&lt;/th&gt;</span>
+        <span class="kw">&lt;th</span><span class="ot"> th:text=</span><span class="st">&quot;#{seedstarter.features}&quot;</span><span class="kw">&gt;</span>Features<span class="kw">&lt;/th&gt;</span>
+        <span class="kw">&lt;th</span><span class="ot"> th:text=</span><span class="st">&quot;#{seedstarter.rows}&quot;</span><span class="kw">&gt;</span>Rows<span class="kw">&lt;/th&gt;</span>
+      <span class="kw">&lt;/tr&gt;</span>
+    <span class="kw">&lt;/thead&gt;</span>
+    <span class="kw">&lt;tbody&gt;</span>
+      <span class="kw">&lt;tr</span><span class="ot"> th:each=</span><span class="st">&quot;sb : ${allSeedStarters}&quot;</span><span class="kw">&gt;</span>
+        <span class="kw">&lt;td</span><span class="ot"> th:text=</span><span class="st">&quot;${#dates.format(sb.datePlanted, #messages.msg(&#39;date.format&#39;))}&quot;</span><span class="kw">&gt;</span>13/01/2011<span class="kw">&lt;/td&gt;</span>
+        <span class="kw">&lt;td</span><span class="ot"> th:text=</span><span class="st">&quot;${sb.covered}? #{bool.true} : #{bool.false}&quot;</span><span class="kw">&gt;</span>yes<span class="kw">&lt;/td&gt;</span>
+        <span class="kw">&lt;td</span><span class="ot"> th:text=</span><span class="st">&quot;#{${&#39;seedstarter.type.&#39; + sb.type}}&quot;</span><span class="kw">&gt;</span>Wireframe<span class="kw">&lt;/td&gt;</span>
+        <span class="kw">&lt;td</span><span class="ot"> th:text=</span><span class="st">&quot;${#strings.arrayJoin(</span>
+<span class="st">                           #messages.arrayMsg(#strings.arrayPrepend(sb.features,&#39;seedstarter.feature.&#39;)),</span>
+<span class="st">                           &#39;, &#39;)}&quot;</span><span class="kw">&gt;</span>Electric Heating, Turf<span class="kw">&lt;/td&gt;</span>
+        <span class="kw">&lt;td&gt;</span>
+          <span class="kw">&lt;table&gt;</span>
+            <span class="kw">&lt;tbody&gt;</span>
+              <span class="kw">&lt;tr</span><span class="ot"> th:each=</span><span class="st">&quot;row,rowStat : ${sb.rows}&quot;</span><span class="kw">&gt;</span>
+                <span class="kw">&lt;td</span><span class="ot"> th:text=</span><span class="st">&quot;${rowStat.count}&quot;</span><span class="kw">&gt;</span>1<span class="kw">&lt;/td&gt;</span>
+                <span class="kw">&lt;td</span><span class="ot"> th:text=</span><span class="st">&quot;${row.variety.name}&quot;</span><span class="kw">&gt;</span>Thymus Thymi<span class="kw">&lt;/td&gt;</span>
+                <span class="kw">&lt;td</span><span class="ot"> th:text=</span><span class="st">&quot;${row.seedsPerCell}&quot;</span><span class="kw">&gt;</span>12<span class="kw">&lt;/td&gt;</span>
+              <span class="kw">&lt;/tr&gt;</span>
+            <span class="kw">&lt;/tbody&gt;</span>
+          <span class="kw">&lt;/table&gt;</span>
+        <span class="kw">&lt;/td&gt;</span>
+      <span class="kw">&lt;/tr&gt;</span>
+    <span class="kw">&lt;/tbody&gt;</span>
+  <span class="kw">&lt;/table&gt;</span>
+<span class="kw">&lt;/div&gt;</span></code></pre>
+<p>Lots to see here. Let's have a look at each fragment separately.</p>
+<p>First of all, this section will only be shown if there are any seed starters. We achieve that with a th:unless attribute and the <code>#lists.isEmpty(...)</code> function.</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;div</span><span class="ot"> class=</span><span class="st">&quot;seedstarterlist&quot;</span><span class="ot"> th:unless=</span><span class="st">&quot;${#lists.isEmpty(allSeedStarters)}&quot;</span><span class="kw">&gt;</span></code></pre>
+<p>Note that all utility objects like <code>#lists</code> are available in Spring EL expressions just as they were in OGNL expressions in the Standard Dialect.</p>
+<p>The next thing to see is a lot of internationalized (externalized) texts, like:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;h2</span><span class="ot"> th:text=</span><span class="st">&quot;#{title.list}&quot;</span><span class="kw">&gt;</span>List of Seed Starters<span class="kw">&lt;/h2&gt;</span>
+
+<span class="kw">&lt;table&gt;</span>
+  <span class="kw">&lt;thead&gt;</span>
+    <span class="kw">&lt;tr&gt;</span>
+      <span class="kw">&lt;th</span><span class="ot"> th:text=</span><span class="st">&quot;#{seedstarter.datePlanted}&quot;</span><span class="kw">&gt;</span>Date Planted<span class="kw">&lt;/th&gt;</span>
+      <span class="kw">&lt;th</span><span class="ot"> th:text=</span><span class="st">&quot;#{seedstarter.covered}&quot;</span><span class="kw">&gt;</span>Covered<span class="kw">&lt;/th&gt;</span>
+      <span class="kw">&lt;th</span><span class="ot"> th:text=</span><span class="st">&quot;#{seedstarter.type}&quot;</span><span class="kw">&gt;</span>Type<span class="kw">&lt;/th&gt;</span>
+      <span class="kw">&lt;th</span><span class="ot"> th:text=</span><span class="st">&quot;#{seedstarter.features}&quot;</span><span class="kw">&gt;</span>Features<span class="kw">&lt;/th&gt;</span>
+      <span class="kw">&lt;th</span><span class="ot"> th:text=</span><span class="st">&quot;#{seedstarter.rows}&quot;</span><span class="kw">&gt;</span>Rows<span class="kw">&lt;/th&gt;</span>
+      …</code></pre>
+<p>This being a Spring MVC application, we already defined a <code>MessageSource</code> bean in our spring XML configuration (<code>MessageSource</code> objects are the standard way of managing externalized texts in Spring MVC):</p>
+<pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;bean</span><span class="ot"> id=</span><span class="st">&quot;messageSource&quot;</span><span class="ot"> class=</span><span class="st">&quot;org.springframework.context.support.ResourceBundleMessageSource&quot;</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;property</span><span class="ot"> name=</span><span class="st">&quot;basename&quot;</span><span class="ot"> value=</span><span class="st">&quot;Messages&quot;</span> <span class="kw">/&gt;</span>
+<span class="kw">&lt;/bean&gt;</span></code></pre>
+<p>...and that basename property indicates that we will have files like <code>Messages_es.properties</code> or <code>Messages_en.properties</code> in our classpath. Let's have a look at the Spanish version:</p>
+<pre class="properties"><code>title.list=Lista de semilleros
+
+date.format=dd/MM/yyyy
+bool.true=sí
+bool.false=no
+
+seedstarter.datePlanted=Fecha de plantación
+seedstarter.covered=Cubierto
+seedstarter.type=Tipo
+seedstarter.features=Características
+seedstarter.rows=Filas
+
+seedstarter.type.WOOD=Madera
+seedstarter.type.PLASTIC=Plástico
+
+seedstarter.feature.SEEDSTARTER_SPECIFIC_SUBSTRATE=Sustrato específico para semilleros
+seedstarter.feature.FERTILIZER=Fertilizante
+seedstarter.feature.PH_CORRECTOR=Corrector de PH</code></pre>
+<p>In the first column of the table listing we will show the date when the seed starter was prepared. In order to do that we will obtain the format pattern as an externalized text by using the <code>#mesages.msg(...)</code> function and then use it for formatting the <code>Date</code> object.</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;td</span><span class="ot"> th:text=</span><span class="st">&quot;${#dates.format(sb.datePlanted, #messages.msg(&#39;date.format&#39;))}&quot;</span><span class="kw">&gt;</span>13/01/2011<span class="kw">&lt;/td&gt;</span></code></pre>
+<p>Next is showing whether the seed starter container is covered or not, by transforming the value of the boolean covered bean property into an internationalized <em>&quot;yes&quot;</em> or <em>&quot;no&quot;</em> with a conditional expression:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;td</span><span class="ot"> th:text=</span><span class="st">&quot;${sb.covered}? #{bool.true} : #{bool.false}&quot;</span><span class="kw">&gt;</span>yes<span class="kw">&lt;/td&gt;</span></code></pre>
+<p>Now we have to show the type of seed starter container. Type is a java enum with two values (<code>WOOD</code> and <code>PLASTIC</code>), and that's why we defined two properties in our <code>Messages</code> file called <code>seedstarter.type.WOOD</code> and <code>seedstarter.type.PLASTIC</code>.</p>
+<p>But in order to obtain the internationalized names of the types, we will need to add the <code>seedstarter.type.</code> prefix to the enum value by means of an expression, which result we will then use as the message key:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;td</span><span class="ot"> th:text=</span><span class="st">&quot;#{${&#39;seedstarter.type.&#39; + sb.type}}&quot;</span><span class="kw">&gt;</span>Wireframe<span class="kw">&lt;/td&gt;</span></code></pre>
+<p>The most difficult part of this listing is the <em>features</em> column. In it we want to display all the features of our container –that come in the form of an array of <code>Feature</code> enums–, separated by commas. Like <em>&quot;Electric Heating, Turf&quot;</em>.</p>
+<p>Note that this is particularly difficult because these enum values also need to be externalized, as we did with Types. The flow is then:</p>
+<ol type="1">
+<li>Prepend the corresponding prefix to all the elements of the <code>features</code> array.</li>
+<li>Obtain the externalized messages corresponding to all the keys from step 1.</li>
+<li>Join all the messages obtained in step 2, using a comma as a delimiter.</li>
+</ol>
+<p>For achieving this, we create the following code:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;td</span><span class="ot"> th:text=</span><span class="st">&quot;${#strings.arrayJoin(</span>
+<span class="st">        #messages.arrayMsg(#strings.arrayPrepend(sb.features,&#39;seedstarter.feature.&#39;)),</span>
+<span class="st">        &#39;, &#39;)}&quot;</span><span class="kw">&gt;</span>Electric Heating, Turf<span class="kw">&lt;/td&gt;</span></code></pre>
+<p>The last column of our listing will be quite simple, in fact. Even if it has a nested table for showing the contents of each row in the container:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;td&gt;</span>
+  <span class="kw">&lt;table&gt;</span>
+    <span class="kw">&lt;tbody&gt;</span>
+      <span class="kw">&lt;tr</span><span class="ot"> th:each=</span><span class="st">&quot;row,rowStat : ${sb.rows}&quot;</span><span class="kw">&gt;</span>
+        <span class="kw">&lt;td</span><span class="ot"> th:text=</span><span class="st">&quot;${rowStat.count}&quot;</span><span class="kw">&gt;</span>1<span class="kw">&lt;/td&gt;</span>
+        <span class="kw">&lt;td</span><span class="ot"> th:text=</span><span class="st">&quot;${row.variety.name}&quot;</span><span class="kw">&gt;</span>Thymus Thymi<span class="kw">&lt;/td&gt;</span>
+        <span class="kw">&lt;td</span><span class="ot"> th:text=</span><span class="st">&quot;${row.seedsPerCell}&quot;</span><span class="kw">&gt;</span>12<span class="kw">&lt;/td&gt;</span>
+      <span class="kw">&lt;/tr&gt;</span>
+    <span class="kw">&lt;/tbody&gt;</span>
+  <span class="kw">&lt;/table&gt;</span>
+<span class="kw">&lt;/td&gt;</span></code></pre>
+</section>
+<section id="creating-a-form" class="level1">
+<h1><a href="#creating-a-form">6 Creating a Form</a></h1>
+<section id="handling-the-command-object" class="level2">
+<h2><a href="#handling-the-command-object">6.1 Handling the command object</a></h2>
+<p><em>Command object</em> is the name Spring MVC gives to form-backing beans, this is, to objects that model a form's fields and provide getter and setter methods that will be used by the framework for establishing and obtaining the values input by the user at the browser side.</p>
+<p>Thymeleaf requires you to specify the command object by using a <code>th:object</code> attribute in your <code>&lt;form&gt;</code> tag:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;form</span><span class="ot"> action=</span><span class="st">&quot;#&quot;</span><span class="ot"> th:action=</span><span class="st">&quot;@{/seedstartermng}&quot;</span><span class="ot"> th:object=</span><span class="st">&quot;${seedStarter}&quot;</span><span class="ot"> method=</span><span class="st">&quot;post&quot;</span><span class="kw">&gt;</span>
+    ...
+<span class="kw">&lt;/form&gt;</span></code></pre>
+<p>This is quite consistent with any other uses of <code>th:object,</code> but in fact this specific scenario adds some limitations in order to correctly integrate with Spring MVC's infrastructure:</p>
+<ul>
+<li>Values for <code>th:object</code> attributes in form tags must be variable expressions (<code>${...}</code>) specifying only the name of a model attribute, without property navigation. This means that an expression like <code>${seedStarter}</code> is valid, but <code>${seedStarter.data}</code> would not be.</li>
+<li>Once inside the <code>&lt;form&gt;</code> tag, no other <code>th:object</code> attribute can be specified. This is consistent with the fact that HTML forms cannot be nested.</li>
+</ul>
+</section>
+<section id="inputs" class="level2">
+<h2><a href="#inputs">6.2 Inputs</a></h2>
+<p>Let's see now how to add an input to our form:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;input</span><span class="ot"> type=</span><span class="st">&quot;text&quot;</span><span class="ot"> th:field=</span><span class="st">&quot;*{datePlanted}&quot;</span> <span class="kw">/&gt;</span></code></pre>
+<p>As you can see, we are introducing a new attribute here: <code>th:field.</code> This is a very important feature for Spring MVC integration because it does all the heavy work of binding your input with a property in the form-backing bean. You can see it as an equivalent of the path attribute in a <form:input> tag from Spring MVC's JSP tag library.</p>
+<p>The <code>th:field</code> attribute behaves differently depending on whether it is attached to an <code>&lt;input&gt;</code>, <code>&lt;select&gt;</code> or <code>&lt;textarea&gt;</code> tag (and also depending on the specific type of <code>&lt;input&gt;</code> tag). In this case (<code>input[type=text]</code>), the above line of code is similar to:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;input</span><span class="ot"> type=</span><span class="st">&quot;text&quot;</span><span class="ot"> id=</span><span class="st">&quot;datePlanted&quot;</span><span class="ot"> name=</span><span class="st">&quot;datePlanted&quot;</span><span class="ot"> th:value=</span><span class="st">&quot;*{datePlanted}&quot;</span> <span class="kw">/&gt;</span></code></pre>
+<p>...but in fact it is a little bit more than that, because <code>th:field</code> will take care of the property editor we have defined for <code>java.util.Date</code> objects and use it correspondingly to show the property value (which <code>th:value</code> will not do).</p>
+<p>Values for <code>th:field</code> attributes must be selection expressions (<code>*{...}</code>), which makes sense given the fact that they will be evaluated on the form-backing bean and not on the context variables (or model attributes in Spring MVC jargon).</p>
+<p>Contrary to the ones in <code>th:object</code>, these expressions can include property navigation (in fact any expression allowed for the path attribute of a <code>&lt;form:input&gt;</code> JSP tag will be allowed here).</p>
+<p>Note that <code>th:field</code> also understands the new types of <code>&lt;input&gt;</code> element introduced by HTML5 like <code>&lt;input type=&quot;datetime&quot; ... /&gt;</code>, <code>&lt;input type=&quot;color&quot; ... /&gt;</code>, etc., effectively adding complete HTML5 support to Spring MVC.</p>
+</section>
+<section id="checkbox-fields" class="level2">
+<h2><a href="#checkbox-fields">6.3 Checkbox fields</a></h2>
+<p><code>th:field</code> also allows us to define checkbox inputs. Let's see an example from our HTML page:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;div&gt;</span>
+  <span class="kw">&lt;label</span><span class="ot"> th:for=</span><span class="st">&quot;${#ids.next(&#39;covered&#39;)}&quot;</span><span class="ot"> th:text=</span><span class="st">&quot;#{seedstarter.covered}&quot;</span><span class="kw">&gt;</span>Covered<span class="kw">&lt;/label&gt;</span>
+  <span class="kw">&lt;input</span><span class="ot"> type=</span><span class="st">&quot;checkbox&quot;</span><span class="ot"> th:field=</span><span class="st">&quot;*{covered}&quot;</span> <span class="kw">/&gt;</span>
+<span class="kw">&lt;/div&gt;</span></code></pre>
+<p>Note there's some fine stuff here besides the checkbox itself, like an externalized label and also the use of the <code>#ids.next('covered')</code> function for obtaining the value that will be applied to the id attribute of the checkbox input.</p>
+<p>Why do we need this dynamic generation of an id attribute for this field? Because checkboxes are potentially multi-valued, and thus their id values will always be suffixed a sequence number (by internally using the <code>#ids.seq(...)</code> function) in order to ensure that each of the checkbox inputs for the same property has a different id value.</p>
+<p>We can see this more easily if we look at such a multi-valued checkbox field:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;ul&gt;</span>
+  <span class="kw">&lt;li</span><span class="ot"> th:each=</span><span class="st">&quot;feat : ${allFeatures}&quot;</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;input</span><span class="ot"> type=</span><span class="st">&quot;checkbox&quot;</span><span class="ot"> th:field=</span><span class="st">&quot;*{features}&quot;</span><span class="ot"> th:value=</span><span class="st">&quot;${feat}&quot;</span> <span class="kw">/&gt;</span>
+    <span class="kw">&lt;label</span><span class="ot"> th:for=</span><span class="st">&quot;${#ids.prev(&#39;features&#39;)}&quot;</span><span class="ot"> th:text=</span><span class="st">&quot;#{${&#39;seedstarter.feature.&#39; + feat}}&quot;</span><span class="kw">&gt;</span>Heating<span class="kw">&lt;/label&gt;</span>
+  <span class="kw">&lt;/li&gt;</span>
+<span class="kw">&lt;/ul&gt;</span></code></pre>
+<p>Note that we've added a <code>th:value</code> attribute this time, because the features field is not a boolean like covered was, but instead is an array of values.</p>
+<p>Let's see the HTML output generated by this code:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;ul&gt;</span>
+  <span class="kw">&lt;li&gt;</span>
+    <span class="kw">&lt;input</span><span class="ot"> id=</span><span class="st">&quot;features1&quot;</span><span class="ot"> name=</span><span class="st">&quot;features&quot;</span><span class="ot"> type=</span><span class="st">&quot;checkbox&quot;</span><span class="ot"> value=</span><span class="st">&quot;SEEDSTARTER_SPECIFIC_SUBSTRATE&quot;</span> <span class="kw">/&gt;</span>
+    <span class="kw">&lt;input</span><span class="ot"> name=</span><span class="st">&quot;_features&quot;</span><span class="ot"> type=</span><span class="st">&quot;hidden&quot;</span><span class="ot"> value=</span><span class="st">&quot;on&quot;</span> <span class="kw">/&gt;</span>
+    <span class="kw">&lt;label</span><span class="ot"> for=</span><span class="st">&quot;features1&quot;</span><span class="kw">&gt;</span>Seed starter-specific substrate<span class="kw">&lt;/label&gt;</span>
+  <span class="kw">&lt;/li&gt;</span>
+  <span class="kw">&lt;li&gt;</span>
+    <span class="kw">&lt;input</span><span class="ot"> id=</span><span class="st">&quot;features2&quot;</span><span class="ot"> name=</span><span class="st">&quot;features&quot;</span><span class="ot"> type=</span><span class="st">&quot;checkbox&quot;</span><span class="ot"> value=</span><span class="st">&quot;FERTILIZER&quot;</span> <span class="kw">/&gt;</span>
+    <span class="kw">&lt;input</span><span class="ot"> name=</span><span class="st">&quot;_features&quot;</span><span class="ot"> type=</span><span class="st">&quot;hidden&quot;</span><span class="ot"> value=</span><span class="st">&quot;on&quot;</span> <span class="kw">/&gt;</span>
+    <span class="kw">&lt;label</span><span class="ot"> for=</span><span class="st">&quot;features2&quot;</span><span class="kw">&gt;</span>Fertilizer used<span class="kw">&lt;/label&gt;</span>
+  <span class="kw">&lt;/li&gt;</span>
+  <span class="kw">&lt;li&gt;</span>
+    <span class="kw">&lt;input</span><span class="ot"> id=</span><span class="st">&quot;features3&quot;</span><span class="ot"> name=</span><span class="st">&quot;features&quot;</span><span class="ot"> type=</span><span class="st">&quot;checkbox&quot;</span><span class="ot"> value=</span><span class="st">&quot;PH_CORRECTOR&quot;</span> <span class="kw">/&gt;</span>
+    <span class="kw">&lt;input</span><span class="ot"> name=</span><span class="st">&quot;_features&quot;</span><span class="ot"> type=</span><span class="st">&quot;hidden&quot;</span><span class="ot"> value=</span><span class="st">&quot;on&quot;</span> <span class="kw">/&gt;</span>
+    <span class="kw">&lt;label</span><span class="ot"> for=</span><span class="st">&quot;features3&quot;</span><span class="kw">&gt;</span>PH Corrector used<span class="kw">&lt;/label&gt;</span>
+  <span class="kw">&lt;/li&gt;</span>
+<span class="kw">&lt;/ul&gt;</span></code></pre>
+<p>We can see here how a sequence suffix is added to each input's id attribute, and how the <code>#ids.prev(...)</code> function allows us to retrieve the last sequence value generated for a specific input id.</p>
+<blockquote>
+<p>Don't worry about those hidden inputs with <code>name=&quot;_features&quot;</code>: they are automatically added in order to avoid problems with browsers not sending unchecked checkbox values to the server upon form submission.</p>
+</blockquote>
+<p>Also note that if our features property contained some selected values in our form-backing bean, <code>th:field</code>would have taken care of that and would have added a <code>checked=&quot;checked&quot;</code> attribute to the corresponding input tags.</p>
+</section>
+<section id="radio-button-fields" class="level2">
+<h2><a href="#radio-button-fields">6.4 Radio Button fields</a></h2>
+<p>Radio button fields are specified in a similar way to non-boolean (multi-valued) checkboxes –except that they are not multivalued, of course:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;ul&gt;</span>
+  <span class="kw">&lt;li</span><span class="ot"> th:each=</span><span class="st">&quot;ty : ${allTypes}&quot;</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;input</span><span class="ot"> type=</span><span class="st">&quot;radio&quot;</span><span class="ot"> th:field=</span><span class="st">&quot;*{type}&quot;</span><span class="ot"> th:value=</span><span class="st">&quot;${ty}&quot;</span> <span class="kw">/&gt;</span>
+    <span class="kw">&lt;label</span><span class="ot"> th:for=</span><span class="st">&quot;${#ids.prev(&#39;type&#39;)}&quot;</span><span class="ot"> th:text=</span><span class="st">&quot;#{${&#39;seedstarter.type.&#39; + ty}}&quot;</span><span class="kw">&gt;</span>Wireframe<span class="kw">&lt;/label&gt;</span>
+  <span class="kw">&lt;/li&gt;</span>
+<span class="kw">&lt;/ul&gt;</span></code></pre>
+</section>
+<section id="dropdownlist-selectors" class="level2">
+<h2><a href="#dropdownlist-selectors">6.5 Dropdown/List selectors</a></h2>
+<p>Select fields have two parts: the <code>&lt;select&gt;</code> tag and its nested <code>&lt;option&gt;</code> tags. When creating this kind of field, only the <code>&lt;select&gt;</code> tag has to include a <code>th:field</code> attribute, but the <code>th:value</code> attributes in the nested <code>&lt;option&gt;</code> tags will be very important because they will provide the means of knowing which is the currently selected option (in a similar way to non-boolean checkboxes and radio buttons).</p>
+<p>Let's re-build the type field as a dropdown select:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;select</span><span class="ot"> th:field=</span><span class="st">&quot;*{type}&quot;</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;option</span><span class="ot"> th:each=</span><span class="st">&quot;type : ${allTypes}&quot;</span> 
+<span class="er">          th:value</span><span class="ot">=</span><span class="st">&quot;${type}&quot;</span> 
+<span class="er">          th:text</span><span class="ot">=</span><span class="st">&quot;#{${&#39;seedstarter.type.&#39; + type}}&quot;</span><span class="kw">&gt;</span>Wireframe<span class="kw">&lt;/option&gt;</span>
+<span class="kw">&lt;/select&gt;</span></code></pre>
+<p>At this point, understanding this piece of code is quite easy. Just notice how attribute precedence allows us to set the <code>th:each</code> attribute in the <code>&lt;option&gt;</code> tag itself.</p>
+</section>
+<section id="dynamic-fields" class="level2">
+<h2><a href="#dynamic-fields">6.6 Dynamic fields</a></h2>
+<p>Thanks to the advanced form-field binding capabilities in Spring MVC, we can use complex Spring EL expressions to bind dynamic form fields to our form-backing bean. This will allow us to create new Row objects in our <code>SeedStarter</code> bean, and to add those rows' fields to our form at user request.</p>
+<p>In order to do this, we will need a couple of new mapped methods in our controller, which will add or remove a row from our <code>SeedStarter</code> depending on the existence of specific request parameters:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="fu">@RequestMapping</span>(value=<span class="st">&quot;/seedstartermng&quot;</span>, params={<span class="st">&quot;addRow&quot;</span>})
+<span class="kw">public</span> String <span class="fu">addRow</span>(<span class="dt">final</span> SeedStarter seedStarter, <span class="dt">final</span> BindingResult bindingResult) {
+    seedStarter.<span class="fu">getRows</span>().<span class="fu">add</span>(<span class="kw">new</span> <span class="fu">Row</span>());
+    return <span class="st">&quot;seedstartermng&quot;</span>;
+}
+
+<span class="fu">@RequestMapping</span>(value=<span class="st">&quot;/seedstartermng&quot;</span>, params={<span class="st">&quot;removeRow&quot;</span>})
+<span class="kw">public</span> String <span class="fu">removeRow</span>(
+        final SeedStarter seedStarter, <span class="dt">final</span> BindingResult bindingResult, <span class="dt">final</span> HttpServletRequest req) {
+    final Integer rowId = Integer.<span class="fu">valueOf</span>(req.<span class="fu">getParameter</span>(<span class="st">&quot;removeRow&quot;</span>));
+    seedStarter.<span class="fu">getRows</span>().<span class="fu">remove</span>(rowId.<span class="fu">intValue</span>());
+    return <span class="st">&quot;seedstartermng&quot;</span>;
+}</code></pre>
+<p>And now we can add a dynamic table to our form:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;table&gt;</span>
+  <span class="kw">&lt;thead&gt;</span>
+    <span class="kw">&lt;tr&gt;</span>
+      <span class="kw">&lt;th</span><span class="ot"> th:text=</span><span class="st">&quot;#{seedstarter.rows.head.rownum}&quot;</span><span class="kw">&gt;</span>Row<span class="kw">&lt;/th&gt;</span>
+      <span class="kw">&lt;th</span><span class="ot"> th:text=</span><span class="st">&quot;#{seedstarter.rows.head.variety}&quot;</span><span class="kw">&gt;</span>Variety<span class="kw">&lt;/th&gt;</span>
+      <span class="kw">&lt;th</span><span class="ot"> th:text=</span><span class="st">&quot;#{seedstarter.rows.head.seedsPerCell}&quot;</span><span class="kw">&gt;</span>Seeds per cell<span class="kw">&lt;/th&gt;</span>
+      <span class="kw">&lt;th&gt;</span>
+        <span class="kw">&lt;button</span><span class="ot"> type=</span><span class="st">&quot;submit&quot;</span><span class="ot"> name=</span><span class="st">&quot;addRow&quot;</span><span class="ot"> th:text=</span><span class="st">&quot;#{seedstarter.row.add}&quot;</span><span class="kw">&gt;</span>Add row<span class="kw">&lt;/button&gt;</span>
+      <span class="kw">&lt;/th&gt;</span>
+    <span class="kw">&lt;/tr&gt;</span>
+  <span class="kw">&lt;/thead&gt;</span>
+  <span class="kw">&lt;tbody&gt;</span>
+    <span class="kw">&lt;tr</span><span class="ot"> th:each=</span><span class="st">&quot;row,rowStat : *{rows}&quot;</span><span class="kw">&gt;</span>
+      <span class="kw">&lt;td</span><span class="ot"> th:text=</span><span class="st">&quot;${rowStat.count}&quot;</span><span class="kw">&gt;</span>1<span class="kw">&lt;/td&gt;</span>
+      <span class="kw">&lt;td&gt;</span>
+        <span class="kw">&lt;select</span><span class="ot"> th:field=</span><span class="st">&quot;*{rows[__${rowStat.index}__].variety}&quot;</span><span class="kw">&gt;</span>
+          <span class="kw">&lt;option</span><span class="ot"> th:each=</span><span class="st">&quot;var : ${allVarieties}&quot;</span> 
+<span class="er">                  th:value</span><span class="ot">=</span><span class="st">&quot;${var.id}&quot;</span> 
+<span class="er">                  th:text</span><span class="ot">=</span><span class="st">&quot;${var.name}&quot;</span><span class="kw">&gt;</span>Thymus Thymi<span class="kw">&lt;/option&gt;</span>
+        <span class="kw">&lt;/select&gt;</span>
+      <span class="kw">&lt;/td&gt;</span>
+      <span class="kw">&lt;td&gt;</span>
+        <span class="kw">&lt;input</span><span class="ot"> type=</span><span class="st">&quot;text&quot;</span><span class="ot"> th:field=</span><span class="st">&quot;*{rows[__${rowStat.index}__].seedsPerCell}&quot;</span> <span class="kw">/&gt;</span>
+      <span class="kw">&lt;/td&gt;</span>
+      <span class="kw">&lt;td&gt;</span>
+        <span class="kw">&lt;button</span><span class="ot"> type=</span><span class="st">&quot;submit&quot;</span><span class="ot"> name=</span><span class="st">&quot;removeRow&quot;</span> 
+<span class="er">                th:value</span><span class="ot">=</span><span class="st">&quot;${rowStat.index}&quot;</span><span class="ot"> th:text=</span><span class="st">&quot;#{seedstarter.row.remove}&quot;</span><span class="kw">&gt;</span>Remove row<span class="kw">&lt;/button&gt;</span>
+      <span class="kw">&lt;/td&gt;</span>
+    <span class="kw">&lt;/tr&gt;</span>
+  <span class="kw">&lt;/tbody&gt;</span>
+<span class="kw">&lt;/table&gt;</span></code></pre>
+<p>Quite a lot of things to see here, but not much we should not understand by now... except for one <code>strange</code> thing:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;select</span><span class="ot"> th:field=</span><span class="st">&quot;*{rows[__${rowStat.index}__].variety}&quot;</span><span class="kw">&gt;</span>
+
+    ...
+
+<span class="kw">&lt;/select&gt;</span></code></pre>
+<p>If you recall from the <em>&quot;Using Thymeleaf&quot;</em> tutorial, that <code>__${...}__</code> syntax is a preprocessing expression, which is an inner expression that is evaluated before actually evaluating the whole expression. But why that way of specifying the row index? Wouldn't it be enough with:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;select</span><span class="ot"> th:field=</span><span class="st">&quot;*{rows[rowStat.index].variety}&quot;</span><span class="kw">&gt;</span>
+
+    ...
+
+<span class="kw">&lt;/select&gt;</span></code></pre>
+<p>...well, actually, no. The problem is that Spring EL does not evaluate variables inside array index brackets, so when executing the above expression we would obtain an error telling us that <code>rows[rowStat.index]</code> (instead of <code>rows[0]</code>, <code>rows[1]</code>, etc) is not a valid position in the rows collection. That's why preprocessing is needed here.</p>
+<p>Let's have a look at a fragment of the resulting HTML after pressing <em>&quot;Add Row&quot;</em> a couple of times:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;tbody&gt;</span>
+  <span class="kw">&lt;tr&gt;</span>
+    <span class="kw">&lt;td&gt;</span>1<span class="kw">&lt;/td&gt;</span>
+    <span class="kw">&lt;td&gt;</span>
+      <span class="kw">&lt;select</span><span class="ot"> id=</span><span class="st">&quot;rows0.variety&quot;</span><span class="ot"> name=</span><span class="st">&quot;rows[0].variety&quot;</span><span class="kw">&gt;</span>
+        <span class="kw">&lt;option</span><span class="ot"> selected=</span><span class="st">&quot;selected&quot;</span><span class="ot"> value=</span><span class="st">&quot;1&quot;</span><span class="kw">&gt;</span>Thymus vulgaris<span class="kw">&lt;/option&gt;</span>
+        <span class="kw">&lt;option</span><span class="ot"> value=</span><span class="st">&quot;2&quot;</span><span class="kw">&gt;</span>Thymus x citriodorus<span class="kw">&lt;/option&gt;</span>
+        <span class="kw">&lt;option</span><span class="ot"> value=</span><span class="st">&quot;3&quot;</span><span class="kw">&gt;</span>Thymus herba-barona<span class="kw">&lt;/option&gt;</span>
+        <span class="kw">&lt;option</span><span class="ot"> value=</span><span class="st">&quot;4&quot;</span><span class="kw">&gt;</span>Thymus pseudolaginosus<span class="kw">&lt;/option&gt;</span>
+        <span class="kw">&lt;option</span><span class="ot"> value=</span><span class="st">&quot;5&quot;</span><span class="kw">&gt;</span>Thymus serpyllum<span class="kw">&lt;/option&gt;</span>
+      <span class="kw">&lt;/select&gt;</span>
+    <span class="kw">&lt;/td&gt;</span>
+    <span class="kw">&lt;td&gt;</span>
+      <span class="kw">&lt;input</span><span class="ot"> id=</span><span class="st">&quot;rows0.seedsPerCell&quot;</span><span class="ot"> name=</span><span class="st">&quot;rows[0].seedsPerCell&quot;</span><span class="ot"> type=</span><span class="st">&quot;text&quot;</span><span class="ot"> value=</span><span class="st">&quot;&quot;</span> <span class="kw">/&gt;</span>
+    <span class="kw">&lt;/td&gt;</span>
+    <span class="kw">&lt;td&gt;</span>
+      <span class="kw">&lt;button</span><span class="ot"> name=</span><span class="st">&quot;removeRow&quot;</span><span class="ot"> type=</span><span class="st">&quot;submit&quot;</span><span class="ot"> value=</span><span class="st">&quot;0&quot;</span><span class="kw">&gt;</span>Remove row<span class="kw">&lt;/button&gt;</span>
+    <span class="kw">&lt;/td&gt;</span>
+  <span class="kw">&lt;/tr&gt;</span>
+  <span class="kw">&lt;tr&gt;</span>
+    <span class="kw">&lt;td&gt;</span>2<span class="kw">&lt;/td&gt;</span>
+    <span class="kw">&lt;td&gt;</span>
+      <span class="kw">&lt;select</span><span class="ot"> id=</span><span class="st">&quot;rows1.variety&quot;</span><span class="ot"> name=</span><span class="st">&quot;rows[1].variety&quot;</span><span class="kw">&gt;</span>
+        <span class="kw">&lt;option</span><span class="ot"> selected=</span><span class="st">&quot;selected&quot;</span><span class="ot"> value=</span><span class="st">&quot;1&quot;</span><span class="kw">&gt;</span>Thymus vulgaris<span class="kw">&lt;/option&gt;</span>
+        <span class="kw">&lt;option</span><span class="ot"> value=</span><span class="st">&quot;2&quot;</span><span class="kw">&gt;</span>Thymus x citriodorus<span class="kw">&lt;/option&gt;</span>
+        <span class="kw">&lt;option</span><span class="ot"> value=</span><span class="st">&quot;3&quot;</span><span class="kw">&gt;</span>Thymus herba-barona<span class="kw">&lt;/option&gt;</span>
+        <span class="kw">&lt;option</span><span class="ot"> value=</span><span class="st">&quot;4&quot;</span><span class="kw">&gt;</span>Thymus pseudolaginosus<span class="kw">&lt;/option&gt;</span>
+        <span class="kw">&lt;option</span><span class="ot"> value=</span><span class="st">&quot;5&quot;</span><span class="kw">&gt;</span>Thymus serpyllum<span class="kw">&lt;/option&gt;</span>
+      <span class="kw">&lt;/select&gt;</span>
+    <span class="kw">&lt;/td&gt;</span>
+    <span class="kw">&lt;td&gt;</span>
+      <span class="kw">&lt;input</span><span class="ot"> id=</span><span class="st">&quot;rows1.seedsPerCell&quot;</span><span class="ot"> name=</span><span class="st">&quot;rows[1].seedsPerCell&quot;</span><span class="ot"> type=</span><span class="st">&quot;text&quot;</span><span class="ot"> value=</span><span class="st">&quot;&quot;</span> <span class="kw">/&gt;</span>
+    <span class="kw">&lt;/td&gt;</span>
+    <span class="kw">&lt;td&gt;</span>
+      <span class="kw">&lt;button</span><span class="ot"> name=</span><span class="st">&quot;removeRow&quot;</span><span class="ot"> type=</span><span class="st">&quot;submit&quot;</span><span class="ot"> value=</span><span class="st">&quot;1&quot;</span><span class="kw">&gt;</span>Remove row<span class="kw">&lt;/button&gt;</span>
+    <span class="kw">&lt;/td&gt;</span>
+  <span class="kw">&lt;/tr&gt;</span>
+<span class="kw">&lt;/tbody&gt;</span></code></pre>
+</section>
+</section>
+<section id="validation-and-error-messages" class="level1">
+<h1><a href="#validation-and-error-messages">7 Validation and error messages</a></h1>
+<p>Most of our forms will need to show validation messages in order to inform the user of the errors he/she has made.</p>
+<p>Thymeleaf offers two tools for this: a couple of functions in the <code>#fields</code> object and the <code>th:errors</code> attribute.</p>
+<p>Functions first: let's set a class to a field if it has an error:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;input</span><span class="ot"> type=</span><span class="st">&quot;text&quot;</span><span class="ot"> th:field=</span><span class="st">&quot;*{datePlanted}&quot;</span><span class="ot"> th:class=</span><span class="st">&quot;${#fields.hasErrors(&#39;datePlanted&#39;)}? &#39;fieldError&#39;&quot;</span><span class="kw">/&gt;</span></code></pre>
+<p>As you can see, the <code>#fields.hasErrors(...)</code> function receives the field expression as a parameter, and returns a boolean telling whether any validation errors exist for that field.</p>
+<p>Let's show the error messages themselves:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;ul</span><span class="ot"> th:if=</span><span class="st">&quot;${#fields.hasErrors(&#39;*&#39;)}&quot;</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;li</span><span class="ot"> th:each=</span><span class="st">&quot;err : ${#fields.errors(&#39;*&#39;)}&quot;</span><span class="ot"> th:text=</span><span class="st">&quot;${err}&quot;</span><span class="kw">&gt;</span>Input is incorrect<span class="kw">&lt;/li&gt;</span>
+<span class="kw">&lt;/ul&gt;</span></code></pre>
+<p>The new function is <code>#fields.errors(...)</code>, and the star (<code>'*'</code>) parameter tells the function we are looking for errors on any field. <code>#fields.errors(...)</code> returns a list of (externalized) error messages.</p>
+<p><code>th:errors</code> attribute works in a similar way to the <code>#fields.errors(...)</code> function, but listing all errors for the specified selector separated by <code>&lt;br /&gt;</code>:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;input</span><span class="ot"> type=</span><span class="st">&quot;text&quot;</span><span class="ot"> th:field=</span><span class="st">&quot;*{datePlanted}&quot;</span> <span class="kw">/&gt;</span>
+<span class="kw">&lt;p</span><span class="ot"> th:if=</span><span class="st">&quot;${#fields.hasErrors(&#39;datePlanted&#39;)}&quot;</span><span class="ot"> th:errors=</span><span class="st">&quot;*{datePlanted}&quot;</span><span class="kw">&gt;</span>Incorrect date<span class="kw">&lt;/p&gt;</span></code></pre>
+</section>
+<section id="its-still-a-prototype" class="level1">
+<h1><a href="#its-still-a-prototype">8 It's still a prototype!</a></h1>
+<p>Our application is ready now. But let's have a second look at the <code>.html</code> page we created...</p>
+<p>One of the nicest consequences of working with Thymeleaf is that after all this functionality we have added to our HTML, we can still use it as a prototype (we say it is a <em>Natural Template</em>). Let's open <code>seedstartermng.html</code> directly in our browser without executing our application:</p>
+<figure>
+<img src="images/thymeleaf-spring3/stsm-natural-templating.png" alt="STSM natural templating" /><figcaption>STSM natural templating</figcaption>
+</figure>
+<p>There it is! It's not a working application, it's not real data... but it is a perfectly valid prototype made up of perfectly displayable HTML code. Try to do that with JSP!</p>
+</section>
+<section id="spring-webflow-integration" class="level1">
+<h1><a href="#spring-webflow-integration">9 Spring WebFlow integration</a></h1>
+<section id="basic-configuration" class="level2">
+<h2><a href="#basic-configuration">9.1 Basic configuration</a></h2>
+<p>The <code>thymeleaf–spring3</code> integration package includes integration with Spring WebFlow 2.3.x.</p>
+<p>WebFlow includes some AJAX capabilities for rendering fragments of the displayed page when specific events (<em>transitions</em>) are triggered, and in order to enable Thymeleaf to attend these AJAX requests, we will have to use a different <code>ViewResolver</code> implementation, configured like this:</p>
+<pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;bean</span><span class="ot"> id=</span><span class="st">&quot;thymeleafViewResolver&quot;</span><span class="ot"> class=</span><span class="st">&quot;org.thymeleaf.spring3.view.AjaxThymeleafViewResolver&quot;</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;property</span><span class="ot"> name=</span><span class="st">&quot;viewClass&quot;</span><span class="ot"> value=</span><span class="st">&quot;org.thymeleaf.spring3.view.FlowAjaxThymeleafView&quot;</span> <span class="kw">/&gt;</span>
+    <span class="kw">&lt;property</span><span class="ot"> name=</span><span class="st">&quot;templateEngine&quot;</span><span class="ot"> ref=</span><span class="st">&quot;templateEngine&quot;</span> <span class="kw">/&gt;</span>
+<span class="kw">&lt;/bean&gt;</span></code></pre>
+<p>...and then this <code>ViewResolver</code> can be configured at your WebFlow <code>ViewFactoryCreator</code> like:</p>
+<pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;bean</span><span class="ot"> id=</span><span class="st">&quot;mvcViewFactoryCreator&quot;</span><span class="ot"> class=</span><span class="st">&quot;org.springframework.webflow.mvc.builder.MvcViewFactoryCreator&quot;</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;property</span><span class="ot"> name=</span><span class="st">&quot;viewResolvers&quot;</span><span class="ot"> ref=</span><span class="st">&quot;thymeleafViewResolver&quot;</span><span class="kw">/&gt;</span>
+<span class="kw">&lt;/bean&gt;</span></code></pre>
+<p>From here on, you can specify Thymeleaf templates in your view-state's:</p>
+<pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;view-state</span><span class="ot"> id=</span><span class="st">&quot;detail&quot;</span><span class="ot"> view=</span><span class="st">&quot;bookingDetail&quot;</span><span class="kw">&gt;</span>
+    ...
+<span class="kw">&lt;/view-state&gt;</span></code></pre>
+<p>In the above example, <code>bookingDetail</code> is a Thymeleaf template specified in the usual way, understandable by any of the <em>Template Resolvers</em> configured at the <code>TemplateEngine</code>.</p>
+</section>
+<section id="ajax-fragments" class="level2">
+<h2><a href="#ajax-fragments">9.2 Ajax fragments</a></h2>
+<p>WebFlow allows the specification of fragments to be rendered via AJAX with <code>&lt;render&gt;</code> tags, like this:</p>
+<pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;view-state</span><span class="ot"> id=</span><span class="st">&quot;detail&quot;</span><span class="ot"> view=</span><span class="st">&quot;bookingDetail&quot;</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;transition</span><span class="ot"> on=</span><span class="st">&quot;updateData&quot;</span><span class="kw">&gt;</span>
+        <span class="kw">&lt;render</span><span class="ot"> fragments=</span><span class="st">&quot;hoteldata&quot;</span><span class="kw">/&gt;</span>
+    <span class="kw">&lt;/transition&gt;</span>
+<span class="kw">&lt;/view-state&gt;</span></code></pre>
+<p>These fragments (<code>hoteldata</code>, in this case) can be a comma-separated list of fragments specified at the markup with <code>th:fragment</code>:</p>
+<pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;div</span><span class="ot"> id=</span><span class="st">&quot;data&quot;</span><span class="ot"> th:fragment=</span><span class="st">&quot;hoteldata&quot;</span><span class="kw">&gt;</span>
+    This is a content to be changed
+<span class="kw">&lt;/div&gt;</span></code></pre>
+<p><em>Always remember that the specified fragments must have an <code>id</code> attribute, so that the Spring JavaScript libraries running on the browser are capable of substituting the markup.</em></p>
+<p><code>&lt;render&gt;</code> tags can also be specified using DOM selectors:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;view-state</span><span class="ot"> id=</span><span class="st">&quot;detail&quot;</span><span class="ot"> view=</span><span class="st">&quot;bookingDetail&quot;</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;transition</span><span class="ot"> on=</span><span class="st">&quot;updateData&quot;</span><span class="kw">&gt;</span>
+        <span class="kw">&lt;render</span><span class="ot"> fragments=</span><span class="st">&quot;[//div[@id=&#39;data&#39;]]&quot;</span><span class="kw">/&gt;</span>
+    <span class="kw">&lt;/transition&gt;</span>
+<span class="kw">&lt;/view-state&gt;</span></code></pre>
+<p>...and this will mean no <code>th:fragment</code> is needed:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;div</span><span class="ot"> id=</span><span class="st">&quot;data&quot;</span><span class="kw">&gt;</span>
+    This is a content to be changed
+<span class="kw">&lt;/div&gt;</span></code></pre>
+<p>As for the code that triggers the <code>updateData</code> transition, it looks like:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;script</span><span class="ot"> type=</span><span class="st">&quot;text/javascript&quot;</span><span class="ot"> th:src=</span><span class="st">&quot;@{/resources/dojo/dojo.js}&quot;</span><span class="kw">&gt;&lt;/script&gt;</span>
+<span class="kw">&lt;script</span><span class="ot"> type=</span><span class="st">&quot;text/javascript&quot;</span><span class="ot"> th:src=</span><span class="st">&quot;@{/resources/spring/Spring.js}&quot;</span><span class="kw">&gt;&lt;/script&gt;</span>
+<span class="kw">&lt;script</span><span class="ot"> type=</span><span class="st">&quot;text/javascript&quot;</span><span class="ot"> th:src=</span><span class="st">&quot;@{/resources/spring/Spring-Dojo.js}&quot;</span><span class="kw">&gt;&lt;/script&gt;</span>
+
+  ...
+
+<span class="kw">&lt;form</span><span class="ot"> id=</span><span class="st">&quot;triggerform&quot;</span><span class="ot"> method=</span><span class="st">&quot;post&quot;</span><span class="ot"> action=</span><span class="st">&quot;&quot;</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;input</span><span class="ot"> type=</span><span class="st">&quot;submit&quot;</span><span class="ot"> id=</span><span class="st">&quot;doUpdate&quot;</span><span class="ot"> name=</span><span class="st">&quot;_eventId_updateData&quot;</span><span class="ot"> value=</span><span class="st">&quot;Update now!&quot;</span> <span class="kw">/&gt;</span>
+<span class="kw">&lt;/form&gt;</span>
+
+<span class="kw">&lt;script</span><span class="ot"> type=</span><span class="st">&quot;text/javascript&quot;</span><span class="kw">&gt;</span>
+<span class="er">    Spring.addDecoration(</span>
+<span class="er">        new Spring.AjaxEventDecoration({formId:&#39;triggerform&#39;,elementId:&#39;doUpdate&#39;,event:&#39;onclick&#39;}));</span>
+<span class="kw">&lt;/script&gt;</span></code></pre>
+</section>
+</section>
+		</div>
+	</div>
+
+	</div>
+
+</body>
+
+</html>
