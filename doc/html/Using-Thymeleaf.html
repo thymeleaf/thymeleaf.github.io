@@ -33,7 +33,7 @@
 			<h1 id="doc-title" class="title">Tutorial: Using Thymeleaf</h1>
 			<div id="doc-info">
 				<div id="doc-version">
-					<span class="info-header">Document version:</span> 20130426 - 26 April 2013
+					<span class="info-header">Document version:</span> 20130526 - 26 May 2013
 				</div>
 				<div id="project-version">
 					<span class="info-header">Project Version:</span> 2.0.16
@@ -2269,7 +2269,7 @@ Fragment removal
 <span class="co">/*&lt;![CDATA[*/</span>
     ...
 
-<span class="er">    var username = /*[[${sesion.user.name}]]*/ &#39;Sebastian&#39;;</span>
+<span class="er">    var username = /*[[${session.user.name}]]*/ &#39;Sebastian&#39;;</span>
 
 <span class="er">    ...</span>
 <span class="co">/*]]&gt;*/</span>
@@ -2295,7 +2295,7 @@ Fragment removal
 <span class="co">/*&lt;![CDATA[*/</span>
     ...
 
-<span class="er">    var username = [[${sesion.user.name}]];</span>
+<span class="er">    var username = [[${session.user.name}]];</span>
 
 <span class="er">    ...</span>
 <span class="co">/*]]&gt;*/</span>
@@ -2315,7 +2315,7 @@ Fragment removal
 <span class="co">/*&lt;![CDATA[*/</span>
     ...
 
-<span class="er">    var user = /*[[${sesion.user}]]*/ null;</span>
+<span class="er">    var user = /*[[${session.user}]]*/ null;</span>
 
 <span class="er">    ...</span>
 <span class="co">/*]]&gt;*/</span>
