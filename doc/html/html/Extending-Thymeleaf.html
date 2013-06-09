@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+
+<head>
+	<title>Tutorial: Extending Thymeleaf</title>
+	<meta charset="utf-8">
+	<meta name="generator" content="pandoc">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<meta name="format-detection" content="telephone=no"/>
+
+	<link rel="icon" href="images/icon.png"/>
+	<link rel="stylesheet" href="styles/fonts/open-sans.css"/>
+	<link rel="stylesheet" href="styles/fonts/source-sans-pro.css"/>
+	<link rel="stylesheet" href="styles/normalize.css"/>
+	<link rel="stylesheet" href="styles/thymeleaf.css"/>
+	<link rel="stylesheet" href="styles/thymeleaf-screen.css" media="screen"/>
+	<link rel="stylesheet" href="styles/thymeleaf-print.css" media="print"/>
+
+	<script src="scripts/prettify.min.js"></script>
+	<script src="scripts/jquery-1.9.1.min.js"></script>
+	<script src="scripts/thymeleaf.js"></script>
+
+	<!-- Google Analytics script -->
+	<script>
+		var _gaq = _gaq || [];
+			_gaq.push(['_setAccount', 'UA-1276954-9']);
+			_gaq.push(['_trackPageview']);
+		(function() {
+			var ga = document.createElement('script');
+				ga.type = 'text/javascript';
+				ga.async = true;
+				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0];
+				s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+</head>
+
+<body>
+
+	<div id="documentation-wrapper">
+
+	<div id="title-block-wrapper">
+		<header id="title-block">
+			<img id="doc-banner" class="banner" src="images/header.png" alt="Thymeleaf logo"/>
+			<h1 id="doc-title" class="title">Tutorial: Extending Thymeleaf</h1>
+			<div id="doc-info">
+				<div id="doc-version">
+					<span class="info-header">Document version:</span> 20130609 - 09 June 2013
+				</div>
+				<div id="project-version">
+					<span class="info-header">Project Version:</span> 2.0.17
+				</div>
+				<div id="project-website">
+					<span class="info-header">Project web site:</span>
+					<a href="http://www.thymeleaf.org">http://www.thymeleaf.org</a>
+				</div>
+			</div>
+		</header>
+	</div>
+
+	<div id="toc-wrapper">
+		<nav id="toc">
+<ul>
+<li><a href="#some-reasons-to-extend-thymeleaf">1 Some reasons to extend Thymeleaf</a><ul>
+<li><a href="#scenario-1-adding-features-to-the-standard-dialects">Scenario 1: adding features to the Standard dialects</a></li>
+<li><a href="#scenario-2-view-layer-components">Scenario 2: view-layer components</a></li>
+<li><a href="#scenario-3-creating-your-own-template-system">Scenario 3: creating your own template system</a></li>
+</ul></li>
+<li><a href="#dialects-and-processors">2 Dialects and Processors</a><ul>
+<li><a href="#dialects">2.1 Dialects</a></li>
+<li><a href="#processors">2.2 Processors</a><ul>
+<li><a href="#special-kinds-of-processors">Special kinds of processors</a><ul>
+<li><a href="#attribute-processors">Attribute Processors</a></li>
+<li><a href="#element-processors">Element Processors</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><a href="#template-modes">3 Template modes</a></li>
+<li><a href="#creating-our-own-dialect">4 Creating our own dialect</a><ul>
+<li><a href="#extrathyme-a-website-for-thymelands-football-league">4.1 Extrathyme: a website for Thymeland's football league</a></li>
+<li><a href="#changing-the-css-class-by-team-position">4.2 Changing the CSS class by team position</a></li>
+<li><a href="#displaying-an-internationalized-remark">4.3 Displaying an internationalized remark</a></li>
+<li><a href="#an-element-processor-for-our-headlines">4.4 An element processor for our headlines</a></li>
+<li><a href="#declaring-it-all-the-dialect">4.5 Declaring it all: the dialect</a></li>
+</ul></li>
+</ul>
+		</nav>
+	</div>
+
+	<div id="content-wrapper">
+		<div id="content">
+<section id="some-reasons-to-extend-thymeleaf" class="level1">
+<h1><a href="#some-reasons-to-extend-thymeleaf">1 Some reasons to extend Thymeleaf</a></h1>
+<p>Thymeleaf is an extremely extensible library. The key to it is that most of its user-oriented features are not directly built into its core, but rather just packaged and componentized into feature sets called <em>dialects</em>.</p>
+<p>The library offers you two dialects out-of-the-box: the <em>Standard</em> and the <em>SpringStandard</em> dialects, but you can easily create your own. Let's explore some of the reasons for doing this:</p>
+<section id="scenario-1-adding-features-to-the-standard-dialects" class="level2">
+<h2><a href="#scenario-1-adding-features-to-the-standard-dialects">Scenario 1: adding features to the Standard dialects</a></h2>
+<p>Say your application uses the <em>SpringStandard</em> dialect and that it needs to show an alert text box in blue or red background depending on the user's role (admin or non-admin) from Monday to Saturday, but always in green on Sundays. You can compute this with conditional expressions on your template, but too many conditions could render your code a little bit hard to read...</p>
+<p>Solution: create a new attribute called <code>alertclass</code> and an attribute processor for it (Java code that will compute the right CSS class), and package it into your own <code>MyOwnDialect</code> dialect. Add this dialect to your template engine with the <code>th</code> prefix (same as the <em>SpringStandard</em> one) and you'll now be able to use <code>th:alertclass=&quot;${user.role}&quot;</code>!</p>
+</section>
+<section id="scenario-2-view-layer-components" class="level2">
+<h2><a href="#scenario-2-view-layer-components">Scenario 2: view-layer components</a></h2>
+<p>Let's say your company uses Thymeleaf extensively, and you want to create a repository of common functionalities (tags and/or attributes) that you can use in several applications without having to copy-paste them from one application to the next. This is, you want to create view-layer components in a similar way to JSPs <em>taglibs</em>.</p>
+<p>Solution: create a Thymeleaf dialect for each set of related functionalities, and add these dialects to your applications as needed. Note that if the tags or attributes in these dialects make use of externalized (internationalized) messages, you will be able to package these messages along with your dialects (in the shape of <em>processor messages</em>) instead of requiring that all of your applications include them in their messages <code>.properties</code> files as you would with JSP.</p>
+</section>
+<section id="scenario-3-creating-your-own-template-system" class="level2">
+<h2><a href="#scenario-3-creating-your-own-template-system">Scenario 3: creating your own template system</a></h2>
+<p>Now imagine your are creating a public website that allows users to create their own design templates for showing their content. Of course, you don't want your users to be able to do absolutely anything in their templates, not even all that the Standard Dialect allows (for example, execute OGNL expressions). So you need to offer your users the ability to add to their templates only a very specific set of features that are under your control (like showing a profile photo, a blog entry text, etc).</p>
+<p>Solution: create a Thymeleaf dialect with the tags or attributes you want your users to be able to use, like <code>&lt;mysite:profilePhoto /&gt;</code> or <code>&lt;mysite:blogentries fromDate=&quot;23/4/2011&quot; /&gt;</code>. Then allow your users to create their own templates using these features and just let Thymeleaf execute them, being sure nobody will be doing what they're not allowed to.</p>
+</section>
+</section>
+<section id="dialects-and-processors" class="level1">
+<h1><a href="#dialects-and-processors">2 Dialects and Processors</a></h1>
+<section id="dialects" class="level2">
+<h2><a href="#dialects">2.1 Dialects</a></h2>
+<p>If you've read the <em>Using Thymeleaf</em> tutorial before getting here –which you should have done–, you should know that what you've been learning all this time was not exactly <em>Thymeleaf</em>, but rather its <em>Standard Dialect</em> (or the <em>SpringStandard Dialect</em>, if you've also read the <em>Thymeleaf + Spring 3</em> tutorial).</p>
+<p>What does that mean? It means that all those <code>th:x</code> attributes you learned to use are only a standard, out-of-the-box set of features, but you can define your own set of attributes (or tags) with the names you wish and use them in Thymeleaf to process your templates. <em>You can define your own dialects.</em></p>
+<p>Dialects are objects implementing the <code>org.thymeleaf.dialect.IDialect</code> interface, which looks like this:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">interface</span> IDialect {
+
+    <span class="kw">public</span> String <span class="fu">getPrefix</span>();
+    <span class="kw">public</span> <span class="dt">boolean</span> <span class="fu">isLenient</span>();
+
+    <span class="kw">public</span> Set&lt;IProcessor&gt; <span class="fu">getProcessors</span>();
+    <span class="kw">public</span> Map&lt;String,Object&gt; <span class="fu">getExecutionAttributes</span>();
+
+    <span class="kw">public</span> Set&lt;IDocTypeTranslation&gt; <span class="fu">getDocTypeTranslations</span>();
+    <span class="kw">public</span> Set&lt;IDocTypeResolutionEntry&gt; <span class="fu">getDocTypeResolutionEntries</span>();
+}</code></pre>
+<p>Let's see these methods step by step:</p>
+<p>First, the prefix:</p>
+<pre class="sourceCode java"><code class="sourceCode java">    <span class="kw">public</span> String <span class="fu">getPrefix</span>();</code></pre>
+<p>This is the prefix that the tags and attributes of your dialect will have, a kind of namespace (although it can be changed when adding dialects to the Template Engine). If you create an attribute named <code>earth</code> and your dialect prefix is <code>planets</code>, you will write this attribute in your templates as <code>planets:earth</code>.</p>
+<p>The prefix for both the Standard and SpringStandard Dialects is, obviously, <code>th</code>. Prefix can be null so that you can define attribute/tag processors for non-namespaced tags (for example, standard <code>&lt;p&gt;</code>, <code>&lt;div&gt;</code> or <code>&lt;table&gt;</code> tags in XHTML).</p>
+<p>Now the <em>leniency</em> flag:</p>
+<pre class="sourceCode java"><code class="sourceCode java">    <span class="kw">public</span> <span class="dt">boolean</span> <span class="fu">isLenient</span>();</code></pre>
+<p>A dialect is considered lenient when it allows the existence of attributes or tags in a template which name starts with the specified prefix (e.g.: <code>&lt;input planets:saturn=&quot;...&quot; /&gt;</code>) processor is defined in the template for it (there would be no defined behaviour for <code>planets:saturn</code>). If this happens, a lenient dialect would simply ignore the attribute/tag.</p>
+<p>Both the Standard and the SpringStandard dialects are <em>not</em> lenient.</p>
+<p>Now, let's have a look at the most important part of the <code>IDialect</code> interface, the processors:</p>
+<pre class="sourceCode java"><code class="sourceCode java">    <span class="kw">public</span> Set&lt;IProcessor&gt; <span class="fu">getProcessors</span>();</code></pre>
+<p>Processors are the objects in charge of executing on DOM nodes and performing changes on it. We will cover processors in more detail in next sections.</p>
+<p><em>Execution attributes</em> are objects that are contributed by the dialect to the execution arguments during the processing of templates. These are objects –usually utility objects– that will be made available to processors during their execution. Note that these objects will not appear at the variable context, and will be only visible internally.</p>
+<pre class="sourceCode java"><code class="sourceCode java">    <span class="kw">public</span> Map&lt;String,Object&gt; <span class="fu">getExecutionAttributes</span>();</code></pre>
+<p>More interface methods:</p>
+<pre class="sourceCode java"><code class="sourceCode java">    <span class="kw">public</span> Set&lt;IDocTypeTranslation&gt; <span class="fu">getDocTypeTranslations</span>();</code></pre>
+<p>This returns the set of <em>DOCTYPE translations</em> to be applied. If you remember from the <em>Using Thymeleaf</em> tutorial, Thymeleaf can perform a series of DOCTYPE translations that allow you to establish a specific DOCTYPE for your templates and expect this DOCTYPE to be translated into another one in your output.</p>
+<p>Last method:</p>
+<pre class="sourceCode java"><code class="sourceCode java">    <span class="kw">public</span> Set&lt;IDocTypeResolutionEntry&gt; <span class="fu">getDocTypeResolutionEntries</span>();</code></pre>
+<p>This method returns the <em>DOCTYPE resolution entries</em> available for the dialect. DOCTYPE resolution entries allow Thymeleaf's XML Parser to locally resolve DTDs linked from your templates (thus avoiding remote HTTP requests for retrieving these DTDs).</p>
+<p>Thymeleaf makes most standard XHTML DTDs already available to your dialects by implementing the abstract class <code>org.thymeleaf.dialect.AbstractXHTMLEnabledDialect</code>, but you can always add your own ones for your own template DTDs.</p>
+</section>
+<section id="processors" class="level2">
+<h2><a href="#processors">2.2 Processors</a></h2>
+<p>Processors are objects implementing the <code>org.thymeleaf.processor.IProcessor</code> interface, and they contain the real logic to be applied on DOM nodes. This interface looks like this:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">interface</span> IProcessor <span class="kw">extends</span> Comparable&lt;IProcessor&gt; {
+
+    <span class="kw">public</span> IProcessorMatcher&lt;? <span class="kw">extends</span> Node&gt; <span class="fu">getMatcher</span>();
+
+    <span class="kw">public</span> ProcessorResult <span class="fu">process</span>(<span class="dt">final</span> Arguments arguments,
+                <span class="dt">final</span> ProcessorMatchingContext processorMatchingContext, <span class="dt">final</span> Node node);
+}</code></pre>
+<p>First thing we can see is that it extends <code>Comparable</code> – and that is the way <em>precedence</em> is established. If a processor is considered to be sorted <em>before</em> another one, this means it has more precedence, and therefore will be executed before the latter if they both apply to the same node.</p>
+<p>Now for the methods. A procesor's <em>matcher</em> establishes when a processor is applicable to a DOM node:</p>
+<pre class="sourceCode java"><code class="sourceCode java">    <span class="kw">public</span> IProcessorMatcher&lt;? <span class="kw">extends</span> Node&gt; <span class="fu">getMatcher</span>();</code></pre>
+<p>Matcher objects will examine the node's type, name and/or attributes –if it is an <em>Element</em> DOM node– or whichever other node features required to determine processor applicability. Thymeleaf comes with a predefined set of <code>IProcessorMatcher</code> implementations so that you do not have to perform usual tasks like matching an element –tag– by its name or one of its attributes.</p>
+<p>Finally, the method that does the real work:</p>
+<pre class="sourceCode java"><code class="sourceCode java">    <span class="kw">public</span> ProcessorResult <span class="fu">process</span>(<span class="dt">final</span> Arguments arguments,
+                <span class="dt">final</span> ProcessorMatchingContext processorMatchingContext, <span class="dt">final</span> Node node);</code></pre>
+<p><code>process(...)</code> takes three parameters:</p>
+<ol type="1">
+<li><p>The execution arguments. An <code>org.thymeleaf.Arguments</code> object containing context, local variables, template resolution information and some other bits of data useful for DOM processing.</p></li>
+<li><p>The processor matching context, containing information about the conditions in which the processor being executed was actually matched.</p>
+<blockquote>
+<p>The problem is that the same processor class can be included in several dialects executing at a time in the same template engine –probably with different configurations–, but these dialects might use different prefixes. If so, how can we know the specific dialect for which the processor is being executed? That is the info this <code>ProcessorMatchingContext</code> object provides.</p>
+</blockquote></li>
+<li><p>The node that the processor will be executed on. Note that processors are applied on a specific node, but nothing stops them from modifying any other parts of the DOM tree.</p></li>
+</ol>
+<p>Thymeleaf offers an abstract utility class to be extended for creating processors: <code>org.thymeleaf.processor.AbstractProcessor</code>. This class takes care of implementing the <code>Comparable</code> interface based on the specified precedence and defines the standard mechanisms for obtaining externalized/internationalized messages:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">abstract</span> <span class="kw">class</span> AbstractProcessor <span class="kw">implements</span> IProcessor {
+
+    <span class="co">/* Try to resolve a message first as template message, then if not found as processor message */</span>
+    <span class="kw">protected</span> String <span class="fu">getMessage</span>(
+                <span class="dt">final</span> Arguments arguments, <span class="dt">final</span> String messageKey, <span class="dt">final</span> Object[] messageParameters) {...}
+
+    <span class="co">/* Try to resolve a message as a template message */</span>
+    <span class="kw">protected</span> String <span class="fu">getMessageForTemplate</span>(
+                <span class="dt">final</span> Arguments arguments, <span class="dt">final</span> String messageKey, <span class="dt">final</span> Object[] messageParameters) {...}
+
+    <span class="co">/* Try to resolve a message as a processor message */</span>
+    <span class="kw">protected</span> String <span class="fu">getMessageForProcessor</span>(
+                <span class="dt">final</span> Arguments arguments, <span class="dt">final</span> String messageKey, <span class="dt">final</span> Object[] messageParameters) {...}
+
+    <span class="kw">public</span> <span class="kw">abstract</span> <span class="dt">int</span> <span class="fu">getPrecedence</span>();
+
+    ...
+
+}</code></pre>
+<section id="special-kinds-of-processors" class="level3">
+<h3><a href="#special-kinds-of-processors">Special kinds of processors</a></h3>
+<p>Although processors can execute on any node in the DOM tree, there are two specific kinds of processors that can benefit from performance improvements inside the Thymeleaf execution engine: <em>attribute processors</em> and <em>element processors</em>.</p>
+<section id="attribute-processors" class="level4">
+<h4><a href="#attribute-processors">Attribute Processors</a></h4>
+<p>Those processors (implementations of <code>IProcessor</code>) which <code>getMatcher()</code> method returns a matcher implementing the <code>org.thymeleaf.processor.IAttributeNameProcessorMatcher interface</code> are considered <em>&quot;attribute processors&quot;</em>.</p>
+<p>Because of the type of matchers they define, these processors are triggered when a DOM element (usually an XML/XHTML/HTML5 tag) contains an attribute with a specific name. For example, most processors in the <em>Standard Dialects</em> act like this, defining matchers for attributes like <code>th:text</code>, <code>th:each</code>, <code>th:if</code>, etc.</p>
+<p>For the sake of simplicity, Thymeleaf offers an utility abstract class from which attribute processors can extend: <code>org.thymeleaf.processor.attr.AbstractAttrProcessor</code>. This class already returns as matcher an implementation of IAttributeNameProcessorMatcher and makes it easier to create this kind of processors.</p>
+</section>
+<section id="element-processors" class="level4">
+<h4><a href="#element-processors">Element Processors</a></h4>
+<p>Those processors (implementations of <code>IProcessor</code>) which <code>getMatcher()</code> method returns a matcher implementing the <code>org.thymeleaf.processor.IElementNameProcessorMatcher</code> interface are considered <em>&quot;element processors&quot;</em>.</p>
+<blockquote>
+<p>Note that the DOM jargon calls <em>&quot;element&quot;</em> to what we usually call <em>&quot;tag&quot;</em> in an XML/XHTML/HTML5 document. Thymeleaf prefers to use the word element in order to be more general, because template modes might be defined that work on documents that do not have an XML-like structure.</p>
+</blockquote>
+<p>Because of the type of matchers they define, these processors are triggered when a DOM element has a specific name.</p>
+<p>The <em>Standard Dialects</em> define no element processors.</p>
+<p>For the sake of simplicity, Thymeleaf offers an utility abstract class from which element processors can extend: <code>org.thymeleaf.processor.element.AbstractElementProcessor</code>. This class already returns as matcher an implementation of IElementNameProcessorMatcher and makes it easier to create this kind of processors.</p>
+</section>
+</section>
+</section>
+</section>
+<section id="template-modes" class="level1">
+<h1><a href="#template-modes">3 Template modes</a></h1>
+<p>Probably the most powerful extension point in Thymeleaf, template modes define in fact <em>what can be considered &quot;a template&quot;</em>. Creating custom template modes allows us to use Thymeleaf for processing templates in formats different to the XML / XHTML / HTML5 that are available out-of-the-box.</p>
+<p>Template Modes are defined by their <em>handlers</em>. These are objects implementing the <code>org.thymeleaf.templatemode.ITemplateModeHandler</code> interface:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">interface</span> ITemplateModeHandler {
+
+    <span class="kw">public</span> String <span class="fu">getTemplateModeName</span>();
+
+    <span class="kw">public</span> ITemplateParser <span class="fu">getTemplateParser</span>();
+
+    <span class="kw">public</span> ITemplateWriter <span class="fu">getTemplateWriter</span>();
+
+}</code></pre>
+<p>Each <em>template mode handler</em> defines everything Thymeleaf needs to process templates in a specific mode: a <em>parser</em> (<code>ITemplateParser</code>) that is able to convert a template into a DOM tree, and a <em>writer</em> (<code>ITemplateWriter</code>) that is able to convert a DOM tree into the desired result format once it is processed.</p>
+<p>Several template modes are provided by Thymeleaf out-of-the-box, defined at the <code>org.thymeleaf.templatemode.StandardTemplateModeHandlers</code> class, and they are preregistered for every TemplateEngine instance. Their names are:</p>
+<ul>
+<li><code>XML</code>: for XML that does not require validation during parsing.</li>
+<li><code>VALIDXML</code>: for XML that should be validated during parsing.</li>
+<li><code>XHTML</code>: for XHTML 1.0 or 1.1 templates that do not need validation.</li>
+<li><code>VALIDXHTML</code>: for XHTML 1.0 or 1.1 templates that should be validated during parsing.</li>
+<li><code>HTML5</code>: for HTML5 templates that are well-formed XML documents.</li>
+<li><code>LEGACYHTML5</code>: for HTML5 templates that are not well-formed XML documents, and therefore need a previous preprocessing step for tag balancing, syntax correction, etc.</li>
+</ul>
+<p>For parsing templates in these modes, Thymeleaf offers a set of parser implementations that live at the <code>org.thymeleaf.templateparser package.</code> These parsers come in both SAX and DOM flavours –both validating and non-validating–, and there's also a nekoHTML-based HTML parser that allows parsing code that is not well-formed XML (for example, with unclosed tags).</p>
+<p>By default, all standard modes use SAX parsing, except LEGACYHTML5 which uses nekoHTML.</p>
+<p>As for writers, two implementations of ITemplateWriter are provided: one for XHTML and HTML5, and another one for XML. Both live in the <code>org.thymeleaf.templatewriter</code> package.</p>
+</section>
+<section id="creating-our-own-dialect" class="level1">
+<h1><a href="#creating-our-own-dialect">4 Creating our own dialect</a></h1>
+<section id="extrathyme-a-website-for-thymelands-football-league" class="level2">
+<h2><a href="#extrathyme-a-website-for-thymelands-football-league">4.1 Extrathyme: a website for Thymeland's football league</a></h2>
+<p>Football is a popular sport in Thymeland<sup><a href="#fn1" class="footnoteRef" id="fnref1">1</a></sup>. There is a 10-team league going on there each season, and its organizers have just asked us to create a website for it called &quot;Extrathyme&quot;.</p>
+<p>This website will be very simple: just a table with:</p>
+<ul>
+<li>The team names.</li>
+<li>How many matches they won, drew or lost, as well as the total points earned.</li>
+<li>A remark explaining whether their position in the table qualifies them for higher-level competitions next year or else mean their relegation to regional leagues.</li>
+</ul>
+<p>Also, above the league table, a banner will be displaying headlines with the results of recent matches.</p>
+<figure>
+<img src="images/extending-thymeleaf/extrathyme-league-table.png" alt="Extrathyme league table" /><figcaption>Extrathyme league table</figcaption>
+</figure>
+<p>We will use HTML5, Spring MVC and the SpringStandard dialect for our application, and we will be extending Thymeleaf by creating a <code>score</code> dialect that includes:</p>
+<ul>
+<li>A <code>score:remarkforposition</code> attribute that outputs an internationalized text for the Remarks column in the table. This text should explain whether the team's position in the table qualifies it for the World Champions League, the Continental Play-Offs, or relegates it to the Regional League.</li>
+<li>A <code>score:classforposition</code> attribute that establishes a CSS class for the table rows depending on the team's remarks: blue background for the World Champions League, green for the Continental Play-Offs, and red for relegation.</li>
+<li>A <code>score:headlines</code> tag for drawing the yellow box at the top with the results of recent matches. This tag should support an order attribute with values random (for showing a randomly selected match) and <code>latest</code> (default, for showing only the last match).</li>
+</ul>
+<p>Our markup will therefore look like this, making use of both <code>th</code> and <code>score</code> attributes:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="dt">&lt;!DOCTYPE </span>html<span class="dt">&gt;</span>
+
+<span class="kw">&lt;html</span><span class="ot"> xmlns:th=</span><span class="st">&quot;http://www.thymeleaf.org&quot;</span><span class="ot"> xmlns:score=</span><span class="st">&quot;http://thymeleafexamples&quot;</span><span class="kw">&gt;</span>
+
+  <span class="kw">&lt;head&gt;</span>
+    <span class="kw">&lt;title&gt;</span>extraThyme: Thymeland&#39;s football website<span class="kw">&lt;/title&gt;</span>
+    <span class="kw">&lt;meta</span><span class="ot"> http-equiv=</span><span class="st">&quot;Content-Type&quot;</span><span class="ot"> content=</span><span class="st">&quot;text/html; charset=UTF-8&quot;</span> <span class="kw">/&gt;</span>
+    <span class="kw">&lt;link</span><span class="ot"> rel=</span><span class="st">&quot;stylesheet&quot;</span><span class="ot"> type=</span><span class="st">&quot;text/css&quot;</span><span class="ot"> media=</span><span class="st">&quot;all&quot;</span>
+<span class="ot">          href=</span><span class="st">&quot;../../css/extrathyme.css&quot;</span><span class="ot"> th:href=</span><span class="st">&quot;@{/css/extrathyme.css}&quot;</span><span class="kw">/&gt;</span>
+  <span class="kw">&lt;/head&gt;</span>
+
+  <span class="kw">&lt;body&gt;</span>
+
+    <span class="kw">&lt;div&gt;</span>
+      <span class="kw">&lt;img</span><span class="ot"> src=</span><span class="st">&quot;../../images/extrathymelogo.png&quot;</span><span class="ot"> alt=</span><span class="st">&quot;extraThyme logo&quot;</span><span class="ot"> title=</span><span class="st">&quot;extraThyme logo&quot;</span>
+<span class="ot">           th:src=</span><span class="st">&quot;@{/images/extrathymelogo.png}&quot;</span><span class="ot"> th:alt-title=</span><span class="st">&quot;#{title.application}&quot;</span><span class="kw">/&gt;</span>
+    <span class="kw">&lt;/div&gt;</span>
+
+    <span class="kw">&lt;score:headlines</span><span class="ot"> order=</span><span class="st">&quot;random&quot;</span> <span class="kw">/&gt;</span>
+
+    <span class="kw">&lt;div</span><span class="ot"> class=</span><span class="st">&quot;leaguetable&quot;</span><span class="kw">&gt;</span>
+
+      <span class="kw">&lt;h2</span><span class="ot"> th:text=</span><span class="st">&quot;#{title.leaguetable(${execInfo.now.time})}&quot;</span><span class="kw">&gt;</span>League table for 07 July 2011<span class="kw">&lt;/h2&gt;</span>
+      <span class="kw">&lt;table&gt;</span>
+        <span class="kw">&lt;thead&gt;</span>
+          <span class="kw">&lt;tr&gt;</span>
+            <span class="kw">&lt;th</span><span class="ot"> th:text=</span><span class="st">&quot;#{team.name}&quot;</span><span class="kw">&gt;</span>Team<span class="kw">&lt;/th&gt;</span>
+            <span class="kw">&lt;th</span><span class="ot"> th:text=</span><span class="st">&quot;#{team.won}&quot;</span><span class="ot"> class=</span><span class="st">&quot;matches&quot;</span><span class="kw">&gt;</span>Won<span class="kw">&lt;/th&gt;</span>
+            <span class="kw">&lt;th</span><span class="ot"> th:text=</span><span class="st">&quot;#{team.drawn}&quot;</span><span class="ot"> class=</span><span class="st">&quot;matches&quot;</span><span class="kw">&gt;</span>Drawn<span class="kw">&lt;/th&gt;</span>
+            <span class="kw">&lt;th</span><span class="ot"> th:text=</span><span class="st">&quot;#{team.lost}&quot;</span><span class="ot"> class=</span><span class="st">&quot;matches&quot;</span><span class="kw">&gt;</span>Lost<span class="kw">&lt;/th&gt;</span>
+            <span class="kw">&lt;th</span><span class="ot"> th:text=</span><span class="st">&quot;#{team.points}&quot;</span><span class="ot"> class=</span><span class="st">&quot;points&quot;</span><span class="kw">&gt;</span>Points<span class="kw">&lt;/th&gt;</span>
+            <span class="kw">&lt;th</span><span class="ot"> th:text=</span><span class="st">&quot;#{team.remarks}&quot;</span><span class="kw">&gt;</span>Remarks<span class="kw">&lt;/th&gt;</span>
+          <span class="kw">&lt;/tr&gt;</span>
+        <span class="kw">&lt;/thead&gt;</span>
+        <span class="kw">&lt;tbody&gt;</span>
+          <span class="kw">&lt;tr</span><span class="ot"> th:each=</span><span class="st">&quot;t : ${teams}&quot;</span><span class="ot"> score:classforposition=</span><span class="st">&quot;${tStat.count}&quot;</span><span class="kw">&gt;</span>
+            <span class="kw">&lt;td</span><span class="ot"> th:text=</span><span class="st">&quot;${t.name + &#39; (&#39; + t.code + &#39;)&#39;}&quot;</span><span class="kw">&gt;</span>The Winners (TWN)<span class="kw">&lt;/td&gt;</span>
+            <span class="kw">&lt;td</span><span class="ot"> th:text=</span><span class="st">&quot;${t.won}&quot;</span><span class="ot"> class=</span><span class="st">&quot;matches&quot;</span><span class="kw">&gt;</span>1<span class="kw">&lt;/td&gt;</span>
+            <span class="kw">&lt;td</span><span class="ot"> th:text=</span><span class="st">&quot;${t.drawn}&quot;</span><span class="ot"> class=</span><span class="st">&quot;matches&quot;</span><span class="kw">&gt;</span>0<span class="kw">&lt;/td&gt;</span>
+            <span class="kw">&lt;td</span><span class="ot"> th:text=</span><span class="st">&quot;${t.lost}&quot;</span><span class="ot"> class=</span><span class="st">&quot;matches&quot;</span><span class="kw">&gt;</span>0<span class="kw">&lt;/td&gt;</span>
+            <span class="kw">&lt;td</span><span class="ot"> th:text=</span><span class="st">&quot;${t.points}&quot;</span><span class="ot"> class=</span><span class="st">&quot;points&quot;</span><span class="kw">&gt;</span>3<span class="kw">&lt;/td&gt;</span>
+            <span class="kw">&lt;td</span><span class="ot"> score:remarkforposition=</span><span class="st">&quot;${tStat.count}&quot;</span><span class="kw">&gt;</span>Great winner!<span class="kw">&lt;/td&gt;</span>
+          <span class="kw">&lt;/tr&gt;</span>
+          <span class="kw">&lt;tr</span><span class="ot"> th:remove=</span><span class="st">&quot;all&quot;</span><span class="kw">&gt;</span> <span class="kw">&lt;td&gt;</span>The Losers (TLS)<span class="kw">&lt;/td&gt;</span>
+            <span class="kw">&lt;td</span><span class="ot"> class=</span><span class="st">&quot;matches&quot;</span><span class="kw">&gt;</span>0<span class="kw">&lt;/td&gt;</span>
+            <span class="kw">&lt;td</span><span class="ot"> class=</span><span class="st">&quot;matches&quot;</span><span class="kw">&gt;</span>0<span class="kw">&lt;/td&gt;</span>
+            <span class="kw">&lt;td</span><span class="ot"> class=</span><span class="st">&quot;matches&quot;</span><span class="kw">&gt;</span>1<span class="kw">&lt;/td&gt;</span>
+            <span class="kw">&lt;td</span><span class="ot"> class=</span><span class="st">&quot;points&quot;</span><span class="kw">&gt;</span>0<span class="kw">&lt;/td&gt;</span>
+            <span class="kw">&lt;td&gt;</span>Big loooooser<span class="kw">&lt;/td&gt;</span>
+          <span class="kw">&lt;/tr&gt;</span>
+        <span class="kw">&lt;/tbody&gt;</span>
+      <span class="kw">&lt;/table&gt;</span>
+
+    <span class="kw">&lt;/div&gt;</span>
+
+  <span class="kw">&lt;/body&gt;</span>
+
+<span class="kw">&lt;/html&gt;</span></code></pre>
+<p><em>(Note that we've added a second row to our table with <code>th:remove=&quot;all&quot;</code> so that our template shows nicely as a prototype when directly opened in a browser.)</em></p>
+</section>
+<section id="changing-the-css-class-by-team-position" class="level2">
+<h2><a href="#changing-the-css-class-by-team-position">4.2 Changing the CSS class by team position</a></h2>
+<p>The first attribute processor we will develop will be <code>ClassForPositionAttrProcessor</code>, which we will implement as a subclass of a convenience abstract class provided by Thymeleaf called <code>AbstractAttributeModifierAttrProcessor</code>.</p>
+<p>This abstract class is already oriented towards creating attribute processors that set or modify the value of attributes in their host tags, which is exactly what we need (we will set a value to the <code>&lt;tr&gt;</code>'s <code>class</code> attribute.</p>
+<p>Let's have a look at our code:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> ClassForPositionAttrProcessor
+        <span class="kw">extends</span> AbstractAttributeModifierAttrProcessor {
+
+    <span class="kw">public</span> <span class="fu">ClassForPositionAttrProcessor</span>() {
+        <span class="kw">super</span>(<span class="st">&quot;classforposition&quot;</span>);
+    }
+
+    <span class="kw">public</span> <span class="dt">int</span> <span class="fu">getPrecedence</span>() {
+        <span class="kw">return</span> <span class="dv">12000</span>;
+    }
+
+    <span class="fu">@Override</span>
+    <span class="kw">protected</span> Map&lt;String, String&gt; <span class="fu">getModifiedAttributeValues</span>(
+            <span class="dt">final</span> Arguments arguments, <span class="dt">final</span> Element element, <span class="dt">final</span> String attributeName) {
+
+        <span class="co">/*</span>
+<span class="co">         * Obtain the attribute value</span>
+<span class="co">         */</span>
+        <span class="dt">final</span> String attributeValue = element.<span class="fu">getAttributeValue</span>(attributeName);
+
+        <span class="co">/*</span>
+<span class="co">         * Process (parse and execute) the attribute value, specified as a</span>
+<span class="co">         * Thymeleaf Standard Expression.</span>
+<span class="co">         */</span>
+        <span class="dt">final</span> Integer position =
+           (Integer) StandardExpressionProcessor.<span class="fu">processExpression</span>(arguments, attributeValue);
+
+        <span class="co">/*</span>
+<span class="co">         * Obtain the remark corresponding to this position in the league table.</span>
+<span class="co">         */</span>
+        <span class="dt">final</span> Remark remark = RemarkUtil.<span class="fu">getRemarkForPosition</span>(position);
+
+        <span class="co">/*</span>
+<span class="co">         * Apply the corresponding CSS class to the element.</span>
+<span class="co">         */</span>
+        <span class="dt">final</span> Map&lt;String,String&gt; values = <span class="kw">new</span> HashMap&lt;String, String&gt;();
+        <span class="kw">if</span> (remark != <span class="kw">null</span>) {
+            <span class="kw">switch</span> (remark) {
+                <span class="kw">case</span> WORLD_CHAMPIONS_LEAGUE:
+                    values.<span class="fu">put</span>(<span class="st">&quot;class&quot;</span>, <span class="st">&quot;wcl&quot;</span>);
+                    <span class="kw">break</span>;
+                <span class="kw">case</span> CONTINENTAL_PLAYOFFS:
+                    values.<span class="fu">put</span>(<span class="st">&quot;class&quot;</span>, <span class="st">&quot;cpo&quot;</span>);
+                    <span class="kw">break</span>;
+                <span class="kw">case</span> RELEGATION:
+                    values.<span class="fu">put</span>(<span class="st">&quot;class&quot;</span>, <span class="st">&quot;rel&quot;</span>);
+                    <span class="kw">break</span>;
+            }
+        }
+
+        <span class="kw">return</span> values;
+    }
+
+    <span class="fu">@Override</span>
+    <span class="kw">protected</span> ModificationType <span class="fu">getModificationType</span>(<span class="dt">final</span> Arguments arguments,
+            <span class="dt">final</span> Element element, <span class="dt">final</span> String attributeName, <span class="dt">final</span> String newAttributeName) {
+
+        <span class="co">// Just in case there already is a value set for the &#39;class&#39; attribute in the</span>
+        <span class="co">// tag, we will append our new value (using a whitespace separator) instead</span>
+        <span class="co">// of simply substituting it.</span>
+        <span class="kw">return</span> ModificationType.<span class="fu">APPEND_WITH_SPACE</span>;
+    }
+
+    <span class="fu">@Override</span>
+    <span class="kw">protected</span> <span class="dt">boolean</span> <span class="fu">removeAttributeIfEmpty</span>(<span class="dt">final</span> Arguments arguments,
+            <span class="dt">final</span> Element element, <span class="dt">final</span> String attributeName, <span class="dt">final</span> String newAttributeName) {
+
+        <span class="co">// If the resulting &#39;class&#39; attribute is empty, do not show it at all.</span>
+        <span class="kw">return</span> <span class="kw">true</span>;
+    }
+
+    <span class="fu">@Override</span>
+    <span class="kw">protected</span> <span class="dt">boolean</span> <span class="fu">recomputeProcessorsAfterExecution</span>(<span class="dt">final</span> Arguments arguments,
+            <span class="dt">final</span> Element element, <span class="dt">final</span> String attributeName) {
+
+        <span class="co">// There is no need to recompute the element after this processor has executed</span>
+        <span class="kw">return</span> <span class="kw">false</span>;
+    }
+}</code></pre>
+<p>As you can see, in this case the convenience abstract class we are using abstracts from us any direct modification on the DOM object tree, and instead we just have to create and return a Map with all the new attribute values to be set in the tag.</p>
+<p>It is important to note that we are creating this attribute with the ability of executing expressions written in the Standard Syntax (used by both the <em>Standard</em> and the <em>SpringStandard</em> dialects). This is, the ability to be set values like <code>${var}</code>, <code>#{messageKey}</code>, conditionals, etc. See how we use this in our template:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;tr</span><span class="ot"> th:each=</span><span class="st">&quot;t : ${teams}&quot;</span><span class="ot"> score:classforposition=</span><span class="st">&quot;${tStat.count}&quot;</span><span class="kw">&gt;</span></code></pre>
+<p>In order to evaluate these expressions (also called <em>Thymeleaf Standard Expressions</em>) we make use of the <code>StandardExpressionProcessor</code> class methods:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="dt">final</span> Integer position =
+    (Integer) StandardExpressionProcessor.<span class="fu">processExpression</span>(arguments, attributeValue);</code></pre>
+</section>
+<section id="displaying-an-internationalized-remark" class="level2">
+<h2><a href="#displaying-an-internationalized-remark">4.3 Displaying an internationalized remark</a></h2>
+<p>The next thing to do is creating an attribute processor able to display the remark text. This will be very similar to the <code>ClassForPositionAttrProcessor</code>, but with a couple of important differences:</p>
+<ul>
+<li>We will not be setting a value for an attribute in the host tag, but rather the text body (content) of the tag, in the same way a <code>th:text</code> attribute does.</li>
+<li>We need to access the message externalization (internationalization) system from our code so that we can display the text corresponding to the selected locale.</li>
+</ul>
+<p>This time we will be using a different convenience abstract class –one especially designed for setting the tag's text content–, <code>AbstractTextChildModifierAttrProcessor</code>. And this will be our code:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> RemarkForPositionAttrProcessor
+        <span class="kw">extends</span> AbstractTextChildModifierAttrProcessor {
+
+    <span class="kw">public</span> <span class="fu">RemarkForPositionAttrProcessor</span>() {
+        <span class="kw">super</span>(<span class="st">&quot;remarkforposition&quot;</span>);
+    }
+
+    <span class="kw">public</span> <span class="dt">int</span> <span class="fu">getPrecedence</span>() {
+        <span class="kw">return</span> <span class="dv">12000</span>;
+    }
+
+    <span class="fu">@Override</span>
+    <span class="kw">protected</span> String <span class="fu">getText</span>(<span class="dt">final</span> Arguments arguments, <span class="dt">final</span> Element element, <span class="dt">final</span> String attributeName) {
+
+        <span class="co">/*</span>
+<span class="co">         * Obtain the attribute value</span>
+<span class="co">         */</span>
+        <span class="dt">final</span> String attributeValue = element.<span class="fu">getAttributeValue</span>(attributeName);
+
+        <span class="co">/*</span>
+<span class="co">         * Process (parse and execute) the attribute value, specified as a</span>
+<span class="co">         * Thymeleaf Standard Expression.</span>
+<span class="co">         */</span>
+        <span class="dt">final</span> Integer position =
+            (Integer) StandardExpressionProcessor.<span class="fu">processExpression</span>(arguments, attributeValue);
+
+        <span class="co">/*</span>
+<span class="co">         * Obtain the remark corresponding to this position in the leaguh table.</span>
+<span class="co">         */</span>
+        <span class="dt">final</span> Remark remark = RemarkUtil.<span class="fu">getRemarkForPosition</span>(position);
+
+        <span class="co">/*</span>
+<span class="co">         * If no remark is to be applied, just return an empty message</span>
+<span class="co">         */</span>
+        <span class="kw">if</span> (remark == <span class="kw">null</span>) {
+            <span class="kw">return</span> <span class="st">&quot;&quot;</span>;
+        }
+
+        <span class="co">/*</span>
+<span class="co">         * Message should be internationalized, so we ask the engine to resolve the message</span>
+<span class="co">         * &#39;remarks.{REMARK}&#39; (e.g. &#39;remarks.RELEGATION&#39;). No parameters are needed for this</span>
+<span class="co">         * message.</span>
+<span class="co">         */</span>
+        <span class="kw">return</span> <span class="fu">getMessage</span>(arguments, <span class="st">&quot;remarks.&quot;</span> + remark.<span class="fu">toString</span>(), <span class="kw">new</span> Object[<span class="dv">0</span>]);
+
+    }
+
+}</code></pre>
+<p>Note that we are accessing the message externalization system with:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">return</span> <span class="fu">getMessage</span>(arguments, <span class="st">&quot;remarks.&quot;</span> + remark.<span class="fu">toString</span>(), <span class="kw">new</span> Object[<span class="dv">0</span>]);</code></pre>
+<p>But this in fact is not the only way. As previously mentioned in this guide, the <code>AbstractProcessor</code> class offers three methods for obtaining externalized messages from attribute processors. The first two make a difference between <em>template messages</em> and <em>processor messages</em>:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">protected</span> String <span class="fu">getMessageForTemplate</span>(
+        <span class="dt">final</span> Arguments arguments, <span class="dt">final</span> TemplateResolution templateResolution,
+        <span class="dt">final</span> String messageKey, <span class="dt">final</span> Object[] messageParameters);
+
+<span class="kw">protected</span> String <span class="fu">getMessageForProcessor</span>(
+        <span class="dt">final</span> Arguments arguments, <span class="dt">final</span> String messageKey, <span class="dt">final</span> Object[] messageParameters);</code></pre>
+<p><code>getMessageForTemplate(...)</code> uses the Template Engine's currently registered externalization mechanisms to look for the desired message. For example:</p>
+<ul>
+<li>In a Spring application, we will probably be using specific Message Resolvers that query the Spring MessageSource objects registered for the application.</li>
+<li>When not in a Spring application, we will probably be using Thymeleaf's Standard Message Resolver that looks for <code>.properties</code> files with the same name as the template being processed.</li>
+</ul>
+<p><code>getMessageForProcessor(...)</code> uses a message resolution mechanism created for allowing the componentization -or, if you prefer, encapsulation- of dialects. This mechanism consists in allowing tag and attribute processors to specify their own messages, whichever the application their dialects are used on. These are read from <code>.properties</code> files with the same name and living in the same package as the processor class (or any of its superclasses). For example, the <code>thymeleafexamples.extrathyme.dialects.score</code> package in our example could contain:</p>
+<ul>
+<li><code>RemarkForPositionAttrProcessor.java</code>: the attribute processor.</li>
+<li><code>RemarkForPositionAttrProcessor_en_GB.properties</code>: externalized messages for English (UK) language.</li>
+<li><code>RemarkForPositionAttrProcessor_en.properties</code>: externalized messages for English (rest of countries) language.</li>
+<li><code>RemarkForPositionAttrProcessor.properties</code>: default externalized messages.</li>
+</ul>
+<p>Finally, there is a third method, the one we used in our code:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">protected</span> String <span class="fu">getMessage</span>(
+        <span class="dt">final</span> Arguments arguments, <span class="dt">final</span> TemplateResolution templateResolution,
+        <span class="dt">final</span> String messageKey, <span class="dt">final</span> Object[] messageParameters);</code></pre>
+<p>This <code>getMessage(...)</code> acts as a combination of the other two: first it tries to resolve the required message as a template message (defined in the application messages files) and if it doesn't exist tries to resolve it as a processor message. This way, applications can override –if needed– any messages stablished by its dialects' processors.</p>
+</section>
+<section id="an-element-processor-for-our-headlines" class="level2">
+<h2><a href="#an-element-processor-for-our-headlines">4.4 An element processor for our headlines</a></h2>
+<p>The third and last processor we will have to write is an element (tag) processor. As their name implies, element processors are triggered by element names instead of attribute names, and they have one advantage and also one disadvantage with respect to attribute processors:</p>
+<ul>
+<li>Advantage: elements can contain multiple attributes, and so your element processors can receive a richer and more complex set of configuration parameters.</li>
+<li>Disadvantage: custom elements/tags are unknown to browsers, and so if you are developing a web application using custom tags you might have to sacrifice one of the most interesting features of Thymeleaf: the ability to statically display templates as prototypes (something called <em>natural templating</em>)</li>
+</ul>
+<p>This processor will extend <code>org.thymeleaf.processor.element.AbstractElementProcessor</code>, but as we did with our attribute processors, instead of extending it directly, we will use a more specialized abstract convenience class as a base for our processor class: <code>AbstractMarkupSubstitutionElementProcessor</code>. This is a base element processor that simply expects you to generate the DOM nodes that will substitute the host tag when the template is processed.</p>
+<p>And this is our code:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> HeadlinesElementProcessor <span class="kw">extends</span> AbstractMarkupSubstitutionElementProcessor {
+
+    <span class="kw">private</span> <span class="dt">final</span> Random rand = <span class="kw">new</span> Random(System.<span class="fu">currentTimeMillis</span>());
+
+    <span class="kw">public</span> <span class="fu">HeadlinesTagProcessor</span>() {
+        <span class="kw">super</span>(<span class="st">&quot;headlines&quot;</span>);
+    }
+
+    <span class="kw">public</span> <span class="dt">int</span> <span class="fu">getPrecedence</span>() {
+        <span class="kw">return</span> <span class="dv">1000</span>;
+    }
+
+    <span class="fu">@Override</span>
+    <span class="kw">protected</span> List&lt;Node&gt; <span class="fu">getMarkupSubstitutes</span>(<span class="dt">final</span> Arguments arguments, <span class="dt">final</span> Element element) {
+
+        <span class="co">/*</span>
+<span class="co">         * Obtain the Spring application context. Being a SpringMVC-based</span>
+<span class="co">         * application, we know that the IContext implementation being</span>
+<span class="co">         * used is SpringWebContext, and so we can directly cast and ask it</span>
+<span class="co">         * to return the AppCtx.</span>
+<span class="co">         */</span>
+        <span class="dt">final</span> ApplicationContext appCtx =
+            ((SpringWebContext)arguments.<span class="fu">getContext</span>()).<span class="fu">getApplicationContext</span>();
+
+        <span class="co">/*</span>
+<span class="co">         * Obtain the HeadlineRepository bean from the application context, and ask</span>
+<span class="co">         * it for the current list of headlines.</span>
+<span class="co">         */</span>
+        <span class="dt">final</span> HeadlineRepository headlineRepository = appCtx.<span class="fu">getBean</span>(HeadlineRepository.<span class="fu">class</span>);
+        <span class="dt">final</span> List&lt;Headline&gt; headlines = headlineRepository.<span class="fu">findAllHeadlines</span>();
+
+        <span class="co">/*</span>
+<span class="co">         * Read the &#39;order&#39; attribute from the tag. This optional attribute in our tag</span>
+<span class="co">         * will allow us to determine whether we want to show a random headline or</span>
+<span class="co">         * only the latest one (&#39;latest&#39; is default).</span>
+<span class="co">         */</span>
+        <span class="dt">final</span> String order = element.<span class="fu">getAttributeValue</span>(<span class="st">&quot;order&quot;</span>);
+
+        String headlineText = <span class="kw">null</span>;
+        <span class="kw">if</span> (order != <span class="kw">null</span> &amp;&amp; order.<span class="fu">trim</span>().<span class="fu">toLowerCase</span>().<span class="fu">equals</span>(<span class="st">&quot;random&quot;</span>)) {
+            <span class="co">// Order is random</span>
+            <span class="dt">final</span> <span class="dt">int</span> r = <span class="kw">this</span>.<span class="fu">rand</span>.<span class="fu">nextInt</span>(headlines.<span class="fu">size</span>());
+            headlineText = headlines.<span class="fu">get</span>(r).<span class="fu">getText</span>();
+        } <span class="kw">else</span> {
+            <span class="co">// Order is &quot;latest&quot;, only the latest headline will be shown</span>
+            Collections.<span class="fu">sort</span>(headlines); headlineText = headlines.<span class="fu">get</span>(headlines.<span class="fu">size</span>() - <span class="dv">1</span>).<span class="fu">getText</span>();
+        }
+
+        <span class="co">/*</span>
+<span class="co">         * Create the DOM structure that will be substituting our custom tag.</span>
+<span class="co">         * The headline will be shown inside a &#39;&lt;div&gt;&#39; tag, and so this must</span>
+<span class="co">         * be created first and then a Text node must be added to it.</span>
+<span class="co">         */</span>
+        <span class="dt">final</span> Element container = <span class="kw">new</span> Element(<span class="st">&quot;div&quot;</span>);
+        container.<span class="fu">setAttribute</span>(<span class="st">&quot;class&quot;</span>, <span class="st">&quot;headlines&quot;</span>);
+
+        <span class="dt">final</span> Text text = <span class="kw">new</span> Text(headlineText);
+        container.<span class="fu">addChild</span>(text);
+
+        <span class="co">/*</span>
+<span class="co">         * The abstract IAttrProcessor implementation we are using defines</span>
+<span class="co">         * that a list of nodes will be returned, and that these nodes</span>
+<span class="co">         * will substitute the tag we are processing.</span>
+<span class="co">         */</span>
+        <span class="dt">final</span> List&lt;Node&gt; nodes = <span class="kw">new</span> ArrayList&lt;Node&gt;();
+        nodes.<span class="fu">add</span>(container); <span class="kw">return</span> nodes;
+
+    }
+
+}</code></pre>
+<p>Not much new to see here, except for the fact that we are accessing Spring's <code>ApplicationContext</code> in order to obtain one of our beans from it (the <code>HeadlineRepository</code>).</p>
+<p>Note also how we can access the custom tag's order attribute as we would with any other DOM element:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="dt">final</span> String order = element.<span class="fu">getAttributeValue</span>(<span class="st">&quot;order&quot;</span>);</code></pre>
+</section>
+<section id="declaring-it-all-the-dialect" class="level2">
+<h2><a href="#declaring-it-all-the-dialect">4.5 Declaring it all: the dialect</a></h2>
+<p>The last step we need to take in order to complete our dialect is, of course, the dialect class itself.</p>
+<p>Dialect classes must implement the <code>org.thymeleaf.dialect.IDialect</code> interface, but again we will here use an abstract convenience implementation that allows us to only implement the methods we need, returning a default (empty) value for the rest of them.</p>
+<p>Here's the code, quite easy to follow by now:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> ScoreDialect <span class="kw">extends</span> AbstractDialect {
+
+    <span class="co">/*</span>
+<span class="co">     * Default prefix: this is the prefix that will be used for this dialect</span>
+<span class="co">     * unless a different one is specified when adding the dialect to</span>
+<span class="co">     * the Template Engine.</span>
+<span class="co">     */</span>
+    <span class="kw">public</span> String <span class="fu">getPrefix</span>() {
+        <span class="kw">return</span> <span class="st">&quot;score&quot;</span>;
+    }
+
+    <span class="co">/*</span>
+<span class="co">     * Non-lenient: if a tag or attribute with its prefix (&#39;score&#39;) appears on</span>
+<span class="co">     * the template and there is no valuetag/attribute processor</span>
+<span class="co">     * associated with it, an exception is thrown.</span>
+<span class="co">     */</span>
+    <span class="kw">public</span> <span class="dt">boolean</span> <span class="fu">isLenient</span>() {
+        <span class="kw">return</span> <span class="kw">false</span>;
+    }
+
+    <span class="co">/*</span>
+<span class="co">     * Two attribute processors are declared: &#39;classforposition&#39; and</span>
+<span class="co">     * &#39;remarkforposition&#39;. Also one element processor: the &#39;headlines&#39;</span>
+<span class="co">     * tag.</span>
+<span class="co">     */</span>
+    <span class="fu">@Override</span>
+    <span class="kw">public</span> Set&lt;IProcessor&gt; <span class="fu">getProcessors</span>() {
+        <span class="dt">final</span> Set&lt;IProcessor&gt; processors = <span class="kw">new</span> HashSet&lt;IProcessor&gt;();
+        processors.<span class="fu">add</span>(<span class="kw">new</span> <span class="fu">ClassForPositionAttrProcessor</span>());
+        processors.<span class="fu">add</span>(<span class="kw">new</span> <span class="fu">RemarkForPositionAttrProcessor</span>());
+        processors.<span class="fu">add</span>(<span class="kw">new</span> <span class="fu">HeadlinesElementProcessor</span>());
+        <span class="kw">return</span> processors;
+    }
+
+}</code></pre>
+<p>Once our dialect is created, we will need to declare it for use from our Template Engine. Let's see how we'd configure this in our Spring bean configuration files:</p>
+<pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;bean</span><span class="ot"> id=</span><span class="st">&quot;templateEngine&quot;</span>
+<span class="ot">      class=</span><span class="st">&quot;org.thymeleaf.spring3.SpringTemplateEngine&quot;</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;property</span><span class="ot"> name=</span><span class="st">&quot;templateResolver&quot;</span><span class="ot"> ref=</span><span class="st">&quot;templateResolver&quot;</span> <span class="kw">/&gt;</span>
+  <span class="kw">&lt;property</span><span class="ot"> name=</span><span class="st">&quot;dialects&quot;</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;set&gt;</span>
+      <span class="kw">&lt;bean</span><span class="ot"> class=</span><span class="st">&quot;org.thymeleaf.spring3.dialect.SpringStandardDialect&quot;</span> <span class="kw">/&gt;</span>
+      <span class="kw">&lt;bean</span><span class="ot"> class=</span><span class="st">&quot;thymeleafexamples.extrathyme.dialects.score.ScoreDialect&quot;</span> <span class="kw">/&gt;</span>
+    <span class="kw">&lt;/set&gt;</span>
+  <span class="kw">&lt;/property&gt;</span>
+<span class="kw">&lt;/bean&gt;</span></code></pre>
+<p>And that's it! Our dialect is ready to run now, and our league table will display in exactly the way we wanted.</p>
+</section>
+</section>
+<section class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>European football, of course ;-)<a href="#fnref1">↩</a></p></li>
+</ol>
+</section>
+		</div>
+	</div>
+
+	</div>
+
+</body>
+
+</html>
