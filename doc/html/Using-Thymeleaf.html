@@ -21,6 +21,21 @@
 	<script src="scripts/jquery-1.9.1.min.js"></script>
 	<script src="scripts/thymeleaf.js"></script>
 
+	<!-- Google Analytics script -->
+	<script>
+		var _gaq = _gaq || [];
+			_gaq.push(['_setAccount', 'UA-1276954-9']);
+			_gaq.push(['_trackPageview']);
+		(function() {
+			var ga = document.createElement('script');
+				ga.type = 'text/javascript';
+				ga.async = true;
+				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0];
+				s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
 </head>
 
 <body>
@@ -33,10 +48,10 @@
 			<h1 id="doc-title" class="title">Tutorial: Using Thymeleaf</h1>
 			<div id="doc-info">
 				<div id="doc-version">
-					<span class="info-header">Document version:</span> 20130526 - 26 May 2013
+					<span class="info-header">Document version:</span> 20130609 - 09 June 2013
 				</div>
 				<div id="project-version">
-					<span class="info-header">Project Version:</span> 2.0.16
+					<span class="info-header">Project Version:</span> 2.0.17
 				</div>
 				<div id="project-website">
 					<span class="info-header">Project web site:</span>
@@ -2088,9 +2103,9 @@ th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &
 <p>Let's use this in our Grocery's home page! Remember the code we wrote for outputting a formatted date?</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;p&gt;</span>Today is: <span class="kw">&lt;span</span><span class="ot"> th:text=</span><span class="st">&quot;${#calendars.format(today,&#39;dd MMMM yyyy&#39;)}&quot;</span><span class="kw">&gt;</span>13 february 2011<span class="kw">&lt;/span&gt;&lt;/p&gt;</span></code></pre>
 <p>Well, what if we wanted that <code>&quot;dd MMMM yyyy&quot;</code> to actually depend on the locale? For example, we might want to add the following message to our <code>home_en.properties</code>:</p>
-<pre><code>date.format=MMMM dd&#39;,&#39; yyyy</code></pre>
+<pre><code>date.format=MMMM dd&#39;&#39;,&#39;&#39; yyyy</code></pre>
 <p>...and an equivalent one to our <code>home_es.properties</code>:</p>
-<pre><code>date.format=dd &#39;de&#39; MMMM&#39;,&#39; yyyy</code></pre>
+<pre><code>date.format=dd &#39;&#39;de&#39;&#39; MMMM&#39;&#39;,&#39;&#39; yyyy</code></pre>
 <p>Now, let's use <code>th:with</code> to get the localized date format into a variable, and then use it in our <code>th:text</code> expression:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;p</span><span class="ot"> th:with=</span><span class="st">&quot;df=#{date.format}&quot;</span><span class="kw">&gt;</span>
   Today is: <span class="kw">&lt;span</span><span class="ot"> th:text=</span><span class="st">&quot;${#calendars.format(today,df)}&quot;</span><span class="kw">&gt;</span>13 february 2011<span class="kw">&lt;/span&gt;</span>
@@ -2164,7 +2179,8 @@ Conditional evaluation
 Local variable definition
 </td>
       <td>
-<code>th:with</code>
+        
+<code>th:object</code><br/> <code>th:with</code>
 </td>
     </tr>
     <tr>

@@ -21,6 +21,21 @@
 	<script src="scripts/jquery-1.9.1.min.js"></script>
 	<script src="scripts/thymeleaf.js"></script>
 
+	<!-- Google Analytics script -->
+	<script>
+		var _gaq = _gaq || [];
+			_gaq.push(['_setAccount', 'UA-1276954-9']);
+			_gaq.push(['_trackPageview']);
+		(function() {
+			var ga = document.createElement('script');
+				ga.type = 'text/javascript';
+				ga.async = true;
+				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0];
+				s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
 </head>
 
 <body>
@@ -33,10 +48,10 @@
 			<h1 id="doc-title" class="title">Tutorial: Thymeleaf + Spring 3</h1>
 			<div id="doc-info">
 				<div id="doc-version">
-					<span class="info-header">Document version:</span> 20130426 - 26 April 2013
+					<span class="info-header">Document version:</span> 20130609 - 09 June 2013
 				</div>
 				<div id="project-version">
-					<span class="info-header">Project Version:</span> 2.0.16
+					<span class="info-header">Project Version:</span> 2.0.17
 				</div>
 				<div id="project-website">
 					<span class="info-header">Project web site:</span>
@@ -108,6 +123,7 @@
 <li>Use of Spring Expression Language (Spring EL) as a variable expression language, instead of OGNL. Consequently, all <code>${...}</code> and <code>*{...}</code> expressions will be evaluated by Spring's Expression Language engine.</li>
 <li>A new beans special variable that allows you to access any bean in your application context inside variable expressions: <code>${beans.myBean.doSomething()}</code></li>
 <li>New attributes for form processing: <code>th:field</code> and <code>th:errors,</code> besides a new implementation of <code>th:object</code> that allows it to be used for form command selection.</li>
+<li>An expression object and method, <code>#themes.code(...)</code>, which is the equivalent of the <code>spring:theme</code> JSP custom tag.</li>
 <li>New DTDs for validation, including these new attributes, as well as new corresponding DOCTYPE translation rules.</li>
 </ul>
 <p>Note that <em>you shouldn't use this dialect directly in a normal TemplateEngine object</em> as a part of its configuration. Instead, you should instance a new template engine class that performs all the required configuration steps: <code>org.thymeleaf.spring3.SpringTemplateEngine</code>.</p>
