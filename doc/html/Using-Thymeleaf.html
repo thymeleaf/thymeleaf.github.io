@@ -48,10 +48,10 @@
 			<h1 id="doc-title" class="title">Tutorial: Using Thymeleaf</h1>
 			<div id="doc-info">
 				<div id="doc-version">
-					<span class="info-header">Document version:</span> 20130609 - 09 June 2013
+					<span class="info-header">Document version:</span> 20130820 - 20 August 2013
 				</div>
 				<div id="project-version">
-					<span class="info-header">Project Version:</span> 2.0.17
+					<span class="info-header">Project Version:</span> 2.0.18
 				</div>
 				<div id="project-website">
 					<span class="info-header">Project web site:</span>
@@ -618,7 +618,7 @@ Today is: 12 july 2010</code></pre>
 <li>Unary operations:
 <ul>
 <li>Minus sign (numeric): -</li>
-<li>Boolean negation: !</li>
+<li>Boolean negation: !, not</li>
 </ul></li>
 <li>Conditional operators:
 <ul>
@@ -838,13 +838,14 @@ As for numeric literals, they are simply numbers:
 <pre class="sourceCode html"><code class="sourceCode html">th:with=&quot;isEven=(${prodStat.count} % 2 == 0)&quot;</code></pre>
 <p>Note that this operators can also be applied inside OGNL variable expressions themselves (and in that case will be executed by OGNL instead of the Thymeleaf Standard Expression engine):</p>
 <pre class="sourceCode html"><code class="sourceCode html">th:with=&quot;isEven=${prodStat.count % 2 == 0}&quot;</code></pre>
+<p>Note that textual aliases exist for some of these operators: <code>div</code> (<code>/</code>), <code>mod</code> (<code>%</code>).</p>
 </section>
 <section id="comparators-and-equality" class="level2">
 <h2><a href="#comparators-and-equality">4.8 Comparators and Equality</a></h2>
 <p>Values in expressions can be compared with the <code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code> and <code>&lt;=</code> symbols, as usual, and also the <code>==</code> and <code>!=</code> operators can be used to check equality (or the lack of it). Note that XML establishes that the <code>&lt;</code> and <code>&gt;</code> symbols should not be used in attribute values, and so they should be substituted by <code>&amp;lt;</code> and <code>&amp;gt;</code>.</p>
 <pre class="sourceCode html"><code class="sourceCode html">th:if=&quot;${prodStat.count} gt; 1&quot;
 th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &#39;Development&#39; : &#39;Production&#39;)&quot;</code></pre>
-<p>Note that textual aliases exist for these operators: <code>gt</code> (<code>&gt;</code>), <code>lt</code> (<code>&lt;</code>), <code>ge</code> (<code>&gt;=</code>) and <code>le</code> (<code>&lt;=</code>). Also <code>eq</code> (<code>==</code>) and <code>neq</code> (<code>!=</code>).</p>
+<p>Note that textual aliases exist for some of these operators: <code>gt</code> (<code>&gt;</code>), <code>lt</code> (<code>&lt;</code>), <code>ge</code> (<code>&gt;=</code>), <code>le</code> (<code>&lt;=</code>). Also <code>eq</code> (<code>==</code>), <code>neq</code>/<code>ne</code> (<code>!=</code>).</p>
 </section>
 <section id="conditional-expressions" class="level2">
 <h2><a href="#conditional-expressions">4.9 Conditional expressions</a></h2>
