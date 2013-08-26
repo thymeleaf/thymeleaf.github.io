@@ -3,8 +3,8 @@
 /* BODY                   */
 /* ---------------------- */
 body {
-  font-family: 'DejaVu Serif', 'Times New Roman', Times;
-  font-size: 12px;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 14px;
   text-align: center;
   background-color: #f0f0f0;
   margin: 0px;
@@ -28,8 +28,8 @@ body {
 /* MENU                   */
 /* ---------------------- */
 #menu, #menu ul {
-  font-family: 'DejaVu Sans', Arial, Helvetica;
-  font-size: 13px;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 15px;
   text-align: left;
   text-transform: lowercase;
   list-style: none;
