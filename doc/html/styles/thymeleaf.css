@@ -1,5 +1,5 @@
-/*   * Copyright 2013, The Thymeleaf Project (http://www.thymeleaf.org/)   *   * Licensed under the Apache License, Version 2.0 (the "License");   * you may not use this file except in compliance with the License.   * You may obtain a copy of the License at   *   *     http://www.apache.org/licenses/LICENSE-2.0   *   * Unless required by applicable law or agreed to in writing, software   * distributed under the License is distributed on an "AS IS" BASIS,   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.   * See the License for the specific language governing permissions and   * limitations under the License.   */@charset "UTF-8";
-/**   * Stylesheet for all Thymeleaf documentation in both screen (HTML) and print   * (PDF) forms.   *    * @author Emanuel Rabina   */body {
+/*  * Copyright 2013, The Thymeleaf Project (http://www.thymeleaf.org/)  *  * Licensed under the Apache License, Version 2.0 (the "License");  * you may not use this file except in compliance with the License.  * You may obtain a copy of the License at  *  *     http://www.apache.org/licenses/LICENSE-2.0  *  * Unless required by applicable law or agreed to in writing, software  * distributed under the License is distributed on an "AS IS" BASIS,  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  * See the License for the specific language governing permissions and  * limitations under the License.  */@charset "UTF-8";
+/**  * Stylesheet for all Thymeleaf documentation in both screen (HTML) and print  * (PDF) forms.  *   * @author Emanuel Rabina  */body {
   color: black;
   font: 1em/1.5em 'Open Sans', sans-serif;
   text-align: left;
@@ -162,14 +162,21 @@ figcaption {
 }
 /* Code sections *//* -------------------------------------------------------------------------- */p > code,
 li > code {
-  background-color: #f0f0f0;
-  border: 1px solid lightgrey;
-  border-radius: 0.25em;
   padding: 0.25em;
 }
+code {
+  color: #707070;
+  font-weight: bold;
+}
+pre code {
+  color: #b9bdb6;
+  font-weight: normal;
+}
+table code {
+  font-weight: normal;
+}
 pre {
-  background-color: #f0f0f0;
-  border: 1px solid lightgrey !important;
+  background-color: #352726;
   border-radius: 0.5em;
   font-family: 'Consolas', 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;
   line-height: 1.25em;
@@ -177,56 +184,60 @@ pre {
 }
 .language-java .com,
 .language-javascript .com {
-  color: #3f7f5f;
+  color: #b58900;
 }
 .language-java .kwd,
 .language-javascript .kwd {
-  color: #7f0055;
+  color: #8bd1ff;
   font-weight: bold;
 }
 .language-java .typ,
 .language-javascript .typ {
-  color: black;
+  color: #b9bdb6;
 }
 .language-java .lit,
 .language-javascript .lit {
-  color: grey;
+  color: #8bd1ff;
 }
 .language-java .str,
 .language-javascript .str {
-  color: #2a00ff;
+  color: #99cc33;
 }
 .language-java .pun,
 .language-javascript .pun,
 .language-java .opn,
 .language-javascript .opn,
 .language-java .clo,
-.language-javascript .clo {
-  color: black;
+.language-javascript .clo,
+.language-java .pln,
+.language-javascript .pln {
+  color: #b9bdb6;
 }
 .language-html .com,
 .language-xml .com {
-  color: #3f5fbf;
+  color: #b58900;
 }
 .language-html .dec,
 .language-xml .dec,
 .language-html .tag,
 .language-xml .tag {
-  color: #008080;
+  color: #8bd1ff;
 }
 .language-html .atn,
 .language-xml .atn {
-  color: #7f007f;
+  color: #e0e8ff;
 }
 .language-html .atv,
 .language-xml .atv {
-  color: #2a00ff;
+  color: #99cc33;
 }
 .language-html .pun,
 .language-xml .pun,
 .language-html .opn,
 .language-xml .opn,
 .language-html .clo,
-.language-xml .clo {
-  color: black;
+.language-xml .clo,
+.language-html .pln,
+.language-xml .pln {
+  color: #b9bdb6;
 }
