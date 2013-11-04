@@ -48,10 +48,10 @@
 			<h1 id="doc-title" class="title">Tutorial: Using Thymeleaf</h1>
 			<div id="doc-info">
 				<div id="doc-version">
-					<span class="info-header">Document version:</span> 20131006 - 06 October 2013
+					<span class="info-header">Document version:</span> 20131104 - 04 November 2013
 				</div>
 				<div id="project-version">
-					<span class="info-header">Project Version:</span> 2.0.19
+					<span class="info-header">Project Version:</span> 2.1.0
 				</div>
 				<div id="project-website">
 					<span class="info-header">Project web site:</span>
@@ -78,7 +78,7 @@
 <li><a href="#the-template-engine">The Template Engine</a></li>
 </ul></li>
 </ul></li>
-<li><a href="#using-texts">3 Using texts</a><ul>
+<li><a href="#using-texts">3 Using Texts</a><ul>
 <li><a href="#a-multi-language-welcome">3.1 A multi-language welcome</a><ul>
 <li><a href="#using-thtext-and-externalizing-text">Using th:text and externalizing text</a></li>
 <li><a href="#contexts">Contexts</a></li>
@@ -92,28 +92,36 @@
 <li><a href="#standard-expression-syntax">4 Standard Expression Syntax</a><ul>
 <li><a href="#messages">4.1 Messages</a></li>
 <li><a href="#variables">4.2 Variables</a><ul>
-<li><a href="#expression-basic-objects">Expression basic objects</a></li>
-<li><a href="#expression-utility-objects">Expression utility objects</a></li>
+<li><a href="#expression-basic-objects">Expression Basic Objects</a></li>
+<li><a href="#expression-utility-objects">Expression Utility Objects</a></li>
 <li><a href="#reformatting-dates-in-our-home-page">Reformatting dates in our home page</a></li>
 </ul></li>
 <li><a href="#expressions-on-selections-asterisk-syntax">4.3 Expressions on selections (asterisk syntax)</a></li>
 <li><a href="#link-urls">4.4 Link URLs</a><ul>
 <li><a href="#a-menu-for-our-home-page">A menu for our home page</a></li>
 </ul></li>
-<li><a href="#literals">4.5 Literals</a></li>
-<li><a href="#concatenating-texts">4.6 Concatenating texts</a></li>
-<li><a href="#arithmetic-operations">4.7 Arithmetic operations</a></li>
-<li><a href="#comparators-and-equality">4.8 Comparators and Equality</a></li>
-<li><a href="#conditional-expressions">4.9 Conditional expressions</a></li>
-<li><a href="#default-expressions-elvis-operator">4.10 Default expressions (Elvis operator)</a></li>
-<li><a href="#preprocessing">4.11 Preprocessing</a></li>
+<li><a href="#literals">4.5 Literals</a><ul>
+<li><a href="#text-literals">Text literals</a></li>
+<li><a href="#number-literals">Number literals</a></li>
+<li><a href="#boolean-literals">Boolean literals</a></li>
+<li><a href="#the-null-literal">The null literal</a></li>
+<li><a href="#literal-tokens">Literal tokens</a></li>
 </ul></li>
-<li><a href="#setting-attribute-values">5 Setting attribute values</a><ul>
+<li><a href="#appending-texts">4.6 Appending texts</a></li>
+<li><a href="#literal-substitutions">4.7 Literal substitutions</a></li>
+<li><a href="#arithmetic-operations">4.8 Arithmetic operations</a></li>
+<li><a href="#comparators-and-equality">4.9 Comparators and Equality</a></li>
+<li><a href="#conditional-expressions">4.10 Conditional expressions</a></li>
+<li><a href="#default-expressions-elvis-operator">4.11 Default expressions (Elvis operator)</a></li>
+<li><a href="#preprocessing">4.12 Preprocessing</a></li>
+</ul></li>
+<li><a href="#setting-attribute-values">5 Setting Attribute Values</a><ul>
 <li><a href="#setting-the-value-of-any-attribute">5.1 Setting the value of any attribute</a></li>
 <li><a href="#setting-value-to-specific-attributes">5.2 Setting value to specific attributes</a></li>
 <li><a href="#setting-more-than-one-value-at-a-time">5.3 Setting more than one value at a time</a></li>
 <li><a href="#appending-and-prepending">5.4 Appending and prepending</a></li>
 <li><a href="#fixed-value-boolean-attributes">5.5 Fixed-value boolean attributes</a></li>
+<li><a href="#support-for-html5-friendly-attribute-and-element-names">5.6 Support for HTML5-friendly attribute and element names</a></li>
 </ul></li>
 <li><a href="#iteration">6 Iteration</a><ul>
 <li><a href="#iteration-basics">6.1 Iteration basics</a><ul>
@@ -122,38 +130,77 @@
 </ul></li>
 <li><a href="#keeping-iteration-status">6.2 Keeping iteration status</a></li>
 </ul></li>
-<li><a href="#conditional-evaluation">7 Conditional evaluation</a><ul>
+<li><a href="#conditional-evaluation">7 Conditional Evaluation</a><ul>
 <li><a href="#simple-conditionals-if-and-unless">7.1 Simple conditionals: &quot;if&quot; and &quot;unless&quot;</a></li>
 <li><a href="#switch-statements">7.2 Switch statements</a></li>
 </ul></li>
 <li><a href="#template-layout">8 Template Layout</a><ul>
-<li><a href="#including-template-fragments">8.1 Including template fragments</a></li>
-<li><a href="#removing-template-fragments">8.2 Removing template fragments</a></li>
+<li><a href="#including-template-fragments">8.1 Including template fragments</a><ul>
+<li><a href="#defining-and-referencing-fragments">Defining and referencing fragments</a></li>
+<li><a href="#referencing-fragments-without-thfragment">Referencing fragments without <code>th:fragment</code></a></li>
+<li><a href="#difference-between-thinclude-and-threplace">Difference between <code>th:include</code> and <code>th:replace</code></a></li>
 </ul></li>
-<li><a href="#local-variables">9 Local variables</a></li>
-<li><a href="#attribute-precedence">10 Attribute precedence</a></li>
-<li><a href="#inlining">11 Inlining</a><ul>
-<li><a href="#text-inlining">11.1 Text inlining</a></li>
-<li><a href="#script-inlining-javascript-and-dart">11.2 Script inlining (JavaScript and Dart)</a><ul>
+<li><a href="#parameterizable-fragment-signatures">8.2 Parameterizable fragment signatures</a><ul>
+<li><a href="#fragment-local-variables-without-fragment-signature">Fragment local variables without fragment signature</a></li>
+<li><a href="#thassert-for-in-template-assertions">th:assert for in-template assertions</a></li>
+</ul></li>
+<li><a href="#removing-template-fragments">8.3 Removing template fragments</a></li>
+</ul></li>
+<li><a href="#local-variables">9 Local Variables</a></li>
+<li><a href="#attribute-precedence">10 Attribute Precedence</a></li>
+<li><a href="#comments-and-blocks">11. Comments and Blocks</a><ul>
+<li><a href="#standard-htmlxml-comments">11.1. Standard HTML/XML comments</a></li>
+<li><a href="#thymeleaf-parser-level-comment-blocks">11.2. Thymeleaf parser-level comment blocks</a></li>
+<li><a href="#thymeleaf-prototype-only-comment-blocks">11.3. Thymeleaf prototype-only comment blocks</a></li>
+<li><a href="#synthetic-thblock-tag">11.4. Synthetic <code>th:block</code> tag</a></li>
+</ul></li>
+<li><a href="#inlining">12 Inlining</a><ul>
+<li><a href="#text-inlining">12.1 Text inlining</a></li>
+<li><a href="#script-inlining-javascript-and-dart">12.2 Script inlining (JavaScript and Dart)</a><ul>
 <li><a href="#adding-code">Adding code</a></li>
 <li><a href="#removing-code">Removing code</a></li>
 </ul></li>
 </ul></li>
-<li><a href="#validation-and-doctypes">12 Validation and Doctypes</a><ul>
-<li><a href="#validating-templates">12.1 Validating templates</a></li>
-<li><a href="#doctype-translation">12.2 Doctype translation</a></li>
+<li><a href="#validation-and-doctypes">13 Validation and Doctypes</a><ul>
+<li><a href="#validating-templates">13.1 Validating templates</a></li>
+<li><a href="#doctype-translation">13.2 Doctype translation</a></li>
 </ul></li>
-<li><a href="#some-more-pages-for-our-grocery">13 Some more pages for our grocery</a><ul>
-<li><a href="#order-list">13.1 Order List</a></li>
-<li><a href="#order-details">13.2 Order Details</a></li>
+<li><a href="#some-more-pages-for-our-grocery">14 Some more Pages for our Grocery</a><ul>
+<li><a href="#order-list">14.1 Order List</a></li>
+<li><a href="#order-details">14.2 Order Details</a></li>
 </ul></li>
-<li><a href="#more-on-configuration">14 More on configuration</a><ul>
-<li><a href="#template-resolvers">14.1 Template Resolvers</a></li>
-<li><a href="#message-resolvers">14.2 Message Resolvers</a></li>
-<li><a href="#logging">14.3 Logging</a></li>
+<li><a href="#more-on-configuration">15 More on Configuration</a><ul>
+<li><a href="#template-resolvers">15.1 Template Resolvers</a></li>
+<li><a href="#message-resolvers">15.2 Message Resolvers</a></li>
+<li><a href="#logging">15.3 Logging</a></li>
 </ul></li>
-<li><a href="#template-cache">15 Template Cache</a></li>
-<li><a href="#appendix-expression-utility-objects">16 Appendix: Expression Utility Objects</a></li>
+<li><a href="#template-cache">16 Template Cache</a></li>
+<li><a href="#appendix-a-expression-basic-objects">17 Appendix A: Expression Basic Objects</a><ul>
+<li><a href="#base-objects">Base objects</a></li>
+<li><a href="#web-context-namespaces-for-requestsession-attributes-etc.">Web context namespaces for request/session attributes, etc.</a></li>
+<li><a href="#web-context-objects">Web context objects</a></li>
+<li><a href="#spring-context-objects">Spring context objects</a></li>
+<li><a href="#spring-beans">Spring beans</a></li>
+</ul></li>
+<li><a href="#appendix-b-expression-utility-objects">18 Appendix B: Expression Utility Objects</a><ul>
+<li><a href="#dates">Dates</a></li>
+<li><a href="#calendars">Calendars</a></li>
+<li><a href="#numbers">Numbers</a></li>
+<li><a href="#strings">Strings</a></li>
+<li><a href="#objects">Objects</a></li>
+<li><a href="#booleans">Booleans</a></li>
+<li><a href="#arrays">Arrays</a></li>
+<li><a href="#lists">Lists</a></li>
+<li><a href="#sets">Sets</a></li>
+<li><a href="#maps">Maps</a></li>
+<li><a href="#aggregates">Aggregates</a></li>
+<li><a href="#messages-1">Messages</a></li>
+<li><a href="#ids">IDs</a></li>
+</ul></li>
+<li><a href="#appendix-c-dom-selector-syntax">19 Appendix C: DOM Selector syntax</a><ul>
+<li><a href="#multivalued-class-matching">Multivalued class matching</a></li>
+<li><a href="#optional-brackets">Optional brackets</a></li>
+</ul></li>
 </ul>
 		</nav>
 	</div>
@@ -195,7 +242,7 @@
 <p>The official thymeleaf-spring3 integration package defines a dialect called the &quot;SpringStandard Dialect&quot;, mostly equivalent to the Standard Dialect but with small adaptations to make better use of some features in Spring Framework (for example, by using Spring Expression Language instead of Thymeleaf's standard OGNL). So if you are a Spring MVC user you are not wasting your time, as almost everything you learn here will be of use in your Spring applications.</p>
 </blockquote>
 <p>The Thymeleaf Standard Dialect can process templates in any mode, but is especially suited for web-oriented template modes (XHTML and HTML5 ones). Besides HTML5, it specifically supports and validates the following XHTML specifications: <em>XHTML 1.0 Transitional</em>, <em>XHTML 1.0 Strict</em>, <em>XHTML 1.0 Frameset</em>, and <em>XHTML 1.1</em>.</p>
-<p>Also, the Standard Dialect does not include any processors to be applied on tags –called elements in DOM terminology–: it is an <em>attribute-only dialect</em>. This allows browsers to correctly display XHTML/HTML5 template files even before being processed, because they will simply ignore the additional attributes. For example, while a JSP using tag libraries could include a fragment of code not directly displayable by a browser like:</p>
+<p>Most of the processors of the Standard Dialect are <em>attribute processors</em>. This allows browsers to correctly display XHTML/HTML5 template files even before being processed, because they will simply ignore the additional attributes. For example, while a JSP using tag libraries could include a fragment of code not directly displayable by a browser like:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;form:inputText</span><span class="ot"> name=</span><span class="st">&quot;userName&quot;</span><span class="ot"> value=</span><span class="st">&quot;${user.name}&quot;</span> <span class="kw">/&gt;</span></code></pre>
 <p>...the Thymeleaf Standard Dialect would allow us to achieve the same functionality with:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;input</span><span class="ot"> type=</span><span class="st">&quot;text&quot;</span><span class="ot"> name=</span><span class="st">&quot;userName&quot;</span><span class="ot"> value=</span><span class="st">&quot;James Carrot&quot;</span><span class="ot"> th:value=</span><span class="st">&quot;${user.name}&quot;</span> <span class="kw">/&gt;</span></code></pre>
@@ -388,12 +435,12 @@ templateEngine.<span class="fu">setTemplateResolver</span>(templateResolver);</c
 </section>
 </section>
 <section id="using-texts" class="level1">
-<h1><a href="#using-texts">3 Using texts</a></h1>
+<h1><a href="#using-texts">3 Using Texts</a></h1>
 <section id="a-multi-language-welcome" class="level2">
 <h2><a href="#a-multi-language-welcome">3.1 A multi-language welcome</a></h2>
 <p>Our first task will be to create a home page for our grocery site.</p>
 <p>The first version we will write of this page will be extremely simple: just a title and a welcome message. This is our <code>/WEB-INF/templates/home.html</code> file:</p>
-<pre class="sourceCode html"><code class="sourceCode html"><span class="dt">&lt;!DOCTYPE </span>html SYSTEM &quot;http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-3.dtd&quot;<span class="dt">&gt;</span>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="dt">&lt;!DOCTYPE </span>html SYSTEM &quot;http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd&quot;<span class="dt">&gt;</span>
 
 <span class="kw">&lt;html</span><span class="ot"> xmlns=</span><span class="st">&quot;http://www.w3.org/1999/xhtml&quot;</span>
 <span class="er">      xmlns:th</span><span class="ot">=</span><span class="st">&quot;http://www.thymeleaf.org&quot;</span><span class="kw">&gt;</span>
@@ -469,7 +516,7 @@ templateEngine.<span class="fu">setTemplateResolver</span>(templateResolver);</c
             HttpServletRequest request, HttpServletResponse response,
             ServletContext servletContext, TemplateEngine templateEngine) {
         
-        WebContext ctx = <span class="kw">new</span> <span class="fu">WebContext</span>(request, servletContext, request.<span class="fu">getLocale</span>());
+        WebContext ctx = <span class="kw">new</span> <span class="fu">WebContext</span>(request, response, servletContext, request.<span class="fu">getLocale</span>());
         templateEngine.<span class="fu">process</span>(<span class="st">&quot;home&quot;</span>, ctx, response.<span class="fu">getWriter</span>());
         
     }
@@ -598,36 +645,49 @@ Today is: 12 july 2010</code></pre>
 <span class="kw">&lt;p&gt;</span>Today is: <span class="kw">&lt;span</span><span class="ot"> th:text=</span><span class="st">&quot;${today}&quot;</span><span class="kw">&gt;</span>13 february 2011<span class="kw">&lt;/span&gt;&lt;/p&gt;</span></code></pre>
 <p>But there are more types of value we don't know yet, and more interesting detail to know about the ones we already know. First, let's see a quick summary of the Standard Expression features:</p>
 <ul>
-<li>Text literals: '...'</li>
-<li>Number literals: 0, 34, 12, 3.0, 12.3, etc.</li>
 <li>Simple expressions:
 <ul>
-<li>Variable Expressions: ${...}</li>
-<li>Selection Variable Expressions: *{...}</li>
-<li>Message Expressions: #{...}</li>
-<li>Link URL Expressions: @{...}</li>
+<li>Variable Expressions: <code>${...}</code></li>
+<li>Selection Variable Expressions: <code>*{...}</code></li>
+<li>Message Expressions: <code>#{...}</code></li>
+<li>Link URL Expressions: <code>@{...}</code></li>
 </ul></li>
-<li>Binary operations:
+<li>Literals
 <ul>
-<li>String concatenation: +</li>
-<li>Arithmetic operators: +, -, *, /, %</li>
-<li>Comparators: &gt;, &lt;, &gt;=, &lt;=</li>
-<li>Boolean operators: and, or</li>
-<li>Equality operators: ==, !=</li>
+<li>Text literals: <code>'one text'</code>, <code>'Another one!'</code>,...</li>
+<li>Number literals: <code>0</code>, <code>34</code>, <code>3.0</code>, <code>12.3</code>,...</li>
+<li>Boolean literals: <code>true</code>, <code>false</code></li>
+<li>Null literal: <code>null</code></li>
+<li>Literal tokens: <code>one</code>, <code>sometext</code>, <code>main</code>,...</li>
 </ul></li>
-<li>Unary operations:
+<li>Text operations:
 <ul>
-<li>Minus sign (numeric): -</li>
-<li>Boolean negation: !, not</li>
+<li>String concatenation: <code>+</code></li>
+<li>Literal substitutions: <code>|The name is ${name}|</code></li>
+</ul></li>
+<li>Arithmetic operations:
+<ul>
+<li>Binary operators: <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>%</code></li>
+<li>Minus sign (unary operator): <code>-</code></li>
+</ul></li>
+<li>Boolean operations:
+<ul>
+<li>Binary operators: <code>and</code>, <code>or</code></li>
+<li>Boolean negation (unary operator): <code>!</code>, <code>not</code></li>
+</ul></li>
+<li>Comparisons and equality:
+<ul>
+<li>Comparators: <code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code>, <code>&lt;=</code> (<code>gt</code>, <code>lt</code>, <code>ge</code>, <code>le</code>)</li>
+<li>Equality operators: <code>==</code>, <code>!=</code> (<code>eq</code>, <code>ne</code>)</li>
 </ul></li>
 <li>Conditional operators:
 <ul>
-<li>If-then: (if) ? (then)</li>
-<li>If-then-else: (if) ? (then) : (else)</li>
-<li>Default: (value) ?: (defaultvalue)</li>
+<li>If-then: <code>(if) ? (then)</code></li>
+<li>If-then-else: <code>(if) ? (then) : (else)</code></li>
+<li>Default: <code>(value) ?: (defaultvalue)</code></li>
 </ul></li>
 </ul>
-<p>All this operations can be combined and nested:</p>
+<p>All this features can be combined and nested:</p>
 <pre class="sourceCode html"><code class="sourceCode html">&#39;User is of type &#39; + (${user.isAdmin()} ? &#39;Administrator&#39; : (${user.type} ?: &#39;Unknown&#39;))</code></pre>
 <section id="messages" class="level2">
 <h2><a href="#messages">4.1 Messages</a></h2>
@@ -690,20 +750,21 @@ ${personsArray[<span class="dv">0</span>].<span class="fu">name</span>}
 ${person.<span class="fu">createCompleteName</span>()}
 ${person.<span class="fu">createCompleteNameWithSeparator</span>(&#39;-&#39;)}</code></pre>
 <section id="expression-basic-objects" class="level3">
-<h3><a href="#expression-basic-objects">Expression basic objects</a></h3>
+<h3><a href="#expression-basic-objects">Expression Basic Objects</a></h3>
 <p>When evaluating OGNL expressions on the context variables, some objects are made available to expressions for higher flexibility. These objects will be referenced (per OGNL standard) starting with the <code>#</code> symbol:</p>
 <ul>
-<li><code>#ctx</code>: the context object</li>
-<li><code>#root</code> or <code>#vars:</code> the context variables objects, against which unqualified expressions are evaluated (usually the variables contained in <code>#ctx.variables</code> plus local ones)</li>
-<li><code>#locale</code>: the context locale</li>
+<li><code>#ctx</code>: the context object.</li>
+<li><code>#vars:</code> the context variables.</li>
+<li><code>#locale</code>: the context locale.</li>
 <li><code>#httpServletRequest</code>: (only in Web Contexts) the <code>HttpServletRequest</code> object.</li>
 <li><code>#httpSession</code>: (only in Web Contexts) the <code>HttpSession</code> object.</li>
 </ul>
 <p>So we can do this:</p>
 <pre class="sourceCode html"><code class="sourceCode html">Established locale country: <span class="kw">&lt;span</span><span class="ot"> th:text=</span><span class="st">&quot;${#locale.country}&quot;</span><span class="kw">&gt;</span>US<span class="kw">&lt;/span&gt;</span>.</code></pre>
+<p>You can read the full reference of these objects in the <a href="#appendix-a-expression-basic-objects">Appendix A</a>.</p>
 </section>
 <section id="expression-utility-objects" class="level3">
-<h3><a href="#expression-utility-objects">Expression utility objects</a></h3>
+<h3><a href="#expression-utility-objects">Expression Utility Objects</a></h3>
 <p>Besides these basic objects, Thymeleaf will offer us a set of utility objects that will help us perform common tasks in our expressions.</p>
 <ul>
 <li><code>#dates</code>: utility methods for <code>java.util.Date</code> objects: formatting, component extraction, etc.</li>
@@ -720,7 +781,7 @@ ${person.<span class="fu">createCompleteNameWithSeparator</span>(&#39;-&#39;)}</
 <li><code>#messages</code>: utility methods for obtaining externalized messages inside variables expressions, in the same way as they would be obtained using #{...} syntax.</li>
 <li><code>#ids</code>: utility methods for dealing with id attributes that might be repeated (for example, as a result of an iteration).</li>
 </ul>
-<p>You can check what functions are offered by each of these utility objects in the <a href="appendix-expression-utility-objects">Appendix</a>.</p>
+<p>You can check what functions are offered by each of these utility objects in the <a href="#appendix-b-expression-utility-objects">Appendix B</a>.</p>
 </section>
 <section id="reformatting-dates-in-our-home-page" class="level3">
 <h3><a href="#reformatting-dates-in-our-home-page">Reformatting dates in our home page</a></h3>
@@ -787,6 +848,7 @@ templateEngine.<span class="fu">process</span>(<span class="st">&quot;home&quot;
 <li>Page-relative, like <code>user/login.html</code></li>
 <li>Context-relative, like <code>/itemdetails?id=3</code> (context name in server will be added automatically)</li>
 <li>Server-relative, like <code>~/billing/processInvoice</code> (allows calling URLs in another context (= application) in the same server.</li>
+<li>Protocol-relative URLs, like <code>//code.jquery.com/jquery-2.0.3.min.js</code></li>
 </ul></li>
 </ul>
 <p>Thymeleaf can handle absolute URLs in any situation, but for relative ones it will require you to use a context object that implements the <code>IWebContext</code> interface, which contains some info coming from the HTTP request and needed to create relative links.</p>
@@ -820,20 +882,57 @@ templateEngine.<span class="fu">process</span>(<span class="st">&quot;home&quot;
 </section>
 <section id="literals" class="level2">
 <h2><a href="#literals">4.5 Literals</a></h2>
-<p>Literals are a type of value extremely simple to understand. There are two types: text and numeric.</p>
-<p>Text literals are just character strings specified between single quotes:</p>
-<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;p&gt;</span>Now you are looking at a <span class="kw">&lt;span</span><span class="ot"> th:text=</span><span class="st">&quot;&#39;working web application&#39;&quot;</span><span class="kw">&gt;</span>template file<span class="kw">&lt;/span&gt;</span>.<span class="kw">&lt;/p&gt;</span>
-As for numeric literals, they are simply numbers:
-<span class="kw">&lt;p&gt;</span>The year is <span class="kw">&lt;span</span><span class="ot"> th:text=</span><span class="st">&quot;2011&quot;</span><span class="kw">&gt;</span>1492<span class="kw">&lt;/span&gt;</span>.<span class="kw">&lt;/p&gt;</span>
-<span class="kw">&lt;p&gt;</span>In two years, it will be <span class="kw">&lt;span</span><span class="ot"> th:text=</span><span class="st">&quot;2011 + 2&quot;</span><span class="kw">&gt;</span>1494<span class="kw">&lt;/span&gt;</span>.<span class="kw">&lt;/p&gt;</span></code></pre>
+<section id="text-literals" class="level3">
+<h3><a href="#text-literals">Text literals</a></h3>
+<p>Text literals are just character strings specified between single quotes. They can include any character, but you should escape any single quotes inside them as <code>\'</code>.</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;p&gt;</span>Now you are looking at a <span class="kw">&lt;span</span><span class="ot"> th:text=</span><span class="st">&quot;&#39;working web application&#39;&quot;</span><span class="kw">&gt;</span>template file<span class="kw">&lt;/span&gt;</span>.<span class="kw">&lt;/p&gt;</span></code></pre>
 </section>
-<section id="concatenating-texts" class="level2">
-<h2><a href="#concatenating-texts">4.6 Concatenating texts</a></h2>
-<p>Texts, no matter whether they are literals or the result of evaluating variable or message expressions, can be easily concatenated using the <code>+</code> operator:</p>
+<section id="number-literals" class="level3">
+<h3><a href="#number-literals">Number literals</a></h3>
+<p>Numeric literals look exactly like what they are: numbers.</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;p&gt;</span>The year is <span class="kw">&lt;span</span><span class="ot"> th:text=</span><span class="st">&quot;2013&quot;</span><span class="kw">&gt;</span>1492<span class="kw">&lt;/span&gt;</span>.<span class="kw">&lt;/p&gt;</span>
+<span class="kw">&lt;p&gt;</span>In two years, it will be <span class="kw">&lt;span</span><span class="ot"> th:text=</span><span class="st">&quot;2013 + 2&quot;</span><span class="kw">&gt;</span>1494<span class="kw">&lt;/span&gt;</span>.<span class="kw">&lt;/p&gt;</span></code></pre>
+</section>
+<section id="boolean-literals" class="level3">
+<h3><a href="#boolean-literals">Boolean literals</a></h3>
+<p>The boolean literals are <code>true</code> and <code>false</code>. For example:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;div</span><span class="ot"> th:if=</span><span class="st">&quot;${user.isAdmin()} == false&quot;</span><span class="kw">&gt;</span> ...</code></pre>
+<p>Note the difference between the above example and specifying the <code>false</code> literal inside an OGNL/SpringEL variable expression and therefore let these expression engines evaluate it (not Thymeleaf):</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;div</span><span class="ot"> th:if=</span><span class="st">&quot;${user.isAdmin() == false}&quot;</span><span class="kw">&gt;</span> ...</code></pre>
+</section>
+<section id="the-null-literal" class="level3">
+<h3><a href="#the-null-literal">The null literal</a></h3>
+<p>The <code>null</code> literal can be also used:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;div</span><span class="ot"> th:if=</span><span class="st">&quot;${variable.something} == null&quot;</span><span class="kw">&gt;</span> ...</code></pre>
+</section>
+<section id="literal-tokens" class="level3">
+<h3><a href="#literal-tokens">Literal tokens</a></h3>
+<p>Numeric, boolean and null literals are in fact a particular case of <em>literal tokens</em>.</p>
+<p>These tokens allow a little bit of simplification in Standard Expressions. They work exactly the same as text literals (<code>'...'</code>), but they only allow letters (<code>A-Z</code> and <code>a-z</code>), numbers (<code>0-9</code>), brackets (<code>[</code> and <code>]</code>), dots (<code>.</code>), hyphens (<code>-</code>) and underscores (<code>_</code>). So no whitespaces, no commas, etc.</p>
+<p>The nice part? Tokens don't need any quotes surrounding them. So we can do this:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;div</span><span class="ot"> th:class=</span><span class="st">&quot;content&quot;</span><span class="kw">&gt;</span>...<span class="kw">&lt;/div&gt;</span></code></pre>
+<p>instead of:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;div</span><span class="ot"> th:class=</span><span class="st">&quot;&#39;content&#39;&quot;</span><span class="kw">&gt;</span>...<span class="kw">&lt;/div&gt;</span></code></pre>
+</section>
+</section>
+<section id="appending-texts" class="level2">
+<h2><a href="#appending-texts">4.6 Appending texts</a></h2>
+<p>Texts, no matter whether they are literals or the result of evaluating variable or message expressions, can be easily appended using the <code>+</code> operator:</p>
 <pre class="sourceCode html"><code class="sourceCode html">th:text=&quot;&#39;The name of the user is &#39; + ${user.name}&quot;</code></pre>
 </section>
+<section id="literal-substitutions" class="level2">
+<h2><a href="#literal-substitutions">4.7 Literal substitutions</a></h2>
+<p>Literal substitutions allow the easy formatting of strings containing values from variables without the need to append literals with <code>'...' + '...'</code>.</p>
+<p>These substitutions must be surrounded by vertical bars (<code>|</code>), like:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;span</span><span class="ot"> th:text=</span><span class="st">&quot;|Welcome to our application, ${user.name}!|&quot;</span><span class="kw">&gt;</span></code></pre>
+<p>Which is actually equivalent to:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;span</span><span class="ot"> th:text=</span><span class="st">&quot;&#39;Welcome to our application, &#39; + ${user.name} + &#39;!&#39;&quot;</span><span class="kw">&gt;</span></code></pre>
+<p>Literal substitutions can be combined with other types of expressions:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;span</span><span class="ot"> th:text=</span><span class="st">&quot;${onevar} + &#39; &#39; + |${twovar}, ${threevar}|&quot;</span><span class="kw">&gt;</span></code></pre>
+<p><strong>Note:</strong> only variable expressions (<code>${...}</code>) are allowed inside <code>|...|</code> literal substitutions. No other literals (<code>'...'</code>), boolean/numeric tokens, conditional expressions etc. are.</p>
+</section>
 <section id="arithmetic-operations" class="level2">
-<h2><a href="#arithmetic-operations">4.7 Arithmetic operations</a></h2>
+<h2><a href="#arithmetic-operations">4.8 Arithmetic operations</a></h2>
 <p>Some arithmetic operations are also available: <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code> and <code>%</code>.</p>
 <pre class="sourceCode html"><code class="sourceCode html">th:with=&quot;isEven=(${prodStat.count} % 2 == 0)&quot;</code></pre>
 <p>Note that this operators can also be applied inside OGNL variable expressions themselves (and in that case will be executed by OGNL instead of the Thymeleaf Standard Expression engine):</p>
@@ -841,14 +940,14 @@ As for numeric literals, they are simply numbers:
 <p>Note that textual aliases exist for some of these operators: <code>div</code> (<code>/</code>), <code>mod</code> (<code>%</code>).</p>
 </section>
 <section id="comparators-and-equality" class="level2">
-<h2><a href="#comparators-and-equality">4.8 Comparators and Equality</a></h2>
+<h2><a href="#comparators-and-equality">4.9 Comparators and Equality</a></h2>
 <p>Values in expressions can be compared with the <code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code> and <code>&lt;=</code> symbols, as usual, and also the <code>==</code> and <code>!=</code> operators can be used to check equality (or the lack of it). Note that XML establishes that the <code>&lt;</code> and <code>&gt;</code> symbols should not be used in attribute values, and so they should be substituted by <code>&amp;lt;</code> and <code>&amp;gt;</code>.</p>
 <pre class="sourceCode html"><code class="sourceCode html">th:if=&quot;${prodStat.count} gt; 1&quot;
 th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &#39;Development&#39; : &#39;Production&#39;)&quot;</code></pre>
-<p>Note that textual aliases exist for some of these operators: <code>gt</code> (<code>&gt;</code>), <code>lt</code> (<code>&lt;</code>), <code>ge</code> (<code>&gt;=</code>), <code>le</code> (<code>&lt;=</code>). Also <code>eq</code> (<code>==</code>), <code>neq</code>/<code>ne</code> (<code>!=</code>).</p>
+<p>Note that textual aliases exist for some of these operators: <code>gt</code> (<code>&gt;</code>), <code>lt</code> (<code>&lt;</code>), <code>ge</code> (<code>&gt;=</code>), <code>le</code> (<code>&lt;=</code>), <code>not</code> (<code>!</code>). Also <code>eq</code> (<code>==</code>), <code>neq</code>/<code>ne</code> (<code>!=</code>).</p>
 </section>
 <section id="conditional-expressions" class="level2">
-<h2><a href="#conditional-expressions">4.9 Conditional expressions</a></h2>
+<h2><a href="#conditional-expressions">4.10 Conditional expressions</a></h2>
 <p><em>Conditional expressions</em> are meant to evaluate only one of two expressions depending on the result of evaluating a condition (which is itself another expression).</p>
 <p>Let's have a look at an example fragment (introducing another <em>attribute modifier</em>, this time <code>th:class</code>):</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;tr</span><span class="ot"> th:class=</span><span class="st">&quot;${row.even}? &#39;even&#39; : &#39;odd&#39;&quot;</span><span class="kw">&gt;</span>
@@ -865,7 +964,7 @@ th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &
 <span class="kw">&lt;/tr&gt;</span></code></pre>
 </section>
 <section id="default-expressions-elvis-operator" class="level2">
-<h2><a href="#default-expressions-elvis-operator">4.10 Default expressions (Elvis operator)</a></h2>
+<h2><a href="#default-expressions-elvis-operator">4.11 Default expressions (Elvis operator)</a></h2>
 <p>A <em>default expression</em> is a special kind of conditional value without a <em>then</em> part. It is equivalent to the <em>Elvis operator</em> present in some languages like Groovy, and allows to specify two expressions, being the second one evaluated only in the case of the first one returning null.</p>
 <p>Let's see it in action in our user profile page:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;div</span><span class="ot"> th:object=</span><span class="st">&quot;${session.user}&quot;</span><span class="kw">&gt;</span>
@@ -878,7 +977,7 @@ th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;p&gt;</span>Name: <span class="kw">&lt;span</span><span class="ot"> th:text=</span><span class="st">&quot;*{firstName}?: (*{admin}? &#39;Admin&#39; : #{default.username})&quot;</span><span class="kw">&gt;</span>Sebastian<span class="kw">&lt;/span&gt;</span>.<span class="kw">&lt;/p&gt;</span></code></pre>
 </section>
 <section id="preprocessing" class="level2">
-<h2><a href="#preprocessing">4.11 Preprocessing</a></h2>
+<h2><a href="#preprocessing">4.12 Preprocessing</a></h2>
 <p>In addition to all these features for expression processing, Thymeleaf offers to us the possibility of <em>preprocessing</em> expressions.</p>
 <p>And what is that preprocessing thing? It is an execution of the expressions done before the normal one, that allows the modification of the actual expression that will be eventually executed.</p>
 <p>Preprocessed expressions are exactly like normal ones, but appear surrounded by a double underscore symbol (like <code>__${expression}__</code>).</p>
@@ -890,10 +989,11 @@ th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;p</span><span class="ot"> th:text=</span><span class="st">&quot;${__#{article.text(&#39;textVar&#39;)}__}&quot;</span><span class="kw">&gt;</span>Some text here...<span class="kw">&lt;/p&gt;</span></code></pre>
 <p>Note that the preprocessing step for a French locale will be creating the following equivalent:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;p</span><span class="ot"> th:text=</span><span class="st">&quot;${@myapp.translator.Translator@translateToFrench(textVar)}&quot;</span><span class="kw">&gt;</span>Some text here...<span class="kw">&lt;/p&gt;</span></code></pre>
+<p>The preprocessing String <code>__</code> can be escaped in attributes using <code>\_\_</code>.</p>
 </section>
 </section>
 <section id="setting-attribute-values" class="level1">
-<h1><a href="#setting-attribute-values">5 Setting attribute values</a></h1>
+<h1><a href="#setting-attribute-values">5 Setting Attribute Values</a></h1>
 <p>This chapter will explain the way in which we can set (or modify) values of attributes in our markup tags, possibly the next most basic feature we will need after setting the tag body content.</p>
 <section id="setting-the-value-of-any-attribute" class="level2">
 <h2><a href="#setting-the-value-of-any-attribute">5.1 Setting the value of any attribute</a></h2>
@@ -1466,7 +1566,19 @@ th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &
 
 
 
-
+</section>
+<section id="support-for-html5-friendly-attribute-and-element-names" class="level2">
+<h2><a href="#support-for-html5-friendly-attribute-and-element-names">5.6 Support for HTML5-friendly attribute and element names</a></h2>
+<p>It is also possible to use a completely different syntax to apply processors to your templates, more HTML5-friendly.</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;table&gt;</span>
+    <span class="kw">&lt;tr</span><span class="ot"> data-th-each=</span><span class="st">&quot;user : ${users}&quot;</span><span class="kw">&gt;</span>
+        <span class="kw">&lt;td</span><span class="ot"> data-th-text=</span><span class="st">&quot;${user.login}&quot;</span><span class="kw">&gt;</span>...<span class="kw">&lt;/td&gt;</span>
+        <span class="kw">&lt;td</span><span class="ot"> data-th-text=</span><span class="st">&quot;${user.name}&quot;</span><span class="kw">&gt;</span>...<span class="kw">&lt;/td&gt;</span>
+    <span class="kw">&lt;/tr&gt;</span>
+<span class="kw">&lt;/table&gt;</span></code></pre>
+<p>The <code>data-{prefix}-{name}</code> syntax is the standard way to write custom attributes in HTML5, without requiring developers to use any namespaced names like <code>th:*</code>. Thymeleaf makes this syntax automatically available to all your dialects (not only the Standard ones).</p>
+<p>There is also a syntax to specify custom tags: <code>{prefix}-{name}</code>, which follows the <em>W3C Custom Elements specification</em> (a part of the larger <em>W3C Web Components spec</em>). This can be used, for example, for the <code>th:block</code> element (or also <code>th-block</code>), which will be explained in a later section.</p>
+<p><strong>Important:</strong> this syntax is an addition to the namespaced <code>th:*</code> one, it does not replace it. There is no intention at all to deprecate the namespaced syntax in the future.</p>
 </section>
 </section>
 <section id="iteration" class="level1">
@@ -1492,7 +1604,7 @@ th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &
     templateEngine.<span class="fu">process</span>(<span class="st">&quot;product/list&quot;</span>, ctx, response.<span class="fu">getWriter</span>());
 }</code></pre>
 <p>And then we will use <code>th:each</code> in our template to iterate the list of products:</p>
-<pre class="sourceCode html"><code class="sourceCode html"><span class="dt">&lt;!DOCTYPE </span>html SYSTEM &quot;http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-3.dtd&quot;<span class="dt">&gt;</span>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="dt">&lt;!DOCTYPE </span>html SYSTEM &quot;http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd&quot;<span class="dt">&gt;</span>
 
 <span class="kw">&lt;html</span><span class="ot"> xmlns=</span><span class="st">&quot;http://www.w3.org/1999/xhtml&quot;</span>
 <span class="er">      xmlns:th</span><span class="ot">=</span><span class="st">&quot;http://www.thymeleaf.org&quot;</span><span class="kw">&gt;</span>
@@ -1643,7 +1755,7 @@ th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &
 </section>
 </section>
 <section id="conditional-evaluation" class="level1">
-<h1><a href="#conditional-evaluation">7 Conditional evaluation</a></h1>
+<h1><a href="#conditional-evaluation">7 Conditional Evaluation</a></h1>
 <section id="simple-conditionals-if-and-unless" class="level2">
 <h2><a href="#simple-conditionals-if-and-unless">7.1 Simple conditionals: &quot;if&quot; and &quot;unless&quot;</a></h2>
 <p>Sometimes you will need a fragment of your template only to appear in the result if a certain condition is met.</p>
@@ -1755,10 +1867,12 @@ th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &
 <h1><a href="#template-layout">8 Template Layout</a></h1>
 <section id="including-template-fragments" class="level2">
 <h2><a href="#including-template-fragments">8.1 Including template fragments</a></h2>
+<section id="defining-and-referencing-fragments" class="level3">
+<h3><a href="#defining-and-referencing-fragments">Defining and referencing fragments</a></h3>
 <p>We will often want to include in our templates fragments from other templates. Common uses for this are footers, headers, menus...</p>
 <p>In order to do this, Thymeleaf needs us to define the fragments available for inclusion, which we can do by using the <code>th:fragment</code> attribute.</p>
 <p>Now let's say we want to add a standard copyright footer to all our grocery pages, and for that we define a <code>/WEB-INF/templates/footer.html</code> file containing this code:</p>
-<pre class="sourceCode html"><code class="sourceCode html"><span class="dt">&lt;!DOCTYPE </span>html SYSTEM &quot;http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-3.dtd&quot;<span class="dt">&gt;</span>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="dt">&lt;!DOCTYPE </span>html SYSTEM &quot;http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd&quot;<span class="dt">&gt;</span>
 
 <span class="kw">&lt;html</span><span class="ot"> xmlns=</span><span class="st">&quot;http://www.w3.org/1999/xhtml&quot;</span>
 <span class="er">      xmlns:th</span><span class="ot">=</span><span class="st">&quot;http://www.thymeleaf.org&quot;</span><span class="kw">&gt;</span>
@@ -1772,7 +1886,7 @@ th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &
   <span class="kw">&lt;/body&gt;</span>
   
 <span class="kw">&lt;/html&gt;</span></code></pre>
-<p>The code above defines a fragment called <code>copy</code> that we can easily include in our home page using one of the <code>th:include</code> or <code>th:substituteby</code> attributes:</p>
+<p>The code above defines a fragment called <code>copy</code> that we can easily include in our home page using one of the <code>th:include</code> or <code>th:replace</code> attributes:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;body&gt;</span>
 
   ...
@@ -1782,25 +1896,50 @@ th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &
 <span class="kw">&lt;/body&gt;</span></code></pre>
 <p>The syntax for both these inclusion attributes is quite straightforward. There are three different formats:</p>
 <ul>
-<li><p><code>&quot;templatename::fragname&quot;</code> Includes the fragment named fragname, which should have been specified with a <code>th:fragment</code> attribute in the template named <code>templatename</code>.</p></li>
-<li><p><code>&quot;templatename::[domselector]&quot;</code> Includes as a fragment the result of executing the specified DOM Selector expression on the template named <code>templatename</code>. No <code>th:fragment</code> attributes are needed.</p></li>
+<li><code>&quot;templatename::domselector&quot;</code> or the equivalent <code>templatename::[domselector]</code> Includes the fragment resulting from executing the specified DOM Selector on the template named <code>templatename</code>.
+<ul>
+<li>Note that <code>domselector</code> can be a mere fragment name, so you could specify something as simple as <code>templatename::fragmentname</code> like in the <code>footer :: copy</code> above.</li>
+</ul></li>
 </ul>
 <blockquote>
-<p>DOM Selectors are similar to XPath expressions, see the javadoc specification for the <code>org.thymeleaf.dom.DOMSelector</code> class for more info on DOM Selector syntax.</p>
+<p>DOM Selector syntax is similar to XPath expressions and CSS selectors, see the <a href="#appendix-c-dom-selector-syntax">Appendix C</a> for more info on this syntax.</p>
 </blockquote>
 <ul>
-<li><code>&quot;templatename&quot;</code> Includes as a fragment the complete template named <code>templatename</code>.</li>
+<li><code>&quot;templatename&quot;</code> Includes the complete template named <code>templatename</code>.</li>
 </ul>
 <blockquote>
-<p>Note that the template name you use in <code>th:include</code>/<code>th:substituteby</code> tags will have to be resolvable by the Template Resolver currently being used by the Template Engine.</p>
+<p>Note that the template name you use in <code>th:include</code>/<code>th:replace</code> tags will have to be resolvable by the Template Resolver currently being used by the Template Engine.</p>
 </blockquote>
-<p>Both <code>templatename</code> and <code>fragment</code> or <code>xpathexpr</code> in the above syntax examples can be fully-featured expressions (even conditionals!) like:</p>
+<ul>
+<li><code>::domselector&quot;</code> or <code>&quot;this::domselector&quot;</code> Includes a fragment from the same template.</li>
+</ul>
+<p>Both <code>templatename</code> and <code>domselector</code> in the above examples can be fully-featured expressions (even conditionals!) like:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;div</span><span class="ot"> th:include=</span><span class="st">&quot;footer :: (${user.isAdmin}? #{footer.admin} : #{footer.normaluser})&quot;</span><span class="kw">&gt;&lt;/div&gt;</span></code></pre>
-<p>Fragments can include any <code>th:* attributes</code>. These attributes will be evaluated once the fragment is included into the target template (the one with the <code>th:include</code>/<code>th:substituteby</code> attribute), and they will be able to reference any context variables defined in this target template.</p>
+<p>Fragments can include any <code>th:* attributes</code>. These attributes will be evaluated once the fragment is included into the target template (the one with the <code>th:include</code>/<code>th:replace</code> attribute), and they will be able to reference any context variables defined in this target template.</p>
 <blockquote>
 <p>A big advantage of this approach to fragments is that you can write your fragments' code in pages that are perfectly displayable by a browser, with a complete and even validating XHTML structure, while still retaining the ability to make Thymeleaf include them into other templates.</p>
 </blockquote>
-<p>And what is the difference between <code>th:include</code> and <code>th:substituteby</code>? Whereas <code>th:include</code> will include the contents of the fragment into its host tag, <code>th:substituteby</code> will actually substitute the host tag by the fragment's. So that an HTML5 fragment like this:</p>
+</section>
+<section id="referencing-fragments-without-thfragment" class="level3">
+<h3><a href="#referencing-fragments-without-thfragment">Referencing fragments without <code>th:fragment</code></a></h3>
+<p>Besides, thanks to the power of DOM Selectors, we can include fragments that do not use any <code>th:fragment</code> attributes. It can even be markup code coming from a different application with no knowledge of Thymeleaf at all:</p>
+<pre class="sourceCode html"><code class="sourceCode html">...
+<span class="kw">&lt;div</span><span class="ot"> id=</span><span class="st">&quot;copy-section&quot;</span><span class="kw">&gt;</span>
+  <span class="dv">&amp;copy;</span> 2011 The Good Thymes Virtual Grocery
+<span class="kw">&lt;/div&gt;</span>
+...</code></pre>
+<p>We can use the fragment above simply referencing it by its <code>id</code> attribute, in a similar way to a CSS selector:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;body&gt;</span>
+
+  ...
+
+  <span class="kw">&lt;div</span><span class="ot"> th:include=</span><span class="st">&quot;footer :: #copy-section&quot;</span><span class="kw">&gt;&lt;/div&gt;</span>
+  
+<span class="kw">&lt;/body&gt;</span></code></pre>
+</section>
+<section id="difference-between-thinclude-and-threplace" class="level3">
+<h3><a href="#difference-between-thinclude-and-threplace">Difference between <code>th:include</code> and <code>th:replace</code></a></h3>
+<p>And what is the difference between <code>th:include</code> and <code>th:replace</code>? Whereas <code>th:include</code> will include the contents of the fragment into its host tag, <code>th:replace</code> will actually substitute the host tag by the fragment's. So that an HTML5 fragment like this:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;footer</span><span class="ot"> th:fragment=</span><span class="st">&quot;copy&quot;</span><span class="kw">&gt;</span>
   <span class="dv">&amp;copy;</span> 2011 The Good Thymes Virtual Grocery
 <span class="kw">&lt;/footer&gt;</span></code></pre>
@@ -1810,7 +1949,7 @@ th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &
   ...
 
   <span class="kw">&lt;div</span><span class="ot"> th:include=</span><span class="st">&quot;footer :: copy&quot;</span><span class="kw">&gt;&lt;/div&gt;</span>
-  <span class="kw">&lt;div</span><span class="ot"> th:substituteby=</span><span class="st">&quot;footer :: copy&quot;</span><span class="kw">&gt;&lt;/div&gt;</span>
+  <span class="kw">&lt;div</span><span class="ot"> th:replace=</span><span class="st">&quot;footer :: copy&quot;</span><span class="kw">&gt;&lt;/div&gt;</span>
   
 <span class="kw">&lt;/body&gt;</span></code></pre>
 <p>...will result in:</p>
@@ -1826,9 +1965,42 @@ th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &
   <span class="kw">&lt;/footer&gt;</span>
   
 <span class="kw">&lt;/body&gt;</span></code></pre>
+<p>The <code>th:substituteby</code> attribute can also be used as an alias for <code>th:replace</code>, but the latter is recommended. Note that <code>th:substituteby</code> might be deprecated in future versions.</p>
+</section>
+</section>
+<section id="parameterizable-fragment-signatures" class="level2">
+<h2><a href="#parameterizable-fragment-signatures">8.2 Parameterizable fragment signatures</a></h2>
+<p>In order to create a more <em>function-like</em> mechanism for the use of template fragments, fragments defined with <code>th:fragment</code> can specify a set of parameters:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;div</span><span class="ot"> th:fragment=</span><span class="st">&quot;frag (onevar,twovar)&quot;</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;p</span><span class="ot"> th:text=</span><span class="st">&quot;${onevar} + &#39; - &#39; + ${twovar}&quot;</span><span class="kw">&gt;</span>...<span class="kw">&lt;/p&gt;</span>
+<span class="kw">&lt;/div&gt;</span></code></pre>
+<p>This requires the use of one of these two syntaxes to call the fragment from <code>th:include</code>, <code>th:replace</code>:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;div</span><span class="ot"> th:include=</span><span class="st">&quot;::frag (${value1},${value2})&quot;</span><span class="kw">&gt;</span>...<span class="kw">&lt;/div&gt;</span>
+<span class="kw">&lt;div</span><span class="ot"> th:include=</span><span class="st">&quot;::frag (onevar=${value1},twovar=${value2})&quot;</span><span class="kw">&gt;</span>...<span class="kw">&lt;/div&gt;</span></code></pre>
+<p>Note that order is not important in the last option:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;div</span><span class="ot"> th:include=</span><span class="st">&quot;::frag (twovar=${value2},onevar=${value1})&quot;</span><span class="kw">&gt;</span>...<span class="kw">&lt;/div&gt;</span></code></pre>
+<section id="fragment-local-variables-without-fragment-signature" class="level3">
+<h3><a href="#fragment-local-variables-without-fragment-signature">Fragment local variables without fragment signature</a></h3>
+<p>Even if fragments are defined without signature, like this:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;div</span><span class="ot"> th:fragment=</span><span class="st">&quot;frag&quot;</span><span class="kw">&gt;</span>
+    ...
+<span class="kw">&lt;/div&gt;</span></code></pre>
+<p>We could use the second syntax specified above to call them (and only the second one):</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;div</span><span class="ot"> th:include=</span><span class="st">&quot;::frag (onevar=${value1},twovar=${value2})&quot;</span><span class="kw">&gt;</span></code></pre>
+<p>This would be, in fact, equivalent to a combination of <code>th:include</code> and <code>th:with</code>:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;div</span><span class="ot"> th:include=</span><span class="st">&quot;::frag&quot;</span><span class="ot"> th:with=</span><span class="st">&quot;onevar=${value1},twovar=${value2}&quot;</span><span class="kw">&gt;</span></code></pre>
+<p><strong>Note</strong> that this specification of local variables for a fragment —no matter whether it has a signature or not— does not cause an initialization of the context to zero. Fragments will still be able to access every context variable being used at the calling template like they currently are.</p>
+</section>
+<section id="thassert-for-in-template-assertions" class="level3">
+<h3><a href="#thassert-for-in-template-assertions">th:assert for in-template assertions</a></h3>
+<p>The <code>th:assert</code> attribute can specify a comma-separated list of expressions which should be evaluated and produce true for every evaluation, raising an exception if not.</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;div</span><span class="ot"> th:assert=</span><span class="st">&quot;${onevar},(${twovar} != 43)&quot;</span><span class="kw">&gt;</span>...<span class="kw">&lt;/div&gt;</span></code></pre>
+<p>This comes in handy for validating parameters at a fragment signature:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;header</span><span class="ot"> th:fragment=</span><span class="st">&quot;contentheader(title)&quot;</span><span class="ot"> th:assert=</span><span class="st">&quot;${!#strings.isEmpty(title)}&quot;</span><span class="kw">&gt;</span>...<span class="kw">&lt;/header&gt;</span></code></pre>
+</section>
 </section>
 <section id="removing-template-fragments" class="level2">
-<h2><a href="#removing-template-fragments">8.2 Removing template fragments</a></h2>
+<h2><a href="#removing-template-fragments">8.3 Removing template fragments</a></h2>
 <p>Let's revisit the last version of our product list template:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;table&gt;</span>
   <span class="kw">&lt;tr&gt;</span>
@@ -2035,6 +2207,7 @@ th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &
 <li><code>body</code>: Do not remove the containing tag, but remove all its children.</li>
 <li><code>tag</code>: Remove the containing tag, but do not remove its children.</li>
 <li><code>all-but-first</code>: Remove all children of the containing tag except the first one.</li>
+<li><code>none</code> : Do nothing. This value is useful for dynamic evaluation.</li>
 </ul>
 <p>What can that <code>all-but-first</code> value be useful for? It will let us save some <code>th:remove=&quot;all&quot;</code> when prototyping:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;table&gt;</span>
@@ -2077,10 +2250,16 @@ th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &
     <span class="kw">&lt;/tr&gt;</span>
   <span class="kw">&lt;/tbody&gt;</span>
 <span class="kw">&lt;/table&gt;</span></code></pre>
+<p>The <code>th:remove</code> attribute can take any <em>Thymeleaf Standard Expression</em>, as long as it returns one of the allowed String values (<code>all</code>, <code>tag</code>, <code>body</code>, <code>all-but-first</code> or <code>none</code>).</p>
+<p>This means removals could be conditional, like:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;a</span><span class="ot"> href=</span><span class="st">&quot;/something&quot;</span><span class="ot"> th:remove=</span><span class="st">&quot;${condition}? tag : none&quot;</span><span class="kw">&gt;</span>Link text not to be removed<span class="kw">&lt;/a&gt;</span></code></pre>
+<p>Also note that <code>th:remove</code> could consider <code>null</code> a synonym to <code>none</code>, so that the following works exactly as the example above:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;a</span><span class="ot"> href=</span><span class="st">&quot;/something&quot;</span><span class="ot"> th:remove=</span><span class="st">&quot;${condition}? tag&quot;</span><span class="kw">&gt;</span>Link text not to be removed<span class="kw">&lt;/a&gt;</span></code></pre>
+<p>If <code>${condition}</code> is false, <code>null</code> will be returned, and thus no removal will be performed.</p>
 </section>
 </section>
 <section id="local-variables" class="level1">
-<h1><a href="#local-variables">9 Local variables</a></h1>
+<h1><a href="#local-variables">9 Local Variables</a></h1>
 <p>Thymeleaf calls <em>local variables</em> those variables that are defined for a specific fragment of a template, and are only available for evaluation inside that fragment.</p>
 <p>An example we have already seen is the <code>prod</code> iter variable in our product list page:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;tr</span><span class="ot"> th:each=</span><span class="st">&quot;prod : ${prods}&quot;</span><span class="kw">&gt;</span>
@@ -2101,6 +2280,8 @@ th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &
     <span class="kw">&lt;p&gt;</span>The name of the first person is <span class="kw">&lt;span</span><span class="ot"> th:text=</span><span class="st">&quot;${firstPer.name}&quot;</span><span class="kw">&gt;</span>Julius Caesar<span class="kw">&lt;/span&gt;</span>.<span class="kw">&lt;/p&gt;</span>
     <span class="kw">&lt;p&gt;</span>But the name of the second person is <span class="kw">&lt;span</span><span class="ot"> th:text=</span><span class="st">&quot;${secondPer.name}&quot;</span><span class="kw">&gt;</span>Marcus Antonius<span class="kw">&lt;/span&gt;</span>.<span class="kw">&lt;/p&gt;</span>
 <span class="kw">&lt;/div&gt;</span></code></pre>
+<p>The <code>th:with</code> attribute allows reusing variables defined in the same attribute:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;div</span><span class="ot"> th:with=</span><span class="st">&quot;company=${user.company + &#39; Co.&#39;},account=${accounts[company]}&quot;</span><span class="kw">&gt;</span>...<span class="kw">&lt;/div&gt;</span></code></pre>
 <p>Let's use this in our Grocery's home page! Remember the code we wrote for outputting a formatted date?</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;p&gt;</span>Today is: <span class="kw">&lt;span</span><span class="ot"> th:text=</span><span class="st">&quot;${#calendars.format(today,&#39;dd MMMM yyyy&#39;)}&quot;</span><span class="kw">&gt;</span>13 february 2011<span class="kw">&lt;/span&gt;&lt;/p&gt;</span></code></pre>
 <p>Well, what if we wanted that <code>&quot;dd MMMM yyyy&quot;</code> to actually depend on the locale? For example, we might want to add the following message to our <code>home_en.properties</code>:</p>
@@ -2118,7 +2299,7 @@ th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &
 <p>You might be thinking: Precedence? We haven't talked about that yet! Well, don't worry because that is exactly what next chapter is about.</p>
 </section>
 <section id="attribute-precedence" class="level1">
-<h1><a href="#attribute-precedence">10 Attribute precedence</a></h1>
+<h1><a href="#attribute-precedence">10 Attribute Precedence</a></h1>
 <p>What happens when you write more than one <code>th:*</code> attribute in the same tag? For example:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;ul&gt;</span>
   <span class="kw">&lt;li</span><span class="ot"> th:each=</span><span class="st">&quot;item : ${items}&quot;</span><span class="ot"> th:text=</span><span class="st">&quot;${item.description}&quot;</span><span class="kw">&gt;</span>Item description here...<span class="kw">&lt;/li&gt;</span>
@@ -2249,10 +2430,96 @@ Fragment removal
   <span class="kw">&lt;li</span><span class="ot"> th:text=</span><span class="st">&quot;${item.description}&quot;</span><span class="ot"> th:each=</span><span class="st">&quot;item : ${items}&quot;</span><span class="kw">&gt;</span>Item description here...<span class="kw">&lt;/li&gt;</span>
 <span class="kw">&lt;/ul&gt;</span></code></pre>
 </section>
+<section id="comments-and-blocks" class="level1">
+<h1><a href="#comments-and-blocks">11. Comments and Blocks</a></h1>
+<section id="standard-htmlxml-comments" class="level2">
+<h2><a href="#standard-htmlxml-comments">11.1. Standard HTML/XML comments</a></h2>
+<p>Standard HTML/XML comments <code>&lt;!-- ... --&gt;</code> can be used anywhere in thymeleaf templates. Anything inside these comments won't be processed by neither Thymeleaf nor the browser, and will be just copied verbatim to the result:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="co">&lt;!-- User info follows --&gt;</span>
+<span class="kw">&lt;div</span><span class="ot"> th:text=</span><span class="st">&quot;${...}&quot;</span><span class="kw">&gt;</span>
+  ...
+<span class="kw">&lt;/div&gt;</span></code></pre>
+</section>
+<section id="thymeleaf-parser-level-comment-blocks" class="level2">
+<h2><a href="#thymeleaf-parser-level-comment-blocks">11.2. Thymeleaf parser-level comment blocks</a></h2>
+<p>Parser-level comment blocks are code that will be simply removed from the template when thymeleaf parses it. They look like this:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="co">&lt;!--/* This code will be removed at thymeleaf parsing time! */--&gt;</span></code></pre>
+<p>Thymeleaf will remove absolutely everything between <code>&lt;!--/*</code> and <code>*/--&gt;</code>, so these comment blocks can also be used for displaying code when a template is statically open, knowing that it will be removed when thymeleaf processes it:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="co">&lt;!--/*--&gt;</span> 
+  <span class="kw">&lt;div&gt;</span>
+     you can see me only before thymeleaf processes me!
+  <span class="kw">&lt;/div&gt;</span>
+<span class="co">&lt;!--*/--&gt;</span></code></pre>
+<p>This might come very handy for prototyping tables with a lot of <code>&lt;tr&gt;</code>'s, for example:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;table&gt;</span>
+   <span class="kw">&lt;tr</span><span class="ot"> th:each=</span><span class="st">&quot;x : ${xs}&quot;</span><span class="kw">&gt;</span>
+     ...
+   <span class="kw">&lt;/tr&gt;</span>
+   <span class="co">&lt;!--/*--&gt;</span>
+   <span class="kw">&lt;tr&gt;</span>
+     ...
+   <span class="kw">&lt;/tr&gt;</span>
+   <span class="kw">&lt;tr&gt;</span>
+     ...
+   <span class="kw">&lt;/tr&gt;</span>
+   <span class="co">&lt;!--*/--&gt;</span>
+<span class="kw">&lt;/table&gt;</span></code></pre>
+</section>
+<section id="thymeleaf-prototype-only-comment-blocks" class="level2">
+<h2><a href="#thymeleaf-prototype-only-comment-blocks">11.3. Thymeleaf prototype-only comment blocks</a></h2>
+<p>Thymeleaf allows the definition of special comment blocks marked to be comments when the template is open statically (i.e. as a prototype), but considered normal markup by Thymeleaf when executing the template.</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;span&gt;</span>hello!<span class="kw">&lt;/span&gt;</span>
+<span class="co">&lt;!--/*/</span>
+<span class="co">  &lt;div th:text=&quot;${...}&quot;&gt;</span>
+<span class="co">    ...</span>
+<span class="co">  &lt;/div&gt;</span>
+<span class="co">/*/--&gt;</span>
+<span class="kw">&lt;span&gt;</span>goodbye!<span class="kw">&lt;/span&gt;</span></code></pre>
+<p>Thymeleaf's parsing system will simply remove the <code>&lt;!--/*/</code> and <code>/*/--&gt;</code> markers, but not its contents, which will be left therefore uncommented. So when executing the template, Thymeleaf will actually see this:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;span&gt;</span>hello!<span class="kw">&lt;/span&gt;</span>
+ 
+  <span class="kw">&lt;div</span><span class="ot"> th:text=</span><span class="st">&quot;${...}&quot;</span><span class="kw">&gt;</span>
+    ...
+  <span class="kw">&lt;/div&gt;</span>
+ 
+<span class="kw">&lt;span&gt;</span>goodbye!<span class="kw">&lt;/span&gt;</span></code></pre>
+<p>As happens with parser-level comment blocks, note that this feature is dialect-independent.</p>
+</section>
+<section id="synthetic-thblock-tag" class="level2">
+<h2><a href="#synthetic-thblock-tag">11.4. Synthetic <code>th:block</code> tag</a></h2>
+<p>Thymeleaf's only element processor (not an attribute) included in the Standard Dialects is <code>th:block</code>.</p>
+<p><code>th:block</code> is a mere attribute container that allows template developers to specify whichever attributes they want. Thymeleaf will execute these attributes and then simply make the block dissapear without a trace.</p>
+<p>So it could be useful, for example, when creating iterated tables that require more than one <code>&lt;tr&gt;</code> for each element:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;table&gt;</span>
+  <span class="kw">&lt;th:block</span><span class="ot"> th:each=</span><span class="st">&quot;user : ${users}&quot;</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;tr&gt;</span>
+        <span class="kw">&lt;td</span><span class="ot"> th:text=</span><span class="st">&quot;${user.login}&quot;</span><span class="kw">&gt;</span>...<span class="kw">&lt;/td&gt;</span>
+        <span class="kw">&lt;td</span><span class="ot"> th:text=</span><span class="st">&quot;${user.name}&quot;</span><span class="kw">&gt;</span>...<span class="kw">&lt;/td&gt;</span>
+    <span class="kw">&lt;/tr&gt;</span>
+    <span class="kw">&lt;tr&gt;</span>
+        <span class="kw">&lt;td</span><span class="ot"> colspan=</span><span class="st">&quot;2&quot;</span><span class="ot"> th:text=</span><span class="st">&quot;${user.address}&quot;</span><span class="kw">&gt;</span>...<span class="kw">&lt;/td&gt;</span>
+    <span class="kw">&lt;/tr&gt;</span>
+  <span class="kw">&lt;/th:block&gt;</span>
+<span class="kw">&lt;/table&gt;</span></code></pre>
+<p>And especially useful when used in combination with prototype-only comment blocks:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;table&gt;</span>
+    <span class="co">&lt;!--/*/ &lt;th:block th:each=&quot;user : ${users}&quot;&gt; /*/--&gt;</span>
+    <span class="kw">&lt;tr&gt;</span>
+        <span class="kw">&lt;td</span><span class="ot"> th:text=</span><span class="st">&quot;${user.login}&quot;</span><span class="kw">&gt;</span>...<span class="kw">&lt;/td&gt;</span>
+        <span class="kw">&lt;td</span><span class="ot"> th:text=</span><span class="st">&quot;${user.name}&quot;</span><span class="kw">&gt;</span>...<span class="kw">&lt;/td&gt;</span>
+    <span class="kw">&lt;/tr&gt;</span>
+    <span class="kw">&lt;tr&gt;</span>
+        <span class="kw">&lt;td</span><span class="ot"> colspan=</span><span class="st">&quot;2&quot;</span><span class="ot"> th:text=</span><span class="st">&quot;${user.address}&quot;</span><span class="kw">&gt;</span>...<span class="kw">&lt;/td&gt;</span>
+    <span class="kw">&lt;/tr&gt;</span>
+    <span class="co">&lt;!--/*/ &lt;/th:block&gt; /*/--&gt;</span>
+<span class="kw">&lt;/table&gt;</span></code></pre>
+<p>Note how this solution allows templates to be valid HTML (no need to add forbidden <code>&lt;div&gt;</code> blocks inside <code>&lt;table&gt;</code>), and still works OK when open statically in browsers as prototypes!</p>
+</section>
+</section>
 <section id="inlining" class="level1">
-<h1><a href="#inlining">11 Inlining</a></h1>
+<h1><a href="#inlining">12 Inlining</a></h1>
 <section id="text-inlining" class="level2">
-<h2><a href="#text-inlining">11.1 Text inlining</a></h2>
+<h2><a href="#text-inlining">12.1 Text inlining</a></h2>
 <p>Although the Standard Dialect allows us to do almost everything we might need by using tag attributes, there are situations in which we could prefer writing expressions directly into our HTML texts. For example, we could prefer writing this:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;p&gt;</span>Hello, [[${session.user.name}]]!<span class="kw">&lt;/p&gt;</span></code></pre>
 <p>...instead of this:</p>
@@ -2278,7 +2545,7 @@ Fragment removal
 <p>...is quite clear.</p>
 </section>
 <section id="script-inlining-javascript-and-dart" class="level2">
-<h2><a href="#script-inlining-javascript-and-dart">11.2 Script inlining (JavaScript and Dart)</a></h2>
+<h2><a href="#script-inlining-javascript-and-dart">12.2 Script inlining (JavaScript and Dart)</a></h2>
 <p>Thymeleaf offers a series of &quot;scripting&quot; modes for its inlining capabilities, so that you can integrate your date inside scripts created in some script languages.</p>
 <p>Current scripting modes are <code>javascript</code> (<code>th:inline=&quot;javascript&quot;</code>) and <code>dart</code> (<code>th:inline=&quot;dart&quot;</code>).</p>
 <p>The first thing we can do with script inlining is writing the value of expressions into our scripts, like:</p>
@@ -2397,32 +2664,32 @@ Fragment removal
 </section>
 </section>
 <section id="validation-and-doctypes" class="level1">
-<h1><a href="#validation-and-doctypes">12 Validation and Doctypes</a></h1>
+<h1><a href="#validation-and-doctypes">13 Validation and Doctypes</a></h1>
 <section id="validating-templates" class="level2">
-<h2><a href="#validating-templates">12.1 Validating templates</a></h2>
+<h2><a href="#validating-templates">13.1 Validating templates</a></h2>
 <p>As mentioned before, Thymeleaf offers us out-of-the-box two standard template modes that validate our templates before processing them: <code>VALIDXML</code> and <code>VALIDXHTML.</code> These modes require our templates to be not only <em>well-formed XML</em> (which they should always be), but in fact valid according to the specified <code>DTD</code>.</p>
 <p>The problem is that if we use the <code>VALIDXHTML</code> mode with templates including a <code>DOCTYPE</code> clause such as this:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="dt">&lt;!DOCTYPE </span>html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Strict//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd&quot;<span class="dt">&gt;</span></code></pre>
 <p>...we are going to obtain validation errors because the <code>th:*</code> tags do not exist according to that <code>DTD.</code> That's perfectly normal, as the W3C obviously has no reason to include Thymeleaf's features in their standards but, how do we solve it? By changing the <code>DTD.</code></p>
 <p>Thymeleaf includes a set of <code>DTD</code> files that mirror the original ones from the XHTML standards, but adding all the available <code>th:*</code> attributes from the Standard Dialect. That's why we have been using this in our templates:</p>
-<pre class="sourceCode html"><code class="sourceCode html"><span class="dt">&lt;!DOCTYPE </span>html SYSTEM &quot;http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-3.dtd&quot;<span class="dt">&gt;</span></code></pre>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="dt">&lt;!DOCTYPE </span>html SYSTEM &quot;http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd&quot;<span class="dt">&gt;</span></code></pre>
 <p>That <code>SYSTEM</code> identifier instructs the Thymeleaf parser to resolve the special Thymeleaf-enabled <code>XHTML 1.0 Strict DTD</code> file and use it for validating our template. And don't worry about that <code>http</code> thing, because that is only an identifier, and the <code>DTD</code> file will be locally read from Thymeleaf's jar files.</p>
 <blockquote>
 <p>Note that because this DOCTYPE declaration is a perfectly valid one, if we open a browser to statically display our template as a prototype it will be rendered in <em>Standards Mode</em>.</p>
 </blockquote>
 <p>Here you have the complete set of Thymeleaf-enabled <code>DTD</code> declarations for all the supported flavours of XHTML:</p>
-<pre class="sourceCode html"><code class="sourceCode html"><span class="dt">&lt;!DOCTYPE </span>html SYSTEM &quot;http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-3.dtd&quot;<span class="dt">&gt;</span>
-<span class="dt">&lt;!DOCTYPE </span>html SYSTEM &quot;http://www.thymeleaf.org/dtd/xhtml1-transitional-thymeleaf-3.dtd&quot;<span class="dt">&gt;</span>
-<span class="dt">&lt;!DOCTYPE </span>html SYSTEM &quot;http://www.thymeleaf.org/dtd/xhtml1-frameset-thymeleaf-3.dtd&quot;<span class="dt">&gt;</span>
-<span class="dt">&lt;!DOCTYPE </span>html SYSTEM &quot;http://www.thymeleaf.org/dtd/xhtml11-thymeleaf-3.dtd&quot;<span class="dt">&gt;</span></code></pre>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="dt">&lt;!DOCTYPE </span>html SYSTEM &quot;http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd&quot;<span class="dt">&gt;</span>
+<span class="dt">&lt;!DOCTYPE </span>html SYSTEM &quot;http://www.thymeleaf.org/dtd/xhtml1-transitional-thymeleaf-4.dtd&quot;<span class="dt">&gt;</span>
+<span class="dt">&lt;!DOCTYPE </span>html SYSTEM &quot;http://www.thymeleaf.org/dtd/xhtml1-frameset-thymeleaf-4.dtd&quot;<span class="dt">&gt;</span>
+<span class="dt">&lt;!DOCTYPE </span>html SYSTEM &quot;http://www.thymeleaf.org/dtd/xhtml11-thymeleaf-4.dtd&quot;<span class="dt">&gt;</span></code></pre>
 <p>Also note that, in order for your IDE to be happy, and even if you are not working in a validating mode, you will need to declare the <code>th</code> namespace in your <code>html</code> tag:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;html</span><span class="ot"> xmlns=</span><span class="st">&quot;http://www.w3.org/1999/xhtml&quot;</span>
 <span class="ot">      xmlns:th=</span><span class="st">&quot;http://www.thymeleaf.org&quot;</span><span class="kw">&gt;</span></code></pre>
 </section>
 <section id="doctype-translation" class="level2">
-<h2><a href="#doctype-translation">12.2 Doctype translation</a></h2>
+<h2><a href="#doctype-translation">13.2 Doctype translation</a></h2>
 <p>It is fine for our templates to have a <code>DOCTYPE</code> like:</p>
-<pre class="sourceCode html"><code class="sourceCode html"><span class="dt">&lt;!DOCTYPE </span>html SYSTEM &quot;http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-3.dtd&quot;<span class="dt">&gt;</span></code></pre>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="dt">&lt;!DOCTYPE </span>html SYSTEM &quot;http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd&quot;<span class="dt">&gt;</span></code></pre>
 <p>But it would not be fine for our web applications to send XHTML documents with this <code>DOCTYPE</code> to client browsers, because:</p>
 <ul>
 <li>They are not <code>PUBLIC</code> (they are <code>SYSTEM DOCTYPE</code>s), and therefore our web would not be validatable with the W3C Validators.</li>
@@ -2430,7 +2697,7 @@ Fragment removal
 </ul>
 <p>That's why Thymeleaf includes a mechanism for <em>DOCTYPE translation</em>, which will automatically translate your thymeleaf-specific XHTML <code>DOCTYPE</code>s into standard <code>DOCTYPE</code>s.</p>
 <p>For example, if your template is <em>XHTML 1.0 Strict</em> and looks like this:</p>
-<pre class="sourceCode html"><code class="sourceCode html"><span class="dt">&lt;!DOCTYPE </span>html SYSTEM &quot;http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-3.dtd&quot;<span class="dt">&gt;</span>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="dt">&lt;!DOCTYPE </span>html SYSTEM &quot;http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd&quot;<span class="dt">&gt;</span>
 
 <span class="kw">&lt;html</span><span class="ot"> xmlns=</span><span class="st">&quot;http://www.w3.org/1999/xhtml&quot;</span>
 <span class="er">      xmlns:th</span><span class="ot">=</span><span class="st">&quot;http://www.thymeleaf.org&quot;</span><span class="kw">&gt;</span>
@@ -2446,13 +2713,13 @@ Fragment removal
 </section>
 </section>
 <section id="some-more-pages-for-our-grocery" class="level1">
-<h1><a href="#some-more-pages-for-our-grocery">13 Some more pages for our grocery</a></h1>
+<h1><a href="#some-more-pages-for-our-grocery">14 Some more Pages for our Grocery</a></h1>
 <p>Now we know a lot about using Thymeleaf, we can add some new pages to our website for order management.</p>
 <p>Note that we will focus on XHTML code, but you can have a look at the bundled source code if you want to see the corresponding controllers.</p>
 <section id="order-list" class="level2">
-<h2><a href="#order-list">13.1 Order List</a></h2>
+<h2><a href="#order-list">14.1 Order List</a></h2>
 <p>Let's start by creating an order list page, <code>/WEB-INF/templates/order/list.html</code>:</p>
-<pre class="sourceCode html"><code class="sourceCode html"><span class="dt">&lt;!DOCTYPE </span>html SYSTEM &quot;http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-3.dtd&quot;<span class="dt">&gt;</span>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="dt">&lt;!DOCTYPE </span>html SYSTEM &quot;http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd&quot;<span class="dt">&gt;</span>
 
 <span class="kw">&lt;html</span><span class="ot"> xmlns=</span><span class="st">&quot;http://www.w3.org/1999/xhtml&quot;</span>
 <span class="er">      xmlns:th</span><span class="ot">=</span><span class="st">&quot;http://www.thymeleaf.org&quot;</span><span class="kw">&gt;</span>
@@ -2499,9 +2766,9 @@ Fragment removal
 <p>You've got to love the power of OGNL.</p>
 </section>
 <section id="order-details" class="level2">
-<h2><a href="#order-details">13.2 Order Details</a></h2>
+<h2><a href="#order-details">14.2 Order Details</a></h2>
 <p>Now for the order details page, in which we will make a heavy use of asterisk syntax:</p>
-<pre class="sourceCode html"><code class="sourceCode html"><span class="dt">&lt;!DOCTYPE </span>html SYSTEM &quot;http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-3.dtd&quot;<span class="dt">&gt;</span>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="dt">&lt;!DOCTYPE </span>html SYSTEM &quot;http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd&quot;<span class="dt">&gt;</span>
 
 <span class="kw">&lt;html</span><span class="ot"> xmlns=</span><span class="st">&quot;http://www.w3.org/1999/xhtml&quot;</span>
 <span class="er">      xmlns:th</span><span class="ot">=</span><span class="st">&quot;http://www.thymeleaf.org&quot;</span><span class="kw">&gt;</span>
@@ -2572,9 +2839,9 @@ Fragment removal
 </section>
 </section>
 <section id="more-on-configuration" class="level1">
-<h1><a href="#more-on-configuration">14 More on configuration</a></h1>
+<h1><a href="#more-on-configuration">15 More on Configuration</a></h1>
 <section id="template-resolvers" class="level2">
-<h2><a href="#template-resolvers">14.1 Template Resolvers</a></h2>
+<h2><a href="#template-resolvers">15.1 Template Resolvers</a></h2>
 <p>For our Good Thymes Virtual Grocery, we chose an <code>ITemplateResolver</code> implementation called <code>ServletContextTemplateResolver</code> that allowed us to obtain templates as resources from the Servlet Context.</p>
 <p>Besides giving you the ability to create your own template resolver by implementing <code>ITemplateResolver,</code> Thymeleaf includes three other implementations out of the box:</p>
 <ul>
@@ -2627,7 +2894,7 @@ ServletContextTemplateResolver servletContextTemplateResolver = <span class="kw"
 servletContextTemplateResolver.<span class="fu">setOrder</span>(Integer.<span class="fu">valueOf</span>(<span class="dv">2</span>));</code></pre>
 </section>
 <section id="message-resolvers" class="level2">
-<h2><a href="#message-resolvers">14.2 Message Resolvers</a></h2>
+<h2><a href="#message-resolvers">15.2 Message Resolvers</a></h2>
 <p>We did not explicitly specify a Message Resolver implementation for our Grocery application, and as it was explained before, this meant that the implementation being used was an <code>org.thymeleaf.messageresolver.StandardMessageResolver</code> object.</p>
 <p>This <code>StandardMessageResolver,</code> which looks for messages files with the same name as the template in the way already explained, is in fact the only message resolver implementation offered by Thymeleaf core out of the box, although of course you can create your own by just implementing the <code>org.thymeleaf.messageresolver.IMessageResolver</code> interface.</p>
 <blockquote>
@@ -2642,7 +2909,7 @@ templateEngine.<span class="fu">addMessageResolver</span>(messageResolver);</cod
 <p>And why would you want to have more than one message resolver? for the same reason as template resolvers: message resolvers are ordered and if the first one cannot resolve a specific message, the second one will be asked, then the third, etc.</p>
 </section>
 <section id="logging" class="level2">
-<h2><a href="#logging">14.3 Logging</a></h2>
+<h2><a href="#logging">15.3 Logging</a></h2>
 <p>Thymeleaf pays quite a lot of attention to logging, and always tries to offer the maximum amount of useful information through its logging interface.</p>
 <p>The logging library used is <code>slf4j,</code> which in fact acts as a bridge to whichever logging implementation you might want to use in your application (for example, <code>log4j</code>).</p>
 <p>Thymeleaf classes will log <code>TRACE</code>, <code>DEBUG</code> and <code>INFO</code>-level information, depending on the level of detail you desire, and besides general logging it will use three special loggers associated with the TemplateEngine class which you can configure separately for different purposes:</p>
@@ -2665,7 +2932,7 @@ log4j.logger.org.thymeleaf.TemplateEngine.cache.TEMPLATE_CACHE=TRACE</code></pre
 </section>
 </section>
 <section id="template-cache" class="level1">
-<h1><a href="#template-cache">15 Template Cache</a></h1>
+<h1><a href="#template-cache">16 Template Cache</a></h1>
 <p>Thymeleaf works thanks to a DOM processing engine and a series of processors –one for each type of node that needs to apply logic– that modify the document's DOM tree in order to create the results you expect by combining this tree with your data.</p>
 <p>It also includes –by default– a cache that stores parsed templates, this is, the DOM trees resulting from reading and parsing template files before processing them. This is especially useful when working in a web application, and builds on the following concepts:</p>
 <ul>
@@ -2693,8 +2960,145 @@ templateEngine.<span class="fu">clearTemplateCache</span>();
 <span class="co">// Clear a specific template from the cache</span>
 templateEngine.<span class="fu">clearTemplateCacheFor</span>(<span class="st">&quot;/users/userList&quot;</span>);</code></pre>
 </section>
-<section id="appendix-expression-utility-objects" class="level1">
-<h1><a href="#appendix-expression-utility-objects">16 Appendix: Expression Utility Objects</a></h1>
+<section id="appendix-a-expression-basic-objects" class="level1">
+<h1><a href="#appendix-a-expression-basic-objects">17 Appendix A: Expression Basic Objects</a></h1>
+<p>Some objects and variable maps are always available to be invoked at variable expressions (executed by OGNL or SpringEL). Let's see them:</p>
+<section id="base-objects" class="level3">
+<h3><a href="#base-objects">Base objects</a></h3>
+<ul>
+<li><strong>#ctx</strong> : the context object. It will be an implementation of <code>org.thymeleaf.context.IContext</code>, <code>org.thymeleaf.context.IWebContext</code> depending on our environment (standalone or web). If we are using the <em>Spring integration module</em>, it will be an instance of <code>org.thymeleaf.spring3.context.SpringWebContext</code>.</li>
+</ul>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="co">/*</span>
+<span class="co"> * ======================================================================</span>
+<span class="co"> * See javadoc API for class org.thymeleaf.context.IContext</span>
+<span class="co"> * ======================================================================</span>
+<span class="co"> */</span>
+
+${#ctx.<span class="fu">locale</span>}
+${#ctx.<span class="fu">variables</span>}
+
+<span class="co">/*</span>
+<span class="co"> * ======================================================================</span>
+<span class="co"> * See javadoc API for class org.thymeleaf.context.IWebContext</span>
+<span class="co"> * ======================================================================</span>
+<span class="co"> */</span>
+
+${#ctx.<span class="fu">applicationAttributes</span>}
+${#ctx.<span class="fu">httpServletRequest</span>}
+${#ctx.<span class="fu">httpServletResponse</span>}
+${#ctx.<span class="fu">httpSession</span>}
+${#ctx.<span class="fu">requestAttributes</span>}
+${#ctx.<span class="fu">requestParameters</span>}
+${#ctx.<span class="fu">servletContext</span>}
+${#ctx.<span class="fu">sessionAttributes</span>}</code></pre>
+<ul>
+<li><strong>#locale</strong> : direct access to the <code>java.util.Locale</code> associated with current request.</li>
+</ul>
+<pre class="sourceCode java"><code class="sourceCode java">${#locale}</code></pre>
+<ul>
+<li><p><strong>#vars</strong> : an instance of <code>org.thymeleaf.context.VariablesMap</code> with all the variables in the Context ((usually the variables contained in <code>#ctx.variables</code> plus local ones).</p>
+<p>Unqualified expressions are evaluated against this object. In fact, <code>${something}</code> is completely equivalent to (but more beautiful than) <code>${#vars.something}</code>.</p>
+<p><code>#root</code> is a synomyn for the same object.</p></li>
+</ul>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="co">/*</span>
+<span class="co"> * ======================================================================</span>
+<span class="co"> * See javadoc API for class org.thymeleaf.context.VariablesMap</span>
+<span class="co"> * ======================================================================</span>
+<span class="co"> */</span>
+
+${#vars.<span class="fu">get</span>(&#39;foo&#39;)}
+${#vars.<span class="fu">containsKey</span>(&#39;foo&#39;)}
+${#vars.<span class="fu">size</span>()}
+...</code></pre>
+</section>
+<section id="web-context-namespaces-for-requestsession-attributes-etc." class="level3">
+<h3><a href="#web-context-namespaces-for-requestsession-attributes-etc.">Web context namespaces for request/session attributes, etc.</a></h3>
+<p>When using Thymeleaf in a web environment, we can use a series of shortcuts for accessing request parameters, session attributes and application attributes:</p>
+<blockquote>
+<p>Note these are not <em>context objects</em>, but maps added to the context as variables, so we access them without <code>#</code>. In some way, therefore, they act as <em>namespaces</em>.</p>
+</blockquote>
+<ul>
+<li><strong>param</strong> : for retrieving request parameters. <code>${param.foo}</code> is a <code>String[]</code> with the values of the <code>foo</code> request parameter, so <code>${param.foo[0]}</code> will normally be used for getting the first value.</li>
+</ul>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="co">/*</span>
+<span class="co"> * ============================================================================</span>
+<span class="co"> * See javadoc API for class org.thymeleaf.context.WebRequestParamsVariablesMap</span>
+<span class="co"> * ============================================================================</span>
+<span class="co"> */</span>
+
+${param.<span class="fu">foo</span>}              <span class="co">// Retrieves a String[] with the values of request parameter &#39;foo&#39;</span>
+${param.<span class="fu">size</span>()}
+${param.<span class="fu">isEmpty</span>()}
+${param.<span class="fu">containsKey</span>(&#39;foo&#39;)}
+...</code></pre>
+<ul>
+<li><strong>session</strong> : for retrieving session attributes.</li>
+</ul>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="co">/*</span>
+<span class="co"> * ======================================================================</span>
+<span class="co"> * See javadoc API for class org.thymeleaf.context.WebSessionVariablesMap</span>
+<span class="co"> * ======================================================================</span>
+<span class="co"> */</span>
+
+${session.<span class="fu">foo</span>}                 <span class="co">// Retrieves the session atttribute &#39;foo&#39;</span>
+${session.<span class="fu">size</span>()}
+${session.<span class="fu">isEmpty</span>()}
+${session.<span class="fu">containsKey</span>(&#39;foo&#39;)}
+...</code></pre>
+<ul>
+<li><strong>application</strong> : for retrieving application/servlet context attributes.</li>
+</ul>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="co">/*</span>
+<span class="co"> * =============================================================================</span>
+<span class="co"> * See javadoc API for class org.thymeleaf.context.WebServletContextVariablesMap</span>
+<span class="co"> * =============================================================================</span>
+<span class="co"> */</span>
+
+${application.<span class="fu">foo</span>}              <span class="co">// Retrieves the ServletContext atttribute &#39;foo&#39;</span>
+${application.<span class="fu">size</span>()}
+${application.<span class="fu">isEmpty</span>()}
+${application.<span class="fu">containsKey</span>(&#39;foo&#39;)}
+...</code></pre>
+<p>Note there is <strong>no need to specify a namespace for accessing request attributes</strong> (as opposed to <em>request parameters</em>) because all request attributes are automatically added to the context as variables in the context root:</p>
+<pre class="sourceCode java"><code class="sourceCode java">${myRequestAttribute}</code></pre>
+</section>
+<section id="web-context-objects" class="level3">
+<h3><a href="#web-context-objects">Web context objects</a></h3>
+<p>Inside a web environment there is also direct access to the following objects (note these are objects, not maps/namespaces):</p>
+<ul>
+<li><strong>#httpServletRequest</strong> : direct access to the <code>javax.servlet.http.HttpServletRequest</code> object associated with the current request.</li>
+</ul>
+<pre class="sourceCode java"><code class="sourceCode java">${#httpServletRequest.<span class="fu">getAttribute</span>(&#39;foo&#39;)}
+${#httpServletRequest.<span class="fu">getParameter</span>(&#39;foo&#39;)}
+${#httpServletRequest.<span class="fu">getContextPath</span>()}
+${#httpServletRequest.<span class="fu">getRequestName</span>()}
+...</code></pre>
+<ul>
+<li><strong>#httpSession</strong> : direct access to the <code>javax.servlet.http.HttpSession</code> object associated with the current request.</li>
+</ul>
+<pre class="sourceCode java"><code class="sourceCode java">${#httpSession.<span class="fu">getAttribute</span>(&#39;foo&#39;)}
+${#httpSession.<span class="fu">id</span>}
+${#httpSession.<span class="fu">lastAccessedTime</span>}
+...</code></pre>
+</section>
+<section id="spring-context-objects" class="level3">
+<h3><a href="#spring-context-objects">Spring context objects</a></h3>
+<p>If you are using Thymeleaf from Spring (thymeleaf-spring3 integration module), you can also access these objects:</p>
+<ul>
+<li><strong>#themes</strong> : provides the same features as the Spring <code>spring:theme</code> JSP tag.</li>
+</ul>
+<pre class="sourceCode java"><code class="sourceCode java">${#themes.<span class="fu">code</span>(&#39;foo&#39;)}</code></pre>
+</section>
+<section id="spring-beans" class="level3">
+<h3><a href="#spring-beans">Spring beans</a></h3>
+<p>Thymeleaf also allows accessing beans registered at your Spring Application Context in the standard way defined by Spring EL, which is using the syntax <code>@beanName</code>, for example:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;div</span><span class="ot"> th:text=</span><span class="st">&quot;${@authService.getUserName()}&quot;</span><span class="kw">&gt;</span>...<span class="kw">&lt;/div&gt;</span></code></pre>
+</section>
+</section>
+<section id="appendix-b-expression-utility-objects" class="level1">
+<h1><a href="#appendix-b-expression-utility-objects">18 Appendix B: Expression Utility Objects</a></h1>
+<section id="dates" class="level3">
+<h3><a href="#dates">Dates</a></h3>
 <ul>
 <li><strong>#dates</strong> : utility methods for <code>java.util.Date</code> objects:</li>
 </ul>
@@ -2761,6 +3165,9 @@ ${#dates.<span class="fu">createNow</span>()}
 <span class="co"> * Create a date (java.util.Date) object for the current date (time set to 00:00)</span>
 <span class="co"> */</span>
 ${#dates.<span class="fu">createToday</span>()}</code></pre>
+</section>
+<section id="calendars" class="level3">
+<h3><a href="#calendars">Calendars</a></h3>
 <ul>
 <li><strong>#calendars</strong> : analogous to <code>#dates</code>, but for <code>java.util.Calendar</code> objects:</li>
 </ul>
@@ -2822,6 +3229,9 @@ ${#calendars.<span class="fu">createNow</span>()}
 <span class="co"> * Create a calendar (java.util.Calendar) object for the current date (time set to 00:00)</span>
 <span class="co"> */</span>
 ${#calendars.<span class="fu">createToday</span>()}</code></pre>
+</section>
+<section id="numbers" class="level3">
+<h3><a href="#numbers">Numbers</a></h3>
 <ul>
 <li><strong>#numbers</strong> : utility methods for number objects:</li>
 </ul>
@@ -2906,6 +3316,9 @@ ${#numbers.<span class="fu">setFormatDecimal</span>(numSet,<span class="dv">3</s
 <span class="co"> */</span>
 ${#numbers.<span class="fu">sequence</span>(from,to)}
 ${#numbers.<span class="fu">sequence</span>(from,to,step)}</code></pre>
+</section>
+<section id="strings" class="level3">
+<h3><a href="#strings">Strings</a></h3>
 <ul>
 <li><strong>#strings</strong> : utility methods for <code>String</code> objects:</li>
 </ul>
@@ -3010,7 +3423,23 @@ ${#strings.<span class="fu">escapeXml</span>(str)}               
 ${#strings.<span class="fu">escapeJava</span>(str)}                         <span class="co">// also array*, list* and set*</span>
 ${#strings.<span class="fu">escapeJavaScript</span>(str)}                   <span class="co">// also array*, list* and set*</span>
 ${#strings.<span class="fu">unescapeJava</span>(str)}                       <span class="co">// also array*, list* and set*</span>
-${#strings.<span class="fu">unescapeJavaScript</span>(str)}                 <span class="co">// also array*, list* and set*</span></code></pre>
+${#strings.<span class="fu">unescapeJavaScript</span>(str)}                 <span class="co">// also array*, list* and set*</span>
+
+<span class="co">/*</span>
+<span class="co"> * Null-safe comparison and concatenation</span>
+<span class="co"> */</span>
+${#strings.<span class="fu">equals</span>(str)}
+${#strings.<span class="fu">equalsIgnoreCase</span>(str)}
+${#strings.<span class="fu">concat</span>(str)}
+${#strings.<span class="fu">concatReplaceNulls</span>(str)}
+
+<span class="co">/*</span>
+<span class="co"> * Random</span>
+<span class="co"> */</span>
+${#strings.<span class="fu">randomAlphanumeric</span>(count)}</code></pre>
+</section>
+<section id="objects" class="level3">
+<h3><a href="#objects">Objects</a></h3>
 <ul>
 <li><strong>#objects</strong> : utility methods for objects in general</li>
 </ul>
@@ -3028,6 +3457,9 @@ ${#objects.<span class="fu">nullSafe</span>(obj,<span class="kw">default</span>)
 ${#objects.<span class="fu">arrayNullSafe</span>(objArray,<span class="kw">default</span>)}
 ${#objects.<span class="fu">listNullSafe</span>(objList,<span class="kw">default</span>)}
 ${#objects.<span class="fu">setNullSafe</span>(objSet,<span class="kw">default</span>)}</code></pre>
+</section>
+<section id="booleans" class="level3">
+<h3><a href="#booleans">Booleans</a></h3>
 <ul>
 <li><strong>#bools</strong> : utility methods for boolean evaluation</li>
 </ul>
@@ -3071,6 +3503,9 @@ ${#bools.<span class="fu">setAnd</span>(condSet)}
 ${#bools.<span class="fu">arrayOr</span>(condArray)}
 ${#bools.<span class="fu">listOr</span>(condList)}
 ${#bools.<span class="fu">setOr</span>(condSet)}</code></pre>
+</section>
+<section id="arrays" class="level3">
+<h3><a href="#arrays">Arrays</a></h3>
 <ul>
 <li><strong>#arrays</strong> : utility methods for arrays</li>
 </ul>
@@ -3113,6 +3548,9 @@ ${#arrays.<span class="fu">isEmpty</span>(array)}
 <span class="co"> */</span>
 ${#arrays.<span class="fu">contains</span>(array, element)}
 ${#arrays.<span class="fu">containsAll</span>(array, elements)}</code></pre>
+</section>
+<section id="lists" class="level3">
+<h3><a href="#lists">Lists</a></h3>
 <ul>
 <li><strong>#lists</strong> : utility methods for lists</li>
 </ul>
@@ -3149,6 +3587,9 @@ ${#lists.<span class="fu">containsAll</span>(list, elements)}
 <span class="co"> */</span>
 ${#lists.<span class="fu">sort</span>(list)}
 ${#lists.<span class="fu">sort</span>(list, comparator)}</code></pre>
+</section>
+<section id="sets" class="level3">
+<h3><a href="#sets">Sets</a></h3>
 <ul>
 <li><strong>#sets</strong> : utility methods for sets</li>
 </ul>
@@ -3178,6 +3619,9 @@ ${#sets.<span class="fu">isEmpty</span>(set)}
 <span class="co"> */</span>
 ${#sets.<span class="fu">contains</span>(set, element)}
 ${#sets.<span class="fu">containsAll</span>(set, elements)}</code></pre>
+</section>
+<section id="maps" class="level3">
+<h3><a href="#maps">Maps</a></h3>
 <ul>
 <li><strong>#maps</strong> : utility methods for maps</li>
 </ul>
@@ -3204,6 +3648,9 @@ ${#maps.<span class="fu">containsKey</span>(map, key)}
 ${#maps.<span class="fu">containsAllKeys</span>(map, keys)}
 ${#maps.<span class="fu">containsValue</span>(map, value)}
 ${#maps.<span class="fu">containsAllValues</span>(map, value)}</code></pre>
+</section>
+<section id="aggregates" class="level3">
+<h3><a href="#aggregates">Aggregates</a></h3>
 <ul>
 <li><strong>#aggregates</strong> : utility methods for creating aggregates on arrays or collections</li>
 </ul>
@@ -3224,6 +3671,9 @@ ${#aggregates.<span class="fu">sum</span>(collection)}
 <span class="co"> */</span>
 ${#aggregates.<span class="fu">avg</span>(array)}
 ${#aggregates.<span class="fu">avg</span>(collection)}</code></pre>
+</section>
+<section id="messages-1" class="level3">
+<h3><a href="#messages-1">Messages</a></h3>
 <ul>
 <li><strong>#messages</strong> : utility methods for obtaining externalized messages inside variables expressions, in the same way as they would be obtained using <code>#{...}</code> syntax.</li>
 </ul>
@@ -3260,6 +3710,9 @@ ${#messages.<span class="fu">msgOrNullWithParams</span>(&#39;msgKey&#39;, <span 
 ${#messages.<span class="fu">arrayMsgOrNull</span>(messageKeyArray)}
 ${#messages.<span class="fu">listMsgOrNull</span>(messageKeyList)}
 ${#messages.<span class="fu">setMsgOrNull</span>(messageKeySet)}</code></pre>
+</section>
+<section id="ids" class="level3">
+<h3><a href="#ids">IDs</a></h3>
 <ul>
 <li><strong>#ids</strong> : utility methods for dealing with <code>id</code> attributes that might be repeated (for example, as a result of an iteration).</li>
 </ul>
@@ -3285,6 +3738,63 @@ ${#ids.<span class="fu">seq</span>(&#39;someId&#39;)}
 <span class="co"> */</span>
 ${#ids.<span class="fu">next</span>(&#39;someId&#39;)}
 ${#ids.<span class="fu">prev</span>(&#39;someId&#39;)}</code></pre>
+</section>
+</section>
+<section id="appendix-c-dom-selector-syntax" class="level1">
+<h1><a href="#appendix-c-dom-selector-syntax">19 Appendix C: DOM Selector syntax</a></h1>
+<p>DOM Selectors borrow syntax features from XPATH, CSS and jQuery, in order to provide a powerful and easy to use way to specify template fragments.</p>
+<p>For example, the following selector will select every <code>&lt;div&gt;</code> with the class <code>content</code>, in every position inside the markup:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;div</span><span class="ot"> th:include=</span><span class="st">&quot;mytemplate :: [//div[@class=&#39;content&#39;]]&quot;</span><span class="kw">&gt;</span>...<span class="kw">&lt;/div&gt;</span></code></pre>
+<p>The basic syntax inspired from XPath includes:</p>
+<ul>
+<li><p><code>/x</code> means direct children of the current node with name x.</p></li>
+<li><p><code>//x</code> means children of the current node with name x, at any depth.</p></li>
+<li><p><code>x[@z=&quot;v&quot;]</code> means elements with name x and an attribute called z with value &quot;v&quot;.</p></li>
+<li><p><code>x[@z1=&quot;v1&quot; and @z2=&quot;v2&quot;]</code> means elements with name x and attributes z1 and z2 with values &quot;v1&quot; and &quot;v2&quot;, respectively.</p></li>
+<li><p><code>x[i]</code> means element with name x positioned in number i among its siblings.</p></li>
+<li><p><code>x[@z=&quot;v&quot;][i]</code> means elements with name x, attribute z with value &quot;v&quot; and positioned in number i among its siblings that also match this condition.</p></li>
+</ul>
+<p>But more concise syntax can also be used:</p>
+<ul>
+<li><p><code>x</code> is exactly equivalent to <code>//x</code> (search an element with name or reference <code>x</code> at any depth level).</p></li>
+<li><p>Selectors are also allowed without element name/reference, as long as they include a specification of arguments. So <code>[@class='oneclass']</code> is a valid selector that looks for any elements (tags) with a class attribute with value &quot;oneclass&quot;.</p></li>
+</ul>
+<p>Advanced attribute selection features:</p>
+<ul>
+<li><p>Besides <code>=</code> (equal), other comparison operators are also valid: <code>!=</code> (not equal), <code>^=</code> (starts with) and <code>$=</code> (ends with). For example: <code>x[@class^='section']</code> means elements with name <code>x</code> and a value for attribute <code>class</code> that starts with <code>section</code>.</p></li>
+<li><p>Attributes can be specified both starting with <code>@</code> (XPath-style) and without (jQuery-style). So <code>x[z='v']</code> is equivalent to <code>x[@z='v']</code>.</p></li>
+<li><p>Multiple-attribute modifiers can be joined both with <code>and</code> (XPath-style) and also by chaining multiple modifiers (jQuery-style). So <code>x[@z1='v1' and @z2='v2']</code> is actually equivalent to <code>x[@z1='v1'][@z2='v2']</code> (and also to <code>x[z1='v1'][z2='v2']</code>).</p></li>
+</ul>
+<p>Direct <em>jQuery-like</em> selectors:</p>
+<ul>
+<li><p><code>x.oneclass</code> is equivalent to <code>x[class='oneclass']</code>.</p></li>
+<li><p><code>.oneclass</code> is equivalent to <code>[class='oneclass']</code>.</p></li>
+<li><p><code>x#oneid</code> is equivalent to <code>x[id='oneid']</code>.</p></li>
+<li><p><code>#oneid</code> is equivalent to <code>[id='oneid']</code>.</p></li>
+<li><p><code>x%oneref</code> means nodes -not just elements- with name x that match reference <em>oneref</em> according to a specified <code>DOMSelector.INodeReferenceChecker</code> implementation.</p></li>
+<li><p><code>%oneref</code> means nodes -not just elements- with any name that match reference <em>oneref</em> according to a specified <code>DOMSelector.INodeReferenceChecker</code> implementation. Note this is actually equivalent to simply <code>oneref</code> because references can be used instead of element names.</p></li>
+<li><p>Direct selectors and attribute selectors can be mixed: <code>a.external[@href^='https']</code>.</p></li>
+</ul>
+<p>The above DOM Selector expression:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;div</span><span class="ot"> th:include=</span><span class="st">&quot;mytemplate :: [//div[@class=&#39;content&#39;]]&quot;</span><span class="kw">&gt;</span>...<span class="kw">&lt;/div&gt;</span></code></pre>
+<p>could be written as:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;div</span><span class="ot"> th:include=</span><span class="st">&quot;mytemplate :: [div.content]&quot;</span><span class="kw">&gt;</span>...<span class="kw">&lt;/div&gt;</span></code></pre>
+<section id="multivalued-class-matching" class="level3">
+<h3><a href="#multivalued-class-matching">Multivalued class matching</a></h3>
+<p>DOM Selectors understand the class attribute to be <strong>multivalued</strong>, and therefore allow the application of selectors on this attribute even if the element has several class values.</p>
+<p>For example, <code>div[class='two']</code> will match <code>&lt;div class=&quot;one two three&quot; /&gt;</code></p>
+</section>
+<section id="optional-brackets" class="level3">
+<h3><a href="#optional-brackets">Optional brackets</a></h3>
+<p>The syntax of the fragment inclusion attributes converts every fragment selection into a DOM selection, so brackets <code>[...]</code> are not needed (though allowed).</p>
+<p>So the following, with no brackets, is equivalent to the bracketed selector seen above:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;div</span><span class="ot"> th:include=</span><span class="st">&quot;mytemplate :: div.content&quot;</span><span class="kw">&gt;</span>...<span class="kw">&lt;/div&gt;</span></code></pre>
+<p>So, summarizing, this:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;div</span><span class="ot"> th:replace=</span><span class="st">&quot;mytemplate :: myfrag&quot;</span><span class="kw">&gt;</span>...<span class="kw">&lt;/div&gt;</span></code></pre>
+<p>Will look for a <code>th:fragment=&quot;myfrag&quot;</code> fragment signature. But would also look for tags with name <code>myfrag</code> if they existed (which they don't, in HTML). Note the difference with:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;div</span><span class="ot"> th:replace=</span><span class="st">&quot;mytemplate :: .myfrag&quot;</span><span class="kw">&gt;</span>...<span class="kw">&lt;/div&gt;</span></code></pre>
+<p>which will actually look for any elements with <code>class=&quot;myfrag&quot;</code>, without caring about <code>th:fragment</code> signatures.</p>
+</section>
 </section>
 <section class="footnotes">
 <hr />

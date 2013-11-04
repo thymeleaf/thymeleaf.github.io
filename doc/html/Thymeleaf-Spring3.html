@@ -48,10 +48,10 @@
 			<h1 id="doc-title" class="title">Tutorial: Thymeleaf + Spring 3</h1>
 			<div id="doc-info">
 				<div id="doc-version">
-					<span class="info-header">Document version:</span> 20131006 - 06 October 2013
+					<span class="info-header">Document version:</span> 20131104 - 04 November 2013
 				</div>
 				<div id="project-version">
-					<span class="info-header">Project Version:</span> 2.0.19
+					<span class="info-header">Project Version:</span> 2.1.0
 				</div>
 				<div id="project-website">
 					<span class="info-header">Project web site:</span>
@@ -70,30 +70,53 @@
 <li><a href="#views-and-view-resolvers-in-spring-mvc">3.1 Views and View Resolvers in Spring MVC</a></li>
 <li><a href="#views-and-view-resolvers-in-thymeleaf">3.2 Views and View Resolvers in Thymeleaf</a></li>
 </ul></li>
-<li><a href="#spring-thyme-seed-starter-manager">4 Spring Thyme Seed Starter Manager</a><ul>
-<li><a href="#the-concept">4.1 The Concept</a></li>
-<li><a href="#business-layer">4.2 Business Layer</a></li>
-<li><a href="#spring-mvc-configuration">4.3 Spring MVC configuration</a></li>
-<li><a href="#the-controller">4.4 The Controller</a><ul>
+<li><a href="#template-resolution">4 Template Resolution</a><ul>
+<li><a href="#spring-based-template-resolution">4.1 Spring-based Template Resolution</a></li>
+</ul></li>
+<li><a href="#spring-thyme-seed-starter-manager">5 Spring Thyme Seed Starter Manager</a><ul>
+<li><a href="#the-concept">5.1 The Concept</a></li>
+<li><a href="#business-layer">5.2 Business Layer</a></li>
+<li><a href="#spring-mvc-configuration">5.3 Spring MVC configuration</a></li>
+<li><a href="#the-controller">5.4 The Controller</a><ul>
 <li><a href="#model-attributes">Model Attributes</a></li>
-<li><a href="#property-editors">Property Editors</a></li>
 <li><a href="#mapped-methods">Mapped methods</a></li>
 </ul></li>
+<li><a href="#configuring-a-conversion-service">5.5 Configuring a Conversion Service</a></li>
 </ul></li>
-<li><a href="#listing-seed-starter-data">5 Listing Seed Starter Data</a></li>
-<li><a href="#creating-a-form">6 Creating a Form</a><ul>
-<li><a href="#handling-the-command-object">6.1 Handling the command object</a></li>
-<li><a href="#inputs">6.2 Inputs</a></li>
-<li><a href="#checkbox-fields">6.3 Checkbox fields</a></li>
-<li><a href="#radio-button-fields">6.4 Radio Button fields</a></li>
-<li><a href="#dropdownlist-selectors">6.5 Dropdown/List selectors</a></li>
-<li><a href="#dynamic-fields">6.6 Dynamic fields</a></li>
+<li><a href="#listing-seed-starter-data">6 Listing Seed Starter Data</a></li>
+<li><a href="#creating-a-form">7 Creating a Form</a><ul>
+<li><a href="#handling-the-command-object">7.1 Handling the command object</a></li>
+<li><a href="#inputs">7.2 Inputs</a></li>
+<li><a href="#checkbox-fields">7.3 Checkbox fields</a></li>
+<li><a href="#radio-button-fields">7.4 Radio Button fields</a></li>
+<li><a href="#dropdownlist-selectors">7.5 Dropdown/List selectors</a></li>
+<li><a href="#dynamic-fields">7.6 Dynamic fields</a></li>
 </ul></li>
-<li><a href="#validation-and-error-messages">7 Validation and error messages</a></li>
-<li><a href="#its-still-a-prototype">8 It's still a prototype!</a></li>
-<li><a href="#spring-webflow-integration">9 Spring WebFlow integration</a><ul>
-<li><a href="#basic-configuration">9.1 Basic configuration</a></li>
-<li><a href="#ajax-fragments">9.2 Ajax fragments</a></li>
+<li><a href="#validation-and-error-messages">8 Validation and Error Messages</a><ul>
+<li><a href="#field-errors">8.1 Field errors</a><ul>
+<li><a href="#simplifying-error-based-css-styling-therrorclass">Simplifying error-based CSS styling: <code>th:errorclass</code></a></li>
+</ul></li>
+<li><a href="#all-errors">8.2 All errors</a></li>
+<li><a href="#global-errors">8.3 Global errors</a></li>
+<li><a href="#displaying-errors-outside-forms">8.4 Displaying errors outside forms</a></li>
+</ul></li>
+<li><a href="#its-still-a-prototype">9 It's still a Prototype!</a></li>
+<li><a href="#the-conversion-service">10 The Conversion Service</a><ul>
+<li><a href="#configuration">10.1 Configuration</a></li>
+<li><a href="#double-bracket-syntax">10.1 Double-bracket syntax</a></li>
+<li><a href="#use-in-forms">10.2 Use in forms</a></li>
+<li><a href="#conversions-utility-object">10.3 <code>#conversions</code> utility object</a></li>
+</ul></li>
+<li><a href="#rendering-template-fragments">11 Rendering Template Fragments</a><ul>
+<li><a href="#specifying-fragments-in-view-beans">11.1 Specifying fragments in view beans</a></li>
+<li><a href="#specifying-fragments-in-controller-return-values">11.2 Specifying fragments in controller return values</a></li>
+</ul></li>
+<li><a href="#advanced-integration-features">12 Advanced Integration Features</a><ul>
+<li><a href="#integration-with-requestdatavalueprocessor">12.1 Integration with <code>RequestDataValueProcessor</code></a></li>
+</ul></li>
+<li><a href="#spring-webflow-integration">13 Spring WebFlow integration</a><ul>
+<li><a href="#basic-configuration">13.1 Basic configuration</a></li>
+<li><a href="#ajax-fragments">13.2 Ajax fragments</a></li>
 </ul></li>
 </ul>
 		</nav>
@@ -109,7 +132,7 @@
 <ul>
 <li>Make the mapped methods in your Spring MVC <code>@Controller</code> objects forward to templates managed by Thymeleaf, exactly like you do with JSPs.</li>
 <li>Use <strong>Spring Expression Language</strong> (Spring EL) instead of OGNL in your templates.</li>
-<li>Create forms in your templates that are completely integrated with your form-backing beans and result bindings, including the use of property editors and validation error handling.</li>
+<li>Create forms in your templates that are completely integrated with your form-backing beans and result bindings, including the use of property editors, conversion services and validation error handling.</li>
 <li>Display internationalization messages from messages files managed by Spring (through the usual <code>MessageSource</code> objects).</li>
 </ul>
 <p>Note that in order to fully understand this tutorial, you should have first gone through the <em>&quot;Using Thymeleaf&quot;</em> tutorial, which explains the Standard Dialect in depth.</p>
@@ -120,10 +143,10 @@
 <p>This specific dialect is based on the Thymeleaf Standard Dialect and is implemented in a class called <code>org.thymeleaf.spring3.dialect.SpringStandardDialect</code>, which in fact extends from <code>org.thymeleaf.standard.StandardDialect</code>.</p>
 <p>Besides all the features already present in the Standard Dialect – and therefore inherited –, the SpringStandard Dialect introduces the following specific features:</p>
 <ul>
-<li>Use of Spring Expression Language (Spring EL) as a variable expression language, instead of OGNL. Consequently, all <code>${...}</code> and <code>*{...}</code> expressions will be evaluated by Spring's Expression Language engine.</li>
-<li>A new beans special variable that allows you to access any bean in your application context inside variable expressions: <code>${beans.myBean.doSomething()}</code></li>
-<li>New attributes for form processing: <code>th:field</code> and <code>th:errors,</code> besides a new implementation of <code>th:object</code> that allows it to be used for form command selection.</li>
-<li>An expression object and method, <code>#themes.code(...)</code>, which is the equivalent of the <code>spring:theme</code> JSP custom tag.</li>
+<li>Use Spring Expression Language (Spring EL) as a variable expression language, instead of OGNL. Consequently, all <code>${...}</code> and <code>*{...}</code> expressions will be evaluated by Spring's Expression Language engine.</li>
+<li>Access any beans in your application context using SpringEL's syntax: <code>${@myBean.doSomething()}</code></li>
+<li>New attributes for form processing: <code>th:field</code>, <code>th:errors</code> and <code>th:errorclass</code>, besides a new implementation of <code>th:object</code> that allows it to be used for form command selection.</li>
+<li>An expression object and method, <code>#themes.code(...)</code>, which is equivalent to the <code>spring:theme</code> JSP custom tag.</li>
 <li>New DTDs for validation, including these new attributes, as well as new corresponding DOCTYPE translation rules.</li>
 </ul>
 <p>Note that <em>you shouldn't use this dialect directly in a normal TemplateEngine object</em> as a part of its configuration. Instead, you should instance a new template engine class that performs all the required configuration steps: <code>org.thymeleaf.spring3.SpringTemplateEngine</code>.</p>
@@ -150,7 +173,7 @@
 <li><code>org.springframework.web.servlet.ViewResolver</code></li>
 </ul>
 <p>Views model pages in our applications and allow us to modify and predefine their behaviour by defining them as beans. Views are in charge of rendering the actual HTML interface, usually by the execution of some template engine like JSP (or Thymeleaf).</p>
-<p>ViewResolvers are the objects in charge of obtaining view objects for a specific operation and locale. Tipically, controllers ask ViewResolvers to forward to a view with a specific name (a String returned by the controller method), and then all the view resolvers in the application execute in ordered chain until one of them is able to resolve that view, in which case a View object is returned and control is passed to it for the renderization of HTML.</p>
+<p>ViewResolvers are the objects in charge of obtaining View objects for a specific operation and locale. Tipically, controllers ask ViewResolvers to forward to a view with a specific name (a String returned by the controller method), and then all the view resolvers in the application execute in ordered chain until one of them is able to resolve that view, in which case a View object is returned and control is passed to it for the renderization of HTML.</p>
 <blockquote>
 <p>Note that not all pages in our applications have to be defined as Views, but only those which behaviour we wish to be non-standard or configured in a specific way (for example, by wiring some special beans to it. If a ViewResolver is asked a view that has no corresponding bean –which is the common case–, a new View object is created ad hoc and returned.</p>
 </blockquote>
@@ -177,15 +200,16 @@
 <li><code>org.thymeleaf.spring3.view.ThymeleafView</code></li>
 <li><code>org.thymeleaf.spring3.view.ThymeleafViewResolver</code></li>
 </ul>
-<p>These two classes will be in charge of processing Thymeleaf templates as a result of your controllers' executions.</p>
-<p>Configuration of the View Resolver is very similar to that of JSP:</p>
+<p>These two classes will be in charge of processing Thymeleaf templates as a result of the execution of controllers.</p>
+<p>Configuration of the Thymeleaf View Resolver is very similar to that of JSP's:</p>
 <pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;bean</span><span class="ot"> class=</span><span class="st">&quot;org.thymeleaf.spring3.view.ThymeleafViewResolver&quot;</span><span class="kw">&gt;</span>
   <span class="kw">&lt;property</span><span class="ot"> name=</span><span class="st">&quot;templateEngine&quot;</span><span class="ot"> ref=</span><span class="st">&quot;templateEngine&quot;</span> <span class="kw">/&gt;</span>
   <span class="kw">&lt;property</span><span class="ot"> name=</span><span class="st">&quot;order&quot;</span><span class="ot"> value=</span><span class="st">&quot;1&quot;</span> <span class="kw">/&gt;</span>
   <span class="kw">&lt;property</span><span class="ot"> name=</span><span class="st">&quot;viewNames&quot;</span><span class="ot"> value=</span><span class="st">&quot;*.html,*.xhtml&quot;</span> <span class="kw">/&gt;</span>
 <span class="kw">&lt;/bean&gt;</span></code></pre>
 <p>The <code>templateEngine</code> parameter is, of course, the <code>SpringTemplateEngine</code> object we defined in the previous chapter. The other two (<code>order</code> and <code>viewNames</code>) are both optional, and have the same meaning as in the JSP ViewResolver we saw before.</p>
-<p>Note that we do not need <code>prefix</code> or <code>suffix</code> parameters, because this are already specified in the Template Resolver (which in turn is passed to the Template Engine). And what if we wanted to define a <code>View</code> bean and add some static variables to it? Easy:</p>
+<p>Note that we do not need <code>prefix</code> or <code>suffix</code> parameters, because these are already specified at the Template Resolver (which in turn is passed to the Template Engine).</p>
+<p>And what if we wanted to define a <code>View</code> bean and add some static variables to it? Easy:</p>
 <pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;bean</span><span class="ot"> name=</span><span class="st">&quot;main&quot;</span><span class="ot"> class=</span><span class="st">&quot;org.thymeleaf.spring3.view.ThymeleafView&quot;</span><span class="kw">&gt;</span>
   <span class="kw">&lt;property</span><span class="ot"> name=</span><span class="st">&quot;staticVariables&quot;</span><span class="kw">&gt;</span>
     <span class="kw">&lt;map&gt;</span>
@@ -195,10 +219,34 @@
 <span class="kw">&lt;/bean&gt;</span></code></pre>
 </section>
 </section>
+<section id="template-resolution" class="level1">
+<h1><a href="#template-resolution">4 Template Resolution</a></h1>
+<section id="spring-based-template-resolution" class="level2">
+<h2><a href="#spring-based-template-resolution">4.1 Spring-based Template Resolution</a></h2>
+<p>When used with Spring, Thymeleaf provides additional implementations of <code>ITemplateResolver</code> and an associated <code>IResourceResolver</code>, fully integrated with Spring's resource resolution mechanism. These are:</p>
+<ul>
+<li><code>org.thymeleaf.spring3.templateresolver.SpringResourceTemplateResolver</code> for resolving templates.</li>
+<li><code>org.thymeleaf.spring3.resourceresolver.SpringResourceResourceResolver</code>, mostly for internal use.</li>
+</ul>
+<p>This template resolver will allow applications to resolve templates using the standard Spring resource resolution syntax. It can be configured like:</p>
+<pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;bean</span><span class="ot"> id=</span><span class="st">&quot;templateResolver&quot;</span>
+<span class="ot">      class=</span><span class="st">&quot;org.thymeleaf.spring3.templateresolver.SpringResourceTemplateResolver&quot;</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;property</span><span class="ot"> name=</span><span class="st">&quot;suffix&quot;</span><span class="ot"> value=</span><span class="st">&quot;.html&quot;</span> <span class="kw">/&gt;</span>
+  <span class="kw">&lt;property</span><span class="ot"> name=</span><span class="st">&quot;templateMode&quot;</span><span class="ot"> value=</span><span class="st">&quot;HTML5&quot;</span> <span class="kw">/&gt;</span>
+<span class="kw">&lt;/bean&gt;</span></code></pre>
+<p>And this will allow you to use view names like:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="fu">@RequestMapping</span>(<span class="st">&quot;/doit&quot;</span>)
+<span class="kw">public</span> String <span class="fu">doIt</span>() {
+    ...
+    <span class="kw">return</span> <span class="st">&quot;classpath:resources/templates/doit&quot;</span>;
+}</code></pre>
+<p>Note that this Spring-based resource resolver will never be used by default. It will just be an option available for applications to configure in addition to the other template resolver implementations offered by the Thymeleaf core.</p>
+</section>
+</section>
 <section id="spring-thyme-seed-starter-manager" class="level1">
-<h1><a href="#spring-thyme-seed-starter-manager">4 Spring Thyme Seed Starter Manager</a></h1>
+<h1><a href="#spring-thyme-seed-starter-manager">5 Spring Thyme Seed Starter Manager</a></h1>
 <section id="the-concept" class="level2">
-<h2><a href="#the-concept">4.1 The Concept</a></h2>
+<h2><a href="#the-concept">5.1 The Concept</a></h2>
 <p>At Thymeleaf we're huge fans of thyme, and every spring we prepare our seed starting kits with good soil and our favourite seeds, place them under the Spanish sun and patiently wait for our new plants to grow.</p>
 <p>But this year we got fed up with sticking labels to the seed starter containers for knowing which seed was in each cell of the container, so we decided to prepare an application using Spring MVC and Thymeleaf to help us catalogue our starters: <em>The Spring Thyme SeedStarter Manager</em>.</p>
 <figure>
@@ -207,7 +255,7 @@
 <p>In a similar way to the Good Thymes Virtual Grocery application we developed in the <em>Using Thymeleaf</em> tutorial, the STSM will allow us to exemplify the most important aspects of the integration of Thymeleaf as a template engine for Spring MVC.</p>
 </section>
 <section id="business-layer" class="level2">
-<h2><a href="#business-layer">4.2 Business Layer</a></h2>
+<h2><a href="#business-layer">5.2 Business Layer</a></h2>
 <p>We will need a very simple business layer for our application. First of all, let's have a look at our model entities:</p>
 <figure>
 <img src="images/thymeleaf-spring3/stsm-model.png" alt="STSM model" /><figcaption>STSM model</figcaption>
@@ -246,7 +294,7 @@
 }</code></pre>
 </section>
 <section id="spring-mvc-configuration" class="level2">
-<h2><a href="#spring-mvc-configuration">4.3 Spring MVC configuration</a></h2>
+<h2><a href="#spring-mvc-configuration">5.3 Spring MVC configuration</a></h2>
 <p>Next we need to set up the Spring MVC configuration for the application, which will include not only the standard Spring MVC artifacts like resource handling or annotation scanning, but also the creation of the Template Engine and View Resolver instances.</p>
 <pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;?xml</span> version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;<span class="kw">?&gt;</span>
 <span class="kw">&lt;beans</span><span class="ot"> xmlns=</span><span class="st">&quot;http://www.springframework.org/schema/beans&quot;</span>
@@ -269,23 +317,38 @@
   <span class="kw">&lt;mvc:resources</span><span class="ot"> location=</span><span class="st">&quot;/css/&quot;</span><span class="ot"> mapping=</span><span class="st">&quot;/css/**&quot;</span> <span class="kw">/&gt;</span>
     
 
-  <span class="co">&lt;!-- **************************************************************** --&gt;</span>
-  <span class="co">&lt;!--  SPRING ANNOTATION PROCESSING                                    --&gt;</span>
-  <span class="co">&lt;!-- **************************************************************** --&gt;</span>
-  <span class="kw">&lt;mvc:annotation-driven</span> <span class="kw">/&gt;</span>
-  <span class="kw">&lt;context:component-scan</span><span class="ot"> base-package=</span><span class="st">&quot;thymeleafexamples.stsm&quot;</span> <span class="kw">/&gt;</span>
+  <span class="co">&lt;!-- **************************************************************** --&gt;</span>
+  <span class="co">&lt;!--  SPRING ANNOTATION PROCESSING                                    --&gt;</span>
+  <span class="co">&lt;!-- **************************************************************** --&gt;</span>
+  <span class="kw">&lt;mvc:annotation-driven</span><span class="ot"> conversion-service=</span><span class="st">&quot;conversionService&quot;</span> <span class="kw">/&gt;</span>
+  <span class="kw">&lt;context:component-scan</span><span class="ot"> base-package=</span><span class="st">&quot;thymeleafexamples.stsm&quot;</span> <span class="kw">/&gt;</span>
 
 
-  <span class="co">&lt;!-- **************************************************************** --&gt;</span>
-  <span class="co">&lt;!--  MESSAGE EXTERNALIZATION/INTERNATIONALIZATION                    --&gt;</span>
-  <span class="co">&lt;!--  Standard Spring MessageSource implementation                    --&gt;</span>
-  <span class="co">&lt;!-- **************************************************************** --&gt;</span>
-  <span class="kw">&lt;bean</span><span class="ot"> id=</span><span class="st">&quot;messageSource&quot;</span><span class="ot"> class=</span><span class="st">&quot;org.springframework.context.support.ResourceBundleMessageSource&quot;</span><span class="kw">&gt;</span>
-    <span class="kw">&lt;property</span><span class="ot"> name=</span><span class="st">&quot;basename&quot;</span><span class="ot"> value=</span><span class="st">&quot;Messages&quot;</span> <span class="kw">/&gt;</span>
-  <span class="kw">&lt;/bean&gt;</span>
+  <span class="co">&lt;!-- **************************************************************** --&gt;</span>
+  <span class="co">&lt;!--  MESSAGE EXTERNALIZATION/INTERNATIONALIZATION                    --&gt;</span>
+  <span class="co">&lt;!--  Standard Spring MessageSource implementation                    --&gt;</span>
+  <span class="co">&lt;!-- **************************************************************** --&gt;</span>
+  <span class="kw">&lt;bean</span><span class="ot"> id=</span><span class="st">&quot;messageSource&quot;</span><span class="ot"> class=</span><span class="st">&quot;org.springframework.context.support.ResourceBundleMessageSource&quot;</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;property</span><span class="ot"> name=</span><span class="st">&quot;basename&quot;</span><span class="ot"> value=</span><span class="st">&quot;Messages&quot;</span> <span class="kw">/&gt;</span>
+  <span class="kw">&lt;/bean&gt;</span>
 
 
-  <span class="co">&lt;!-- **************************************************************** --&gt;</span>
+  <span class="co">&lt;!-- **************************************************************** --&gt;</span>
+  <span class="co">&lt;!--  CONVERSION SERVICE                                              --&gt;</span>
+  <span class="co">&lt;!--  Standard Spring formatting-enabled implementation               --&gt;</span>
+  <span class="co">&lt;!-- **************************************************************** --&gt;</span>
+  <span class="kw">&lt;bean</span><span class="ot"> id=</span><span class="st">&quot;conversionService&quot;</span> 
+<span class="ot">        class=</span><span class="st">&quot;org.springframework.format.support.FormattingConversionServiceFactoryBean&quot;</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;property</span><span class="ot"> name=</span><span class="st">&quot;formatters&quot;</span><span class="kw">&gt;</span>
+      <span class="kw">&lt;set&gt;</span>
+        <span class="kw">&lt;bean</span><span class="ot"> class=</span><span class="st">&quot;thymeleafexamples.stsm.web.conversion.VarietyFormatter&quot;</span> <span class="kw">/&gt;</span>
+        <span class="kw">&lt;bean</span><span class="ot"> class=</span><span class="st">&quot;thymeleafexamples.stsm.web.conversion.DateFormatter&quot;</span> <span class="kw">/&gt;</span>
+      <span class="kw">&lt;/set&gt;</span>
+    <span class="kw">&lt;/property&gt;</span>
+  <span class="kw">&lt;/bean&gt;</span>
+
+
+  <span class="co">&lt;!-- **************************************************************** --&gt;</span>
   <span class="co">&lt;!--  THYMELEAF-SPECIFIC ARTIFACTS                                    --&gt;</span>
   <span class="co">&lt;!--  TemplateResolver &lt;- TemplateEngine &lt;- ViewResolver              --&gt;</span>
   <span class="co">&lt;!-- **************************************************************** --&gt;</span>
@@ -311,13 +374,10 @@
 <p>Important: Note that we have selected HTML5 as a template mode.</p>
 </section>
 <section id="the-controller" class="level2">
-<h2><a href="#the-controller">4.4 The Controller</a></h2>
+<h2><a href="#the-controller">5.4 The Controller</a></h2>
 <p>Of course, we will also need a controller for our application. As the STSM will only contain one web page with a list of seed starters and a form for adding new ones, we will write only one controller class for all the server interactions:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="fu">@Controller</span>
 <span class="kw">public</span> <span class="kw">class</span> SeedStarterMngController {
-
-    <span class="fu">@Autowired</span>
-    private MessageSource messageSource;
 
     <span class="fu">@Autowired</span>
     private VarietyService varietyService;
@@ -352,24 +412,6 @@
     return <span class="kw">this</span>.<span class="fu">seedStarterService</span>.<span class="fu">findAll</span>();
 }</code></pre>
 </section>
-<section id="property-editors" class="level3">
-<h3><a href="#property-editors">Property Editors</a></h3>
-<p>Property Editors in a Spring MVC application allow forms to contain fields of types other than String, and define the way in which values of these types will be converted to and from String so that they can be shown in form inputs and transmitted over the network when users click submit.</p>
-<p>We will need two property editors: one for <code>java.util.Date</code> objects (locale-dependent) and a second one for <code>Variety</code> objects.</p>
-<pre class="sourceCode java"><code class="sourceCode java"><span class="fu">@InitBinder</span>
-<span class="kw">public</span> <span class="dt">void</span> <span class="fu">initDateBinder</span>(<span class="dt">final</span> WebDataBinder dataBinder, <span class="dt">final</span> Locale locale) {
-    final String dateformat = 
-        this.<span class="fu">messageSource</span>.<span class="fu">getMessage</span>(<span class="st">&quot;date.format&quot;</span>, <span class="kw">null</span>, locale);
-    final SimpleDateFormat sdf = <span class="kw">new</span> SimpleDateFormat(dateformat);
-    sdf.<span class="fu">setLenient</span>(<span class="kw">false</span>);
-    dataBinder.<span class="fu">registerCustomEditor</span>(Date.<span class="fu">class</span>, <span class="kw">new</span> <span class="fu">CustomDateEditor</span>(sdf, <span class="kw">false</span>));
-}
-
-<span class="fu">@InitBinder</span>
-<span class="kw">public</span> <span class="dt">void</span> <span class="fu">initVarietyBinder</span>(<span class="dt">final</span> WebDataBinder dataBinder) {
-    dataBinder.<span class="fu">registerCustomEditor</span>(Variety.<span class="fu">class</span>, <span class="kw">new</span> <span class="fu">VarietyPropertyEditor</span>(<span class="kw">this</span>.<span class="fu">varietyService</span>));
-}</code></pre>
-</section>
 <section id="mapped-methods" class="level3">
 <h3><a href="#mapped-methods">Mapped methods</a></h3>
 <p>And now the most important part of a controller, the mapped methods: one for showing the form page, and other for processing the addition of new Seed Starter objects.</p>
@@ -391,9 +433,90 @@
 }</code></pre>
 </section>
 </section>
+<section id="configuring-a-conversion-service" class="level2">
+<h2><a href="#configuring-a-conversion-service">5.5 Configuring a Conversion Service</a></h2>
+<p>In order to allow easy formatting of <code>Date</code> and also <code>Variety</code> objects in our view layer, we registered a Spring <code>ConversionService</code> implementation at the application context. See it again:</p>
+<pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;?xml</span> version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;<span class="kw">?&gt;</span>
+<span class="kw">&lt;beans</span> <span class="er">...</span><span class="kw">&gt;</span>
+
+  ...    
+  <span class="kw">&lt;mvc:annotation-driven</span><span class="ot"> conversion-service=</span><span class="st">&quot;conversionService&quot;</span> <span class="kw">/&gt;</span>
+  ...
+
+  <span class="co">&lt;!-- **************************************************************** --&gt;</span>
+  <span class="co">&lt;!--  CONVERSION SERVICE                                              --&gt;</span>
+  <span class="co">&lt;!--  Standard Spring formatting-enabled implementation               --&gt;</span>
+  <span class="co">&lt;!-- **************************************************************** --&gt;</span>
+  <span class="kw">&lt;bean</span><span class="ot"> id=</span><span class="st">&quot;conversionService&quot;</span>
+<span class="ot">        class=</span><span class="st">&quot;org.springframework.format.support.FormattingConversionServiceFactoryBean&quot;</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;property</span><span class="ot"> name=</span><span class="st">&quot;formatters&quot;</span><span class="kw">&gt;</span>
+      <span class="kw">&lt;set&gt;</span>
+        <span class="kw">&lt;bean</span><span class="ot"> class=</span><span class="st">&quot;thymeleafexamples.stsm.web.conversion.VarietyFormatter&quot;</span> <span class="kw">/&gt;</span>
+        <span class="kw">&lt;bean</span><span class="ot"> class=</span><span class="st">&quot;thymeleafexamples.stsm.web.conversion.DateFormatter&quot;</span> <span class="kw">/&gt;</span>
+      <span class="kw">&lt;/set&gt;</span>
+    <span class="kw">&lt;/property&gt;</span>
+  <span class="kw">&lt;/bean&gt;</span>
+
+  ...
+    
+<span class="kw">&lt;/beans&gt;</span></code></pre>
+<p>That conversion service allowed us to register two Spring <em>formatters</em>, implementations of the <code>org.springframework.format.Formatter</code> interface. For more information on how the Spring conversion infrastructure works, see the docs at <a href="http://docs.spring.io/spring/docs/3.2.x/spring-framework-reference/html/validation.html#core-convert">spring.io</a>.</p>
+<p>Let's have a look at the <code>DateFormatter</code>, which formats dates according to a format string present at the <code>date.format</code> message key of our <code>Messages.properties</code>:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> DateFormatter <span class="kw">implements</span> Formatter&lt;Date&gt; {
+
+    <span class="fu">@Autowired</span>
+    <span class="kw">private</span> MessageSource messageSource;
+
+
+    <span class="kw">public</span> DateFormatter() {
+        <span class="kw">super</span>();
+    }
+
+    <span class="kw">public</span> Date <span class="fu">parse</span>(<span class="dt">final</span> String text, <span class="dt">final</span> Locale locale) <span class="kw">throws</span> ParseException {
+        <span class="dt">final</span> SimpleDateFormat dateFormat = <span class="fu">createDateFormat</span>(locale);
+        <span class="kw">return</span> dateFormat.<span class="fu">parse</span>(text);
+    }
+
+    <span class="kw">public</span> String <span class="fu">print</span>(<span class="dt">final</span> Date object, <span class="dt">final</span> Locale locale) {
+        <span class="dt">final</span> SimpleDateFormat dateFormat = <span class="fu">createDateFormat</span>(locale);
+        <span class="kw">return</span> dateFormat<span class="fu">.format</span>(object);
+    }
+
+    <span class="kw">private</span> SimpleDateFormat <span class="fu">createDateFormat</span>(<span class="dt">final</span> Locale locale) {
+        <span class="dt">final</span> String format = <span class="kw">this</span>.<span class="fu">messageSource</span>.<span class="fu">getMessage</span>(<span class="st">&quot;date.format&quot;</span>, <span class="kw">null</span>, locale);
+        <span class="dt">final</span> SimpleDateFormat dateFormat = <span class="kw">new</span> SimpleDateFormat(format);
+        dateFormat.<span class="fu">setLenient</span>(<span class="kw">false</span>);
+        <span class="kw">return</span> dateFormat;
+    }
+
+}</code></pre>
+<p>The <code>VarietyFormatter</code> automatically converts between our <code>Variety</code> entities and the way we want to use them in our forms (basically, by their <code>id</code> field values):</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">class</span> VarietyFormatter <span class="kw">implements</span> Formatter&lt;Variety&gt; {
+
+    <span class="fu">@Autowired</span>
+    <span class="kw">private</span> VarietyService varietyService;
+
+
+    <span class="kw">public</span> <span class="fu">VarietyFormatter</span>() {
+        <span class="kw">super</span>();
+    }
+
+    <span class="kw">public</span> Variety <span class="fu">parse</span>(<span class="dt">final</span> String text, <span class="dt">final</span> Locale locale) <span class="kw">throws</span> ParseException {
+        <span class="dt">final</span> Integer varietyId = Integer.<span class="fu">valueOf</span>(text);
+        <span class="kw">return</span> <span class="kw">this</span>.<span class="fu">varietyService</span>.<span class="fu">findById</span>(varietyId);
+    }
+
+
+    <span class="kw">public</span> String <span class="fu">print</span>(<span class="dt">final</span> Variety object, <span class="dt">final</span> Locale locale) {
+        <span class="kw">return</span> (object != <span class="kw">null</span> ? object.<span class="fu">getId</span>().<span class="fu">toString</span>() : <span class="st">&quot;&quot;</span>);
+    }
+
+}</code></pre>
+<p>We will learn more on how these formatters affect the way our data is displayed later on.</p>
+</section>
 </section>
 <section id="listing-seed-starter-data" class="level1">
-<h1><a href="#listing-seed-starter-data">5 Listing Seed Starter Data</a></h1>
+<h1><a href="#listing-seed-starter-data">6 Listing Seed Starter Data</a></h1>
 <p>The first thing that our <code>/WEB-INF/templates/seedstartermng.html</code> page will show is a listing with the seed starters currently stored. For this we will need some externalized messages and also some expression evaluation on model attributes. Like this:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;div</span><span class="ot"> class=</span><span class="st">&quot;seedstarterlist&quot;</span><span class="ot"> th:unless=</span><span class="st">&quot;${#lists.isEmpty(allSeedStarters)}&quot;</span><span class="kw">&gt;</span>
     
@@ -411,7 +534,7 @@
     <span class="kw">&lt;/thead&gt;</span>
     <span class="kw">&lt;tbody&gt;</span>
       <span class="kw">&lt;tr</span><span class="ot"> th:each=</span><span class="st">&quot;sb : ${allSeedStarters}&quot;</span><span class="kw">&gt;</span>
-        <span class="kw">&lt;td</span><span class="ot"> th:text=</span><span class="st">&quot;${#dates.format(sb.datePlanted, #messages.msg(&#39;date.format&#39;))}&quot;</span><span class="kw">&gt;</span>13/01/2011<span class="kw">&lt;/td&gt;</span>
+        <span class="kw">&lt;td</span><span class="ot"> th:text=</span><span class="st">&quot;${{sb.datePlanted}}&quot;</span><span class="kw">&gt;</span>13/01/2011<span class="kw">&lt;/td&gt;</span>
         <span class="kw">&lt;td</span><span class="ot"> th:text=</span><span class="st">&quot;${sb.covered}? #{bool.true} : #{bool.false}&quot;</span><span class="kw">&gt;</span>yes<span class="kw">&lt;/td&gt;</span>
         <span class="kw">&lt;td</span><span class="ot"> th:text=</span><span class="st">&quot;#{${&#39;seedstarter.type.&#39; + sb.type}}&quot;</span><span class="kw">&gt;</span>Wireframe<span class="kw">&lt;/td&gt;</span>
         <span class="kw">&lt;td</span><span class="ot"> th:text=</span><span class="st">&quot;${#strings.arrayJoin(</span>
@@ -471,8 +594,8 @@ seedstarter.type.PLASTIC=Plástico
 seedstarter.feature.SEEDSTARTER_SPECIFIC_SUBSTRATE=Sustrato específico para semilleros
 seedstarter.feature.FERTILIZER=Fertilizante
 seedstarter.feature.PH_CORRECTOR=Corrector de PH</code></pre>
-<p>In the first column of the table listing we will show the date when the seed starter was prepared. In order to do that we will obtain the format pattern as an externalized text by using the <code>#mesages.msg(...)</code> function and then use it for formatting the <code>Date</code> object.</p>
-<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;td</span><span class="ot"> th:text=</span><span class="st">&quot;${#dates.format(sb.datePlanted, #messages.msg(&#39;date.format&#39;))}&quot;</span><span class="kw">&gt;</span>13/01/2011<span class="kw">&lt;/td&gt;</span></code></pre>
+<p>In the first column of the table listing we will show the date when the seed starter was prepared. But <strong>we will show it formatted</strong> in the way we defined in our <code>DateFormatter</code>. In order to do that we will use the double-bracket syntax, which will automatically apply the Spring Conversion Service.</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;td</span><span class="ot"> th:text=</span><span class="st">&quot;${{sb.datePlanted}}&quot;</span><span class="kw">&gt;</span>13/01/2011<span class="kw">&lt;/td&gt;</span></code></pre>
 <p>Next is showing whether the seed starter container is covered or not, by transforming the value of the boolean covered bean property into an internationalized <em>&quot;yes&quot;</em> or <em>&quot;no&quot;</em> with a conditional expression:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;td</span><span class="ot"> th:text=</span><span class="st">&quot;${sb.covered}? #{bool.true} : #{bool.false}&quot;</span><span class="kw">&gt;</span>yes<span class="kw">&lt;/td&gt;</span></code></pre>
 <p>Now we have to show the type of seed starter container. Type is a java enum with two values (<code>WOOD</code> and <code>PLASTIC</code>), and that's why we defined two properties in our <code>Messages</code> file called <code>seedstarter.type.WOOD</code> and <code>seedstarter.type.PLASTIC</code>.</p>
@@ -503,34 +626,34 @@ seedstarter.feature.PH_CORRECTOR=Corrector de PH</code></pre>
 <span class="kw">&lt;/td&gt;</span></code></pre>
 </section>
 <section id="creating-a-form" class="level1">
-<h1><a href="#creating-a-form">6 Creating a Form</a></h1>
+<h1><a href="#creating-a-form">7 Creating a Form</a></h1>
 <section id="handling-the-command-object" class="level2">
-<h2><a href="#handling-the-command-object">6.1 Handling the command object</a></h2>
+<h2><a href="#handling-the-command-object">7.1 Handling the command object</a></h2>
 <p><em>Command object</em> is the name Spring MVC gives to form-backing beans, this is, to objects that model a form's fields and provide getter and setter methods that will be used by the framework for establishing and obtaining the values input by the user at the browser side.</p>
 <p>Thymeleaf requires you to specify the command object by using a <code>th:object</code> attribute in your <code>&lt;form&gt;</code> tag:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;form</span><span class="ot"> action=</span><span class="st">&quot;#&quot;</span><span class="ot"> th:action=</span><span class="st">&quot;@{/seedstartermng}&quot;</span><span class="ot"> th:object=</span><span class="st">&quot;${seedStarter}&quot;</span><span class="ot"> method=</span><span class="st">&quot;post&quot;</span><span class="kw">&gt;</span>
     ...
 <span class="kw">&lt;/form&gt;</span></code></pre>
-<p>This is quite consistent with any other uses of <code>th:object,</code> but in fact this specific scenario adds some limitations in order to correctly integrate with Spring MVC's infrastructure:</p>
+<p>This is consistent with other uses of <code>th:object,</code> but in fact this specific scenario adds some limitations in order to correctly integrate with Spring MVC's infrastructure:</p>
 <ul>
 <li>Values for <code>th:object</code> attributes in form tags must be variable expressions (<code>${...}</code>) specifying only the name of a model attribute, without property navigation. This means that an expression like <code>${seedStarter}</code> is valid, but <code>${seedStarter.data}</code> would not be.</li>
 <li>Once inside the <code>&lt;form&gt;</code> tag, no other <code>th:object</code> attribute can be specified. This is consistent with the fact that HTML forms cannot be nested.</li>
 </ul>
 </section>
 <section id="inputs" class="level2">
-<h2><a href="#inputs">6.2 Inputs</a></h2>
+<h2><a href="#inputs">7.2 Inputs</a></h2>
 <p>Let's see now how to add an input to our form:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;input</span><span class="ot"> type=</span><span class="st">&quot;text&quot;</span><span class="ot"> th:field=</span><span class="st">&quot;*{datePlanted}&quot;</span> <span class="kw">/&gt;</span></code></pre>
 <p>As you can see, we are introducing a new attribute here: <code>th:field.</code> This is a very important feature for Spring MVC integration because it does all the heavy work of binding your input with a property in the form-backing bean. You can see it as an equivalent of the path attribute in a <form:input> tag from Spring MVC's JSP tag library.</p>
 <p>The <code>th:field</code> attribute behaves differently depending on whether it is attached to an <code>&lt;input&gt;</code>, <code>&lt;select&gt;</code> or <code>&lt;textarea&gt;</code> tag (and also depending on the specific type of <code>&lt;input&gt;</code> tag). In this case (<code>input[type=text]</code>), the above line of code is similar to:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;input</span><span class="ot"> type=</span><span class="st">&quot;text&quot;</span><span class="ot"> id=</span><span class="st">&quot;datePlanted&quot;</span><span class="ot"> name=</span><span class="st">&quot;datePlanted&quot;</span><span class="ot"> th:value=</span><span class="st">&quot;*{datePlanted}&quot;</span> <span class="kw">/&gt;</span></code></pre>
-<p>...but in fact it is a little bit more than that, because <code>th:field</code> will take care of the property editor we have defined for <code>java.util.Date</code> objects and use it correspondingly to show the property value (which <code>th:value</code> will not do).</p>
+<p>...but in fact it is a little bit more than that, because <code>th:field</code> will also apply the registered Spring Conversion Service, including the <code>DateFormatter</code> we saw before (even if the field expression is not double-bracketed). Thanks to this, the date will be shown correctly formatted.</p>
 <p>Values for <code>th:field</code> attributes must be selection expressions (<code>*{...}</code>), which makes sense given the fact that they will be evaluated on the form-backing bean and not on the context variables (or model attributes in Spring MVC jargon).</p>
 <p>Contrary to the ones in <code>th:object</code>, these expressions can include property navigation (in fact any expression allowed for the path attribute of a <code>&lt;form:input&gt;</code> JSP tag will be allowed here).</p>
 <p>Note that <code>th:field</code> also understands the new types of <code>&lt;input&gt;</code> element introduced by HTML5 like <code>&lt;input type=&quot;datetime&quot; ... /&gt;</code>, <code>&lt;input type=&quot;color&quot; ... /&gt;</code>, etc., effectively adding complete HTML5 support to Spring MVC.</p>
 </section>
 <section id="checkbox-fields" class="level2">
-<h2><a href="#checkbox-fields">6.3 Checkbox fields</a></h2>
+<h2><a href="#checkbox-fields">7.3 Checkbox fields</a></h2>
 <p><code>th:field</code> also allows us to define checkbox inputs. Let's see an example from our HTML page:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;div&gt;</span>
   <span class="kw">&lt;label</span><span class="ot"> th:for=</span><span class="st">&quot;${#ids.next(&#39;covered&#39;)}&quot;</span><span class="ot"> th:text=</span><span class="st">&quot;#{seedstarter.covered}&quot;</span><span class="kw">&gt;</span>Covered<span class="kw">&lt;/label&gt;</span>
@@ -571,7 +694,7 @@ seedstarter.feature.PH_CORRECTOR=Corrector de PH</code></pre>
 <p>Also note that if our features property contained some selected values in our form-backing bean, <code>th:field</code>would have taken care of that and would have added a <code>checked=&quot;checked&quot;</code> attribute to the corresponding input tags.</p>
 </section>
 <section id="radio-button-fields" class="level2">
-<h2><a href="#radio-button-fields">6.4 Radio Button fields</a></h2>
+<h2><a href="#radio-button-fields">7.4 Radio Button fields</a></h2>
 <p>Radio button fields are specified in a similar way to non-boolean (multi-valued) checkboxes –except that they are not multivalued, of course:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;ul&gt;</span>
   <span class="kw">&lt;li</span><span class="ot"> th:each=</span><span class="st">&quot;ty : ${allTypes}&quot;</span><span class="kw">&gt;</span>
@@ -581,7 +704,7 @@ seedstarter.feature.PH_CORRECTOR=Corrector de PH</code></pre>
 <span class="kw">&lt;/ul&gt;</span></code></pre>
 </section>
 <section id="dropdownlist-selectors" class="level2">
-<h2><a href="#dropdownlist-selectors">6.5 Dropdown/List selectors</a></h2>
+<h2><a href="#dropdownlist-selectors">7.5 Dropdown/List selectors</a></h2>
 <p>Select fields have two parts: the <code>&lt;select&gt;</code> tag and its nested <code>&lt;option&gt;</code> tags. When creating this kind of field, only the <code>&lt;select&gt;</code> tag has to include a <code>th:field</code> attribute, but the <code>th:value</code> attributes in the nested <code>&lt;option&gt;</code> tags will be very important because they will provide the means of knowing which is the currently selected option (in a similar way to non-boolean checkboxes and radio buttons).</p>
 <p>Let's re-build the type field as a dropdown select:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;select</span><span class="ot"> th:field=</span><span class="st">&quot;*{type}&quot;</span><span class="kw">&gt;</span>
@@ -592,7 +715,7 @@ seedstarter.feature.PH_CORRECTOR=Corrector de PH</code></pre>
 <p>At this point, understanding this piece of code is quite easy. Just notice how attribute precedence allows us to set the <code>th:each</code> attribute in the <code>&lt;option&gt;</code> tag itself.</p>
 </section>
 <section id="dynamic-fields" class="level2">
-<h2><a href="#dynamic-fields">6.6 Dynamic fields</a></h2>
+<h2><a href="#dynamic-fields">7.6 Dynamic fields</a></h2>
 <p>Thanks to the advanced form-field binding capabilities in Spring MVC, we can use complex Spring EL expressions to bind dynamic form fields to our form-backing bean. This will allow us to create new Row objects in our <code>SeedStarter</code> bean, and to add those rows' fields to our form at user request.</p>
 <p>In order to do this, we will need a couple of new mapped methods in our controller, which will add or remove a row from our <code>SeedStarter</code> depending on the existence of specific request parameters:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="fu">@RequestMapping</span>(value=<span class="st">&quot;/seedstartermng&quot;</span>, params={<span class="st">&quot;addRow&quot;</span>})
@@ -695,23 +818,78 @@ seedstarter.feature.PH_CORRECTOR=Corrector de PH</code></pre>
 </section>
 </section>
 <section id="validation-and-error-messages" class="level1">
-<h1><a href="#validation-and-error-messages">7 Validation and error messages</a></h1>
+<h1><a href="#validation-and-error-messages">8 Validation and Error Messages</a></h1>
 <p>Most of our forms will need to show validation messages in order to inform the user of the errors he/she has made.</p>
-<p>Thymeleaf offers two tools for this: a couple of functions in the <code>#fields</code> object and the <code>th:errors</code> attribute.</p>
-<p>Functions first: let's set a class to a field if it has an error:</p>
-<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;input</span><span class="ot"> type=</span><span class="st">&quot;text&quot;</span><span class="ot"> th:field=</span><span class="st">&quot;*{datePlanted}&quot;</span><span class="ot"> th:class=</span><span class="st">&quot;${#fields.hasErrors(&#39;datePlanted&#39;)}? &#39;fieldError&#39;&quot;</span><span class="kw">/&gt;</span></code></pre>
-<p>As you can see, the <code>#fields.hasErrors(...)</code> function receives the field expression as a parameter, and returns a boolean telling whether any validation errors exist for that field.</p>
-<p>Let's show the error messages themselves:</p>
+<p>Thymeleaf offers some tools for this: a couple of functions in the <code>#fields</code> object, the <code>th:errors</code> and the <code>th:errorclass</code> attributes.</p>
+<section id="field-errors" class="level2">
+<h2><a href="#field-errors">8.1 Field errors</a></h2>
+<p>Let's see how we could set a specific CSS class to a field if it has an error:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;input</span><span class="ot"> type=</span><span class="st">&quot;text&quot;</span><span class="ot"> th:field=</span><span class="st">&quot;*{datePlanted}&quot;</span><span class="ot"> th:class=</span><span class="st">&quot;${#fields.hasErrors(&#39;datePlanted&#39;)}? fieldError&quot;</span> <span class="kw">/&gt;</span></code></pre>
+<p>As you can see, the <code>#fields.hasErrors(...)</code> function receives the field expression as a parameter (<code>datePlanted</code>), and returns a boolean telling whether any validation errors exist for that field.</p>
+<p>We could also obtain all the errors for that field and iterate them:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;ul&gt;</span>
+  <span class="kw">&lt;li</span><span class="ot"> th:each=</span><span class="st">&quot;err : ${#fields.errors(&#39;datePlanted&#39;)}&quot;</span><span class="ot"> th:text=</span><span class="st">&quot;${err}&quot;</span> <span class="kw">/&gt;</span>
+<span class="kw">&lt;/ul&gt;</span></code></pre>
+<p>Instead of iterating, we could have also used <code>th:errors</code>, a specialized attribute which builds a list with all the errors for the specified selector, separated by <code>&lt;br /&gt;</code>:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;input</span><span class="ot"> type=</span><span class="st">&quot;text&quot;</span><span class="ot"> th:field=</span><span class="st">&quot;*{datePlanted}&quot;</span> <span class="kw">/&gt;</span>
+<span class="kw">&lt;p</span><span class="ot"> th:if=</span><span class="st">&quot;${#fields.hasErrors(&#39;datePlanted&#39;)}&quot;</span><span class="ot"> th:errors=</span><span class="st">&quot;*{datePlanted}&quot;</span><span class="kw">&gt;</span>Incorrect date<span class="kw">&lt;/p&gt;</span></code></pre>
+<section id="simplifying-error-based-css-styling-therrorclass" class="level3">
+<h3><a href="#simplifying-error-based-css-styling-therrorclass">Simplifying error-based CSS styling: <code>th:errorclass</code></a></h3>
+<p>The example we saw above, <em>setting a CSS class to a form input if that field has errors</em>, is so common that Thymeleaf offers a specific attribute for doing exacly that: <code>th:errorclass</code>.</p>
+<p>Applied to a form field tag (input, select, textarea...), it will read the name of the field to be examined from any existing <code>name</code> or <code>th:field</code> attributes in the same tag, and then append the specified CSS class to the tag if such field has any associated errors:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;input</span><span class="ot"> type=</span><span class="st">&quot;text&quot;</span><span class="ot"> th:field=</span><span class="st">&quot;*{datePlanted}&quot;</span><span class="ot"> class=</span><span class="st">&quot;small&quot;</span><span class="ot"> th:errorclass=</span><span class="st">&quot;fieldError&quot;</span> <span class="kw">/&gt;</span></code></pre>
+<p>If <code>datePlanted</code> has errors, this will render as:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;input</span><span class="ot"> type=</span><span class="st">&quot;text&quot;</span><span class="ot"> id=</span><span class="st">&quot;datePlanted&quot;</span><span class="ot"> name=</span><span class="st">&quot;datePlanted&quot;</span><span class="ot"> value=</span><span class="st">&quot;2013-01-01&quot;</span><span class="ot"> class=</span><span class="st">&quot;small fieldError&quot;</span> <span class="kw">/&gt;</span></code></pre>
+</section>
+</section>
+<section id="all-errors" class="level2">
+<h2><a href="#all-errors">8.2 All errors</a></h2>
+<p>And what if we want to show all the errors in the form? We just need to query the <code>#fields.hasErrors(...)</code> and <code>#fields.errors(...)</code> methods with the <code>'*'</code> or <code>'all'</code> constants (which are equivalent):</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;ul</span><span class="ot"> th:if=</span><span class="st">&quot;${#fields.hasErrors(&#39;*&#39;)}&quot;</span><span class="kw">&gt;</span>
   <span class="kw">&lt;li</span><span class="ot"> th:each=</span><span class="st">&quot;err : ${#fields.errors(&#39;*&#39;)}&quot;</span><span class="ot"> th:text=</span><span class="st">&quot;${err}&quot;</span><span class="kw">&gt;</span>Input is incorrect<span class="kw">&lt;/li&gt;</span>
 <span class="kw">&lt;/ul&gt;</span></code></pre>
-<p>The new function is <code>#fields.errors(...)</code>, and the star (<code>'*'</code>) parameter tells the function we are looking for errors on any field. <code>#fields.errors(...)</code> returns a list of (externalized) error messages.</p>
-<p><code>th:errors</code> attribute works in a similar way to the <code>#fields.errors(...)</code> function, but listing all errors for the specified selector separated by <code>&lt;br /&gt;</code>:</p>
-<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;input</span><span class="ot"> type=</span><span class="st">&quot;text&quot;</span><span class="ot"> th:field=</span><span class="st">&quot;*{datePlanted}&quot;</span> <span class="kw">/&gt;</span>
-<span class="kw">&lt;p</span><span class="ot"> th:if=</span><span class="st">&quot;${#fields.hasErrors(&#39;datePlanted&#39;)}&quot;</span><span class="ot"> th:errors=</span><span class="st">&quot;*{datePlanted}&quot;</span><span class="kw">&gt;</span>Incorrect date<span class="kw">&lt;/p&gt;</span></code></pre>
+<p>As in the examples above, we could obtain all the errors and iterate them...</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;ul&gt;</span>
+  <span class="kw">&lt;li</span><span class="ot"> th:each=</span><span class="st">&quot;err : ${#fields.errors(&#39;*&#39;)}&quot;</span><span class="ot"> th:text=</span><span class="st">&quot;${err}&quot;</span> <span class="kw">/&gt;</span>
+<span class="kw">&lt;/ul&gt;</span></code></pre>
+<p>...as well as build a <code>&lt;br /&gt;</code>-separated list:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;p</span><span class="ot"> th:if=</span><span class="st">&quot;${#fields.hasErrors(&#39;all&#39;)}&quot;</span><span class="ot"> th:errors=</span><span class="st">&quot;*{all}&quot;</span><span class="kw">&gt;</span>Incorrect date<span class="kw">&lt;/p&gt;</span></code></pre>
+<p>Finally. Note <code>#fields.hasErrors('*')</code> is equivalent to <code>#fields.hasAnyErrors()</code> and <code>#fields.errors('*')</code> is equivalent to <code>#fields.allErrors()</code>. Use whichever syntax you prefer:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;div</span><span class="ot"> th:if=</span><span class="st">&quot;${#fields.hasAnyErrors()}&quot;</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;p</span><span class="ot"> th:each=</span><span class="st">&quot;err : ${#fields.allErrors()}&quot;</span><span class="ot"> th:text=</span><span class="st">&quot;${err}&quot;</span><span class="kw">&gt;</span>...<span class="kw">&lt;/p&gt;</span>
+<span class="kw">&lt;/div&gt;</span></code></pre>
+</section>
+<section id="global-errors" class="level2">
+<h2><a href="#global-errors">8.3 Global errors</a></h2>
+<p>There is a third type of error in a Spring form: <em>global</em> errors. These are errors that are not associated with any specific fields in the form, but still exist.</p>
+<p>Thymeleaf offers the <code>global</code> constant for accessing these errors:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;ul</span><span class="ot"> th:if=</span><span class="st">&quot;${#fields.hasErrors(&#39;global&#39;)}&quot;</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;li</span><span class="ot"> th:each=</span><span class="st">&quot;err : ${#fields.errors(&#39;global&#39;)}&quot;</span><span class="ot"> th:text=</span><span class="st">&quot;${err}&quot;</span><span class="kw">&gt;</span>Input is incorrect<span class="kw">&lt;/li&gt;</span>
+<span class="kw">&lt;/ul&gt;</span></code></pre>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;p</span><span class="ot"> th:if=</span><span class="st">&quot;${#fields.hasErrors(&#39;global&#39;)}&quot;</span><span class="ot"> th:errors=</span><span class="st">&quot;*{global}&quot;</span><span class="kw">&gt;</span>Incorrect date<span class="kw">&lt;/p&gt;</span></code></pre>
+<p>...as well as equivalent <code>#fields.hasGlobalErrors()</code> and <code>#fields.globalErrors()</code> convenience methods:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;div</span><span class="ot"> th:if=</span><span class="st">&quot;${#fields.hasGlobalErrors()}&quot;</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;p</span><span class="ot"> th:each=</span><span class="st">&quot;err : ${#fields.globalErrors()}&quot;</span><span class="ot"> th:text=</span><span class="st">&quot;${err}&quot;</span><span class="kw">&gt;</span>...<span class="kw">&lt;/p&gt;</span>
+<span class="kw">&lt;/div&gt;</span></code></pre>
+</section>
+<section id="displaying-errors-outside-forms" class="level2">
+<h2><a href="#displaying-errors-outside-forms">8.4 Displaying errors outside forms</a></h2>
+<p>Form validation errors can also be displayed outside forms by using variable (<code>${...}</code>) instead of selection (<code>*{...}</code>) expressions and prefixing the name of the form-backing bean:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;div</span><span class="ot"> th:errors=</span><span class="st">&quot;${myForm}&quot;</span><span class="kw">&gt;</span>...<span class="kw">&lt;/div&gt;</span>
+<span class="kw">&lt;div</span><span class="ot"> th:errors=</span><span class="st">&quot;${myForm.date}&quot;</span><span class="kw">&gt;</span>...<span class="kw">&lt;/div&gt;</span>
+<span class="kw">&lt;div</span><span class="ot"> th:errors=</span><span class="st">&quot;${myForm.*}&quot;</span><span class="kw">&gt;</span>...<span class="kw">&lt;/div&gt;</span>
+
+<span class="kw">&lt;div</span><span class="ot"> th:if=</span><span class="st">&quot;${#fields.hasErrors(&#39;${myForm}&#39;)}&quot;</span><span class="kw">&gt;</span>...<span class="kw">&lt;/div&gt;</span>
+<span class="kw">&lt;div</span><span class="ot"> th:if=</span><span class="st">&quot;${#fields.hasErrors(&#39;${myForm.date}&#39;)}&quot;</span><span class="kw">&gt;</span>...<span class="kw">&lt;/div&gt;</span>
+<span class="kw">&lt;div</span><span class="ot"> th:if=</span><span class="st">&quot;${#fields.hasErrors(&#39;${myForm.*}&#39;)}&quot;</span><span class="kw">&gt;</span>...<span class="kw">&lt;/div&gt;</span>
+
+<span class="kw">&lt;form</span><span class="ot"> th:object=</span><span class="st">&quot;${myForm}&quot;</span><span class="kw">&gt;</span>
+    ...
+<span class="kw">&lt;/form&gt;</span></code></pre>
+</section>
 </section>
 <section id="its-still-a-prototype" class="level1">
-<h1><a href="#its-still-a-prototype">8 It's still a prototype!</a></h1>
+<h1><a href="#its-still-a-prototype">9 It's still a Prototype!</a></h1>
 <p>Our application is ready now. But let's have a second look at the <code>.html</code> page we created...</p>
 <p>One of the nicest consequences of working with Thymeleaf is that after all this functionality we have added to our HTML, we can still use it as a prototype (we say it is a <em>Natural Template</em>). Let's open <code>seedstartermng.html</code> directly in our browser without executing our application:</p>
 <figure>
@@ -719,10 +897,178 @@ seedstarter.feature.PH_CORRECTOR=Corrector de PH</code></pre>
 </figure>
 <p>There it is! It's not a working application, it's not real data... but it is a perfectly valid prototype made up of perfectly displayable HTML code. Try to do that with JSP!</p>
 </section>
+<section id="the-conversion-service" class="level1">
+<h1><a href="#the-conversion-service">10 The Conversion Service</a></h1>
+<section id="configuration" class="level2">
+<h2><a href="#configuration">10.1 Configuration</a></h2>
+<p>As explained before, Thymeleaf can make use of a Conversion Service registered at the Application Context. Let's see again what it looks like:</p>
+<pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;?xml</span> version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;<span class="kw">?&gt;</span>
+<span class="kw">&lt;beans</span> <span class="er">...</span><span class="kw">&gt;</span>
+
+  ...    
+  <span class="kw">&lt;mvc:annotation-driven</span><span class="ot"> conversion-service=</span><span class="st">&quot;conversionService&quot;</span> <span class="kw">/&gt;</span>
+  ...
+
+  <span class="co">&lt;!-- **************************************************************** --&gt;</span>
+  <span class="co">&lt;!--  CONVERSION SERVICE                                              --&gt;</span>
+  <span class="co">&lt;!--  Standard Spring formatting-enabled implementation               --&gt;</span>
+  <span class="co">&lt;!-- **************************************************************** --&gt;</span>
+  <span class="kw">&lt;bean</span><span class="ot"> id=</span><span class="st">&quot;conversionService&quot;</span>
+<span class="ot">        class=</span><span class="st">&quot;org.springframework.format.support.FormattingConversionServiceFactoryBean&quot;</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;property</span><span class="ot"> name=</span><span class="st">&quot;formatters&quot;</span><span class="kw">&gt;</span>
+      <span class="kw">&lt;set&gt;</span>
+        <span class="kw">&lt;bean</span><span class="ot"> class=</span><span class="st">&quot;thymeleafexamples.stsm.web.conversion.VarietyFormatter&quot;</span> <span class="kw">/&gt;</span>
+        <span class="kw">&lt;bean</span><span class="ot"> class=</span><span class="st">&quot;thymeleafexamples.stsm.web.conversion.DateFormatter&quot;</span> <span class="kw">/&gt;</span>
+      <span class="kw">&lt;/set&gt;</span>
+    <span class="kw">&lt;/property&gt;</span>
+  <span class="kw">&lt;/bean&gt;</span>
+
+  ...
+    
+<span class="kw">&lt;/beans&gt;</span></code></pre>
+</section>
+<section id="double-bracket-syntax" class="level2">
+<h2><a href="#double-bracket-syntax">10.1 Double-bracket syntax</a></h2>
+<p>The Conversion Service can be easily applied in order to convert/format any object into String. This is done by means of the double-bracket syntax:</p>
+<ul>
+<li>For variable expressions: <code>${{...}}</code></li>
+<li>For selection expressions: <code>*{{...}}</code></li>
+</ul>
+<p>So, for example, given an Integer-to-String converter that adds commas as a thousands separator, this:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;p</span><span class="ot"> th:text=</span><span class="st">&quot;${val}&quot;</span><span class="kw">&gt;</span>...<span class="kw">&lt;/p&gt;</span>
+<span class="kw">&lt;p</span><span class="ot"> th:text=</span><span class="st">&quot;${{val}}&quot;</span><span class="kw">&gt;</span>...<span class="kw">&lt;/p&gt;</span></code></pre>
+<p>...should result in:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;p&gt;</span>1234567890<span class="kw">&lt;/p&gt;</span>
+<span class="kw">&lt;p&gt;</span>1,234,567,890<span class="kw">&lt;/p&gt;</span></code></pre>
+</section>
+<section id="use-in-forms" class="level2">
+<h2><a href="#use-in-forms">10.2 Use in forms</a></h2>
+<p>We saw before that every <code>th:field</code> attribute will always apply the conversion service, so this:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;input</span><span class="ot"> type=</span><span class="st">&quot;text&quot;</span><span class="ot"> th:field=</span><span class="st">&quot;*{datePlanted}&quot;</span> <span class="kw">/&gt;</span></code></pre>
+<p>...is actually equivalent to:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;input</span><span class="ot"> type=</span><span class="st">&quot;text&quot;</span><span class="ot"> th:field=</span><span class="st">&quot;*{{datePlanted}}&quot;</span> <span class="kw">/&gt;</span></code></pre>
+<p>Note that this is the only scenario in which the Conversion Service is applied in expressions using single-bracket syntax.</p>
+</section>
+<section id="conversions-utility-object" class="level2">
+<h2><a href="#conversions-utility-object">10.3 <code>#conversions</code> utility object</a></h2>
+<p>The <code>#conversions</code> expression utility object allows the manual execution of the Conversion Service wherever needed:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;p</span><span class="ot"> th:text=</span><span class="st">&quot;${&#39;Val: &#39; + #conversions.convert(val,&#39;String&#39;)}&quot;</span><span class="kw">&gt;</span>...<span class="kw">&lt;/p&gt;</span></code></pre>
+<p>Syntax for this utility object:</p>
+<ul>
+<li><code>#conversions.convert(Object,Class)</code>: converts the object to the specified class.</li>
+<li><code>#conversions.convert(Object,String)</code>: same as above, but specifying the target class as a String (note the <code>java.lang.</code> package can be ommitted).</li>
+</ul>
+</section>
+</section>
+<section id="rendering-template-fragments" class="level1">
+<h1><a href="#rendering-template-fragments">11 Rendering Template Fragments</a></h1>
+<p>Thymeleaf offers the possibility to render only part of a template as the result of its execution: a <em>fragment</em>.</p>
+<p>This can be a useful componentization tool. For example, it can be used at controllers that execute on AJAX calls, which might return markup fragments of a page that is already loaded at the browser (for updating a select, enabling/disabling buttons...).</p>
+<p>Fragmentary rendering can be achieved by using Thymeleaf's <em>fragment specs</em>: objects implementing the <code>org.thymeleaf.fragment.IFragmentSpec</code> interface.</p>
+<p>The most common of these implementations is <code>org.thymeleaf.standard.fragment.StandardDOMSelectorFragmentSpec</code>, which allows specifying a fragment using a DOM Selector exactly like the ones used at <code>th:include</code> or <code>th:replace</code>.</p>
+<section id="specifying-fragments-in-view-beans" class="level2">
+<h2><a href="#specifying-fragments-in-view-beans">11.1 Specifying fragments in view beans</a></h2>
+<p><em>View beans</em> are beans of the <code>org.thymeleaf.spring3.view.ThymeleafView</code> class declared at the application context. They allow the specification of fragments like this:</p>
+<pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;bean</span><span class="ot"> name=</span><span class="st">&quot;content-part&quot;</span><span class="ot"> class=</span><span class="st">&quot;org.thymeleaf.spring3.view.ThymeleafView&quot;</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;property</span><span class="ot"> name=</span><span class="st">&quot;templateName&quot;</span><span class="ot"> value=</span><span class="st">&quot;index&quot;</span> <span class="kw">/&gt;</span>
+  <span class="kw">&lt;property</span><span class="ot"> name=</span><span class="st">&quot;fragmentSpec&quot;</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;bean</span><span class="ot"> class=</span><span class="st">&quot;org.thymeleaf.standard.fragment.StandardDOMSelectorFragmentSpec&quot;</span>
+<span class="ot">          c:selectorExpression=</span><span class="st">&quot;content&quot;</span> <span class="kw">/&gt;</span>
+  <span class="kw">&lt;/property&gt;</span>
+<span class="kw">&lt;/bean&gt;</span></code></pre>
+<p>Given the above bean definition, if our controller returns <code>content-part</code> (the name of the above bean)...</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="fu">@RequestMapping</span>(<span class="st">&quot;/showContentPart&quot;</span>)
+<span class="kw">public</span> String <span class="fu">showContentPart</span>() {
+    ...
+    <span class="kw">return</span> <span class="st">&quot;content-part&quot;</span>;
+}</code></pre>
+<p>...thymeleaf will return only the <code>content</code> fragment of the <code>index</code> template -- which location will probably be something like <code>/WEB-INF/templates/index.html</code>, once prefix and suffix are applied:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="dt">&lt;!DOCTYPE </span>html<span class="dt">&gt;</span>
+<span class="kw">&lt;html&gt;</span>
+  ...
+  <span class="kw">&lt;body&gt;</span>
+    ...
+    <span class="kw">&lt;div</span><span class="ot"> th:fragment=</span><span class="st">&quot;content&quot;</span><span class="kw">&gt;</span>
+      Only this will be rendered!!
+    <span class="kw">&lt;/div&gt;</span>
+    ...
+  <span class="kw">&lt;/body&gt;</span>
+<span class="kw">&lt;/html&gt;</span></code></pre>
+<p>Note also that, thanks to the power of Thymeleaf DOM Selectors, we could select a fragment in a template without needing any <code>th:fragment</code> attributes at all. Let's use the <code>id</code> attribute, for example:</p>
+<pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;bean</span><span class="ot"> name=</span><span class="st">&quot;content-part&quot;</span><span class="ot"> class=</span><span class="st">&quot;org.thymeleaf.spring3.view.ThymeleafView&quot;</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;property</span><span class="ot"> name=</span><span class="st">&quot;fragmentSpec&quot;</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;bean</span><span class="ot"> class=</span><span class="st">&quot;org.thymeleaf.standard.fragment.StandardDOMSelectorFragmentSpec&quot;</span>
+<span class="ot">          c:selectorExpression=</span><span class="st">&quot;#content&quot;</span> <span class="kw">/&gt;</span>
+  <span class="kw">&lt;/property&gt;</span>
+  <span class="kw">&lt;property</span><span class="ot"> name=</span><span class="st">&quot;templateName&quot;</span><span class="ot"> value=</span><span class="st">&quot;index&quot;</span> <span class="kw">/&gt;</span>
+<span class="kw">&lt;/bean&gt;</span></code></pre>
+<p>...which will perfectly select:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="dt">&lt;!DOCTYPE </span>html<span class="dt">&gt;</span>
+<span class="kw">&lt;html&gt;</span>
+  ...
+  <span class="kw">&lt;body&gt;</span>
+    ...
+    <span class="kw">&lt;div</span><span class="ot"> id=</span><span class="st">&quot;content&quot;</span><span class="kw">&gt;</span>
+      Only this will be rendered!!
+    <span class="kw">&lt;/div&gt;</span>
+    ...
+  <span class="kw">&lt;/body&gt;</span>
+<span class="kw">&lt;/html&gt;</span></code></pre>
+</section>
+<section id="specifying-fragments-in-controller-return-values" class="level2">
+<h2><a href="#specifying-fragments-in-controller-return-values">11.2 Specifying fragments in controller return values</a></h2>
+<p>Instead of declaring <em>view beans</em>, fragments can be specified from the controllers themselves by using the same syntax as in <code>th:include</code> or <code>th:replace</code> attributes:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="fu">@RequestMapping</span>(<span class="st">&quot;/showContentPart&quot;</span>)
+<span class="kw">public</span> String <span class="fu">showContentPart</span>() {
+    ...
+    <span class="kw">return</span> <span class="st">&quot;index :: content&quot;</span>;
+}</code></pre>
+<p>Of course, again the full power of DOM Selectors is available, so we could select our fragment based on standard HTML attributes, like <code>id=&quot;content&quot;</code>:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="fu">@RequestMapping</span>(<span class="st">&quot;/showContentPart&quot;</span>)
+<span class="kw">public</span> String <span class="fu">showContentPart</span>() {
+    ...
+    <span class="kw">return</span> <span class="st">&quot;index :: #content&quot;</span>;
+}</code></pre>
+<p>And we can also use parameters, like:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="fu">@RequestMapping</span>(<span class="st">&quot;/showContentPart&quot;</span>)
+<span class="kw">public</span> String <span class="fu">showContentPart</span>() {
+    ...
+    <span class="kw">return</span> <span class="st">&quot;index :: #content (&#39;myvalue&#39;)&quot;</span>;
+}</code></pre>
+</section>
+</section>
+<section id="advanced-integration-features" class="level1">
+<h1><a href="#advanced-integration-features">12 Advanced Integration Features</a></h1>
+<section id="integration-with-requestdatavalueprocessor" class="level2">
+<h2><a href="#integration-with-requestdatavalueprocessor">12.1 Integration with <code>RequestDataValueProcessor</code></a></h2>
+<p>Thymeleaf now seamlessly integrates with Spring's <code>RequestDataValueProcessor</code> interface. This interface allows the interception of link URLs, form URLs and form field values before they are written to the markup result, as well as transparently adding hidden form fields that enable security features like e.g. protection agains CSRF (Cross-Site Request Forgery).</p>
+<p>An implementation of <code>RequestDataValueProcessor</code> can be easily configured at the Application Context:</p>
+<pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;?xml</span> version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;<span class="kw">?&gt;</span>
+<span class="kw">&lt;beans</span><span class="ot"> xmlns=</span><span class="st">&quot;http://www.springframework.org/schema/beans&quot;</span>
+<span class="ot">       xmlns:xsi=</span><span class="st">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+<span class="ot">       xsi:schemaLocation=</span><span class="st">&quot;http://www.springframework.org/schema/beans</span>
+<span class="st">                     http://www.springframework.org/schema/beans/spring-beans-3.1.xsd&quot;</span><span class="kw">&gt;</span>
+ 
+    ...
+ 
+    <span class="kw">&lt;bean</span><span class="ot"> name=</span><span class="st">&quot;requestDataValueProcessor&quot;</span>
+<span class="ot">          class=</span><span class="st">&quot;net.example.requestdata.processor.MyRequestDataValueProcessor&quot;</span> <span class="kw">/&gt;</span>
+ 
+<span class="kw">&lt;/beans&gt;</span></code></pre>
+<p>...and Thymeleaf uses it this way:</p>
+<ul>
+<li><p><code>th:href</code> and <code>th:src</code> call <code>RequestDataValueProcessor.processUrl(...)</code> before rendering the URL.</p></li>
+<li><p><code>th:action</code> calls <code>RequestDataValueProcessor.processAction(...)</code> before rendering the form's <code>action</code> attribute, and additionally it detects when this attribute is being applied on a <code>&lt;form&gt;</code> tag —which should be the only place, anyway—, and in such case calls <code>RequestDataValueProcessor.getExtraHiddenFields(...)</code> and adds the returned hidden fields just before the closing <code>&lt;/form&gt;</code> tag.</p></li>
+<li><p><code>th:value</code> calls <code>RequestDataValueProcessor.processFormFieldValue(...)</code> for rendering the value it refers to, unless there is a <code>th:field</code> present in the same tag (in which case <code>th:field</code> will take care).</p></li>
+<li><p><code>th:field</code> calls <code>RequestDataValueProcessor.processFormFieldValue(...)</code> for rendering the value of the field it applies to (or the tag body if it is a <code>&lt;textarea&gt;</code>).</p></li>
+</ul>
+<p>Note this feature will only be available for Spring versions 3.1 and newer.</p>
+</section>
+</section>
 <section id="spring-webflow-integration" class="level1">
-<h1><a href="#spring-webflow-integration">9 Spring WebFlow integration</a></h1>
+<h1><a href="#spring-webflow-integration">13 Spring WebFlow integration</a></h1>
 <section id="basic-configuration" class="level2">
-<h2><a href="#basic-configuration">9.1 Basic configuration</a></h2>
+<h2><a href="#basic-configuration">13.1 Basic configuration</a></h2>
 <p>The <code>thymeleaf–spring3</code> integration package includes integration with Spring WebFlow 2.3.x.</p>
 <p>WebFlow includes some AJAX capabilities for rendering fragments of the displayed page when specific events (<em>transitions</em>) are triggered, and in order to enable Thymeleaf to attend these AJAX requests, we will have to use a different <code>ViewResolver</code> implementation, configured like this:</p>
 <pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;bean</span><span class="ot"> id=</span><span class="st">&quot;thymeleafViewResolver&quot;</span><span class="ot"> class=</span><span class="st">&quot;org.thymeleaf.spring3.view.AjaxThymeleafViewResolver&quot;</span><span class="kw">&gt;</span>
@@ -740,7 +1086,7 @@ seedstarter.feature.PH_CORRECTOR=Corrector de PH</code></pre>
 <p>In the above example, <code>bookingDetail</code> is a Thymeleaf template specified in the usual way, understandable by any of the <em>Template Resolvers</em> configured at the <code>TemplateEngine</code>.</p>
 </section>
 <section id="ajax-fragments" class="level2">
-<h2><a href="#ajax-fragments">9.2 Ajax fragments</a></h2>
+<h2><a href="#ajax-fragments">13.2 Ajax fragments</a></h2>
 <p>WebFlow allows the specification of fragments to be rendered via AJAX with <code>&lt;render&gt;</code> tags, like this:</p>
 <pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;view-state</span><span class="ot"> id=</span><span class="st">&quot;detail&quot;</span><span class="ot"> view=</span><span class="st">&quot;bookingDetail&quot;</span><span class="kw">&gt;</span>
     <span class="kw">&lt;transition</span><span class="ot"> on=</span><span class="st">&quot;updateData&quot;</span><span class="kw">&gt;</span>
