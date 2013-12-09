@@ -48,10 +48,10 @@
 			<h1 id="doc-title" class="title">Tutorial: Thymeleaf + Spring 3</h1>
 			<div id="doc-info">
 				<div id="doc-version">
-					<span class="info-header">Document version:</span> 20131104 - 04 November 2013
+					<span class="info-header">Document version:</span> 20131209 - 09 December 2013
 				</div>
 				<div id="project-version">
-					<span class="info-header">Project Version:</span> 2.1.0
+					<span class="info-header">Project Version:</span> 2.1.2
 				</div>
 				<div id="project-website">
 					<span class="info-header">Project web site:</span>
@@ -99,6 +99,7 @@
 <li><a href="#all-errors">8.2 All errors</a></li>
 <li><a href="#global-errors">8.3 Global errors</a></li>
 <li><a href="#displaying-errors-outside-forms">8.4 Displaying errors outside forms</a></li>
+<li><a href="#rich-error-objects">8.5 Rich error objects</a></li>
 </ul></li>
 <li><a href="#its-still-a-prototype">9 It's still a Prototype!</a></li>
 <li><a href="#the-conversion-service">10 The Conversion Service</a><ul>
@@ -173,7 +174,7 @@
 <li><code>org.springframework.web.servlet.ViewResolver</code></li>
 </ul>
 <p>Views model pages in our applications and allow us to modify and predefine their behaviour by defining them as beans. Views are in charge of rendering the actual HTML interface, usually by the execution of some template engine like JSP (or Thymeleaf).</p>
-<p>ViewResolvers are the objects in charge of obtaining View objects for a specific operation and locale. Tipically, controllers ask ViewResolvers to forward to a view with a specific name (a String returned by the controller method), and then all the view resolvers in the application execute in ordered chain until one of them is able to resolve that view, in which case a View object is returned and control is passed to it for the renderization of HTML.</p>
+<p>ViewResolvers are the objects in charge of obtaining View objects for a specific operation and locale. Typically, controllers ask ViewResolvers to forward to a view with a specific name (a String returned by the controller method), and then all the view resolvers in the application execute in ordered chain until one of them is able to resolve that view, in which case a View object is returned and control is passed to it for the renderization of HTML.</p>
 <blockquote>
 <p>Note that not all pages in our applications have to be defined as Views, but only those which behaviour we wish to be non-standard or configured in a specific way (for example, by wiring some special beans to it. If a ViewResolver is asked a view that has no corresponding bean –which is the common case–, a new View object is created ad hoc and returned.</p>
 </blockquote>
@@ -886,6 +887,17 @@ seedstarter.feature.PH_CORRECTOR=Corrector de PH</code></pre>
 <span class="kw">&lt;form</span><span class="ot"> th:object=</span><span class="st">&quot;${myForm}&quot;</span><span class="kw">&gt;</span>
     ...
 <span class="kw">&lt;/form&gt;</span></code></pre>
+</section>
+<section id="rich-error-objects" class="level2">
+<h2><a href="#rich-error-objects">8.5 Rich error objects</a></h2>
+<p>Thymeleaf offers the possibility to obtain form error information in the form of beans (instead of mere <em>strings</em>), with the <code>fieldName</code> (String), <code>message</code> (String) and <code>global</code> (boolean) attributes.</p>
+<p>These errors can be obtained by means of the <code>#fields.detailedErrors()</code> utility method:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;ul&gt;</span>
+    <span class="kw">&lt;li</span><span class="ot"> th:each=</span><span class="st">&quot;e : ${#fields.detailedErrors()}&quot;</span><span class="ot"> th:class=</span><span class="st">&quot;${e.global}? globalerr : fielderr&quot;</span><span class="kw">&gt;</span>
+        <span class="kw">&lt;span</span><span class="ot"> th:text=</span><span class="st">&quot;${e.global}? &#39;*&#39; : ${e.fieldName}&quot;</span><span class="kw">&gt;</span>The field name<span class="kw">&lt;/span&gt;</span> |
+        <span class="kw">&lt;span</span><span class="ot"> th:text=</span><span class="st">&quot;${e.message}&quot;</span><span class="kw">&gt;</span>The error message<span class="kw">&lt;/span&gt;</span>
+    <span class="kw">&lt;/li&gt;</span>
+<span class="kw">&lt;/ul&gt;</span></code></pre>
 </section>
 </section>
 <section id="its-still-a-prototype" class="level1">
