@@ -439,7 +439,7 @@
   th:xmlspace        CDATA  #IMPLIED"
   >
 
-<!ELEMENT th:block  %Flow;>   <!-- th:block should allow approx the same as <div> -->
+<!ELEMENT th:block  %Flow.mix;>   <!-- th:block should allow approx the same as <div> -->
 <!ATTLIST th:block
   %allthymeleafattrs;
   >
