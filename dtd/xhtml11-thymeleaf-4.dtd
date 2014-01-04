@@ -2,31 +2,37 @@
 <!-- XHTML 1.1 DTD  ........................................................ -->
 <!-- file: xhtml11-thymeleaf-2.dtd
 -->
-<!-- Modified XHTML 1.1 DTD for Thymeleaf, v2 (>= Thymeleaf v1.1.0)
+<!-- Modified XHTML 1.1 DTD for Thymeleaf, v4 (>= Thymeleaf v2.1.0)
      
-     This file is a copy of the original W3C XHTML 1.1 DTD including all
-     the tags provided by Thymeleaf's Standard Dialect.
+     This file makes use of the XHTML modular extension system in order to
+     add thymeleaf's elements and attributes.
 
      Use of this file requires a SYSTEM DOCTYPE (no PUBLICID) with the 
      following identifier:
 
-     SYSTEM "http://www.thymeleaf.org/dtd/xhtml11-thymeleaf-1.dtd"
+     SYSTEM "http://www.thymeleaf.org/dtd/xhtml11-thymeleaf-4.dtd"
      
      More info: http://www.thymeleaf.org
       
 -->
 
-
+<!-- Register Thymeleaf specific elements................................... -->
+<!-- ....................................................................... -->
 <!ENTITY % thblock.qname  "th:block" >
 <!ENTITY % Misc.extra "| %thblock.qname;" >
 
-<!ENTITY % xhtml11.dtd PUBLIC "-//W3C//DTD XHTML 1.1//EN"
-    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<!-- Include the Standard XHTML 1.1 specification........................... -->
+<!-- ....................................................................... -->
+<!ENTITY % xhtml11.dtd PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 %xhtml11.dtd;
 
 
+<!-- Register shape of Thymeleaf specific elements.......................... -->
+<!-- ....................................................................... -->
+<!ENTITY % thblock.content "( #PCDATA | %Flow.mix; )*" >
+<!ELEMENT %thblock.qname;  %thblock.content; >
 
-<!-- start of XHTML 1.1 DTD thymeleaf specific features..................... -->
+<!-- Register thymeleaf specific attributes................................. -->
 <!-- ....................................................................... -->
 
 <!ENTITY % allthymeleafattrs
@@ -155,12 +161,9 @@
   th:xmlspace        CDATA  #IMPLIED"
   >
 
-<!ENTITY % thblock.content "( #PCDATA | %Flow.mix; )*" >
-<!ELEMENT %thblock.qname;  %thblock.content; >
 <!ATTLIST %thblock.qname;
   %allthymeleafattrs;
   >
-
 
 <!ATTLIST %a.qname;
   %allthymeleafattrs;
@@ -474,7 +477,3 @@
 <!ATTLIST %var.qname;
   %allthymeleafattrs;
   >
-
-
-<!-- end of XHTML 1.1 DTD thymeleaf specific features....................... -->
-<!-- ....................................................................... -->
