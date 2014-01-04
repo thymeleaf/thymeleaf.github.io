@@ -439,321 +439,328 @@
   th:xmlspace        CDATA  #IMPLIED"
   >
 
-<!ELEMENT th:block  %Flow.mix;>
-<!ATTLIST th:block
+<!ENTITY % thblock.element  "INCLUDE" >
+<![%thblock.element;[
+  <!ENTITY % thblock.content
+    "( #PCDATA | %Flow.mix; )*"
+>
+<!ENTITY % thblock.qname  "th:block" >
+<!ELEMENT %thblock.qname;  %thblock.content; >
+
+<!ATTLIST %thblock.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST a
+<!ATTLIST %a.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST abbr
+<!ATTLIST %abbr.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST acronym
+<!ATTLIST %acronym.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST address
+<!ATTLIST %address.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST area
+<!ATTLIST %area.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST b
+<!ATTLIST %b.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST base
+<!ATTLIST %base.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST bdo
+<!ATTLIST %bdo.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST big
+<!ATTLIST %big.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST blockquote
+<!ATTLIST %blockquote.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST body
+<!ATTLIST %body.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST br
+<!ATTLIST %br.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST button
+<!ATTLIST %button.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST caption
+<!ATTLIST %caption.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST cite
+<!ATTLIST %cite.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST code
+<!ATTLIST %code.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST col
+<!ATTLIST %col.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST colgroup
+<!ATTLIST %colgroup.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST dd
+<!ATTLIST %dd.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST del
+<!ATTLIST %del.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST dfn
+<!ATTLIST %dfn.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST div
+<!ATTLIST %div.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST dl
+<!ATTLIST %dl.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST dt
+<!ATTLIST %dt.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST em
+<!ATTLIST %em.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST fieldset
+<!ATTLIST %fieldset.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST form
+<!ATTLIST %form.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST h1
+<!ATTLIST %h1.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST h1
+<!ATTLIST %h1.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST h2
+<!ATTLIST %h2.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST h3
+<!ATTLIST %h3.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST h4
+<!ATTLIST %h4.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST h5
+<!ATTLIST %h5.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST h6
+<!ATTLIST %h6.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST head
+<!ATTLIST %head.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST hr
+<!ATTLIST %hr.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST html
+<!ATTLIST %html.qname;
   xmlns:th   %URI.datatype;   #IMPLIED
   %allthymeleafattrs;
   >
 
-<!ATTLIST i
+<!ATTLIST %i.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST img
+<!ATTLIST %img.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST input
+<!ATTLIST %input.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST ins
+<!ATTLIST %ins.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST kbd
+<!ATTLIST %kbd.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST label
+<!ATTLIST %label.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST legend
+<!ATTLIST %legend.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST li
+<!ATTLIST %li.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST link
+<!ATTLIST %link.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST map
+<!ATTLIST %map.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST meta
+<!ATTLIST %meta.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST noscript
+<!ATTLIST %noscript.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST object
+<!ATTLIST %object.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST ol
+<!ATTLIST %ol.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST optgroup
+<!ATTLIST %optgroup.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST option
+<!ATTLIST %option.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST p
+<!ATTLIST %p.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST param
+<!ATTLIST %param.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST pre
+<!ATTLIST %pre.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST q
+<!ATTLIST %q.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST samp
+<!ATTLIST %samp.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST script
+<!ATTLIST %script.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST select
+<!ATTLIST %select.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST small
+<!ATTLIST %small.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST span
+<!ATTLIST %span.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST strong
+<!ATTLIST %strong.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST style
+<!ATTLIST %style.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST sub
+<!ATTLIST %sub.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST sup
+<!ATTLIST %sup.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST table
+<!ATTLIST %table.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST tbody
+<!ATTLIST %tbody.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST td
+<!ATTLIST %td.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST textarea
+<!ATTLIST %textarea.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST tfoot
+<!ATTLIST %tfoot.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST th
+<!ATTLIST %th.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST thead
+<!ATTLIST %thead.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST title
+<!ATTLIST %title.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST tr
+<!ATTLIST %tr.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST tt
+<!ATTLIST %tt.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST ul
+<!ATTLIST %ul.qname;
   %allthymeleafattrs;
   >
 
-<!ATTLIST var
+<!ATTLIST %var.qname;
   %allthymeleafattrs;
   >
 
