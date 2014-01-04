@@ -443,7 +443,7 @@
 <![%thblock.element;[
   <!ENTITY % thblock.content
     "( #PCDATA | %Flow.mix; )*"
->
+]]>
 <!ENTITY % thblock.qname  "th:block" >
 <!ELEMENT %thblock.qname;  %thblock.content; >
 
