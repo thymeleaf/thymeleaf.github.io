@@ -779,13 +779,158 @@
          is a valid UI design prototype (in this example the layout is very simple):
      </p>
 
-     <img src="images/layouts_layout.png" alt="Layout page"/>
+     <img src="images/layouts_layouttiles.png" alt="Layout page"/>
 
      <p>
          Secondly, we can mix standard layout (<kbd>th:include/th:replace</kbd>) with Tiles dialect.
          Thirdly, Thymeleaf has ability to include a template fragment instead of the whole template.
      </p>
 
+
+
+     <h2>Thymeleaf Layout Dialect</h2>
+
+     <p>
+         <a target="_blank"
+            href="https://github.com/ultraq/thymeleaf-layout-dialect">Layout Dialect</a> gives people the
+         possibility of using hierarchical approach, but from a Thymeleaf-only perspective and without the
+         need to use external libraries, like Apache Tiles. Thymeleaf Layout Dialect uses layout/decorator
+         templates to style the content, as well as it can pass entire fragment elements to included pages.
+         Concepts of this library are similar to
+         <a target="_blank" href="http://wiki.sitemesh.org">SiteMesh</a> or JSF with Facelets.
+     </p>
+
+
+     <h3>Configuration</h3>
+
+     <p>
+         To get started with Layout Dialect we need to include it into the <kbd>pom.xml</kbd>. The dependency is:
+     </p>
+
+     <script type="syntaxhighlighter" class="brush:xml"><![CDATA[
+         <dependency>
+             <groupId>nz.net.ultraq.thymeleaf</groupId>
+             <artifactId>thymeleaf-layout-dialect</artifactId>
+             <version>1.2.1</version>
+         </dependency>
+     ]]></script>
+
+     <p>
+         We will also need to configure the integration by adding an additional dialect to our template engine:
+     </p>
+
+     <script type="syntaxhighlighter" class="brush:java"><![CDATA[
+         @Bean
+         public SpringTemplateEngine templateEngine() {
+             SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+             ...
+             templateEngine.addDialect(new LayoutDialect());
+             return templateEngine;
+         }
+     ]]></script>
+
+     <p>
+         No other changes are required.
+     </p>
+
+     <h3>Creating a layout</h3>
+
+     <p>
+         The layout file is defined in <kbd>/WEB-INF/view/task/layout.html</kbd>:
+     </p>
+
+     <script type="syntaxhighlighter" class="brush:xml"><![CDATA[
+         <!DOCTYPE html>
+         <html>
+           <head>
+             <!-- /*  Each token will be replaced by their respective titles in the resulting page. */ -->
+             <title layout:title-pattern="$DECORATOR_TITLE - $CONTENT_TITLE">Task List</title>
+             ...
+           </head>
+           <body>
+             <!-- /* Standard layout can be mixed with Layout Dialect */ -->
+             <div th:replace="fragments/header :: header">&nbsp;</div>
+             <div class="container">
+               <div layout:fragment="content">
+                 <p>Page content goes here</p>
+               </div>
+               <div th:replace="fragments/footer :: footer">&nbsp;</div>
+             </div>
+           </body>
+         </html>
+     ]]></script>
+
+     <p>
+         You can open the file directly in a browser:
+     </p>
+
+     <img src="images/layouts_layoutlayoutdialect.png" alt="Layout page"/>
+
+     <p>
+         The above file is our decorator for content pages we will be creating in the application.
+         The most important thing about the above example is <kbd>layout:fragment="content"</kbd>. This is the
+         <em>heart</em> of the decorator page (layout). You can also notice, that header and footer are included using
+         Standard Thymeleaf Layout System.
+     </p>
+
+     <p>
+         The content page looks as follows (<kbd>WEB-INF/views/task/list.html</kbd>):
+     </p>
+
+     <script type="syntaxhighlighter" class="brush:xml"><![CDATA[
+         <!DOCTYPE html>
+         <html>
+           <head>
+             <title>Task List</title>
+             ...
+           </head>
+           <body>
+             <!-- /* Content of this page will be decorated by the elements of layout.html (task/layout) */ -->
+             <div layout:fragment="content">
+               <table class="table table-bordered table-striped">
+                 <thead>
+                   <tr>
+                     <td>ID</td>
+                     <td>Title</td>
+                     <td>Text</td>
+                     <td>Due to</td>
+                   </tr>
+                 </thead>
+                 <tbody>
+                   <tr th:if="${tasks.empty}">
+                     <td colspan="4">No tasks</td>
+                   </tr>
+                   <tr th:each="task : ${tasks}">
+                     <td th:text="${task.id}">1</td>
+                     <td><a href="view.html" th:href="@{'/' + ${task.id}}" th:text="${task.title}">Title ...</a></td>
+                     <td th:text="${task.text}">Text ...</td>
+                     <td th:text="${#calendars.format(task.dueTo)}">July 11, 2012 2:17:16 PM CDT</td>
+                   </tr>
+                 </tbody>
+               </table>
+             </div>
+           </body>
+         </html>
+     ]]></script>
+
+     <p>
+         And in the browser it looks like this:
+     </p>
+
+     <img src="images/layouts_layoutlayoutdialectlist.png" alt="Layout page"/>
+
+     <p>
+         Content of this <kbd>task/list</kbd> view will be decorated by the elements of
+         <kbd>task/layout</kbd> view. Please note <kbd>layout:decorator="task/layout"</kbd> attribute in
+         <kbd>&lt;html&gt;</kbd> element. This attribute signals to the Layout Dialect which layout should
+         be used to decorate given view.
+     </p>
+
+     <p>
+         And what about <em>Natural Templates</em> using the Layout Dialect? Again, possible! In just the
+         same way as with Tiles Dialect, you simply need to add some prototyping-only markup around the
+         fragments being included in your templates and that's it!
+     </p>
 
      <p>
 
