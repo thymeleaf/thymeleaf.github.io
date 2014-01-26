@@ -5,10 +5,12 @@
 	version="1.0.0">
 	<properties size="2">
 		<property name="p2.compressed" value="true"/>
-		<property name="p2.timestamp" value="201309302130"/>
+		<property name="p2.timestamp" value="201401261800"/>
 	</properties>
-	<children size="2">
+	<children size="4">
 		<child location="https://sourceforge.net/projects/thymeleaf/files/thymeleaf-extras-eclipse-plugin/2.0.2/update-site/"/>
 		<child location="https://sourceforge.net/projects/thymeleaf/files/thymeleaf-extras-eclipse-plugin/2.0.3/update-site/"/>
+		<child location="https://sourceforge.net/projects/thymeleaf/files/thymeleaf-extras-eclipse-plugin/2.0.4/update-site/"/>
+		<child location="https://sourceforge.net/projects/thymeleaf/files/thymeleaf-extras-eclipse-plugin/2.1.0/update-site/"/>
 	</children>
 </repository>
