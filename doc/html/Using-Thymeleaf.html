@@ -38,7 +38,7 @@
 
 </head>
 
-<body>
+<body class="tutorial">
 
 	<div id="documentation-wrapper">
 
@@ -48,10 +48,10 @@
 			<h1 id="doc-title" class="title">Tutorial: Using Thymeleaf</h1>
 			<div id="doc-info">
 				<div id="doc-version">
-					<span class="info-header">Document version:</span> 20131209 - 09 December 2013
+					<span class="info-header">Document version:</span> 20140513 - 13 May 2014
 				</div>
 				<div id="project-version">
-					<span class="info-header">Project Version:</span> 2.1.2
+					<span class="info-header">Project Version:</span> 2.1.3
 				</div>
 				<div id="project-website">
 					<span class="info-header">Project web site:</span>
@@ -337,7 +337,7 @@
 <p>This is our <code>IGTVGController</code> interface:</p>
 <pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">interface</span> IGTVGController {
 
-    public String <span class="fu">process</span>(
+    public <span class="dt">void</span> <span class="fu">process</span>(
             HttpServletRequest request, HttpServletResponse response,
             ServletContext servletContext, TemplateEngine templateEngine);    
     
@@ -855,15 +855,18 @@ templateEngine.<span class="fu">process</span>(<span class="st">&quot;home&quot;
 <p>Let's use this new syntax. Meet the <code>th:href</code> attribute:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;a</span><span class="ot"> href=</span><span class="st">&quot;details.html&quot;</span><span class="ot"> th:href=</span><span class="st">&quot;@{http://localhost:8080/gtvg/order/details(orderId=${o.id})}&quot;</span><span class="kw">&gt;</span>view<span class="kw">&lt;/a&gt;</span>
 
-<span class="kw">&lt;a</span><span class="ot"> href=</span><span class="st">&quot;details.html&quot;</span><span class="ot"> th:href=</span><span class="st">&quot;@{/order/details(orderId=${o.id})}&quot;</span><span class="kw">&gt;</span>view<span class="kw">&lt;/a&gt;</span></code></pre>
+<span class="kw">&lt;a</span><span class="ot"> href=</span><span class="st">&quot;details.html&quot;</span><span class="ot"> th:href=</span><span class="st">&quot;@{/order/details(orderId=${o.id})}&quot;</span><span class="kw">&gt;</span>view<span class="kw">&lt;/a&gt;</span>
+
+<span class="kw">&lt;a</span><span class="ot"> href=</span><span class="st">&quot;details.html&quot;</span><span class="ot"> th:href=</span><span class="st">&quot;@{/order/{orderId}/details(orderId=${o.id})}&quot;</span><span class="kw">&gt;</span>view<span class="kw">&lt;/a&gt;</span></code></pre>
 <p>Some things to note here:</p>
 <ul>
 <li><code>th:href</code> is an attribute modifier attribute: once processed, it will compute the link URL to be used and set the href attribute of the <code>&lt;a&gt;</code> tag to this URL.</li>
 <li>We are allowed to use expressions for URL parameters (as you can see in <code>orderId=${o.id}</code>). The required URL-encoding operations will also be automatically performed.</li>
 <li>If several parameters are needed, these will be separated by commas like <code>@{/order/process(execId=${execId},execType='FAST')}</code></li>
+<li>Variable templates are also allowed in URL paths, like <code>@{/order/{orderId}/details(orderId=${orderId}}}</code></li>
 <li>Relative URLs starting with <code>/</code> (like <code>/order/details</code>) will be automatically prefixed the application context name.</li>
-<li>If cookies are not enabled or this is not yet known, Thymeleaf will add a <code>&quot;;jsessionid=...&quot;</code> suffix to relative URLs so that session is preserved. This is called <em>URL Rewriting</em>.</li>
-<li>The <code>th:href</code> tag allowed us to (optionally) have a working static href attribute in our template, so that our template links remained navigable by a browser when opened directly for prototyping purposes.</li>
+<li>If cookies are not enabled or this is not yet known, a <code>&quot;;jsessionid=...&quot;</code> suffix might be added to relative URLs so that session is preserved. This is called <em>URL Rewriting</em>, and Thymeleaf allows you to plug in your own rewriting filters by using the <code>response.encodeURL(...)</code> mechanism from the Servlet API for every URL.</li>
+<li>The <code>th:href</code> tag allowed us to (optionally) have a working static <code>href</code> attribute in our template, so that our template links remained navigable by a browser when opened directly for prototyping purposes.</li>
 </ul>
 <p>As was the case with the message syntax (<code>#{...}</code>), URL bases can also be the result of evaluating another expression:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;a</span><span class="ot"> th:href=</span><span class="st">&quot;@{${url}(orderId=${o.id})}&quot;</span><span class="kw">&gt;</span>view<span class="kw">&lt;/a&gt;</span>
@@ -1459,7 +1462,7 @@ th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;input</span><span class="ot"> type=</span><span class="st">&quot;button&quot;</span><span class="ot"> value=</span><span class="st">&quot;Do it!&quot;</span><span class="ot"> class=</span><span class="st">&quot;btn&quot;</span><span class="ot"> th:attrappend=</span><span class="st">&quot;class=${&#39; &#39; + cssStyle}&quot;</span> <span class="kw">/&gt;</span></code></pre>
 <p>If you process this template with the <code>cssStyle</code> variable set to <code>&quot;warning&quot;</code>, you will get:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;input</span><span class="ot"> type=</span><span class="st">&quot;button&quot;</span><span class="ot"> value=</span><span class="st">&quot;Do it!&quot;</span><span class="ot"> class=</span><span class="st">&quot;btn warning&quot;</span> <span class="kw">/&gt;</span></code></pre>
-<p>There is also a specific <em>appending attribute</em> in the Standard Dialect: the <code>th:classappend</code> attribute, which is used for adding a CSS class to an element without overwriting the existing ones:</p>
+<p>There are also two specific <em>appending attributes</em> in the Standard Dialect: the <code>th:classappend</code> and <code>th:styleappend</code> attributes, which are used for adding a CSS class or a fragment of <em>style</em> to an element without overwriting the existing ones:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;tr</span><span class="ot"> th:each=</span><span class="st">&quot;prod : ${prods}&quot;</span><span class="ot"> class=</span><span class="st">&quot;row&quot;</span><span class="ot"> th:classappend=</span><span class="st">&quot;${prodStat.odd}? &#39;odd&#39;&quot;</span><span class="kw">&gt;</span></code></pre>
 <p>(Don't worry about that <code>th:each</code> attribute. It is an <em>iterating attribute</em> and will talk about it later.)</p>
 </section>
@@ -2327,7 +2330,8 @@ Attributes
 Fragment inclusion
 </td>
       <td>
-<code>th:include</code>
+        
+<code>th:include</code><br/> <code>th:replace</code>
 </td>
     </tr>
     <tr>
@@ -3336,6 +3340,16 @@ ${#strings.<span class="fu">isEmpty</span>(name)}
 ${#strings.<span class="fu">arrayIsEmpty</span>(nameArr)}
 ${#strings.<span class="fu">listIsEmpty</span>(nameList)}
 ${#strings.<span class="fu">setIsEmpty</span>(nameSet)}
+
+<span class="co">/*</span>
+<span class="co"> * Perform an &#39;isEmpty()&#39; check on a string and return it if false, defaulting to</span>
+<span class="co"> * another specified string if true.</span>
+<span class="co"> * Also works with arrays, lists or sets</span>
+<span class="co"> */</span>
+${#strings.<span class="fu">defaultString</span>(text,<span class="kw">default</span>)}
+${#strings.<span class="fu">arrayDefaultString</span>(textArr,<span class="kw">default</span>)}
+${#strings.<span class="fu">listDefaultString</span>(textList,<span class="kw">default</span>)}
+${#strings.<span class="fu">setDefaultString</span>(textSet,<span class="kw">default</span>)}
 
 <span class="co">/*</span>
 <span class="co"> * Check whether a fragment is contained in a String</span>

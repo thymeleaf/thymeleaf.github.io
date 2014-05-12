@@ -1,5 +1,5 @@
-/*  * Copyright 2013, The Thymeleaf Project (http://www.thymeleaf.org/)  *  * Licensed under the Apache License, Version 2.0 (the "License");  * you may not use this file except in compliance with the License.  * You may obtain a copy of the License at  *  *     http://www.apache.org/licenses/LICENSE-2.0  *  * Unless required by applicable law or agreed to in writing, software  * distributed under the License is distributed on an "AS IS" BASIS,  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  * See the License for the specific language governing permissions and  * limitations under the License.  */@charset "UTF-8";
-/**  * Stylesheet for all Thymeleaf documentation in both screen (HTML) and print  * (PDF) forms.  *   * @author Emanuel Rabina  */body {
+/*   * Copyright 2013, The Thymeleaf Project (http://www.thymeleaf.org/)   *   * Licensed under the Apache License, Version 2.0 (the "License");   * you may not use this file except in compliance with the License.   * You may obtain a copy of the License at   *   *     http://www.apache.org/licenses/LICENSE-2.0   *   * Unless required by applicable law or agreed to in writing, software   * distributed under the License is distributed on an "AS IS" BASIS,   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.   * See the License for the specific language governing permissions and   * limitations under the License.   */@charset "UTF-8";
+/**   * Stylesheet for all Thymeleaf documentation in both screen (HTML) and print   * (PDF) forms.   *    * @author Emanuel Rabina   */body {
   color: black;
   font: 1em/1.5em 'Open Sans', sans-serif;
   text-align: left;
@@ -37,7 +37,13 @@ table thead {
   border-bottom: 1px solid lightgrey;
 }
 /* Title block *//* -------------------------------------------------------------------------- */#title-block {
-  margin: 0 auto 10em;
+  margin: 0 auto;
+}
+.article #title-block {
+  margin-bottom: 5em;
+}
+.tutorial #title-block {
+  margin-bottom: 10em;
 }
 #doc-banner {
   display: block;
@@ -48,6 +54,9 @@ table thead {
   font-size: 3em;
   margin-bottom: 4em;
   text-align: center;
+}
+.article #doc-title {
+  display: none;
 }
 #doc-info {
   margin-left: 6em;
