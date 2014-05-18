@@ -48,7 +48,7 @@
 			<h1 id="doc-title" class="title">Tutorial: Using Thymeleaf</h1>
 			<div id="doc-info">
 				<div id="doc-version">
-					<span class="info-header">Document version:</span> 20140513 - 13 May 2014
+					<span class="info-header">Document version:</span> 20140519 - 19 May 2014
 				</div>
 				<div id="project-version">
 					<span class="info-header">Project Version:</span> 2.1.3
@@ -430,7 +430,7 @@ templateResolver.<span class="fu">setSuffix</span>(<span class="st">&quot;.html&
 templateEngine.<span class="fu">setTemplateResolver</span>(templateResolver);</code></pre>
 <p>Rather simple, isn't it? All we need is to create an instance and set the Template Resolver to it.</p>
 <p>A template resolver is the only required parameter a <code>TemplateEngine</code> needs, although of course there are many others that will be covered later (message resolvers, cache sizes, etc). For now, this is all we need.</p>
-<p>Out Template Engine is now ready and we can start creating our pages using Thymeleaf.</p>
+<p>Our Template Engine is now ready and we can start creating our pages using Thymeleaf.</p>
 </section>
 </section>
 </section>
@@ -550,15 +550,15 @@ templateEngine.<span class="fu">setTemplateResolver</span>(templateResolver);</c
 </ul>
 <p>And as you can see in the controller code, <code>WebContext</code> is the one we will use. In fact we have to, because the use of a <code>ServletContextTemplateResolver</code> requires that we use a context implementing <code>IWebContext</code>.</p>
 <pre class="sourceCode java"><code class="sourceCode java">WebContext ctx = <span class="kw">new</span> <span class="fu">WebContext</span>(request, servletContext, request.<span class="fu">getLocale</span>());</code></pre>
-<p>Only two of those three constructor arguments is required, because the default locale for the system will be used if none is specified (although you should never let this happen in real applications).</p>
+<p>Only two of those three constructor arguments are required, because the default locale for the system will be used if none is specified (although you should never let this happen in real applications).</p>
 <p>From the interface definition we can tell that <code>WebContext</code> will offer specialized methods for obtaining the request parameters and request, session and application attributes . But in fact <code>WebContext</code> will do a little bit more than just that:</p>
 <ul>
 <li>Add all the request attributes to the context variables map.</li>
-<li>Add a context variable called param containing all the request parameters.</li>
-<li>Add a context variable called session containing all the session attributes.</li>
-<li>Add a context variable called application containing all the ServletContext attributes.</li>
+<li>Add a context variable called <code>param</code> containing all the request parameters.</li>
+<li>Add a context variable called <code>session</code> containing all the session attributes.</li>
+<li>Add a context variable called <code>application</code> containing all the ServletContext attributes.</li>
 </ul>
-<p>All context objects (implementations of <code>IContext</code>), including both <code>Context</code> and <code>WebContext</code>, are set a special variable just before execution called the execution info (<code>execInfo</code>). This variable contains two pieces of data that can be used from within your templates:</p>
+<p>Just before execution, a special variable is set into all context objects (implementations of <code>IContext</code>), including both <code>Context</code> and <code>WebContext</code>, called the execution info (<code>execInfo</code>). This variable contains two pieces of data that can be used from within your templates:</p>
 <ul>
 <li>The template name (<code>${execInfo.templateName}</code>), the name specified for engine execution, and corresponding to the template being executed.</li>
 <li>The current date and time (<code>${execInfo.now}</code>), a <code>Calendar</code> object corresponding to the moment the template engine started its execution for this template.</li>
@@ -687,7 +687,7 @@ Today is: 12 july 2010</code></pre>
 <li>Default: <code>(value) ?: (defaultvalue)</code></li>
 </ul></li>
 </ul>
-<p>All this features can be combined and nested:</p>
+<p>All these features can be combined and nested:</p>
 <pre class="sourceCode html"><code class="sourceCode html">&#39;User is of type &#39; + (${user.isAdmin()} ? &#39;Administrator&#39; : (${user.type} ?: &#39;Unknown&#39;))</code></pre>
 <section id="messages" class="level2">
 <h2><a href="#messages">4.1 Messages</a></h2>
@@ -700,7 +700,7 @@ Today is: 12 july 2010</code></pre>
 <p>This means we would need to add a parameter to our message. Just like this:</p>
 <pre class="sourceCode html"><code class="sourceCode html">home.welcome=¡Bienvenido a nuestra tienda de comestibles, {0}!</code></pre>
 <p>Parameters are specified according to the <code>java.text.MessageFormat</code> standard syntax, which means you could add format to numbers and dates as specified in the API docs for that class.</p>
-<p>In order to specify a value for our parameter, and given an HTTP session attribute called user, we would have:</p>
+<p>In order to specify a value for our parameter, and given an HTTP session attribute called <code>user</code>, we would have:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;p</span><span class="ot"> th:utext=</span><span class="st">&quot;#{home.welcome(${session.user.name})}&quot;</span><span class="kw">&gt;</span>Welcome to our grocery store, Sebastian Pepper!<span class="kw">&lt;/p&gt;</span></code></pre>
 <p>If needed, several parameters could be specified, separated by commas. In fact, the message key itself could come from a variable:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;p</span><span class="ot"> th:utext=</span><span class="st">&quot;#{${welcomeMsgKey}(${session.user.name})}&quot;</span><span class="kw">&gt;</span>Welcome to our grocery store, Sebastian Pepper!<span class="kw">&lt;/p&gt;</span></code></pre>
@@ -805,7 +805,7 @@ templateEngine.<span class="fu">process</span>(<span class="st">&quot;home&quot;
 <section id="expressions-on-selections-asterisk-syntax" class="level2">
 <h2><a href="#expressions-on-selections-asterisk-syntax">4.3 Expressions on selections (asterisk syntax)</a></h2>
 <p>Variable expressions not only can be written in <code>${...}</code> expressions, but also in <code>*{...}</code> ones.</p>
-<p>There is an important difference, though: the asterisk syntax evaluates expressions on selected objects rather than on the whole context variables map. This is, unless a selection has not been yet performed, in which case the dollar and the asterisk syntaxes do exactly the same.</p>
+<p>There is an important difference, though: the asterisk syntax evaluates expressions on selected objects rather than on the whole context variables map. This is: as long as there is no selected object, the dollar and the asterisk syntaxes do exactly the same.</p>
 <p>And what is that object selection thing? A <code>th:object</code> attribute. Let's use it in our user profile (<code>userprofile.html</code>) page:</p>
 <pre class="sourceCode html"><code class="sourceCode html">  <span class="kw">&lt;div</span><span class="ot"> th:object=</span><span class="st">&quot;${session.user}&quot;</span><span class="kw">&gt;</span>
     <span class="kw">&lt;p&gt;</span>Name: <span class="kw">&lt;span</span><span class="ot"> th:text=</span><span class="st">&quot;*{firstName}&quot;</span><span class="kw">&gt;</span>Sebastian<span class="kw">&lt;/span&gt;</span>.<span class="kw">&lt;/p&gt;</span>
@@ -853,10 +853,13 @@ templateEngine.<span class="fu">process</span>(<span class="st">&quot;home&quot;
 </ul>
 <p>Thymeleaf can handle absolute URLs in any situation, but for relative ones it will require you to use a context object that implements the <code>IWebContext</code> interface, which contains some info coming from the HTTP request and needed to create relative links.</p>
 <p>Let's use this new syntax. Meet the <code>th:href</code> attribute:</p>
-<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;a</span><span class="ot"> href=</span><span class="st">&quot;details.html&quot;</span><span class="ot"> th:href=</span><span class="st">&quot;@{http://localhost:8080/gtvg/order/details(orderId=${o.id})}&quot;</span><span class="kw">&gt;</span>view<span class="kw">&lt;/a&gt;</span>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="co">&lt;!-- Will generate something like &#39;http://localhost:8080/gtvg/order/details?orderId=3&#39; (plus rewriting) --&gt;</span>
+<span class="kw">&lt;a</span><span class="ot"> href=</span><span class="st">&quot;details.html&quot;</span><span class="ot"> th:href=</span><span class="st">&quot;@{http://localhost:8080/gtvg/order/details(orderId=${o.id})}&quot;</span><span class="kw">&gt;</span>view<span class="kw">&lt;/a&gt;</span>
 
+<span class="co">&lt;!-- Will generate something like &#39;/gtvg/order/details?orderId=3&#39; (plus rewriting) --&gt;</span>
 <span class="kw">&lt;a</span><span class="ot"> href=</span><span class="st">&quot;details.html&quot;</span><span class="ot"> th:href=</span><span class="st">&quot;@{/order/details(orderId=${o.id})}&quot;</span><span class="kw">&gt;</span>view<span class="kw">&lt;/a&gt;</span>
 
+<span class="co">&lt;!-- Will generate something like &#39;/gtvg/order/3/details&#39; (plus rewriting) --&gt;</span>
 <span class="kw">&lt;a</span><span class="ot"> href=</span><span class="st">&quot;details.html&quot;</span><span class="ot"> th:href=</span><span class="st">&quot;@{/order/{orderId}/details(orderId=${o.id})}&quot;</span><span class="kw">&gt;</span>view<span class="kw">&lt;/a&gt;</span></code></pre>
 <p>Some things to note here:</p>
 <ul>
@@ -900,7 +903,7 @@ templateEngine.<span class="fu">process</span>(<span class="st">&quot;home&quot;
 <h3><a href="#boolean-literals">Boolean literals</a></h3>
 <p>The boolean literals are <code>true</code> and <code>false</code>. For example:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;div</span><span class="ot"> th:if=</span><span class="st">&quot;${user.isAdmin()} == false&quot;</span><span class="kw">&gt;</span> ...</code></pre>
-<p>Note the difference between the above example and specifying the <code>false</code> literal inside an OGNL/SpringEL variable expression and therefore let these expression engines evaluate it (not Thymeleaf):</p>
+<p>Note that in the above example, the <code>== false</code> is written outside the braces, and thus it is Thymeleaf itself who takes care of it. If it were written inside the braces, it would be the responsibility of the OGNL/SpringEL engines:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;div</span><span class="ot"> th:if=</span><span class="st">&quot;${user.isAdmin() == false}&quot;</span><span class="kw">&gt;</span> ...</code></pre>
 </section>
 <section id="the-null-literal" class="level3">
@@ -938,14 +941,14 @@ templateEngine.<span class="fu">process</span>(<span class="st">&quot;home&quot;
 <h2><a href="#arithmetic-operations">4.8 Arithmetic operations</a></h2>
 <p>Some arithmetic operations are also available: <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code> and <code>%</code>.</p>
 <pre class="sourceCode html"><code class="sourceCode html">th:with=&quot;isEven=(${prodStat.count} % 2 == 0)&quot;</code></pre>
-<p>Note that this operators can also be applied inside OGNL variable expressions themselves (and in that case will be executed by OGNL instead of the Thymeleaf Standard Expression engine):</p>
+<p>Note that these operators can also be applied inside OGNL variable expressions themselves (and in that case will be executed by OGNL instead of the Thymeleaf Standard Expression engine):</p>
 <pre class="sourceCode html"><code class="sourceCode html">th:with=&quot;isEven=${prodStat.count % 2 == 0}&quot;</code></pre>
 <p>Note that textual aliases exist for some of these operators: <code>div</code> (<code>/</code>), <code>mod</code> (<code>%</code>).</p>
 </section>
 <section id="comparators-and-equality" class="level2">
 <h2><a href="#comparators-and-equality">4.9 Comparators and Equality</a></h2>
 <p>Values in expressions can be compared with the <code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code> and <code>&lt;=</code> symbols, as usual, and also the <code>==</code> and <code>!=</code> operators can be used to check equality (or the lack of it). Note that XML establishes that the <code>&lt;</code> and <code>&gt;</code> symbols should not be used in attribute values, and so they should be substituted by <code>&amp;lt;</code> and <code>&amp;gt;</code>.</p>
-<pre class="sourceCode html"><code class="sourceCode html">th:if=&quot;${prodStat.count} gt; 1&quot;
+<pre class="sourceCode html"><code class="sourceCode html">th:if=&quot;${prodStat.count} <span class="dv">&amp;gt;</span> 1&quot;
 th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &#39;Development&#39; : &#39;Production&#39;)&quot;</code></pre>
 <p>Note that textual aliases exist for some of these operators: <code>gt</code> (<code>&gt;</code>), <code>lt</code> (<code>&lt;</code>), <code>ge</code> (<code>&gt;=</code>), <code>le</code> (<code>&lt;=</code>), <code>not</code> (<code>!</code>). Also <code>eq</code> (<code>==</code>), <code>neq</code>/<code>ne</code> (<code>!=</code>).</p>
 </section>
@@ -1023,7 +1026,7 @@ th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &
   <span class="kw">&lt;/fieldset&gt;</span>
 <span class="kw">&lt;/form&gt;</span></code></pre>
 <p>Besides the new attribute values, you can also see that the applicacion context name has been automatically prefixed to the URL base in <code>/gtvg/subscribe</code>, as explained in the previous chapter.</p>
-<p>But what if we wanted to set more than one attribute at a time? XML rules do not allow you to set an attribute twice in a tag, so <code>th:attr</code> will take a comma-separated list of assignations, like:</p>
+<p>But what if we wanted to set more than one attribute at a time? XML rules do not allow you to set an attribute twice in a tag, so <code>th:attr</code> will take a comma-separated list of assignments, like:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;img</span><span class="ot"> src=</span><span class="st">&quot;../../images/gtvglogo.png&quot;</span><span class="ot"> th:attr=</span><span class="st">&quot;src=@{/images/gtvglogo.png},title=#{logo},alt=#{logo}&quot;</span> <span class="kw">/&gt;</span></code></pre>
 <p>Given the required messages files, this will output:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;img</span><span class="ot"> src=</span><span class="st">&quot;/gtgv/images/gtvglogo.png&quot;</span><span class="ot"> title=</span><span class="st">&quot;Logo de Good Thymes&quot;</span><span class="ot"> alt=</span><span class="st">&quot;Logo de Good Thymes&quot;</span> <span class="kw">/&gt;</span></code></pre>
@@ -1032,9 +1035,9 @@ th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &
 <h2><a href="#setting-value-to-specific-attributes">5.2 Setting value to specific attributes</a></h2>
 <p>By now, you might be thinking that something like:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;input</span><span class="ot"> type=</span><span class="st">&quot;submit&quot;</span><span class="ot"> value=</span><span class="st">&quot;Subscribe me!&quot;</span><span class="ot"> th:attr=</span><span class="st">&quot;value=#{subscribe.submit}&quot;</span><span class="kw">/&gt;</span></code></pre>
-<p>...is quite an ugly piece of markup. Specifying an assignation inside an attribute's value can be very practical, but it is not the most elegant way of creating templates if you have to do it all the time.</p>
-<p>Thymeleaf agrees with you. And that's why in fact <code>th:attr</code> is scarcely used in templates. Normally, you will be using other <code>th:*</code> attributes which task is setting specific tag attributes (and not just any attribute like <code>th:attr</code>).</p>
-<p>And which attribute does the Standard Dialect offer us for setting the <code>value</code> attribute of our button? Well, in a rather obvious manner, it' `th:value. Let's have a look:</p>
+<p>...is quite an ugly piece of markup. Specifying an assignment inside an attribute's value can be very practical, but it is not the most elegant way of creating templates if you have to do it all the time.</p>
+<p>Thymeleaf agrees with you. And that's why in fact <code>th:attr</code> is scarcely used in templates. Normally, you will be using other <code>th:*</code> attributes whose task is setting specific tag attributes (and not just any attribute like <code>th:attr</code>).</p>
+<p>And which attribute does the Standard Dialect offer us for setting the <code>value</code> attribute of our button? Well, in a rather obvious manner, it's <code>th:value</code>. Let's have a look:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;input</span><span class="ot"> type=</span><span class="st">&quot;submit&quot;</span><span class="ot"> value=</span><span class="st">&quot;Subscribe me!&quot;</span><span class="ot"> th:value=</span><span class="st">&quot;#{subscribe.submit}&quot;</span><span class="kw">/&gt;</span></code></pre>
 <p>This looks much better!. Let's try and do the same to the <code>action</code> attribute in the <code>form</code> tag:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;form</span><span class="ot"> action=</span><span class="st">&quot;subscribe.html&quot;</span><span class="ot"> th:action=</span><span class="st">&quot;@{/subscribe}&quot;</span><span class="kw">&gt;</span></code></pre>
@@ -1457,14 +1460,14 @@ th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &
 </section>
 <section id="appending-and-prepending" class="level2">
 <h2><a href="#appending-and-prepending">5.4 Appending and prepending</a></h2>
-<p>Working in an equivalent way to <code>th:attr</code>, Thymeleaf offers the <code>th:attrappend</code> and <code>th:attrprepend</code> attributes, which append (sufix) or prepend (prefix) the result of their evaluation to the existing attribute values.</p>
+<p>Working in an equivalent way to <code>th:attr</code>, Thymeleaf offers the <code>th:attrappend</code> and <code>th:attrprepend</code> attributes, which append (suffix) or prepend (prefix) the result of their evaluation to the existing attribute values.</p>
 <p>For example, you might want to store the name of a CSS class to be added (not set, just added) to one of your buttons in a context variable, because the specific CSS class to be used would depend on something that the user did before. Easy:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;input</span><span class="ot"> type=</span><span class="st">&quot;button&quot;</span><span class="ot"> value=</span><span class="st">&quot;Do it!&quot;</span><span class="ot"> class=</span><span class="st">&quot;btn&quot;</span><span class="ot"> th:attrappend=</span><span class="st">&quot;class=${&#39; &#39; + cssStyle}&quot;</span> <span class="kw">/&gt;</span></code></pre>
 <p>If you process this template with the <code>cssStyle</code> variable set to <code>&quot;warning&quot;</code>, you will get:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;input</span><span class="ot"> type=</span><span class="st">&quot;button&quot;</span><span class="ot"> value=</span><span class="st">&quot;Do it!&quot;</span><span class="ot"> class=</span><span class="st">&quot;btn warning&quot;</span> <span class="kw">/&gt;</span></code></pre>
 <p>There are also two specific <em>appending attributes</em> in the Standard Dialect: the <code>th:classappend</code> and <code>th:styleappend</code> attributes, which are used for adding a CSS class or a fragment of <em>style</em> to an element without overwriting the existing ones:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;tr</span><span class="ot"> th:each=</span><span class="st">&quot;prod : ${prods}&quot;</span><span class="ot"> class=</span><span class="st">&quot;row&quot;</span><span class="ot"> th:classappend=</span><span class="st">&quot;${prodStat.odd}? &#39;odd&#39;&quot;</span><span class="kw">&gt;</span></code></pre>
-<p>(Don't worry about that <code>th:each</code> attribute. It is an <em>iterating attribute</em> and will talk about it later.)</p>
+<p>(Don't worry about that <code>th:each</code> attribute. It is an <em>iterating attribute</em> and we will talk about it later.)</p>
 </section>
 <section id="fixed-value-boolean-attributes" class="level2">
 <h2><a href="#fixed-value-boolean-attributes">5.5 Fixed-value boolean attributes</a></h2>
@@ -1670,7 +1673,7 @@ th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &
 <li>The current <em>iteration index</em>, starting with 1. This is the <code>count</code> property.</li>
 <li>The total amount of elements in the iterated variable. This is the <code>size</code> property.</li>
 <li>The <em>iter variable</em> for each iteration. This is the <code>current</code> property.</li>
-<li>Whether the current iteration is even or odd. This are the <code>even/odd</code> boolean properties.</li>
+<li>Whether the current iteration is even or odd. These are the <code>even/odd</code> boolean properties.</li>
 <li>Whether the current iteration is the first one. This is the <code>first</code> boolean property.</li>
 <li>Whether the current iteration is the last one. This is the <code>last</code> boolean property.</li>
 </ul>
@@ -1832,7 +1835,7 @@ th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &
   <span class="kw">&lt;/tr&gt;</span>
 <span class="kw">&lt;/table&gt;</span></code></pre>
 <p>Perfect! That's exactly what we wanted.</p>
-<p>Note that the <code>th:if</code> attribute will not only evaluate <em>boolean</em> conditions. It's capabilities go a little beyond that, and it will evaluate the specified expression as <code>true</code> following these rules:</p>
+<p>Note that the <code>th:if</code> attribute will not only evaluate <em>boolean</em> conditions. Its capabilities go a little beyond that, and it will evaluate the specified expression as <code>true</code> following these rules:</p>
 <ul>
 <li>If value is not null:
 <ul>
@@ -1992,7 +1995,7 @@ th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;div</span><span class="ot"> th:include=</span><span class="st">&quot;::frag (onevar=${value1},twovar=${value2})&quot;</span><span class="kw">&gt;</span></code></pre>
 <p>This would be, in fact, equivalent to a combination of <code>th:include</code> and <code>th:with</code>:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;div</span><span class="ot"> th:include=</span><span class="st">&quot;::frag&quot;</span><span class="ot"> th:with=</span><span class="st">&quot;onevar=${value1},twovar=${value2}&quot;</span><span class="kw">&gt;</span></code></pre>
-<p><strong>Note</strong> that this specification of local variables for a fragment —no matter whether it has a signature or not— does not cause an initialization of the context to zero. Fragments will still be able to access every context variable being used at the calling template like they currently are.</p>
+<p><strong>Note</strong> that this specification of local variables for a fragment —no matter whether it has a signature or not— does not cause the context to emptied previously to its execution. Fragments will still be able to access every context variable being used at the calling template like they currently are.</p>
 </section>
 <section id="thassert-for-in-template-assertions" class="level3">
 <h3><a href="#thassert-for-in-template-assertions">th:assert for in-template assertions</a></h3>
@@ -2204,7 +2207,7 @@ th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &
     <span class="kw">&lt;/td&gt;</span>
   <span class="kw">&lt;/tr&gt;</span>
 <span class="kw">&lt;/table&gt;</span></code></pre>
-<p>And what about that all value in the attribute, what does it mean? Well, in fact <code>th:remove</code> can behave in three different ways, depending on its value:</p>
+<p>And what about that <code>all</code> value in the attribute, what does it mean? Well, in fact <code>th:remove</code> can behave in three different ways, depending on its value:</p>
 <ul>
 <li><code>all</code>: Remove both the containing tag and all its children.</li>
 <li><code>body</code>: Do not remove the containing tag, but remove all its children.</li>
@@ -2256,9 +2259,9 @@ th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &
 <p>The <code>th:remove</code> attribute can take any <em>Thymeleaf Standard Expression</em>, as long as it returns one of the allowed String values (<code>all</code>, <code>tag</code>, <code>body</code>, <code>all-but-first</code> or <code>none</code>).</p>
 <p>This means removals could be conditional, like:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;a</span><span class="ot"> href=</span><span class="st">&quot;/something&quot;</span><span class="ot"> th:remove=</span><span class="st">&quot;${condition}? tag : none&quot;</span><span class="kw">&gt;</span>Link text not to be removed<span class="kw">&lt;/a&gt;</span></code></pre>
-<p>Also note that <code>th:remove</code> could consider <code>null</code> a synonym to <code>none</code>, so that the following works exactly as the example above:</p>
+<p>Also note that <code>th:remove</code> considers <code>null</code> a synonym to <code>none</code>, so that the following works exactly as the example above:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;a</span><span class="ot"> href=</span><span class="st">&quot;/something&quot;</span><span class="ot"> th:remove=</span><span class="st">&quot;${condition}? tag&quot;</span><span class="kw">&gt;</span>Link text not to be removed<span class="kw">&lt;/a&gt;</span></code></pre>
-<p>If <code>${condition}</code> is false, <code>null</code> will be returned, and thus no removal will be performed.</p>
+<p>In this case, if <code>${condition}</code> is false, <code>null</code> will be returned, and thus no removal will be performed.</p>
 </section>
 </section>
 <section id="local-variables" class="level1">
@@ -2273,12 +2276,12 @@ th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &
 <li>It will be available for any other <code>th:*</code> attributes executing in that tag with less <em>precedence</em> than <code>th:each</code> (which means they will execute after <code>th:each</code>).</li>
 <li>It will be available for any child element of the <code>&lt;tr&gt;</code> tag, such as <code>&lt;td&gt;</code> elements.</li>
 </ul>
-<p>Thymeleaf offers you a way to declare local variables without iteration. It is the <code>th:with</code> attribute, and its syntax is like that of attribute value assignation:</p>
+<p>Thymeleaf offers you a way to declare local variables without iteration. It is the <code>th:with</code> attribute, and its syntax is like that of attribute value assignments:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;div</span><span class="ot"> th:with=</span><span class="st">&quot;firstPer=${persons[0]}&quot;</span><span class="kw">&gt;</span>
     <span class="kw">&lt;p&gt;</span>The name of the first person is <span class="kw">&lt;span</span><span class="ot"> th:text=</span><span class="st">&quot;${firstPer.name}&quot;</span><span class="kw">&gt;</span>Julius Caesar<span class="kw">&lt;/span&gt;</span>.<span class="kw">&lt;/p&gt;</span>
 <span class="kw">&lt;/div&gt;</span></code></pre>
 <p>When <code>th:with</code> is processed, that <code>firstPer</code> variable is created as a local variable and added to the variables map coming from the context, so that it is as available for evaluation as any other variables declared in the context from the beginning, but only within the bounds of the containing <code>&lt;div&gt;</code> tag.</p>
-<p>You can define several variables at the same time using the usual multiple assignation syntax:</p>
+<p>You can define several variables at the same time using the usual multiple assignment syntax:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;div</span><span class="ot"> th:with=</span><span class="st">&quot;firstPer=${persons[0]},secondPer=${persons[1]}&quot;</span><span class="kw">&gt;</span>
     <span class="kw">&lt;p&gt;</span>The name of the first person is <span class="kw">&lt;span</span><span class="ot"> th:text=</span><span class="st">&quot;${firstPer.name}&quot;</span><span class="kw">&gt;</span>Julius Caesar<span class="kw">&lt;/span&gt;</span>.<span class="kw">&lt;/p&gt;</span>
     <span class="kw">&lt;p&gt;</span>But the name of the second person is <span class="kw">&lt;span</span><span class="ot"> th:text=</span><span class="st">&quot;${secondPer.name}&quot;</span><span class="kw">&gt;</span>Marcus Antonius<span class="kw">&lt;/span&gt;</span>.<span class="kw">&lt;/p&gt;</span>
@@ -2299,7 +2302,7 @@ th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;p&gt;</span>
   Today is: <span class="kw">&lt;span</span><span class="ot"> th:with=</span><span class="st">&quot;df=#{date.format}&quot;</span><span class="ot"> th:text=</span><span class="st">&quot;${#calendars.format(today,df)}&quot;</span><span class="kw">&gt;</span>13 february 2011<span class="kw">&lt;/span&gt;</span>
 <span class="kw">&lt;/p&gt;</span></code></pre>
-<p>You might be thinking: Precedence? We haven't talked about that yet! Well, don't worry because that is exactly what next chapter is about.</p>
+<p>You might be thinking: Precedence? We haven't talked about that yet! Well, don't worry because that is exactly what the next chapter is about.</p>
 </section>
 <section id="attribute-precedence" class="level1">
 <h1><a href="#attribute-precedence">10 Attribute Precedence</a></h1>
@@ -2429,7 +2432,7 @@ Fragment removal
   </tbody>
 </table>
 
-<p>This precedence mechanism means that the above iteration fragment will give exactly the same results if attribute position is inverted (although it would be slightly less readable):</p>
+<p>This precedence mechanism means that the above iteration fragment will give exactly the same results if the attribute position is inverted (although it would be slightly less readable):</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;ul&gt;</span>
   <span class="kw">&lt;li</span><span class="ot"> th:text=</span><span class="st">&quot;${item.description}&quot;</span><span class="ot"> th:each=</span><span class="st">&quot;item : ${items}&quot;</span><span class="kw">&gt;</span>Item description here...<span class="kw">&lt;/li&gt;</span>
 <span class="kw">&lt;/ul&gt;</span></code></pre>
@@ -2550,7 +2553,7 @@ Fragment removal
 </section>
 <section id="script-inlining-javascript-and-dart" class="level2">
 <h2><a href="#script-inlining-javascript-and-dart">12.2 Script inlining (JavaScript and Dart)</a></h2>
-<p>Thymeleaf offers a series of &quot;scripting&quot; modes for its inlining capabilities, so that you can integrate your date inside scripts created in some script languages.</p>
+<p>Thymeleaf offers a series of &quot;scripting&quot; modes for its inlining capabilities, so that you can integrate your data inside scripts created in some script languages.</p>
 <p>Current scripting modes are <code>javascript</code> (<code>th:inline=&quot;javascript&quot;</code>) and <code>dart</code> (<code>th:inline=&quot;dart&quot;</code>).</p>
 <p>The first thing we can do with script inlining is writing the value of expressions into our scripts, like:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;script</span><span class="ot"> th:inline=</span><span class="st">&quot;javascript&quot;</span><span class="kw">&gt;</span>
@@ -2878,7 +2881,7 @@ templateResolver.<span class="fu">getCacheablePatternSpec</span>().<span class="
 <pre class="sourceCode java"><code class="sourceCode java"><span class="co">// Default is no TTL (only LRU would remove entries)</span>
 templateResolver.<span class="fu">setCacheTTLMs</span>(60000L);</code></pre></li>
 </ul>
-<p>Also, a Template Engine can be set several template resolvers, in which case an order can be established between them for template resolution so that, if the first one is not able to resolve the template, the second one is asked, and so on:</p>
+<p>Also, a Template Engine can be specified several template resolvers, in which case an order can be established between them for template resolution so that, if the first one is not able to resolve the template, the second one is asked, and so on:</p>
 <pre class="sourceCode java"><code class="sourceCode java">ClassLoaderTemplateResolver classLoaderTemplateResolver = <span class="kw">new</span> <span class="fu">ClassLoaderTemplateResolver</span>();
 classLoaderTemplateResolver.<span class="fu">setOrder</span>(Integer.<span class="fu">valueOf</span>(<span class="dv">1</span>));
 
@@ -3000,7 +3003,7 @@ ${#ctx.<span class="fu">sessionAttributes</span>}</code></pre>
 </ul>
 <pre class="sourceCode java"><code class="sourceCode java">${#locale}</code></pre>
 <ul>
-<li><p><strong>#vars</strong> : an instance of <code>org.thymeleaf.context.VariablesMap</code> with all the variables in the Context ((usually the variables contained in <code>#ctx.variables</code> plus local ones).</p>
+<li><p><strong>#vars</strong> : an instance of <code>org.thymeleaf.context.VariablesMap</code> with all the variables in the Context (usually the variables contained in <code>#ctx.variables</code> plus local ones).</p>
 <p>Unqualified expressions are evaluated against this object. In fact, <code>${something}</code> is completely equivalent to (but more beautiful than) <code>${#vars.something}</code>.</p>
 <p><code>#root</code> is a synomyn for the same object.</p></li>
 </ul>
