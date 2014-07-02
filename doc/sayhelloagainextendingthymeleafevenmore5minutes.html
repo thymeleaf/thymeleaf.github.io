@@ -70,7 +70,7 @@
 
 <section id="say-hello-again-extending-thymeleaf-even-more-in-another-5-minutes" class="level1">
 <h1>Say Hello Again! Extending Thymeleaf even more in another 5 minutes</h1>
-<p>This article is a continuation of <a href="sayhelloextendingthymeleaf5minutes.html"><em>“Say Hello! Extending Thymeleaf in 5 minutes”</em></a> and is meant to be read after it. Code in this article comes from the same example application, which you can download from the <a href="documentation.html">documentation</a> page.</p>
+<p>This article is a continuation of <a href="sayhelloextendingthymeleaf5minutes.html"><em>“Say Hello! Extending Thymeleaf in 5 minutes”</em></a> and is meant to be read after it. Code in this article comes from the same example application, which you can download from the <a href="/documentation.html">documentation</a> page.</p>
 <section id="some-improvements-for-our-hello-dialect" class="level2">
 <h2>Some improvements for our ‘hello’ dialect</h2>
 <p>To the moment, our <code>HelloDialect</code> allowed us to turn this:</p>
@@ -87,8 +87,7 @@
   &lt;li th:each=&quot;planet : ${planets}&quot; hello:saytoplanet=&quot;${planet}&quot;&gt;Hello Planet!&lt;/li&gt;
 &lt;/ul&gt;</code></pre>
 <p>…backed by a Spring MVC controller that includes all those planets as a model attribute called <code>planets</code>:</p>
-<pre class="java"><code>
-@Controller
+<pre class="java"><code>@Controller
 public class SayHelloController {
 
   public SayHelloController() {
@@ -211,7 +210,7 @@ protected String getMessageForProcessor(
 </ul>
 <p>Finally, the first method of the three, <code>getMessage(...)</code> acts as a combination of the other two: first it tries to resolve the required message as a <em>template message</em> (defined in the application messages files) and if it doesn’t exist tries to resolve it as a <em>processor message</em>. This way, applications can override if needed any messages established by its dialects.</p>
 <p>Enough about theory, let’s put all this into practice. First we will need some <code>.properties</code> files, like <code>SayToPlanetAttrProcessor_es.properties</code> for Spanish:</p>
-<pre><code>msg.helloplanet=&amp;iexcl;Hola, planeta {0}!</code></pre>
+<pre class="html"><code>    msg.helloplanet=&amp;iexcl;Hola, planeta {0}!</code></pre>
 <p><code>SayToPlanetAttrProcessor_pt.properties</code> for Portuguese:</p>
 <pre class="html"><code>msg.helloplanet=Ol&amp;aacute;, planeta {0}!</code></pre>
 <p>…etc.</p>
@@ -266,7 +265,7 @@ protected String getText(final Arguments arguments, final Element element,
 <section id="exercise-for-the-reader-internationalize-the-planet-names" class="level2">
 <h2>Exercise for the reader: internationalize the planet names</h2>
 <p>Now we’ve applied internationalization to the message output by our attribute processor, but our planet names are still all in English because they are <em>hard coded</em> variables in our context (in Spring language, <em>model attributes</em>).</p>
-<p>So, how about internationalizing those planet names? The <code>#{...}</code> expressions we can use in this attribute now should make this quite easy, and there are also some examples in articles like <a href="standarddialect5minutes.html"><em>“Getting started with the Standard Dialect in 5 minutes”</em></a> and the <a href="documentation.html">tutorials</a> quite similar to this scenario.</p>
+<p>So, how about internationalizing those planet names? The <code>#{...}</code> expressions we can use in this attribute now should make this quite easy, and there are also some examples in articles like <a href="standarddialect5minutes.html"><em>“Getting started with the Standard Dialect in 5 minutes”</em></a> and the <a href="/documentation.html">tutorials</a> quite similar to this scenario.</p>
 <p>Once you’re done (or if you get stuck), you can share your results at our <a href="http://forum.thymeleaf.org">user forums</a>.</p>
 </section>
 </section>

@@ -71,7 +71,7 @@
 <section id="spring-mvc-view-layer-thymeleaf-vs.jsp" class="level1">
 <h1>Spring MVC view layer: Thymeleaf vs. JSP</h1>
 <p>In this article we will compare the same page (a subscription form) created twice for the same Spring MVC application: once using Thymeleaf and another time using JSP, JSTL and the Spring tag libraries.</p>
-<p>All the code seen here comes from a working application. You can download the source code of such application from the <a href="documentation.html">documentation page</a>.</p>
+<p>All the code seen here comes from a working application. You can download the source code of such application from the <a href="/documentation.html">documentation page</a>.</p>
 <section id="common-requirements" class="level2">
 <h2>Common requirements</h2>
 <p>Our customers need a form for subscribing new members to a message list, with two fields:</p>
@@ -279,7 +279,7 @@
 <pre class="html"><code>&lt;input type=&quot;email&quot; id=&quot;email&quot; name=&quot;email&quot; placeholder=&quot;your@email&quot; value=&quot;&quot; /&gt;</code></pre>
 <p>But this was not correct! In Spring MVC we should never write a JSP input field like that, because we wouldn’t be correctly <em>binding</em> our input to the <code>email</code> property of the form-backing bean. In order to do so, we would need to use an <code>&lt;s:eval/&gt;</code> tag, which will apply all the required transformations (like <em>property editors</em>) and make our plain-HTML tag work as if an <code>&lt;sf:email/&gt;</code> tag existed:</p>
 <pre class="html"><code>&lt;input type=&quot;email&quot; id=&quot;email&quot; name=&quot;email&quot; placeholder=&quot;your@email&quot;
-  value=&quot;&lt;s:eval expression=&#39;subscription.email&#39; /&gt;&quot; /&gt;</code></pre>
+       value=&quot;&lt;s:eval expression=&#39;subscription.email&#39; /&gt;&quot; /&gt;</code></pre>
 </section>
 <section id="since-spring-3.1" class="level4">
 <h4>Since Spring 3.1</h4>

@@ -78,7 +78,7 @@
 <h2>Back in the 90s, there was HTML…</h2>
 <p>…and HTML was a standard (or more correctly, a <em>recommendation</em>) maintained by the <em>World Wide Web Consortium</em> (a.k.a. W3C). Extending from a language called SGML, HTML defined a tag-based markup language for writing rich hyper-text documents, highly coupled to the protocol that was used for serving them and their related resources across the network: the <em>Hyper-Text Transfer Protocol</em> (HTTP).</p>
 <p>HTTP used text <em>headers</em> for defining what was being served to clients and how, one of which was extremely important: the <code>Content-Type</code> header. This header explained to browsers what type of content was being served to them in a language called <em>MIME (Multipurpose Internet Mail Extensions)</em>. And the MIME type used for serving HTML documents was <code>text/html</code>:</p>
-<pre><code>Content-Type: text/html</code></pre>
+<pre class="html"><code>    Content-Type: text/html</code></pre>
 <p>HTML also defined a way to check whether a document was <em>valid</em>. Being valid basically meant that the document was written according to the HTML rules that dictated what attributes a tag could have, where a tag could appear in the document, etc.</p>
 <p>These validity rules were specified using a language for defining the structure of SGML documents called <em>Document Type Definition</em> or DTD. A Standard DTD was created for each version of HTML, and HTML documents had to declare the DTD (and therefore the version of HTML) they conformed to by means of a clause that should appear as their first line, the <em>Document Type Declaration</em> or <code>DOCTYPE</code> clause:</p>
 <pre class="html"><code>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot; &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;</code></pre>
@@ -106,7 +106,7 @@
 <p>For validation, the XHTML 1.0 specification defined a set of DTDs that could be used in <code>DOCTYPE</code> clauses: <code>XHTML 1.0 Strict</code>, <code>XHTML 1.0 Transitional</code> and <code>XHTML 1.0 Frameset</code>. The first one was meant for <em>pure</em> XHTML documents that didn’t use any deprecated tags coming from HTML, the second one for transitional documents that still made use of deprecated tags and attributes, and the third one for frameset pages.</p>
 <pre class="html"><code>&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Strict//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd&quot;&gt;</code></pre>
 <p>But one of the most important aspects of XHTML was that it also introduced a new MIME type, which was the one that every web server was supposed to use for serving XHTML so that browsers knew that they had to use their XHTML parser and engine instead of their HTML equivalents. This was <code>application/xhtml+xml</code>:</p>
-<pre><code>Content-Type: application/xhtml+xml</code></pre>
+<pre class="html"><code>    Content-Type: application/xhtml+xml</code></pre>
 </section>
 <section id="crashing-down-to-xhtmls-reality" class="level2">
 <h2>Crashing down to (XHTML’s) reality</h2>
@@ -144,7 +144,7 @@
 <p>From a practical point of view, this means that (probably all of) your current HTML and XHTML code will be considered valid HTML5 just by changing your <code>DOCTYPE</code> to the HTML5 one:</p>
 <pre class="html"><code>&lt;!DOCTYPE html&gt;</code></pre>
 <p>And by serving your content with content type <code>text/html</code>:</p>
-<pre><code>Content-Type: text/html</code></pre>
+<pre class="html"><code>    Content-Type: text/html</code></pre>
 <p>And here you might be thinking: why does that <code>DOCTYPE</code> specify no DTD at all? Because there isn’t one. HTML5 has no DTD because the rules that define whether a document is valid HTML5 or not are defined as human-readable text in the specification itself, but cannot be expressed in the DTD language.</p>
 <p>But this does not mean that an HTML5 parser and/or engine cannot validate. It can. It simply has to be a piece of software especially devoted to HTML5 parsing including specific code programmed for executing the rules that are involved in validating HTML5 (as opposed to reading those rules from a DTD file). Even if the specification is now quite flexible, it still <em>is</em> a specification, and you have to conform to it.</p>
 <p>But if there is no DTD, then why have a DOCTYPE clause at all? Because a DOCTYPE clause is needed in order to make browsers display documents in <em>Standards Mode</em> (as opposed to <em>Quirks Mode</em>). The clause <code>&lt;!DOCTYPE html&gt;</code> is the minimum valid DOCTYPE declaration possible, and that is exactly all we need. It just acts as a switch.</p>
@@ -158,7 +158,7 @@
 <section id="and-what-about-xhtml5-does-that-exist" class="level2">
 <h2>And what about XHTML5? Does that exist?</h2>
 <p>In theory, yes. XHTML5 is just HTML5 served with:</p>
-<pre><code>Content-Type: application/xhtml+xml</code></pre>
+<pre class="html"><code>    Content-Type: application/xhtml+xml</code></pre>
 <p>But again, this content type is not currently supported by IE. So in practice, no, it doesn’t exist.</p>
 <p>Be careful though: the difference between HTML5 and XHTML5 is the content type and <em>only</em> the content type, because an XML-formed HTML5 document is in fact a perfectly valid HTML5 document. This is quite different to the relation between HTML4 and XHTML 1.0/1.1, which were incompatible languages.</p>
 </section>
