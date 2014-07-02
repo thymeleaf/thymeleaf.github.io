@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bringing Thymeleaf and Natural Templates to the Spring PetClinic - Thymeleaf: java XML/XHTML/HTML5 template engine</title>
+    <link rel="stylesheet" type="text/css" media="all" href="http://www.thymeleaf.org/css/thymeleaf.css" />
+    <link rel="shortcut icon" href="http://www.thymeleaf.org/favicon.ico" />
+    <script type="text/javascript" src="https://apis.google.com/js/plusone.js">
+        {lang:'en', parsetags:'explicit'}
+    </script>
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-1276954-9']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+    <script type="text/javascript" src="http://www.thymeleaf.org/sh/scripts/shCore.js"></script>
+    <script type="text/javascript" src="http://www.thymeleaf.org/sh/scripts/shBrushXml.js"></script>
+    <script type="text/javascript" src="http://www.thymeleaf.org/sh/scripts/shBrushJava.js"></script>
+    <link href="http://www.thymeleaf.org/sh/styles/shCore.css" rel="stylesheet" type="text/css" />
+    <link href="http://www.thymeleaf.org/sh/styles/shThemeThymeleaf.css" rel="stylesheet" type="text/css" />
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type="text/javascript" src="scripts/thymeleaf-articles.js"></script>
+
+</head>
+
+<body lang="en" dir="ltr">
+
+<div id="page">
+
+
+<div id="menu">
+    <ul>
+        <li><a href="index.html" title="Home">Home</a></li>
+        <li><a href="features.html" title="Features">Features</a></li>
+        <li><a href="download.html" title="Download">Download</a></li>
+        <li><a href="documentation.html" title="Documentation">Documentation</a></li>
+        <li><a href="ecosystem.html" title="Ecosystem">Ecosystem</a></li>
+        <li><a href="http://forum.thymeleaf.org" title="User Forum">User Forum</a></li>
+        <li><a href="issuetracking.html" title="Issue Tracking">Issue Tracking</a></li>
+    </ul>
+</div>
+
+<div id="header">
+    <a href="index.html" title="Thymeleaf home"><img src="http://www.thymeleaf.org/images/thymeleaflogonameverysmall.png" class="logo" alt="Thymeleaf Template Engine"/></a>
+</div>
+
+<div id="breadcrumb">
+    <a href="index.html">thymeleaf</a>
+    ::
+    <a href="documentation.html">documentation</a>
+    ::
+    tutorials and guides
+    ::
+    <span class="current">Bringing Thymeleaf and Natural Templates to the Spring PetClinic</span>
+</div>
+
+
+<div id="content">
+    <p id="author">
+        <i>By Rafa&#322; Borowiec &mdash; <a href="http://blog.codeleak.pl" target="_blank">http://blog.codeleak.pl</a></i>
+    </p>
+
+<section id="bringing-thymeleaf-and-natural-templates-to-the-spring-petclinic" class="level1">
+<h1>Bringing Thymeleaf and Natural Templates to the Spring PetClinic</h1>
+<p><strong>Note</strong>: The Spring PetClinic application received a major update from SpringSource in March 2013, and the <em>thymeleafexamples-petclinic</em> application has been updated consequently, along with this article.</p>
+<section id="the-spring-petclinic-application" class="level2">
+<h2>The Spring PetClinic application</h2>
+<p><em>PetClinic</em> is one of the example applications created by SpringSource for the Spring Framework. It is designed to display and manage information related to pets and veterinarians in a pet clinic. The original SpringSource version lives in GitHub <a href="https://github.com/SpringSource/spring-petclinic">here</a>, and the thymeleaf-enabled version lives also in GitHub <a href="https://github.com/thymeleaf/thymeleafexamples-petclinic">here</a>.</p>
+<figure>
+<img src="images/petclinic/home.png" alt="PetClinic home page" /><figcaption>PetClinic home page</figcaption>
+</figure>
+<p><em>Pet Clinic</em> originally includes a view layer created with JSP, which we will replace using Thymeleaf:</p>
+<ul>
+<li>Modifications will be focused on the view layer: the JSP files will be replaced and the application will be reconfigured. All Java code will be left untouched.</li>
+<li>The original markup will be cleaned, but all the application’s interface will have to display exactly the same as the original.</li>
+<li>No CSS stylesheet files will be changed. No JavaScript libraries will be added, modified or upgraded.</li>
+<li>Thymeleaf template files should display OK when opened statically on a browser (<em>Natural templates</em>).</li>
+</ul>
+<p>All the code of the PetClinic+Thymeleaf application can be obtained at the <a href="documentation.html">Thymeleaf Project’s Documentation</a> page. Note that the original JSP files and JSP tags have not been removed from the source tree but rather moved to the <code>doc/old_viewlayer</code> folder at the source tree, so that you can still access them in order to compare with the new templates.</p>
+<p>The version of the PetClinic application used as a base is the state of its <em>master branch at Github</em> as of 17 March 2013.</p>
+<section id="the-original-jsp-view-layer" class="level3">
+<h3>The original JSP view layer</h3>
+<p>The original JSP view layer has a number of problems we will try to fix when converting the view layer to Thymeleaf:</p>
+<ul>
+<li>JSPs include tags from JSTL, Spring Tag Libs and other external libraries. None of these are understandable by browsers, so there is no way for them to display the pages statically (no static prototyping possible).</li>
+<li>JSTL tags use the JSP EL (Expression Language), whereas the tags from the JSP Spring taglibs use Spring EL. Two different expression languages are therefore mixed in the same pages.</li>
+<li>The original JSP templates are not well-formed HTML documents. For example, the <em>“ownersList”</em> page:
+<ol type="1">
+<li>Does not contain a head tag, adding instead one from another JSP using a <em>JSP include</em> (=&gt; not understandable by browsers).</li>
+<li>Header and footer contents have been replaced by JSP include tags (=&gt; not understandable by browsers) so the pages can’t be displayed statically including their header and footer. And anyway, even if those contents were in the page, as pages contain JSP and JSTL tags, we wouldn’t be able to see a real prototype.</li>
+</ol></li>
+</ul>
+</section>
+</section>
+<section id="configuration" class="level2">
+<h2>Configuration</h2>
+<section id="basic-project-configuration" class="level3">
+<h3>Basic project configuration</h3>
+<p>Some basic configuration steps will be needed:</p>
+<ul>
+<li>The <code>pom.xml</code> file will be modified in order to add the Thymeleaf dependencies to it and remove the JSP-related ones.</li>
+<li>The <code>web.xml</code> file will be modified in order to remove JSP-related servlets and filters.</li>
+</ul>
+</section>
+<section id="mvc-view-config.xml" class="level3">
+<h3>mvc-view-config.xml</h3>
+<p>Our next configuration step will be to add three required beans at the Spring beans configuration file, <code>mvc-view-config.xml</code>:</p>
+<ul>
+<li>The Thymeleaf <em>template resolver</em> that will be in charge of reading the template files to be processed. For this application we will use a <code>ServletContextTemplateResolver</code>.</li>
+<li>The Thymeleaf <em>template engine</em> instance, of class <code>SpringTemplateEngine</code>.</li>
+<li>The Thymeleaf <em>view resolver</em>, a <code>ThymeleafViewResolver</code> instance implementing Spring’s <code>org.springframework.web.servlet.ViewResolver</code> interface. This bean will substitute the original <code>InternalResourceViewResolver</code> bean which enabled JSP support in the original application.</li>
+</ul>
+<pre class="xml"><code>&lt;bean id=&quot;templateResolver&quot; class=&quot;org.thymeleaf.templateresolver.ServletContextTemplateResolver&quot;&gt;
+  &lt;property name=&quot;prefix&quot; value=&quot;/WEB-INF/thymeleaf/&quot; /&gt;
+  &lt;property name=&quot;suffix&quot; value=&quot;.html&quot; /&gt;
+  &lt;property name=&quot;templateMode&quot; value=&quot;HTML5&quot; /&gt;
+  &lt;!-- Template cache is set to false (default is true). --&gt;
+  &lt;property name=&quot;cacheable&quot; value=&quot;false&quot; /&gt;
+&lt;/bean&gt;
+
+&lt;bean id=&quot;templateEngine&quot; class=&quot;org.thymeleaf.spring3.SpringTemplateEngine&quot;&gt;
+  &lt;property name=&quot;templateResolver&quot; ref=&quot;templateResolver&quot; /&gt;
+&lt;/bean&gt;
+
+&lt;bean class=&quot;org.springframework.web.servlet.view.ContentNegotiatingViewResolver&quot;&gt;
+  &lt;property name=&quot;contentNegotiationManager&quot; ref=&quot;cnManager&quot;/&gt;
+  &lt;property name=&quot;viewResolvers&quot;&gt;
+    &lt;list&gt;
+      &lt;!-- Used here for &#39;xml&#39; and &#39;atom&#39; views  --&gt;
+      &lt;bean class=&quot;org.springframework.web.servlet.view.BeanNameViewResolver&quot;&gt;
+        &lt;property name=&quot;order&quot; value=&quot;1&quot;/&gt;
+      &lt;/bean&gt;
+      &lt;!-- Used for Thymeleaf views  --&gt;
+      &lt;bean class=&quot;org.thymeleaf.spring3.view.ThymeleafViewResolver&quot;&gt;
+        &lt;property name=&quot;templateEngine&quot; ref=&quot;templateEngine&quot; /&gt;
+        &lt;property name=&quot;order&quot; value=&quot;2&quot;/&gt;
+      &lt;/bean&gt;
+    &lt;/list&gt;
+  &lt;/property&gt;
+&lt;/bean&gt;</code></pre>
+<p>Note that, as a difference from the original application, our templates will live at the <code>/WEB-INF/thymeleaf</code> folder instead of the original <code>/WEB-INF/jsp</code>.</p>
+</section>
+</section>
+<section id="from-jsp-to-thymeleaf" class="level2">
+<h2>From JSP to Thymeleaf</h2>
+<p>PetClinic includes more than 10 JSP templates, and we will rewrite all of them using Thymeleaf. However, for the sake of brevity, we will focus on <code>owners/ownerslist.jsp</code>, which we will convert into <code>owners/ownersList.html</code>.</p>
+<p>Remember you can see all the templates at the source code, downloadable from <a href="documentation.html">the documentation page</a>, and also that you can review the original JSP files at the <code>doc/old_viewlayer</code> folder.</p>
+<p>The <em>owners/ownersList</em> page looks like this:</p>
+<figure>
+<img src="images/petclinic/owners.png" alt="Owners page" /><figcaption>Owners page</figcaption>
+</figure>
+<p>In order to convert this page to Thymeleaf, we will:</p>
+<ul>
+<li>Rename <code>ownersList.jsp</code> to <code>ownersList.html</code>.</li>
+<li>Remove all <code>&lt;%@ taglib %&gt;</code> directives as we do not need any JSP tag libraries</li>
+<li>Replace the <code>jsp:include</code> tags which add head, header and footer to the page with tags containing the thymeleaf attributes <code>th:substituteby</code> or <code>th:include</code>. Those page fragments have been kept in the <code>fragments</code> folder and converted to thymeleaf as well</li>
+</ul>
+<pre class="html"><code>&lt;!-- ownersList.jsp --&gt;
+&lt;%@ taglib prefix=&quot;spring&quot; uri=&quot;http://www.springframework.org/tags&quot; %&gt;
+&lt;%@ taglib prefix=&quot;fmt&quot; uri=&quot;http://java.sun.com/jsp/jstl/fmt&quot; %&gt;
+&lt;%@ taglib prefix=&quot;c&quot; uri=&quot;http://java.sun.com/jsp/jstl/core&quot; %&gt;
+&lt;%@ taglib prefix=&quot;fn&quot; uri=&quot;http://java.sun.com/jsp/jstl/functions&quot; %&gt;
+&lt;%@ taglib prefix=&quot;datatables&quot; uri=&quot;http://github.com/dandelion/datatables&quot; %&gt;
+
+&lt;html lang=&quot;en&quot;&gt;
+
+  &lt;jsp:include page=&quot;../fragments/headTag.jsp&quot;/&gt;
+
+  &lt;body&gt;
+    &lt;div class=&quot;container&quot;&gt;
+      &lt;jsp:include page=&quot;../fragments/bodyHeader.jsp&quot;/&gt;
+
+      &lt;!-- ... --&gt;
+
+      &lt;jsp:include page=&quot;../fragments/footer.jsp&quot;/&gt;
+
+    &lt;/div&gt;
+  &lt;/body&gt;
+
+&lt;/html&gt;</code></pre>
+<pre class="html"><code>&lt;!-- ownersList.html --&gt;
+&lt;!DOCTYPE html&gt;
+
+&lt;html lang=&quot;en&quot;&gt;
+
+  &lt;head th:substituteby=&quot;fragments/headTag :: headTag&quot;&gt;
+
+    &lt;!-- ============================================================================ --&gt;
+    &lt;!-- This &lt;head&gt; is only used for static prototyping purposes (natural templates) --&gt;
+    &lt;!-- and is therefore entirely optionl, as this markup fragment will be included  --&gt;
+    &lt;!-- from &quot;fragments.html&quot; at runtime.                                            --&gt;
+    &lt;!-- ============================================================================ --&gt;
+
+    &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;/&gt;
+    &lt;title&gt;PetClinic :: a Spring Framework demonstration&lt;/title&gt;
+
+    &lt;link href=&quot;http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/css/bootstrap.min.css&quot;
+      th:href=&quot;@{/webjars/bootstrap/2.3.0/css/bootstrap.min.css}&quot; rel=&quot;stylesheet&quot; /&gt;
+    &lt;link href=&quot;../../../resources/css/petclinic.css&quot;
+      th:href=&quot;@{/resources/css/petclinic.css}&quot; rel=&quot;stylesheet&quot; /&gt;
+
+    &lt;script src=&quot;http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js&quot;
+      th:src=&quot;@{/webjars/jquery/1.9.0/jquery.js}&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js&quot;
+      th:src=&quot;@{/webjars/jquery-ui/1.9.2/js/jquery-ui-1.9.2.custom.js}&quot;&gt;&lt;/script&gt;
+
+    &lt;link href=&quot;http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/themes/smoothness/jquery-ui.css&quot;
+      th:href=&quot;@{/webjars/jquery-ui/1.9.2/css/smoothness/jquery-ui-1.9.2.custom.css}&quot;
+      rel=&quot;stylesheet&quot; /&gt;
+
+  &lt;/head&gt;
+
+  &lt;body&gt;
+
+    &lt;div class=&quot;container&quot;&gt;
+
+      &lt;div th:include=&quot;fragments/bodyHeader&quot; th:remove=&quot;tag&quot;&gt;
+
+        &lt;!-- =========================================================================== --&gt;
+        &lt;!-- This div is only used for static prototyping purposes (natural templates)   --&gt;
+        &lt;!-- and is therefore entirely optionl, as this markup fragment will be included --&gt;
+        &lt;!-- from &quot;fragments.html&quot; at runtime.                                           --&gt;
+        &lt;!-- =========================================================================== --&gt;
+
+        &lt;img th:src=&quot;@{/resources/images/banner-graphic.png}&quot;
+          src=&quot;../../../resources/images/banner-graphic.png&quot;/&gt;
+
+        &lt;div class=&quot;navbar&quot; style=&quot;width: 601px;&quot;&gt;
+          &lt;div class=&quot;navbar-inner&quot;&gt;
+            &lt;ul class=&quot;nav&quot;&gt;
+              &lt;li style=&quot;width: 100px;&quot;&gt;
+                &lt;a href=&quot;../welcome.html&quot; th:href=&quot;@{/}&quot;&gt;
+                  &lt;i class=&quot;icon-home&quot;&gt;&lt;/i&gt;Home
+                &lt;/a&gt;
+              &lt;/li&gt;
+              &lt;li style=&quot;width: 130px;&quot;&gt;
+                &lt;a href=&quot;../owners/findOwners.html&quot; th:href=&quot;@{/owners/find.html}&quot;&gt;
+                  &lt;i class=&quot;icon-search&quot;&gt;&lt;/i&gt;Find owners
+                &lt;/a&gt;
+              &lt;/li&gt;
+              &lt;li style=&quot;width: 140px;&quot;&gt;
+                &lt;a href=&quot;../vets/vetList.html&quot; th:href=&quot;@{/vets.html}&quot;&gt;
+                  &lt;i class=&quot;icon-th-list&quot;&gt;&lt;/i&gt;Veterinarians
+                &lt;/a&gt;
+              &lt;/li&gt;
+              &lt;li style=&quot;width: 90px;&quot;&gt;
+                &lt;a href=&quot;../exception.html&quot; th:href=&quot;@{/oups.html}&quot;
+                  title=&quot;trigger a RuntimeException to see how it is handled&quot;&gt;
+                  &lt;i class=&quot;icon-warning-sign&quot;&gt;&lt;/i&gt;Error
+                &lt;/a&gt;
+              &lt;/li&gt;
+              &lt;li style=&quot;width: 80px;&quot;&gt;
+                &lt;a href=&quot;#&quot; title=&quot;not available yet. Work in progress!!&quot;&gt;
+                  &lt;i class=&quot; icon-question-sign&quot;&gt;&lt;/i&gt;Help
+                &lt;/a&gt;
+              &lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+      &lt;/div&gt;
+
+
+      &lt;!-- ... --&gt;
+
+
+      &lt;table th:substituteby=&quot;fragments/footer :: footer&quot; class=&quot;footer&quot;&gt;
+
+        &lt;!-- =========================================================================== --&gt;
+        &lt;!-- This table section is only used for static prototyping purposes (natural    --&gt;
+        &lt;!-- templates) and is therefore entirely optionl, as this markup fragment will  --&gt;
+        &lt;!-- be included from &quot;fragments.html&quot; at runtime.                               --&gt;
+        &lt;!-- =========================================================================== --&gt;
+
+        &lt;tr&gt;
+          &lt;td&gt;&lt;/td&gt;
+          &lt;td align=&quot;right&quot;&gt;
+            &lt;img src=&quot;../../../resources/images/springsource-logo.png&quot;
+              th:src=&quot;@{/resources/images/springsource-logo.png}&quot;
+              alt=&quot;Sponsored by SpringSource&quot; /&gt;
+          &lt;/td&gt;
+        &lt;/tr&gt;
+
+      &lt;/table&gt;
+
+    &lt;/div&gt;
+
+  &lt;/body&gt;
+
+&lt;/html&gt;</code></pre>
+<p>Note how our <code>ownersList.html</code> contains more code at its head, header and footer sections than the original JSP file. Doing it this way is merely optional, and its only aim is to allow the <code>ownersList.html</code> Thymeleaf-enabled template to display statically as a prototype (something nearly impossible with JSP).</p>
+<p><em>Is this additional code worth it?</em> If you need or want to use design prototypes, indeed! You will see clearly how much a difference this is at the last section of this article. And anyway… remember this prototyping code is optional!</p>
+<ul>
+<li>Change the page body. The original code looks like this:</li>
+</ul>
+<pre class="html"><code>&lt;!-- ownersList.jsp --&gt;
+&lt;datatables:table id=&quot;owners&quot; data=&quot;${selections}&quot; cdn=&quot;true&quot; row=&quot;owner&quot; theme=&quot;bootstrap2&quot;
+  cssClass=&quot;table table-striped&quot; paginate=&quot;false&quot; info=&quot;false&quot; export=&quot;pdf&quot;&gt;
+  &lt;datatables:column title=&quot;Name&quot; cssStyle=&quot;width: 150px;&quot; display=&quot;html&quot;&gt;
+    &lt;spring:url value=&quot;owners/{ownerId}.html&quot; var=&quot;ownerUrl&quot;&gt;
+      &lt;spring:param name=&quot;ownerId&quot; value=&quot;${owner.id}&quot;/&gt;
+    &lt;/spring:url&gt;
+    &lt;a href=&quot;${fn:escapeXml(ownerUrl)}&quot;&gt;&lt;c:out value=&quot;${owner.firstName} ${owner.lastName}&quot;/&gt;&lt;/a&gt;
+  &lt;/datatables:column&gt;
+  &lt;datatables:column title=&quot;Name&quot; display=&quot;pdf&quot;&gt;
+    &lt;c:out value=&quot;${owner.firstName} ${owner.lastName}&quot;/&gt;
+  &lt;/datatables:column&gt;
+  &lt;datatables:column title=&quot;Address&quot; property=&quot;address&quot; cssStyle=&quot;width: 200px;&quot;/&gt;
+  &lt;datatables:column title=&quot;City&quot; property=&quot;city&quot;/&gt;
+  &lt;datatables:column title=&quot;Telephone&quot; property=&quot;telephone&quot;/&gt;
+  &lt;datatables:column title=&quot;Pets&quot; cssStyle=&quot;width: 100px;&quot;&gt;
+    &lt;c:forEach var=&quot;pet&quot; items=&quot;${owner.pets}&quot;&gt;
+      &lt;c:out value=&quot;${pet.name}&quot;/&gt;
+    &lt;/c:forEach&gt;
+  &lt;/datatables:column&gt;
+  &lt;datatables:export type=&quot;pdf&quot; cssClass=&quot;btn btn-small&quot; /&gt;
+&lt;/datatables:table&gt;</code></pre>
+<p>Which we will replace with:</p>
+<pre class="html"><code>&lt;!-- ownersList.html --&gt;
+&lt;h2&gt;Owners&lt;/h2&gt;
+
+&lt;table class=&quot;table table-striped&quot;&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th style=&quot;width: 150px;&quot;&gt;Name&lt;/th&gt;
+      &lt;th style=&quot;width: 200px;&quot;&gt;Address&lt;/th&gt;
+      &lt;th&gt;City&lt;/th&gt;
+      &lt;th&gt;Telephone&lt;/th&gt;
+      &lt;th style=&quot;width: 100px;&quot;&gt;Pets&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr th:each=&quot;owner : ${selections}&quot;&gt;
+      &lt;td&gt;
+        &lt;a href=&quot;ownerDetails.html&quot;
+          th:href=&quot;@{|/owners/${owner.id}|}&quot;
+          th:text=&quot;|${owner.firstName} ${owner.lastName}|&quot;&gt;Mary Smith&lt;/a&gt;
+      &lt;/td&gt;
+      &lt;td th:text=&quot;${owner.address}&quot;&gt;45, Oxford Street&lt;/td&gt;
+      &lt;td th:text=&quot;${owner.city}&quot;&gt;Cambridge&lt;/td&gt;
+      &lt;td th:text=&quot;${owner.telephone}&quot;&gt;555-555-555&lt;/td&gt;
+      &lt;td&gt;
+        &lt;span th:each=&quot;pet : ${owner.pets}&quot; th:text=&quot;${pet.name}&quot; th:remove=&quot;tag&quot;&gt;
+          Rob
+        &lt;/span&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</code></pre>
+<ul>
+<li>In the code above you can see how we used HTML code instead of a collection of JSP tags from an external library. Not only this makes our code much clearer and more readable, but also more standard and <em>understandable by browsers</em>, which will allow us to use this template as a <em>static prototype</em>. Again, we will see the advantages of this in the next section.</li>
+</ul>
+</section>
+<section id="and-what-about-the-natural-templates-thing" class="level2">
+<h2>And what about the <em>Natural Templates</em> thing?</h2>
+<p>Before we started this migration, we set a goal that our new Thymeleaf templates would be able to display correctly when open statically in a browser (without starting the application server) thanks to the <em>Natural Templating</em> capabilities of Thymeleaf.</p>
+<p>Well, let’s have a look at how the original <code>owners/ownersList.jsp</code> template looks like when seen statically:</p>
+<figure>
+<img src="images/petclinic/ownerslist_jsp_static.png" alt="Owners list (JSP), statically opened" /><figcaption>Owners list (JSP), statically opened</figcaption>
+</figure>
+<p>…and now let’s have a look at our new Thymeleaf-powered <code>owners/ownersList.html</code>:</p>
+<figure>
+<img src="images/petclinic/ownerslist_thymeleaf_static.png" alt="Owners list (thymeleaf), statically opened" /><figcaption>Owners list (thymeleaf), statically opened</figcaption>
+</figure>
+<p>There we are. Data is not valid, because it is a prototype. But it looks good!</p>
+</section>
+</section>
+</div>
+
+
+<div id="footer">
+    <div id="googleplus">
+        <div id="plusone-div" class="plusone"></div>
+        <script type="text/javascript">
+            gapi.plusone.render('plusone-div',{"size": "small", "count": "true", "href": "http://www.thymeleaf.org"});
+        </script>
+    </div>
+    <div id="twitter">
+        <a href="http://twitter.com/thymeleaf" class="twitter-follow-button" data-show-count="false">Follow @thymeleaf</a>
+        <script src="http://platform.twitter.com/widgets.js" type="text/javascript"></script>
+    </div>
+    <div id="copy">
+        Copyright &copy; The <a href="team.html">THYMELEAF Team</a>. See <a href="documentation.html">applicable licenses</a>.
+    </div>
+</div>
+
+</div>
+
+<script type="text/javascript">
+    SyntaxHighlighter.all();
+</script>
+
+</body>
+
+</html>
