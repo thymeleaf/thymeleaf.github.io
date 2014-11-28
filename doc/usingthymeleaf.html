@@ -1769,7 +1769,7 @@ th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &
 <blockquote>
 <p>All those colspan and rowspan attributes in the <code>&lt;td&gt;</code> tags, as well as the shape one in <code>&lt;a&gt;</code> are automatically added by Thymeleaf in accordance with the DTD for the selected <em>XHTML 1.0 Strict</em> standard, that establishes those values as default for those attributes (remember that our template didn’t set a value for them). Don’t worry about them at all, because they will not affect the display of your page. As an example, if we were using HTML5 (which has no DTD), those attributes would never be added.</p>
 </blockquote>
-<p>If you don’t explicitly set an iteration variable, Thymeleaf will always create one for you by suffixing <code>Stat</code> to the name of the iter variable:</p>
+<p>If you don’t explicitly set a status variable, Thymeleaf will always create one for you by suffixing <code>Stat</code> to the name of the iter variable:</p>
 <pre class="html"><code>&lt;table&gt;
   &lt;tr&gt;
     &lt;th&gt;NAME&lt;/th&gt;
