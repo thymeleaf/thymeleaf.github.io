@@ -48,10 +48,10 @@
 			<h1 id="doc-title" class="title">Tutorial: Thymeleaf + Spring</h1>
 			<div id="doc-info">
 				<div id="doc-version">
-					<span class="info-header">Document version:</span> 20141222 - 22 December 2014
+					<span class="info-header">Document version:</span> 20140702 - 02 July 2014
 				</div>
 				<div id="project-version">
-					<span class="info-header">Project Version:</span> 2.1.4.RELEASE
+					<span class="info-header">Project Version:</span> 2.1.3.RELEASE
 				</div>
 				<div id="project-website">
 					<span class="info-header">Project web site:</span>
@@ -115,7 +115,6 @@
 </ul></li>
 <li><a href="#advanced-integration-features">12 Advanced Integration Features</a><ul>
 <li><a href="#integration-with-requestdatavalueprocessor">12.1 Integration with <code>RequestDataValueProcessor</code></a></li>
-<li><a href="#building-uris-to-controllers">12.1 Building URIs to controllers</a></li>
 </ul></li>
 <li><a href="#spring-webflow-integration">13 Spring WebFlow integration</a><ul>
 <li><a href="#basic-configuration">13.1 Basic configuration</a></li>
@@ -155,7 +154,6 @@
 <li>Access any beans in your application context using SpringEL’s syntax: <code>${@myBean.doSomething()}</code></li>
 <li>New attributes for form processing: <code>th:field</code>, <code>th:errors</code> and <code>th:errorclass</code>, besides a new implementation of <code>th:object</code> that allows it to be used for form command selection.</li>
 <li>An expression object and method, <code>#themes.code(...)</code>, which is equivalent to the <code>spring:theme</code> JSP custom tag.</li>
-<li>An expression object and method, <code>#mvc.uri(...)</code>, which is equivalent to the <code>spring:mvcUrl(...)</code> JSP custom function (only in Spring 4.1+).</li>
 <li>New DTDs for validation, including these new attributes, as well as new corresponding DOCTYPE translation rules.</li>
 </ul>
 <p>Note that <em>you shouldn’t use this dialect directly in a normal TemplateEngine object</em> as a part of its configuration. Instead, you should instance a new template engine class that performs all the required configuration steps: <code>org.thymeleaf.spring4.SpringTemplateEngine</code>.</p>
@@ -1088,21 +1086,6 @@ public String showContentPart() {
 <li><p><code>th:field</code> calls <code>RequestDataValueProcessor.processFormFieldValue(...)</code> for rendering the value of the field it applies to (or the tag body if it is a <code>&lt;textarea&gt;</code>).</p></li>
 </ul>
 <p>Note this feature will only be available for Spring versions 3.1 and newer.</p>
-</section>
-<section id="building-uris-to-controllers" class="level2">
-<h2>12.1 Building URIs to controllers</h2>
-<p>Since version 4.1, Spring allows the possibility to build links to annotated controllers directly from views, without the need to know the URIs these controllers are mapped to.</p>
-<p>In Thymeleaf, this can be achieved by means of the <code>#mvc.url(...)</code> expression method, which allows the specification of controller methods by the capital letters of the controller class they are in, followed by the name of the method itself. This is equivalent to JSP’s <code>spring:mvcUrl(...)</code> custom function.</p>
-<p>For example, for:</p>
-<pre class="java"><code>public class ExampleController {
-
-    @RequestMapping(&quot;/data&quot;)
-    public HttpEntity getData(@RequestParam String type) { ... }
-
-}</code></pre>
-<p>The following code will create a link to it:</p>
-<pre class="html"><code>&lt;a th:href=&quot;${#mvc.url(&#39;EC#getData&#39;).arg(0,&#39;internal&#39;)}&quot;&gt;Get Data&lt;/a&gt;</code></pre>
-<p>You can read more about this mechanism at http://docs.spring.io/spring-framework/docs/4.1.2.RELEASE/spring-framework-reference/html/mvc.html#mvc-links-to-controllers-from-views</p>
 </section>
 </section>
 <section id="spring-webflow-integration" class="level1">
