@@ -212,13 +212,11 @@
 		<div id="content">
 <!--
 1 Introducing Thymeleaf
-=======================
 -->
 <section id="thymeleafの紹介" class="level1">
 <h1>1 Thymeleafの紹介</h1>
 <!--
 1.1 What is Thymeleaf?
-----------------------
 -->
 <section id="thymeleafって何" class="level2">
 <h2>1.1 Thymeleafって何？</h2>
@@ -254,7 +252,6 @@ that is a need for you.
 <p>さらに、Thymeleafは最初からXMLとウェブ標準を念頭に置いてデザインされているので、必要に応じて完全にバリデーションされた状態のテンプレートを作成することもできます。</p>
 <!--
 1.2 What kind of templates can Thymeleaf process?
--------------------------------------------------
 -->
 </section>
 <section id="thymeleafはどんな種類のテンプレートを処理できるの" class="level2">
@@ -275,7 +272,7 @@ which is called a Template Mode:
 <!--
 All of these modes refer to well-formed XML files except the _Legacy HTML5_ mode,
 which allows you to process HTML5 files with features such as standalone (not
-closed) tags, tag attributes without a value or not written between commas. In
+closed) tags, tag attributes without a value or not written between quotes. In
 order to process files in this specific mode, Thymeleaf will first perform a
 transformation that will convert your files to well-formed XML files which are
 still perfectly valid HTML5 (and are in fact the recommended way to create HTML5
@@ -283,7 +280,7 @@ code)^[Given the fact that XHTML5 is just XML-formed HTML5 served with the
 application/xhtml+xml content type, we could also say that Thymeleaf supports
 XHTML5.].
 -->
-<p><em>Legacy HTML5</em> 以外は整形式XMLです。<em>Legacy HTML5</em> モードでは閉じていないタグ・値がない属性・カンマで囲まれていない属性 <a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a> が許容されていますが、Thymeleafはこのモードのファイルを最初に整形式XMLに変換します。それでもHTML5としては正しい状態です(そして実際こちらがHTML5を書くのに推奨されている方法です) <a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a>。</p>
+<p><em>Legacy HTML5</em> 以外は整形式XMLです。<em>Legacy HTML5</em> モードでは閉じていないタグ・値がない属性・引用符で囲まれていない属性が許容されていますが、Thymeleafはこのモードのファイルを最初に整形式XMLに変換します。それでもHTML5としては正しい状態です(そして実際こちらがHTML5を書くのに推奨されている方法です) <a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>。</p>
 <!--
 Also note that validation is only available for XML and XHTML templates.
 -->
@@ -298,7 +295,6 @@ effectively be processed as a template by Thymeleaf.
 <p>ただ、Thymeleafが処理できるテンプレートのタイプはこれだけではありません。テンプレートを「パースする方法」と結果を「書き込む方法」を指定することで、ユーザーは独自のモードを定義することができます。Thymeleafは、DOMツリーとして表現することができるものであれば何でも(XMLかどうかに関係なく)テンプレートとして効率よく処理することができます。</p>
 <!--
 1.3 Dialects: The Standard Dialect
-----------------------------------
 -->
 </section>
 <section id="ダイアレクト-スタンダードダイアレクト" class="level2">
@@ -312,7 +308,7 @@ will be processed.
 <p>Thymeleafは非常に拡張性の高いテンプレートエンジンです(実際「テンプレートエンジンフレームワーク」と呼んだほうがいいかもしれません)。Thymeleafでは、処理対象のDOMノードと、そのDOMノードをどのように処理するかを完全に定義することができます。</p>
 <!--
 An object that applies some logic to a DOM node is called a _processor_, and a
-set of these processors ---plus some extra artifacts--- is called a dialect, of
+set of these processors ーーーplus some extra artifactsーーー is called a dialect, of
 which Thymeleaf's core library provides one out-of-the-box called the _Standard Dialect_,
 which should be enough for the needs of a big percent of users.
 -->
@@ -382,18 +378,17 @@ _Natural Templating_.
 <p>必要な場合には、全く同じファイルをデザイナーとデベロッパーが触ることができるので、静的なプロトタイプをテンプレートに変換する労力を減らすことができます。この機能のことを「ナチュラルテンプレーティング」と呼びます。</p>
 <!--
 1.4 Overall Architecture
-------------------------
 -->
 </section>
 <section id="全体のアーキテクチャ" class="level2">
 <h2>1.4 全体のアーキテクチャ</h2>
 <!--
 Thymeleaf's core is a DOM processing engine. Specifically, it uses its own
-high-performance DOM implementation ---not the standard DOM API--- for building
+high-performance DOM implementation ーーーnot the standard DOM APIーーー for building
 in-memory tree representations of your templates, on which it later operates by
 traversing their nodes and executing processors on them that modify the DOM
 according to the current _configuration_ and the set of data that is passed to
-the template for its representation ---known as the context.
+the template for its representation ーーーknown as the context.
 -->
 <p>ThymeleafのコアはDOM処理エンジンです。具体的にいうと —標準のDOM APIではなく— 高性能の独自DOM実装によってテンプレートのインメモリツリー表現を生成します。その後、そのインメモリツリー上でノードを走査してプロセッサを実行しDOMを変更します。DOMの変更は現在の設定や、テンプレートに渡されるコンテキストと呼ばれるデータセットに従います。</p>
 <!--
@@ -423,7 +418,7 @@ bigger amounts of memory space for each template execution than other template p
 <!--
 > The reason we consider this restriction only applies to data XML files and not
 > web XHTML/HTML5 is that you should never generate web documents so big that
-> your users' browsers set ablaze and/or explode -- remember that these browsers
+> your users' browsers set ablaze and/or explode ーー remember that these browsers
 > will also have to create DOM trees for your pages!
 -->
 <blockquote>
@@ -431,7 +426,6 @@ bigger amounts of memory space for each template execution than other template p
 </blockquote>
 <!--
 1.5 Before going any further, you should read...
-------------------------------------------------
 -->
 </section>
 <section id="次に進む前に読むことをお勧めします" class="level2">
@@ -439,7 +433,7 @@ bigger amounts of memory space for each template execution than other template p
 <!--
 Thymeleaf is especially suited for working in web applications. And web
 applications are based on a series of standards that everyone should know very
-well but few do -- even if they have been working with them for years.
+well but few do ーー even if they have been working with them for years.
 -->
 <p>Thymeleafは特にウェブアプリケーションに適しています。そしてウェブアプリケーションには標準というものがあります。みんながこの標準についてよく知っているべきなのですが、ほとんどの人が知りません。たとえウェブアプリケーションの仕事を何年もやっている人であってもです。</p>
 <!--
@@ -456,7 +450,6 @@ which you can find at this address: [http://www.thymeleaf.org/fromhtmltohtmlviah
 <p>ということでこのチュートリアルでは先に進む前に、Thymeleafのウェブサイトの次の記事を読むことを強くお勧めします: <em>“From HTML to HTML (via HTML)”</em> <a href="http://www.thymeleaf.org/doc/fromhtmltohtmlviahtml.html">http://www.thymeleaf.org/fromhtmltohtmlviahtml.html</a></p>
 <!--
 2 The Good Thymes Virtual Grocery
-=================================
 -->
 </section>
 </section>
@@ -464,7 +457,6 @@ which you can find at this address: [http://www.thymeleaf.org/fromhtmltohtmlviah
 <h1>2 The Good Thymes Virtual Grocery(グッドタイムス仮想食料品店)</h1>
 <!--
 2.1 A website for a grocery
----------------------------
 -->
 <section id="食料品店用のウェブサイト" class="level2">
 <h2>2.1 食料品店用のウェブサイト</h2>
@@ -583,7 +575,6 @@ But first let's see how that template engine is initialized.
 <p>まずはテンプレートエンジンの初期化について見てみましょう。</p>
 <!--
 2.2 Creating and configuring the Template Engine
-------------------------------------------------
 -->
 </section>
 <section id="テンプレートエンジンの作成と設定" class="level2">
@@ -743,9 +734,9 @@ the max cache size is reached and it is the oldest entry currently cached.
 </blockquote>
 <!--
 We will learn more about template resolvers later. Now let's have a look at the
-creation of our Template Resolver object.
+creation of our Template Engine object.
 -->
-<p>テンプレートリゾルバーについてのより詳細な説明は後ほど行います。今はテンプレートリゾルバーオブジェクトの生成について見てみましょう <a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a>。</p>
+<p>テンプレートリゾルバーについてのより詳細な説明は後ほど行います。今はテンプレートエンジンオブジェクトの生成について見てみましょう。</p>
 <!--
 ### The Template Engine
 -->
@@ -777,7 +768,6 @@ Thymeleaf.
 <p>これでテンプレートエンジンの準備ができました。では、Thymeleafを使用したページの作成に進みましょう。</p>
 <!--
 3 Using Texts
-=============
 -->
 </section>
 </section>
@@ -786,7 +776,6 @@ Thymeleaf.
 <h1>3 テキストを使う</h1>
 <!--
 3.1 A multi-language welcome
-----------------------------
 -->
 <section id="複数言語でウェルカム" class="level2">
 <h2>3.1 複数言語でウェルカム</h2>
@@ -829,7 +818,7 @@ it has a well-formed `DOCTYPE` declaration.
 <!--
 Next, this is also _valid_ XHTML^[Note that, although this template is valid
 XHTML, we earlier selected template mode "XHTML" and not "VALIDXHTML". For now,
-it will be OK for us to just have validation turned off -- but at the same time
+it will be OK for us to just have validation turned off ーー but at the same time
 we don't want our IDE to complain too much.], because we have specified a
 Thymeleaf DTD which defines attributes like `th:text` so that your templates can
 be considered valid. And even more: once the template is processed (and all `th:*`
@@ -837,7 +826,7 @@ attributes are removed), Thymeleaf will automatically substitute that DTD
 declaration in the `DOCTYPE` clause by a standard `XHTML 1.0 Strict` one (we
 will leave this DTD translation features for a later chapter).
 -->
-<p>次に、このファイルは <code>th:text</code> のような属性を定義したThymeleafのDTDを指定しているので「妥当な」XHTMLでもあります <a href="#fn4" class="footnoteRef" id="fnref4"><sup>4</sup></a>。 さらに、テンプレートが処理されると(全ての <code>th:*</code> 属性が取り除かれますが)、Thymeleafは自動的に <code>DOCTYPE</code> 内のDTD定義を標準的な <code>XHTML 1.0 Strict</code> のものに置き換えます(このDTD変換機能に関しては後の章で説明します)。</p>
+<p>次に、このファイルは <code>th:text</code> のような属性を定義したThymeleafのDTDを指定しているので「妥当な」XHTMLでもあります <a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a>。 さらに、テンプレートが処理されると(全ての <code>th:*</code> 属性が取り除かれますが)、Thymeleafは自動的に <code>DOCTYPE</code> 内のDTD定義を標準的な <code>XHTML 1.0 Strict</code> のものに置き換えます(このDTD変換機能に関しては後の章で説明します)。</p>
 <!--
 A thymeleaf namespace is also being declared for `th:*` attributes:
 -->
@@ -1114,7 +1103,6 @@ Let's see the results of this using the Spanish locale:
 &lt;/html&gt;</code></pre>
 <!--
 3.2 More on texts and variables
--------------------------------
 -->
 </section>
 </section>
@@ -1218,7 +1206,6 @@ possibilities are.
 <p>属性には様々な値を設定することができます: メッセージ、変数式…などなど。次の章では、どのようなものが指定できるかを全て見ていきましょう。</p>
 <!--
 4 Standard Expression Syntax
-============================
 -->
 </section>
 </section>
@@ -1324,7 +1311,6 @@ All these features can be combined and nested:
 <pre class="html"><code>&#39;User is of type &#39; + (${user.isAdmin()} ? &#39;Administrator&#39; : (${user.type} ?: &#39;Unknown&#39;))</code></pre>
 <!--
 4.1 Messages
-------------
 -->
 <section id="メッセージ" class="level2">
 <h2>4.1 メッセージ</h2>
@@ -1374,7 +1360,6 @@ the message key itself could come from a variable:
 &lt;/p&gt;</code></pre>
 <!--
 4.2 Variables
--------------
 -->
 </section>
 <section id="変数" class="level2">
@@ -1601,7 +1586,6 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 &lt;/p&gt;</code></pre>
 <!--
 4.3 Expressions on selections (asterisk syntax)
------------------------------------------------
 -->
 </section>
 </section>
@@ -1669,7 +1653,6 @@ are exactly equivalent.
 &lt;/div&gt;</code></pre>
 <!--
 4.4 Link URLs
--------------
 -->
 </section>
 <section id="リンクurl" class="level2">
@@ -1714,7 +1697,7 @@ create relative links.
 <!--
 Let's use this new syntax. Meet the `th:href` attribute:
 -->
-<p>ではこの新しい構文を使ってみましょう。 <code>th:href</code> 属性で使用します <a href="#fn5" class="footnoteRef" id="fnref5"><sup>5</sup></a> :</p>
+<p>ではこの新しい構文を使ってみましょう。 <code>th:href</code> 属性で使用します:</p>
 <pre class="html"><code>&lt;!-- Will produce &#39;http://localhost:8080/gtvg/order/details?orderId=3&#39; (plus rewriting) --&gt;
 &lt;a href=&quot;details.html&quot; 
    th:href=&quot;@{http://localhost:8080/gtvg/order/details(orderId=${o.id})}&quot;&gt;view&lt;/a&gt;
@@ -1735,7 +1718,7 @@ Some things to note here:
  * We are allowed to use expressions for URL parameters (as you can see in `orderId=${o.id}`).
    The required URL-encoding operations will also be automatically performed.
  * If several parameters are needed, these will be separated by commas like `@{/order/process(execId=${execId},execType='FAST')}`
- * Variable templates are also allowed in URL paths, like `@{/order/{orderId}/details(orderId=${orderId}}}`
+ * Variable templates are also allowed in URL paths, like `@{/order/{orderId}/details(orderId=${orderId})}`
  * Relative URLs starting with `/` (like `/order/details`) will be automatically
    prefixed the application context name.
  * If cookies are not enabled or this is not yet known, a `";jsessionid=..."`
@@ -1750,7 +1733,7 @@ Some things to note here:
 <li><code>th:href</code> は属性変更用の属性です: リンクURLを生成し <code>&lt;a&gt;</code> タグのhref属性にセットします。</li>
 <li>URLパラメータを指定することができます(<code>orderId=${o.id}</code> の部分です)。自動的にURLエンコーディングされます。</li>
 <li>複数のパラメータを指定する場合はカンマ区切りで指定できます <code>@{/order/process(execId=${execId},execType='FAST')}</code></li>
-<li>URLパス内でも変数式は使用可能です <code>@{/order/{orderId}/details(orderId=${orderId}}}</code> <a href="#fn6" class="footnoteRef" id="fnref6"><sup>6</sup></a></li>
+<li>URLパス内でも変数式は使用可能です <code>@{/order/{orderId}/details(orderId=${orderId})}</code></li>
 <li><code>/</code> で始まる相対URL(<code>/order/details</code>)に対しては、自動的にアプリケーションコンテキスト名を前に付けます。</li>
 <li>クッキーが使用できない場合、またはまだ分からない場合は <code>&quot;;jsessionid=...&quot;</code> を相対URLの最後につけてセッションをキープできるようにすることがあります。これは <em>URL Rewriting</em> と呼ばれていますが、Thymeleafでは全てのURLに対してサーブレットAPIの <code>response.encodeURL(...)</code> のメカニズムを使用して独自リライトフィルタを追加することができます。</li>
 <li><code>th:href</code> タグを使用する場合、(任意ですが)静的な <code>href</code> 属性をテンプレートに同時に指定することができます。そうすることでプロトタイプ用途などで直接テンプレートをブラウザで開いた場合でもリンクを有効にすることができます。</li>
@@ -1781,7 +1764,6 @@ for some of the other pages in the site?
 &lt;/ol&gt;</code></pre>
 <!--
 4.5 Literals
-------------
 -->
 </section>
 </section>
@@ -1875,7 +1857,6 @@ instead of:
 <pre class="html"><code>&lt;div th:class=&quot;content&quot;&gt;...&lt;/div&gt;</code></pre>
 <!--
 4.6 Appending texts
--------------------
 -->
 </section>
 </section>
@@ -1888,7 +1869,6 @@ Texts, no matter whether they are literals or the result of evaluating variable 
 <pre class="html"><code>th:text=&quot;&#39;The name of the user is &#39; + ${user.name}&quot;</code></pre>
 <!--
 4.7 Literal substitutions
--------------------------
 -->
 </section>
 <section id="リテラル置換" class="level2">
@@ -1918,7 +1898,6 @@ Literal substitutions can be combined with other types of expressions:
 <p><strong>注意点:</strong> リテラル置換(<code>|...|</code>)内で使用可能なのは、変数式(<code>${...}</code>)だけです。他のリテラル(<code>'...'</code>)や真偽値/数値トークンや条件式などは使用できません。</p>
 <!--
 4.8 Arithmetic operations
--------------------------
 -->
 </section>
 <section id="算術演算子" class="level2">
@@ -1941,7 +1920,6 @@ Note that textual aliases exist for some of these operators: `div` (`/`), `mod` 
 <p>いくつかの演算子には文字列エイリアスもあります: <code>div</code> (<code>/</code>), <code>mod</code> (<code>%</code>)</p>
 <!--
 4.9 Comparators and Equality
-----------------------------
 -->
 </section>
 <section id="比較演算子と等価演算子" class="level2">
@@ -1963,7 +1941,6 @@ Note that textual aliases exist for some of these operators: `gt` (`>`), `lt` (`
 <p>文字列エイリアスもあります: <code>gt</code> (<code>&gt;</code>), <code>lt</code> (<code>&lt;</code>), <code>ge</code> (<code>&gt;=</code>), <code>le</code> (<code>&lt;=</code>), <code>not</code> (<code>!</code>), <code>eq</code> (<code>==</code>), <code>neq</code>/<code>ne</code> (<code>!=</code>)。</p>
 <!--
 4.10 Conditional expressions
----------------------------
 -->
 </section>
 <section id="条件式" class="level2">
@@ -2005,7 +1982,6 @@ the condition is false:
 &lt;/tr&gt;</code></pre>
 <!--
 4.11 Default expressions (Elvis operator)
------------------------------------------
 -->
 </section>
 <section id="デフォルト式-エルビス演算子" class="level2">
@@ -2043,7 +2019,6 @@ parentheses:
 &lt;/p&gt;</code></pre>
 <!--
 4.12 Preprocessing
-------------------
 -->
 </section>
 <section id="プリプロセッシング" class="level2">
@@ -2094,7 +2069,6 @@ The preprocessing String `__` can be escaped in attributes using `\_\_`.
 <p>プリプロセッシング用文字列 <code>__</code> は属性の中では <code>\_\_</code> とエスケープします。</p>
 <!--
 5 Setting Attribute Values
-==========================
 -->
 </section>
 </section>
@@ -2108,7 +2082,6 @@ after setting the tag body content.
 <p>この章ではThymeleafでどのようにしてマークアップタグ内の属性値を設定(または変更)するかを説明します。タグのボディの内容を設定する機能の次に必要な基本機能かもしれません。</p>
 <!--
 5.1 Setting the value of any attribute
---------------------------------------
 -->
 <section id="任意の属性に値を設定する" class="level2">
 <h2>5.1 任意の属性に値を設定する</h2>
@@ -2176,7 +2149,6 @@ Given the required messages files, this will output:
 <pre class="html"><code>&lt;img src=&quot;/gtgv/images/gtvglogo.png&quot; title=&quot;Logo de Good Thymes&quot; alt=&quot;Logo de Good Thymes&quot; /&gt;</code></pre>
 <!--
 5.2 Setting value to specific attributes
-----------------------------------------
 -->
 </section>
 <section id="特定の属性に値を設定する" class="level2">
@@ -2408,7 +2380,6 @@ specific XHTML or HTML5 attribute:
 </table>
 <!--
 5.3 Setting more than one value at a time
------------------------------------------
 -->
 </section>
 <section id="複数の値を同時に設定する" class="level2">
@@ -2447,7 +2418,6 @@ For our GTVG home page, this will allow us to substitute this:
      th:src=&quot;@{/images/gtvglogo.png}&quot; th:alt-title=&quot;#{logo}&quot; /&gt;</code></pre>
 <!--
 5.4 Appending and prepending
-----------------------------
 -->
 </section>
 <section id="前後に追加する" class="level2">
@@ -2486,7 +2456,6 @@ we will talk about it later.)
 <p>(<code>th:each</code> 属性のことは心配しないでください。「繰り返し用の属性」として後ほど説明します。)</p>
 <!--
 5.5 Fixed-value boolean attributes
-----------------------------------
 -->
 </section>
 <section id="固定値ブール属性" class="level2">
@@ -2565,7 +2534,6 @@ The following fixed-value boolean attributes exist in the Standard Dialect:
 </table>
 <!--
 5.6 Support for HTML5-friendly attribute and element names
-----------------------------------------------------------
 -->
 </section>
 <section id="html5フレンドリーな属性や要素名のサポート" class="level2">
@@ -2594,7 +2562,6 @@ There is also a syntax to specify custom tags: `{prefix}-{name}`, which follows 
 <p><strong>重要:</strong> この構文は名前空間を使用した <code>th:*</code> に追加された機能であって、置き換えるものではありません。将来的に名前空間構文を非推奨にする意図は全くありません。</p>
 <!--
 6 Iteration
-===========
 -->
 </section>
 </section>
@@ -2609,15 +2576,14 @@ obviously yes. And there we go now.
 <p>ここまでホームページとしてユーザープロフィールページと、ニュースレター購読ページを作ってきました。ですが、商品についてはどうでしょう？訪問者に、私たちの商品を知ってもらうための商品一覧ページを作るべきではないでしょうか？えぇ、明らかにYesですね。ではそうしましょう。</p>
 <!--
 6.1 Iteration basics
---------------------
 -->
 <section id="繰り返し処理の基礎" class="level2">
 <h2>6.1 繰り返し処理の基礎</h2>
 <!--
 For listing our products in our `/WEB-INF/templates/product/list.html` page we
 will need a table. Each of our products will be displayed in a row (a `<tr>`
-element), and so for our template we will need to create a _template row_ ---one
-that will exemplify how we want each product to be displayed--- and then instruct
+element), and so for our template we will need to create a _template row_ ーーーone
+that will exemplify how we want each product to be displayedーーー and then instruct
 Thymeleaf to _iterate it_ once for each product.
 -->
 <p><code>/WEB-INF/templates/product/list.html</code> ページに商品一覧を掲載するためにテーブルが必要です。1行(<code>&lt;tr&gt;</code> 要素)に1商品ずつ表示したいので、テンプレートの中に「テンプレート行」(各商品がどのように表示されるかを示す行)を作って、それをThymeleafで商品ごとに繰り返す必要があります。</p>
@@ -2699,7 +2665,7 @@ we see:
  * We will call `prod` the _iteration variable_ or simply _iter variable_.
 -->
 <ul>
-<li>ここでは <code>${prods}</code> のことを「被繰り返し式」または「被繰り返し変数」と呼びます。 <a href="#fn7" class="footnoteRef" id="fnref7"><sup>7</sup></a></li>
+<li>ここでは <code>${prods}</code> のことを「被繰り返し式」または「被繰り返し変数」と呼びます。 <a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a></li>
 <li>ここでは <code>prod</code> のことを「繰り返し変数」と呼びます。</li>
 </ul>
 <!--
@@ -2735,7 +2701,6 @@ by a `th:each` attribute:
 </ul>
 <!--
 6.2 Keeping iteration status
-----------------------------
 -->
 </section>
 </section>
@@ -2865,10 +2830,10 @@ Note that our iteration status variable has worked perfectly, establishing the
 <p>colspanとrowspan属性が <code>&lt;td&gt;</code> タグに追加されていますが、これは <code>&lt;a&gt;</code> のshape属性と同様に、選択されている <em>XHTML 1.0 Strict</em> 標準のDTDに従ってThymeleafが自動的に追加します。 <em>XHTML 1.0 Strict</em> 標準では、これらの値が属性のデフォルト値として策定されています(テンプレートでは値を設定していないことに注意してください)。ページの表示には影響はないので、このことを気にする必要は全然ありません。例えば、HTML5(にはDTDがありませんが)を使用していたら、この属性は決して追加されません。</p>
 </blockquote>
 <!--
-If you don't explicitly set an iteration variable, Thymeleaf will always create
-one for you by suffixing `Stat` to the name of the iter variable:
+If you don't explicitly set a status variable, Thymeleaf will always create one
+for you by suffixing `Stat` to the name of the iteration variable:
 -->
-<p>ステータス変数を明示的に指定しない場合は、繰り返し変数の後ろに <code>Stat</code> をつけた変数名をThymeleafはいつでも作成します <a href="#fn8" class="footnoteRef" id="fnref8"><sup>8</sup></a>:</p>
+<p>ステータス変数を明示的に指定しない場合は、繰り返し変数の後ろに <code>Stat</code> をつけた変数名をThymeleafはいつでも作成します:</p>
 <pre class="html"><code>&lt;table&gt;
   &lt;tr&gt;
     &lt;th&gt;NAME&lt;/th&gt;
@@ -2883,7 +2848,6 @@ one for you by suffixing `Stat` to the name of the iter variable:
 &lt;/table&gt;</code></pre>
 <!--
 7 Conditional Evaluation
-========================
 -->
 </section>
 </section>
@@ -2891,7 +2855,6 @@ one for you by suffixing `Stat` to the name of the iter variable:
 <h1>7 条件の評価</h1>
 <!--
 7.1 Simple conditionals: "if" and "unless"
-------------------------------------------
 -->
 <section id="単純な条件-if-と-unless" class="level2">
 <h2>7.1 単純な条件: “if” と “unless”</h2>
@@ -3029,7 +2992,6 @@ in the previous example instead of using a `not` inside the OGNL expression:
    th:unless=&quot;${#lists.isEmpty(prod.comments)}&quot;&gt;view&lt;/a&gt;</code></pre>
 <!--
 7.2 Switch statements
----------------------
 -->
 </section>
 <section id="スイッチ文" class="level2">
@@ -3063,7 +3025,6 @@ The default option is specified as `th:case="*"`:
 &lt;/div&gt;</code></pre>
 <!--
 8 Template Layout
-=================
 -->
 </section>
 </section>
@@ -3071,7 +3032,6 @@ The default option is specified as `th:case="*"`:
 <h1>8 テンプレートレイアウト</h1>
 <!--
 8.1 Including template fragments
---------------------------------
 -->
 <section id="テンプレートフラグメントのインクルード" class="level2">
 <h2>8.1 テンプレートフラグメントのインクルード</h2>
@@ -3257,7 +3217,6 @@ The `th:substituteby` attribute can also be used as an alias for `th:replace`, b
 <p><code>th:substituteby</code> 属性は <code>th:replace</code> 属性に対するエイリアスとして使用できますが、後者を推奨します。 <code>th:substituteby</code> は将来のバージョンで非推奨になるかもしれないことに注意してください。</p>
 <!--
 8.2 Parameterizable fragment signatures
----------------------------------------
 -->
 </section>
 </section>
@@ -3306,8 +3265,8 @@ This would be, in fact, equivalent to a combination of `th:include` and `th:with
 <p>実際のところ、これは <code>th:include</code> と <code>th:with</code> を組み合わせて使ったのと同じことです:</p>
 <pre class="html"><code>&lt;div th:include=&quot;::frag&quot; th:with=&quot;onevar=${value1},twovar=${value2}&quot;&gt;</code></pre>
 <!--
-**Note** that this specification of local variables for a fragment ---no matter whether it 
-has a signature or not--- does not cause the context to emptied previously to its 
+**Note** that this specification of local variables for a fragment ーーーno matter whether it 
+has a signature or notーーー does not cause the context to emptied previously to its 
 execution. Fragments will still be able to access every context variable being used at the 
 calling template like they currently are. 
 -->
@@ -3331,7 +3290,6 @@ This comes in handy for validating parameters at a fragment signature:
 <pre class="html"><code>&lt;header th:fragment=&quot;contentheader(title)&quot; th:assert=&quot;${!#strings.isEmpty(title)}&quot;&gt;...&lt;/header&gt;</code></pre>
 <!--
 8.3 Removing template fragments
--------------------------------
 -->
 </section>
 </section>
@@ -3572,7 +3530,7 @@ Once processed, everything will look again as it should:
 And what about that `all` value in the attribute, what does it mean? Well, in fact
 `th:remove` can behave in three different ways, depending on its value:
 -->
-<p>この属性に対する <code>all</code> という値はどうなっているのでしょう？何を意味するのでしょうか？はい、実際のところ <code>th:remove</code> はその値によって、3つの異なる振る舞いをします <a href="#fn9" class="footnoteRef" id="fnref9"><sup>9</sup></a>:</p>
+<p>この属性に対する <code>all</code> という値はどうなっているのでしょう？何を意味するのでしょうか？はい、実際のところ <code>th:remove</code> はその値によって、5つの異なる振る舞いをします:</p>
 <!--
  * `all`: Remove both the containing tag and all its children.
  * `body`: Do not remove the containing tag, but remove all its children.
@@ -3654,7 +3612,6 @@ In this case, if `${condition}` is false, `null` will be returned, and thus no r
 <p>この場合、 <code>${condition}</code> がfalseの場合、 <code>null</code> が返されるので、何も削除されません。</p>
 <!--
 9 Local Variables
-=================
 -->
 </section>
 </section>
@@ -3771,7 +3728,6 @@ worry because that is exactly what the next chapter is about.
 <p>優先順位？それまだ知らない！と思ったかもしれませんね。心配しないでください、次の章は優先度についてです。</p>
 <!--
 10 Attribute Precedence
-=======================
 -->
 </section>
 <section id="属性の優先順位" class="level1">
@@ -3902,19 +3858,17 @@ slightly less readable):
 &lt;/ul&gt;</code></pre>
 <!--
 11. Comments and Blocks
-=======================
 -->
 </section>
 <section id="コメントとブロック" class="level1">
 <h1>11. コメントとブロック</h1>
 <!--
 11.1. Standard HTML/XML comments
---------------------------------
 -->
 <section id="標準的なhtmlxmlコメント" class="level2">
 <h2>11.1. 標準的なHTML/XMLコメント</h2>
 <!--
-Standard HTML/XML comments `&lt;!-- ... --&gt;` can be used anywhere in thymeleaf templates. Anything inside these comments won't be processed by neither Thymeleaf nor the browser, and will be just copied verbatim to the result:
+Standard HTML/XML comments `<!ーー ... ーー>` can be used anywhere in thymeleaf templates. Anything inside these comments won't be processed by neither Thymeleaf nor the browser, and will be just copied verbatim to the result:
 -->
 <p>標準的なHTML/XMLコメント <code>&lt;!-- ... --&gt;</code> はThymeleafテンプレート内のどこでも使用することができます。このコメントの中にあるものは全てThymeleafにもブラウザにも処理されずに、一字一句そのまま単純に結果にコピーされます:</p>
 <pre class="html"><code>&lt;!-- User info follows --&gt;
@@ -3923,7 +3877,6 @@ Standard HTML/XML comments `&lt;!-- ... --&gt;` can be used anywhere in thymelea
 &lt;/div&gt;</code></pre>
 <!--
 11.2. Thymeleaf parser-level comment blocks
--------------------------------------------
 -->
 </section>
 <section id="thymeleafパーサーレベルのコメントブロック" class="level2">
@@ -3934,7 +3887,7 @@ Parser-level comment blocks are code that will be simply removed from the templa
 <p>パーサーレベルのコメントブロックはThymeleafがそれをパースする際にテンプレートから削除されます。こんな感じです:</p>
 <pre class="html"><code>&lt;!--/* This code will be removed at thymeleaf parsing time! */--&gt;</code></pre>
 <!--
-Thymeleaf will remove absolutely everything between `&lt;!--/*` and `*/--&gt;`, so these comment blocks can also be used for displaying code when a template is statically open, knowing that it will be removed when thymeleaf processes it:
+Thymeleaf will remove absolutely everything between `<!ーー/*` and `*/ーー>`, so these comment blocks can also be used for displaying code when a template is statically open, knowing that it will be removed when thymeleaf processes it:
 -->
 <p>Thymeleafは <code>&lt;!--/*</code> と <code>*/--&gt;</code> の間にあるもの全てを完全に削除するので、このコメントブロックは「テンプレートが静的に開かれた場合にだけ内容を表示する」という用途のために使用することもできます。Thymeleafで処理すると削除されます:</p>
 <pre class="html"><code>&lt;!--/*--&gt; 
@@ -3961,7 +3914,6 @@ This might come very handy for prototyping tables with a lot of `<tr>`'s, for ex
 &lt;/table&gt;</code></pre>
 <!--
 11.3. Thymeleaf prototype-only comment blocks
----------------------------------------------
 -->
 </section>
 <section id="thymeleafプロトタイプのみのコメントブロック" class="level2">
@@ -3978,7 +3930,7 @@ Thymeleaf allows the definition of special comment blocks marked to be comments 
 /*/--&gt;
 &lt;span&gt;goodbye!&lt;/span&gt;</code></pre>
 <!--
-Thymeleaf's parsing system will simply remove the `&lt;!--/*/` and `/*/--&gt;` markers, but not its contents, which will be left therefore uncommented. So when executing the template, Thymeleaf will actually see this:
+Thymeleaf's parsing system will simply remove the `<!ーー/*/` and `/*/ーー>` markers, but not its contents, which will be left therefore uncommented. So when executing the template, Thymeleaf will actually see this:
 -->
 <p>Thymeleafのパースシステムは単純に <code>&lt;!--/*/</code> と <code>/*/--&gt;</code> のマーカーを削除しますが、コンテンツは削除しないので、そのコンテンツがアンコメントされて残ります。ですので、テンプレートを実行するときには Thymeleafからは実際このように見えます:</p>
 <pre class="html"><code>&lt;span&gt;hello!&lt;/span&gt;
@@ -3994,7 +3946,6 @@ As happens with parser-level comment blocks, note that this feature is dialect-i
 <p>パーサーレベルコメントブロックと同様、この機能はダイアレクトからは独立した機能です。</p>
 <!--
 11.4. Synthetic `th:block` tag
-------------------------------
 -->
 </section>
 <section id="擬似的な-thblock-タグ" class="level2">
@@ -4043,7 +3994,6 @@ Note how this solution allows templates to be valid HTML (no need to add forbidd
 <p>この解決策によって、テンプレートが(<code>&lt;table&gt;</code> 内で禁止されている <code>&lt;div&gt;</code> ブロックを書く必要がなく)妥当なHTMLになっていることに注意してください。また、プロトタイプとしてブラウザで静的に開かれても問題ありません！</p>
 <!--
 12 Inlining
-===========
 -->
 </section>
 </section>
@@ -4051,7 +4001,6 @@ Note how this solution allows templates to be valid HTML (no need to add forbidd
 <h1>12 インライン処理</h1>
 <!--
 12.1 Text inlining
-------------------
 -->
 <section id="テキストのインライン処理" class="level2">
 <h2>12.1 テキストのインライン処理</h2>
@@ -4121,7 +4070,6 @@ code without using inlining...
 <p>ということです。</p>
 <!--
 12.2 Script inlining (JavaScript and Dart)
-------------------------------------------
 -->
 </section>
 <section id="スクリプトのインライン処理-javascript-と-dart" class="level2">
@@ -4305,7 +4253,6 @@ var f = function() {
 ...</code></pre>
 <!--
 13 Validation and Doctypes
-==========================
 -->
 </section>
 </section>
@@ -4314,7 +4261,6 @@ var f = function() {
 <h1>13 バリデーションとDoctype</h1>
 <!--
 13.1 Validating templates
--------------------------
 -->
 <section id="テンプレートをバリデートする" class="level2">
 <h2>13.1 テンプレートをバリデートする</h2>
@@ -4379,7 +4325,6 @@ your `html` tag:
       xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;</code></pre>
 <!--
 13.2 Doctype translation
-------------------------
 -->
 </section>
 <section id="doctype変換" class="level2">
@@ -4436,7 +4381,6 @@ will take care of them automatically.
 <p>この変換の実行に関しては何もする必要はありません: Thymeleafが自動的に面倒をみてくれます。</p>
 <!--
 14 Some more Pages for our Grocery
-==================================
 -->
 </section>
 </section>
@@ -4454,7 +4398,6 @@ source code if you want to see the corresponding controllers.
 <p>XHTMLコードにフォーカスしますが、対応するコントローラーを見てみたい場合はバンドルされたソースコードをチェックしてください。</p>
 <!--
 14.1 Order List
----------------
 -->
 <section id="注文リスト" class="level2">
 <h2>14.1 注文リスト</h2>
@@ -4523,7 +4466,6 @@ You've got to love the power of OGNL.
 <p>きっとOGNLのパワーが好きになったでしょう。</p>
 <!--
 14.2 Order Details
-------------------
 -->
 </section>
 <section id="注文詳細" class="level2">
@@ -4616,7 +4558,6 @@ Not much really new here, except for this nested object selection:
 <pre class="html"><code>&lt;p&gt;&lt;b&gt;Name:&lt;/b&gt; &lt;span th:text=&quot;${order.customer.name}&quot;&gt;Frederic Tomato&lt;/span&gt;&lt;/p&gt;</code></pre>
 <!--
 15 More on Configuration
-========================
 -->
 </section>
 </section>
@@ -4624,7 +4565,6 @@ Not much really new here, except for this nested object selection:
 <h1>15 設定についてもう少し</h1>
 <!--
 15.1 Template Resolvers
------------------------
 -->
 <section id="テンプレートリゾルバー-1" class="level2">
 <h2>15.1 テンプレートリゾルバー</h2>
@@ -4778,7 +4718,6 @@ ServletContextTemplateResolver servletContextTemplateResolver = new ServletConte
 servletContextTemplateResolver.setOrder(Integer.valueOf(2));</code></pre>
 <!--
 15.2 Message Resolvers
-----------------------
 -->
 </section>
 <section id="メッセージリゾルバー" class="level2">
@@ -4824,7 +4763,6 @@ etc.
 <p>でも、どうして複数のメッセージリゾルバーを指定したいのでしょうか？テンプレートリゾルバーと同じ理由ですね: メッセージリゾルバーは順番付けされて、最初のリゾルバーがあるメッセージを解決できなければ、次のリゾルバーに問い合わせて、その次は3番目に・・・となります。</p>
 <!--
 15.3 Logging
-------------
 -->
 </section>
 <section id="ロギング" class="level2">
@@ -4882,7 +4820,6 @@ log4j.logger.org.thymeleaf.TemplateEngine.TIMER=TRACE
 log4j.logger.org.thymeleaf.TemplateEngine.cache.TEMPLATE_CACHE=TRACE</code></pre>
 <!--
 16 Template Cache
-=================
 -->
 </section>
 </section>
@@ -4890,13 +4827,13 @@ log4j.logger.org.thymeleaf.TemplateEngine.cache.TEMPLATE_CACHE=TRACE</code></pre
 <h1>16 テンプレートキャッシュ</h1>
 <!--
 Thymeleaf works thanks to a DOM processing engine and a series of processors
----one for each type of node that needs to apply logic--- that modify the document's
+ーーーone for each type of node that needs to apply logicーーー that modify the document's
 DOM tree in order to create the results you expect by combining this tree with
 your data.
 -->
 <p>ThymeleafはDOM処理エンジンと一連のプロセッサ — ロジックを適用する必要があるノードのタイプごとに1つ — のおかげで動いています。プロセッサは、ドキュメントのDOMツリーとデータを結びつけることによって期待する結果を作成するために、DOMツリーに変更を加えます。</p>
 <!--
-It also includes ---by default--- a cache that stores parsed templates, this is, the
+It also includes ーーーby defaultーーー a cache that stores parsed templates, this is, the
 DOM trees resulting from reading and parsing template files before processing
 them. This is especially useful when working in a web application, and builds on
 the following concepts:
@@ -5189,11 +5126,6 @@ Thymeleaf also allows accessing beans registered at your Spring Application Cont
  */
 
 /*
- * Null-safe toString()
- */
-${#strings.toString(obj)}                           // also array*, list* and set*
-
-/*
  * Format date with the standard locale format
  * Also works with arrays, lists or sets
  */
@@ -5252,11 +5184,6 @@ ${#dates.createToday()}
  * See javadoc API for class org.thymeleaf.expression.Dates
  * ======================================================================
  */
-
-/*
- * Null安全な toString()
- */
-${#strings.toString(obj)}                           // array*, list* and set* にも対応しています
 
 /*
  * 標準ロケールフォーマットで日付をフォーマットします
@@ -5639,6 +5566,11 @@ ${#numbers.sequence(from,to,step)}</code></pre>
  */
 
 /*
+ * Null-safe toString()
+ */
+${#strings.toString(obj)}                           // also array*, list* and set*
+
+/*
  * Check whether a String is empty (or null). Performs a trim() operation before check
  * Also works with arrays, lists or sets
  */
@@ -5764,6 +5696,11 @@ ${#strings.randomAlphanumeric(count)}
  * See javadoc API for class org.thymeleaf.expression.Strings
  * ======================================================================
  */
+
+/*
+ * Null安全な toString()
+ */
+${#strings.toString(obj)}                           // array*, list* and set* にも対応しています
 
 /*
  * 文字列が空(またはnull)かどうかをチェックします。チェック前に trim() 処理をします。
@@ -6668,15 +6605,9 @@ which will actually look for any elements with `class="myfrag"`, without caring 
 <section class="footnotes">
 <hr />
 <ol>
-<li id="fn1"><p>訳注: カンマじゃなくてクォートかな？<a href="#fnref1">↩</a></p></li>
-<li id="fn2"><p>application/xhtml+xmlコンテンツタイプで取り扱われるXML整形式のHTML5はXHTML5と呼ばれるので、ThymeleafはXHTML5をサポートしていると言ってもいいかもしれません。<a href="#fnref2">↩</a></p></li>
-<li id="fn3"><p>訳注:テンプレートエンジンの生成の間違いかも？<a href="#fnref3">↩</a></p></li>
-<li id="fn4"><p>このテンプレートは妥当なXHTMLですが、テンプレートモードとしては “VALIDXHTML” ではなく “XHTML” を選んでいます。ですので今のところ、バリデーションを気にしなくても問題ないのですが、そうはいってもIDEにたくさん指摘されるのも嫌ですよね。<a href="#fnref4">↩</a></p></li>
-<li id="fn5"><p>訳注: 3番目の式は <code>@{/order/${orderId}/details}</code> の間違いではないかと思います<a href="#fnref5">↩</a></p></li>
-<li id="fn6"><p>訳注: <code>@{/order/${orderId}/details}</code> の間違いではないかと思います。<a href="#fnref6">↩</a></p></li>
-<li id="fn7"><p>訳注: iterated expression の適当な訳が分かりませんでした…<a href="#fnref7">↩</a></p></li>
-<li id="fn8"><p>訳注: 原文では“繰り返し変数を明示的に指定しない場合は”となっていますが、文脈から“ステータス変数”であることが明らかなのでそのように記載します。<a href="#fnref8">↩</a></p></li>
-<li id="fn9"><p>訳注:5個の間違いかな？<a href="#fnref9">↩</a></p></li>
+<li id="fn1"><p>application/xhtml+xmlコンテンツタイプで取り扱われるXML整形式のHTML5はXHTML5と呼ばれるので、ThymeleafはXHTML5をサポートしていると言ってもいいかもしれません。<a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>このテンプレートは妥当なXHTMLですが、テンプレートモードとしては “VALIDXHTML” ではなく “XHTML” を選んでいます。ですので今のところ、バリデーションを気にしなくても問題ないのですが、そうはいってもIDEにたくさん指摘されるのも嫌ですよね。<a href="#fnref2">↩</a></p></li>
+<li id="fn3"><p>訳注: iterated expression の適当な訳が分かりませんでした…<a href="#fnref3">↩</a></p></li>
 </ol>
 </section>
 		</div>
