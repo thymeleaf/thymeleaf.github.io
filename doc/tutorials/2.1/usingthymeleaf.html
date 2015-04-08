@@ -61,6 +61,11 @@
 		</header>
 	</div>
 
+	<div id="menu">
+		<a id="menu-link" href="javascript:void(0);">
+			<img id="menu-image" src="images/logo.png" alt="Menu logo"/>
+		</a>
+	</div>
 	<div id="toc-wrapper">
 		<nav id="toc">
 <ul>
@@ -1065,6 +1070,7 @@ th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &
 <p>And do you remember those <code>th:href</code> we put in our <code>home.html</code> before? They are exactly this same kind of attributes:</p>
 <pre class="html"><code>&lt;li&gt;&lt;a href=&quot;product/list.html&quot; th:href=&quot;@{/product/list}&quot;&gt;Product List&lt;/a&gt;&lt;/li&gt;</code></pre>
 <p>There are quite a lot of attributes like these, each of them targeting a specific XHTML or HTML5 attribute:</p>
+<div class="table-wrapper">
 <table>
 <tbody>
 <tr class="odd">
@@ -1249,6 +1255,7 @@ th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &
 </tr>
 </tbody>
 </table>
+</div>
 </section>
 <section id="setting-more-than-one-value-at-a-time" class="level2">
 <h2>5.3 Setting more than one value at a time</h2>
@@ -1288,6 +1295,7 @@ th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &
 <p>The Standard Dialect includes attributes that allow you to set these attributes by evaluating a condition, so that if evaluated to true, the attribute will be set to its fixed value, and if evaluated to false, the attribute will not be set:</p>
 <pre class="html"><code>&lt;input type=&quot;checkbox&quot; name=&quot;active&quot; th:checked=&quot;${user.active}&quot; /&gt;</code></pre>
 <p>The following fixed-value boolean attributes exist in the Standard Dialect:</p>
+<div class="table-wrapper">
 <table>
 <tbody>
 <tr class="odd">
@@ -1332,6 +1340,7 @@ th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &
 </tr>
 </tbody>
 </table>
+</div>
 </section>
 <section id="support-for-html5-friendly-attribute-and-element-names" class="level2">
 <h2>5.6 Support for HTML5-friendly attribute and element names</h2>

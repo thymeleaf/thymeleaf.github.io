@@ -13,9 +13,11 @@ body {
 }
 /* Title block */
 /* -------------------------------------------------------------------------- */
-.tutorial #title-block-wrapper {
-  margin-left: 25%;
-  padding-left: 1.5em;
+@media (min-width: 43.75em) {
+  .tutorial #title-block-wrapper {
+    margin-left: 25%;
+    padding-left: 1.5em;
+  }
 }
 #title-block {
   max-width: 51.4375em;
@@ -28,12 +30,50 @@ body {
 }
 /* Table of contents */
 /* -------------------------------------------------------------------------- */
-.tutorial #toc-wrapper {
-  bottom: 1em;
-  max-width: 20.625em;
+#menu {
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0 0 0.5em black;
+  height: 50px;
   position: fixed;
-  top: 1em;
-  width: 25%;
+  right: -5px;
+  top: 0.5em;
+  width: 50px;
+  z-index: 10;
+}
+@media (min-width: 43.75em) {
+  #menu {
+    display: none;
+  }
+}
+#menu-link {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+#toc-wrapper {
+  bottom: 0.5em;
+  box-shadow: 0.25em 0.25em 2em rgba(0, 0, 0, 0.75);
+  display: none;
+  left: 0.5em;
+  position: fixed;
+  top: 0.5em;
+  width: 80%;
+  z-index: 5;
+}
+#toc-wrapper:target {
+  display: block;
+}
+@media (min-width: 43.75em) {
+  #toc-wrapper {
+    bottom: 1em;
+    box-shadow: none;
+    display: block;
+    left: 1em;
+    max-width: 20.625em;
+    top: 1em;
+    width: 25%;
+  }
 }
 /* Documentation content */
 /* -------------------------------------------------------------------------- */
@@ -41,9 +81,11 @@ body {
   margin: 0 auto;
   max-width: 51.4375em;
 }
-.tutorial #content {
-  margin-left: 25%;
-  padding-left: 1.5em;
+@media (min-width: 43.75em) {
+  .tutorial #content {
+    margin-left: 25%;
+    padding-left: 1.5em;
+  }
 }
 @media (min-width: 83.75em) {
   .tutorial #content {
