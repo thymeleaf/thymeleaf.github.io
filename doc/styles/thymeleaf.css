@@ -9,6 +9,7 @@ body {
 a {
   color: blue;
   text-decoration: none;
+  word-wrap: break-word;
 }
 a:hover {
   text-decoration: underline;
@@ -173,6 +174,14 @@ figure img {
 figcaption {
   font-style: italic;
   text-align: center;
+}
+h1 code,
+h2 code,
+h3 code,
+h4 code,
+h5 code,
+h6 code {
+  word-wrap: break-word;
 }
 #setting-value-to-specific-attributes > table td,
 #fixed-value-boolean-attributes > table td {

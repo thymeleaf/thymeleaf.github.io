@@ -68,7 +68,7 @@ body {
   #toc-wrapper {
     bottom: 1em;
     box-shadow: none;
-    display: block;
+    display: block !important;
     left: 1em;
     max-width: 20.625em;
     top: 1em;
