@@ -1,0 +1,133 @@
+@charset "UTF-8";
+
+/* 
+ * Copyright 2015, The Thymeleaf Project (http://www.thymeleaf.org/)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/* Element selectors */
+/* -------------------------------------------------------------------------- */
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	background-color: white;
+	color: black;
+	font: 1em/1.5em 'Open Sans', sans-serif;
+}
+
+a {
+	color: #88aa22;
+	text-decoration: none;
+}
+
+a:visited {
+	color: #88aa22;
+}
+
+a:hover,
+a:focus {
+	text-decoration: underline;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: "Merriweather", serif;
+	margin: 1em 0;
+}
+
+section {
+	margin-bottom: 3em;
+}
+
+ul {
+	margin: 0 2em;
+	padding: 0;
+}
+
+/* Object selectors */
+/* -------------------------------------------------------------------------- */
+
+.fluid-container {
+	padding: 0 1em;
+}
+
+.fluid-block {
+	margin: 0 auto;
+	max-width: 56.25rem;
+}
+
+.links-list {
+	list-style: none;
+}
+
+.link-navigation {
+	display: flex;
+}
+
+.link-navigation a {
+	display: block;
+	padding: 1em;
+}
+
+.toolbar {
+	display: flex;
+	justify-content: space-between;
+}
+
+.hero-header {
+	padding: 4em 5em 5em;
+}
+
+.hero-header-homepage {
+	padding: 8em 5em 10em;
+}
+
+.doc {
+	margin: 2em 0 0 2em;
+}
+
+/* ID selectors */
+/* -------------------------------------------------------------------------- */
+
+#site-nav-container {
+	background-color: #f0f0f0;
+	border-bottom: 1px solid #99cc33;
+	padding: 0;
+}
+
+#site-nav a {
+	border-bottom: 0.25em solid transparent;
+	color: black;
+}
+
+#site-nav a:hover,
+#site-nav a:focus,
+#site-nav a:active,
+#site-nav .selected a {
+	border-bottom-color: #99cc33;
+	text-decoration: none;
+}
+
+#site-footer-container {
+	background-color: #f0f0f0;
+	border-top: 1px solid #99cc33;
+	margin-top: 4em;
+	padding: 1em 1em 2em;
+}
+
+#site-footer {
+	font-size: 0.85rem;
+}
