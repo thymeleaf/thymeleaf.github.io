@@ -18,44 +18,57 @@
 
 	<div class="fluid-container toolbar-container">
 		<nav class="fluid-block toolbar">
-			<ul class="links-list toolbar-links">
-				<li>
-					<a href="index.html" class="toolbar-link">Home</a>
-				</li>
-				<li class="selected">
-					<a href="documentation.html" class="toolbar-link">Docs</a>
-				</li>
-				<li>
-					<a href="http://forum.thymeleaf.org/" class="toolbar-link">Forum</a>
-				</li>
-				<li>
-					<a href="ecosystem.html" class="toolbar-link">Ecosystem</a>
-				</li>
-				<li>
-					<a href="faq.html" class="toolbar-link">FAQ</a>
-				</li>
-			</ul>
-			<ul id="site-nav-links" class="links-list toolbar-links">
-				<li id="site-nav-twitter">
-					<a id="site-nav-link-twitter" href="https://twitter.com/thymeleaf"
-							class="toolbar-link toolbar-image-link" title="Follow us on Twitter">
-					<img src="images/twitter.png" alt="Twitter logo" class="toolbar-logo"/>
-					</a>
-				</li>
-				<li>
-					<a id="site-nav-link-github" href="https://github.com/thymeleaf"
-							class="toolbar-link toolbar-image-link" title="Fork us on GitHub">
-					<img src="images/github.png" alt="GitHub logo" class="toolbar-logo"/>
-					</a>
-				</li>
-			</ul>
+			<div class="toolbar-menu">
+				<div class="toolbar-menu-location">Docs</div>
+				<button id="site-menu-button" type="button" class="toolbar-menu-button">Site Menu</button>
+			</div>
+			<div id="site-menu" class="toolbar-menu-items">
+				<ul class="toolbar-links">
+					<li>
+						<a href="index.html" class="toolbar-link">Home</a>
+					</li>
+					<li class="selected">
+						<a href="documentation.html" class="toolbar-link">Docs</a>
+					</li>
+					<li>
+						<a href="ecosystem.html" class="toolbar-link">Ecosystem</a>
+					</li>
+					<li>
+						<a href="faq.html" class="toolbar-link">FAQ</a>
+					</li>
+				</ul>
+				<ul id="site-nav-links" class="toolbar-links">
+					<li id="site-nav-forum">
+						<a href="http://forum.thymeleaf.org/" class="toolbar-link">Forum</a>
+					</li>
+					<li id="site-nav-twitter">
+						<a id="site-nav-link-twitter" href="https://twitter.com/thymeleaf"
+								class="toolbar-link" title="Follow us on Twitter">
+						<!--<img src="images/twitter.png" alt="Twitter logo" class="toolbar-logo"/>-->
+						Twitter
+						</a>
+					</li>
+					<li>
+						<a id="site-nav-link-github" href="https://github.com/thymeleaf"
+								class="toolbar-link" title="Fork us on GitHub">
+						<!--<img src="images/github.png" alt="GitHub logo" class="toolbar-logo"/>-->
+						GitHub
+						</a>
+					</li>
+				</ul>
+			</div>
 		</nav>
 	</div>
 
 	<div class="hero-container fluid-container">
 		<header class="hero-header fluid-block">
-			<h1>Thymeleaf</h1>
-			<div>Java HTML/XML template engine</div>
+			<div class="hero-header-text">
+				<h1>Thymeleaf &nbsp;</h1>
+				<div>Java HTML/XML template engine</div>
+			</div>
+			<div class="hero-header-image">
+				<img src="images/thymeleaf-big.png" alt="Thymeleaf logo" class="hero-header-logo"/>
+			</div>
 		</header>
 	</div>
 
@@ -267,7 +280,7 @@
 	<div class="fluid-container footer-container">
 		<footer class="footer fluid-block">
 			<div class="footer-sections">
-				<h5>Thymeleaf</h5>
+				<h5>On this site</h5>
 				<ul class="footer-sections-links">
 					<li>
 						<a href="index.html">Home</a>
@@ -291,7 +304,7 @@
 				</ul>
 			</div>
 			<div>
-				<h5>Links</h5>
+				<h5>External links</h5>
 				<ul class="footer-sections-links">
 					<li>
 						<a href="http://forum.thymeleaf.org/">Forum</a>

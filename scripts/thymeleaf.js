@@ -56,7 +56,7 @@
 			'  <tbody>',
 			'    <tr th:each="prod: ${allProducts}">',
 			'      <td th:text="${prod.name}">Oranges</td>',
-			'      <td th:text="${#numbers.formatDecimal(prod.price,1,2)}">0.99</td>',
+			'      <td th:text="${#numbers.formatDecimal(prod.price, 1, 2)}">0.99</td>',
 			'    </tr>',
 			'  </tbody>',
 			'</table>'
@@ -72,9 +72,15 @@
 			codeBlock.innerHTML = escapeHtml(codeSample);
 		}
 	});
-	
+
 
 	// Run the Prism syntax highlighter
 	Prism.highlightAll();
+
+
+	// Have the site menu button reveal the site menu on click
+	$('#site-menu-button').addEventListener('click', function(event) {
+		$('#site-menu').classList.toggle('show-menu');
+	});
 
 })();
