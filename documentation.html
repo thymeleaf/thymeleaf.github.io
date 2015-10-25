@@ -12,6 +12,9 @@
 	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Merriweather:400,700"/>
 	<link rel="stylesheet" href="styles/normalize.css" media="screen"/>
 	<link rel="stylesheet" href="styles/thymeleaf.css" media="screen"/>
+
+	<script src="scripts/prism.js" defer data-manual></script>
+	<script src="scripts/thymeleaf.js" defer></script>
 </head>
 
 <body>
@@ -26,6 +29,9 @@
 				<ul class="toolbar-links">
 					<li>
 						<a href="index.html" class="toolbar-link">Home</a>
+					</li>
+					<li>
+						<a href="download.html" class="toolbar-link">Download</a>
 					</li>
 					<li class="selected">
 						<a href="documentation.html" class="toolbar-link">Docs</a>
@@ -74,6 +80,7 @@
 
 	<div class="fluid-container">
 		<main class="fluid-block">
+
 			<section id="docs-tutorials">
 				<header>
 					<h2>Tutorials and Guides</h2>
@@ -81,7 +88,7 @@
 				<p>These docs are both learning and reference materials for Thymeleaf.
 				If you want to know how to use Thymeleaf, then start here.</p>
 
-				<section class="doc">
+				<section class="subsection">
 					<header>
 						<h3>Using Thymeleaf</h3>
 					</header>
@@ -93,7 +100,7 @@
 							<a href="doc/tutorials/2.1/usingthymeleaf.html">Read online</a>
 						</li>
 						<li>
-							Other viewing options:
+							Read as
 							<a href="doc/tutorials/2.1/usingthymeleaf.pdf">PDF</a>,
 							<a href="doc/tutorials/2.1/usingthymeleaf.epub">EPUB</a>,
 							<a href="doc/tutorials/2.1/usingthymeleaf.mobi">MOBI</a>
@@ -107,7 +114,7 @@
 					</ul>
 				</section>
 
-				<section class="doc">
+				<section class="subsection">
 					<header>
 						<h3>Thymeleaf + Spring</h3>
 					</header>
@@ -118,7 +125,7 @@
 							<a href="doc/tutorials/2.1/thymeleafspring.html">Read online</a>
 						</li>
 						<li>
-							Other viewing options:
+							Read as
 							<a href="doc/tutorials/2.1/thymeleafspring.pdf">PDF</a>,
 							<a href="doc/tutorials/2.1/thymeleafspring.epub">EPUB</a>,
 							<a href="doc/tutorials/2.1/thymeleafspring.mobi">MOBI</a>
@@ -126,7 +133,7 @@
 					</ul>
 				</section>
 
-				<section class="doc">
+				<section class="subsection">
 					<header>
 						<h3>Extending Thymeleaf</h3>
 					</header>
@@ -139,7 +146,7 @@
 							<a href="doc/tutorials/2.1/extendingthymeleaf.html">Read online</a>
 						</li>
 						<li>
-							Other viewing options:
+							Read as
 							<a href="doc/tutorials/2.1/extendingthymeleaf.pdf">PDF</a>,
 							<a href="doc/tutorials/2.1/extendingthymeleaf.epub">EPUB</a>,
 							<a href="doc/tutorials/2.1/extendingthymeleaf.mobi">MOBI</a>
@@ -147,7 +154,7 @@
 					</ul>
 				</section>
 
-				<section class="doc">
+				<section class="subsection">
 					<header>
 						<h3>Thymeleaf Interactive Tutorial</h3>
 					</header>
@@ -162,66 +169,88 @@
 
 			</section>
 
+
 			<section id="articles">
 				<header>
 					<h2>Articles</h2>
 				</header>
 				<p>Quick glimpses into what Thymeleaf can bring to your project.</p>
 
-				<p>TODO: Split into related features?</p>
-
-				<ul>
-					<li>
-						<a href="doc/articles/standarddialect5minutes.html">Getting started
+				<section class="subsection">
+					<header>
+						<h3>Introductions</h3>
+					</header>
+					<ul>
+						<li>
+							<a href="doc/articles/standarddialect5minutes.html">Getting started
 							with the Standard dialects in 5 minutes</a>
-					</li>
-					<li>
-						<a href="doc/articles/standardurlsyntax.html">Standard URL Syntax</a>
-					</li>
-					<li>
-						<a href="doc/articles/springmvcaccessdata.html">Spring MVC +
-						Thymeleaf: how to access data from templates</a>
-					</li>
-					<li>
-						<a href="doc/articles/fromhtmltohtmlviahtml.html">From HTML to HTML
-						(via HTML)</a>
-					</li>
-					<li>
-						<a href="doc/articles/thvsjsp.html">Spring MVC view layer: Thymeleaf
-						vs JSP</a>
-					</li>
-					<li>
-						<a href="doc/articles/sayhelloextendingthymeleaf5minutes.html">Say
-						Hello!  Extending Thymeleaf in 5 minutes</a>
-					</li>
-					<li>
-						<a href="doc/articles/sayhelloagainextendingthymeleafevenmore5minutes.html">Say
-						Hello Again!  Extending Thymeleaf even more in another 5 minutes</a>
-					</li>
-					<li>
-						<a href="doc/articles/springsecurity.html">Thymeleaf + Spring
-						Security integration basics</a>
-					</li>
-					<li>
-						<a href="doc/articles/springmail.html">Rich HTML email in Spring
-						with Thymeleaf</a>
-					</li>
-					<li>
-						<a href="doc/articles/petclinic.html">Bringing Thymeleaf and Natural
-						Templates to the Spring PetClinic</a>
-					</li>
-					<li>
-						<a href="doc/articles/layouts.html">Thymeleaf Page Layouts</a>
-					</li>
-				</ul>
+						</li>
+						<li>
+							<a href="doc/articles/standardurlsyntax.html">Standard URL Syntax</a>
+						</li>
+						<li>
+							<a href="doc/articles/sayhelloextendingthymeleaf5minutes.html">Say
+							Hello!  Extending Thymeleaf in 5 minutes</a>
+						</li>
+						<li>
+							<a href="doc/articles/sayhelloagainextendingthymeleafevenmore5minutes.html">Say
+							Hello Again!  Extending Thymeleaf even more in another 5 minutes</a>
+						</li>
+						<li>
+							<a href="doc/articles/fromhtmltohtmlviahtml.html">From HTML to HTML
+							(via HTML)</a>
+						</li>
+					</ul>
+				</section>
+
+				<section class="subsection">
+					<header>
+						<h3>With Spring</h3>
+					</header>
+					<ul>
+						<li>
+							<a href="doc/articles/petclinic.html">Bringing Thymeleaf and Natural
+							Templates to the Spring PetClinic</a>
+						</li>
+						<li>
+							<a href="doc/articles/springmvcaccessdata.html">Spring MVC +
+							Thymeleaf: how to access data from templates</a>
+						</li>
+						<li>
+							<a href="doc/articles/springsecurity.html">Thymeleaf + Spring
+							Security integration basics</a>
+						</li>
+						<li>
+							<a href="doc/articles/springmail.html">Rich HTML email in Spring
+							with Thymeleaf</a>
+						</li>
+					</ul>
+				</section>
+
+				<section class="subsection">
+					<header>
+						<h3>Comparisons</h3>
+					</header>
+					<ul>
+						<li>
+							<a href="doc/articles/thvsjsp.html">Spring MVC view layer: Thymeleaf
+							vs JSP</a>
+						</li>
+						<li>
+							<a href="doc/articles/layouts.html">Thymeleaf Page Layouts</a>
+						</li>
+					</ul>
+				</section>
+
 			</section>
+
 
 			<section id="apis">
 				<header>
 					<h2>Javadocs/API</h2>
 				</header>
 
-				<section class="doc">
+				<section class="subsection">
 					<header>
 						<h3>Latest release</h3>
 					</header>
@@ -238,7 +267,7 @@
 					</ul>
 				</section>
 
-				<section class="doc">
+				<section class="subsection">
 					<header>
 						<h3>Previous versions</h3>
 					</header>
@@ -274,6 +303,7 @@
 					</ul>
 				</section>
 			</section>
+
 		</main>
 	</div>
 
@@ -284,6 +314,9 @@
 				<ul class="footer-sections-links">
 					<li>
 						<a href="index.html">Home</a>
+					</li>
+					<li>
+						<a href="download.html">Download</a>
 					</li>
 					<li>
 						<a href="documentation.html">Docs</a>

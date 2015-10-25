@@ -56,7 +56,17 @@ button {
 
 button:hover,
 button:focus {
-	background-color: #f0f0f0;
+	background-color: #99cc33;
+	color: white;
+}
+
+figure {
+	margin: 1em;
+}
+
+figcaption {
+	font-size: 0.85em;
+	font-style: italic;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -76,13 +86,17 @@ img {
 	max-width: 100%;
 }
 
-section {
-	margin-bottom: 3em;
+p {
+	margin: 1em 0;
 }
 
-ul {
-	margin: 0 2em;
+ol, ul {
+	margin: 1em 0 1em 2em;
 	padding: 0;
+}
+
+section {
+	margin-bottom: 3em;
 }
 
 /* Object selectors */
@@ -124,12 +138,11 @@ ul {
 .toolbar-menu-items.show-menu {
 	box-shadow: 0 0.5rem 0.5rem 0 rgba(0, 0, 0, 0.6);
 	height: 26.25rem;
-	max-height: calc(95vh - 4rem);
+	max-height: calc(95vh - 5.5rem);
 	overflow: auto;
 }
 
 .toolbar a {
-	border-bottom: 0.25em solid transparent;
 	color: black;
 }
 
@@ -137,7 +150,8 @@ ul {
 .toolbar a:focus,
 .toolbar a:active,
 .toolbar .selected a {
-	background-color: #f0f0f0;
+	background-color: #99cc33;
+	color: white;
 	text-decoration: none;
 }
 
@@ -164,14 +178,17 @@ ul {
 	transform: translateY(-50%);
 }
 
-@media (min-width: 37.5rem) {
+@media (min-width: 43.75rem) {
+
+	.toolbar-container {
+		border-bottom: 1px solid #99cc33;
+	}
 
 	.toolbar-menu {
 		display: none;
 	}
 
 	.toolbar-menu-items {
-		border-bottom: 1px solid #99cc33;
 		display: flex;
 		height: auto;
 		justify-content: space-between;
@@ -186,8 +203,8 @@ ul {
 	.toolbar a:focus,
 	.toolbar a:active,
 	.toolbar .selected a {
-		border-bottom-color: #99cc33;
-		background-color: transparent;
+		background-color: #99cc33;
+		color: white;
 	}
 }
 
@@ -237,15 +254,20 @@ ul {
 		justify-content: space-around;
 	}
 	.hero-header-text {
-		margin-top: 2em;
+		margin-top: 3em;
 		text-align: left;
 	}
 }
 
 
-.doc {
-	margin: 2em 0 0 2em;
+.subsection {
+	margin: 2em 0 0 4%;
 }
+
+.official header {
+	background: url("../images/thymeleaf-tiny.png") left center / 50% no-repeat;
+}
+
 
 .footer-container {
 	background-color: #f0f0f0;
@@ -275,12 +297,28 @@ ul {
 .copyright {
 	color: grey;
 	font-size: 0.75em;
-	margin-top: 2em;
+	margin-top: 3em;
 	text-align: right;
+}
+
+@media (min-width: 30rem) {
+	.copyright {
+		margin-top: 0;
+	}
 }
 
 /* ID selectors */
 /* -------------------------------------------------------------------------- */
+
+#site-nav-links {
+	border-top: 1px solid lightgrey;
+}
+
+@media (min-width: 43.75rem) {
+	#site-nav-links {
+		border-top: none;
+	}
+}
 
 
 /* Code sections */

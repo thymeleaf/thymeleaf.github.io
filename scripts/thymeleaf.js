@@ -44,7 +44,8 @@
 			.replace(/>/g, '&gt;');
 	}
 
-	var codeSamples = {
+	var CODE_SAMPLES = {
+
 		'template-example': [
 			'<table>',
 			'  <thead>',
@@ -60,6 +61,88 @@
 			'    </tr>',
 			'  </tbody>',
 			'</table>'
+		].join('\n'),
+
+		'testing-example': [
+			'%TEMPLATE_MODE HTML5',
+			'# ------------ separator comment -----------',
+			'%CONTEXT',
+			'onevar = "Goodbye,"',
+			'# ------------------------------------------',
+			'%MESSAGES',
+			'one.msg = Crisis',
+			'# ------------------------------------------',
+			'%INPUT',
+			'<!DOCTYPE html>',
+			'<html>',
+			'  <body>',
+			'    <span th:text="${onevar}">Hello,</span>',
+			'    <span th:text="#{one.msg}">World!</span>',
+			'  </body>',
+			'</html>',
+			'# ------------------------------------------',
+			'%OUTPUT',
+			'<!DOCTYPE html>',
+			'<html>',
+			'<body>',
+			'  <span>Goodbye,</span>',
+			'  <span>Crisis</span>',
+			'</body>',
+			'</html>'
+		].join('\n'),
+
+		'tiles-example-1': [
+			'<tiles-definitions>',
+			'  ...',
+			'  <definition name="main" template="basic_layout">',
+			'    <put-attribute name="content">',
+			'      <definition template="basic_contentlayout :: content">',
+			'        <put-attribute name="text" value="main :: text" />',
+			'      </definition>',
+			'    </put-attribute>',
+			'    <put-attribute name="side" value="${config.sideColumnTemplate}" />',
+			'  </definition>',
+			'  ...',
+			'</tiles-definitions>'
+		].join('\n'),
+
+		'tiles-example-2': [
+			'<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">',
+			'...',
+			'<body>',
+			'  ...',
+			'  <div tiles:include="side">',
+			'    some prototyping markup over here...',
+			'  </div>',
+			'  ...',
+			'</body>',
+			'</html>'
+		].join('\n'),
+
+		'springsecurity-example-1': [
+			'<div sec:authorize="hasRole(\'ROLE_ADMIN\')">',
+			'  This will only be displayed if authenticated user has role ROLE_ADMIN.',
+			'</div>'
+		].join('\n'),
+
+		'springsecurity-example-2': [
+			'<div th:text="${#authentication.name}">',
+			'  The value of the "name" property of the authentication object should appear here.',
+			'</div>'
+		].join('\n'),
+
+		'conditionalcomments-example-1': [
+			'<!--[if lt IE 8]>',
+			'<link rel="stylesheet" th:href="@{/resources/blueprint/ie.css}"',
+			'  type="text/css" media="screen, projection">',
+			'<![endif]-->'
+		].join('\n'),
+
+		'conditionalcomments-example-2': [
+			'<!--[if lt IE 8]>',
+			'<link rel="stylesheet" href="/myapp/resources/blueprint/ie.css"',
+			'  type="text/css" media="screen, projection">',
+			'<![endif]-->'
 		].join('\n')
 	};
 
@@ -67,7 +150,7 @@
 	// Match any code samples on the page with those in this file
 	$('code[data-src]').forEach(function(codeBlock) {
 		var sourceId = codeBlock.dataset.src;
-		var codeSample = codeSamples[sourceId];
+		var codeSample = CODE_SAMPLES[sourceId];
 		if (codeSample) {
 			codeBlock.innerHTML = escapeHtml(codeSample);
 		}
