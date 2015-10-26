@@ -143,6 +143,28 @@
 			'<link rel="stylesheet" href="/myapp/resources/blueprint/ie.css"',
 			'  type="text/css" media="screen, projection">',
 			'<![endif]-->'
+		].join('\n'),
+
+		'snapshot-example-1': [
+			'<repositories>',
+			'  <repository>',
+			'    <id>sonatype-nexus-snapshots</id>',
+			'    <name>Sonatype Nexus Snapshots</name>',
+			'    <url>https://oss.sonatype.org/content/repositories/snapshots</url>',
+			'    <snapshots>',
+			'      <enabled>true</enabled>',
+			'    </snapshots>',
+			'  </repository>',
+			'</repositories>'
+		].join('\n'),
+
+		'snapshot-example-2': [
+			'<dependency>',
+			'  <groupId>org.thymeleaf</groupId>',
+			'  <artifactId>thymeleaf</artifactId>',
+			'  <version>1.1.3-SNAPSHOT</version>',
+			'  <scope>compile</scope>',
+			'</dependency>'
 		].join('\n')
 	};
 

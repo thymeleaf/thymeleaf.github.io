@@ -47,6 +47,10 @@ a:focus {
 a.url {
 	word-break: break-all;
 }
+a.anchor {
+	position: relative;
+	top: -3.5em;
+}
 
 button {
 	background-color: transparent;
