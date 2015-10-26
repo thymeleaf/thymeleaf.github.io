@@ -162,7 +162,7 @@
 			'<dependency>',
 			'  <groupId>org.thymeleaf</groupId>',
 			'  <artifactId>thymeleaf</artifactId>',
-			'  <version>1.1.3-SNAPSHOT</version>',
+			'  <version>3.0.0-SNAPSHOT</version>',
 			'  <scope>compile</scope>',
 			'</dependency>'
 		].join('\n')
