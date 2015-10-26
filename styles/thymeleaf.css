@@ -37,14 +37,15 @@ a {
 	color: blue;
 	text-decoration: none;
 }
-
 a:visited {
 	color: blue;
 }
-
 a:hover,
 a:focus {
 	text-decoration: underline;
+}
+a.url {
+	word-break: break-all;
 }
 
 button {
@@ -53,7 +54,6 @@ button {
 	cursor: pointer;
 	padding: 1em;
 }
-
 button:hover,
 button:focus {
 	background-color: #99cc33;
@@ -145,7 +145,6 @@ section {
 .toolbar a {
 	color: black;
 }
-
 .toolbar a:hover,
 .toolbar a:focus,
 .toolbar a:active,
@@ -261,7 +260,7 @@ section {
 
 
 .subsection {
-	margin: 2em 0 0 4%;
+	margin: 2em 0 3em 4%;
 }
 
 .official header {
