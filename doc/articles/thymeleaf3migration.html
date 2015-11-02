@@ -83,7 +83,7 @@
 </section>
 <section id="configuration-changes" class="level2">
 <h2>Configuration changes</h2>
-<p>Let’s show an example of the Thymeleaf 3 configuration using the <em>thymeleaf-spring4</em> integration package and Java config, are it is the most common choice among Thymeleaf users.</p>
+<p>Let’s show an example of the Thymeleaf 3 configuration using the <em>thymeleaf-spring4</em> integration package and Java config, as it is the most common choice among Thymeleaf users.</p>
 <p>First, the updated Maven dependencies to get Thymeleaf 3 and the Spring 4 integration package:</p>
 <pre class="xml"><code>    &lt;dependency&gt;
         &lt;groupId&gt;org.thymeleaf&lt;/groupId&gt;
@@ -131,9 +131,9 @@
 
     }</code></pre>
 <p>The first difference with the Thymeleaf 2 configuration is that now the recommended template resolver for Spring applications is <code>SpringResourceTemplateResolver</code>. It needs a reference to the Spring <code>ApplicationContext</code> so the configuration bean has to implement the <code>ApplicationContextAware</code> interface.</p>
-<p>The second difference is that the template mode has a value of <code>TemplateMode.HTML</code>. Template modes are not strings anymore and the possible values are a b different from Thymeleaf 2. We will discuss it in a minute.</p>
+<p>The second difference is that the template mode has a value of <code>TemplateMode.HTML</code>. Template modes are not strings anymore and the possible values are a bit different from Thymeleaf 2. We will discuss it in a minute.</p>
 <p>If you need to add any extra dialect, you can use the <code>engine.addDialect(...)</code> method, but first make sure that it has a Thymeleaf 3 compatible version.</p>
-<p>You can browse and download the source code for a simple “Hello World!” example at <a href="https://github.com/jmiguelsamper/thymeleaf3-spring-helloword">Thymeleaf 3 + Spring 4 + Java config example</a>, <a href="https://github.com/jmiguelsamper/thymeleaf3-spring-xml-helloword">Thymeleaf 3 + Spring 4 + XML config example</a> and <a href="https://github.com/jmiguelsamper/thymeleaf3-servlet-helloword">Thymeleaf 3 + Servlet 3 example</a></p>
+<p>You can browse and download the source code for simple “Hello World!” examples at <a href="https://github.com/jmiguelsamper/thymeleaf3-spring-helloword">Thymeleaf 3 + Spring 4 + Java config example</a>, <a href="https://github.com/jmiguelsamper/thymeleaf3-spring-xml-helloword">Thymeleaf 3 + Spring 4 + XML config example</a> and <a href="https://github.com/jmiguelsamper/thymeleaf3-servlet-helloword">Thymeleaf 3 + Servlet 3 example</a></p>
 <p>You can also find some additional information (links to binaries and javadocs) at <a href="http://forum.thymeleaf.org/Thymeleaf-3-0-0-BETA01-just-published-td4029294.html">the Thymeleaf BETA 1 announcement</a>.</p>
 </section>
 <section id="full-html5-markup-support" class="level2">
