@@ -26,6 +26,9 @@
     <script type="text/javascript" src="http://www.thymeleaf.org/sh/scripts/shCore.js"></script>
     <script type="text/javascript" src="http://www.thymeleaf.org/sh/scripts/shBrushXml.js"></script>
     <script type="text/javascript" src="http://www.thymeleaf.org/sh/scripts/shBrushJava.js"></script>
+    <script type="text/javascript" src="http://www.thymeleaf.org/sh/scripts/shBrushPlain.js"></script>
+    <script type="text/javascript" src="http://www.thymeleaf.org/sh/scripts/shBrushJScript.js"></script>
+    <script type="text/javascript" src="http://www.thymeleaf.org/sh/scripts/shBrushCss.js"></script>
     <link href="http://www.thymeleaf.org/sh/styles/shCore.css" rel="stylesheet" type="text/css" />
     <link href="http://www.thymeleaf.org/sh/styles/shThemeThymeleaf.css" rel="stylesheet" type="text/css" />
 
@@ -75,7 +78,7 @@
 <p>The only downside is that not all Thymeleaf dialects have been migrated to Thymeleaf 3 at this stage, so if you are using some external dialects they may not work with Thymeleaf 3. Please check if the required dialects have a Thymeleaf 3 compatible version.</p>
 <section id="template-changes" class="level2">
 <h2>Template changes</h2>
-<p>The only change we <em>recommend</em> doing to your templates is removing any <code>th:inline=&quot;text&quot;</code> attributes you might have, because they are not needed anymore in order to have output inlined expressions in HTML or XML templates. And it’s just a recommendation ??? templates will work anyway. But you will benefit from some extra processing performance if you remove those.</p>
+<p>The only change we <em>recommend</em> doing to your templates is removing any <code>th:inline=&quot;text&quot;</code> attributes you might have, because they are not needed anymore in order to have output inlined expressions in HTML or XML templates. And it’s just a recommendation — templates will work anyway. But you will benefit from some extra processing performance if you remove those.</p>
 <p>See more information about this below in the <em>Improved inlining mechanism</em> section.</p>
 </section>
 <section id="configuration-changes" class="level2">
@@ -159,7 +162,7 @@
 <h3>Textual template modes</h3>
 <p>The new textual template modes bring to Thymeleaf the ability to output <strong>CSS</strong>, <strong>Javascript</strong> and <strong>plain text</strong>. This is handy if you want to use the values of server-side variables in your CSS and Javascript files, or to generate plain text content as, for example, in e-mail composing.</p>
 <p>In order to have all Thymeleaf features avaible for the textual modes, a new syntax has been introduced. For example, you can iterate like:</p>
-<pre><code>    [# th:each=&quot;item : ${items}&quot;]
+<pre class="text"><code>    [# th:each=&quot;item : ${items}&quot;]
         - [# th:utext=&quot;${item}&quot; /]
     [/]</code></pre>
 <p>For a full explanation of this new syntax, take a look at <a href="https://github.com/thymeleaf/thymeleaf/issues/395">New syntax for textual template modes</a></p>

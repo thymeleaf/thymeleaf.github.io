@@ -26,11 +26,13 @@
     <script type="text/javascript" src="http://www.thymeleaf.org/sh/scripts/shCore.js"></script>
     <script type="text/javascript" src="http://www.thymeleaf.org/sh/scripts/shBrushXml.js"></script>
     <script type="text/javascript" src="http://www.thymeleaf.org/sh/scripts/shBrushJava.js"></script>
+    <script type="text/javascript" src="http://www.thymeleaf.org/sh/scripts/shBrushPlain.js"></script>
+    <script type="text/javascript" src="http://www.thymeleaf.org/sh/scripts/shBrushJScript.js"></script>
+    <script type="text/javascript" src="http://www.thymeleaf.org/sh/scripts/shBrushCss.js"></script>
     <link href="http://www.thymeleaf.org/sh/styles/shCore.css" rel="stylesheet" type="text/css" />
     <link href="http://www.thymeleaf.org/sh/styles/shThemeThymeleaf.css" rel="stylesheet" type="text/css" />
 
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script type="text/javascript" src="../scripts/thymeleaf-articles.js"></script>
+    <script src="../scripts/thymeleaf-articles.js" defer></script>
 
 </head>
 
@@ -160,7 +162,7 @@ public class HomeController {
 <p>In the above example, we are building a page that consists of page header and page footer. In Thymeleaf all fragments can be defined in a single file (e.g. <code>fragments.html</code>) or in a separate files, like in this particular case.</p>
 <p>Let’s shortly analyze the inclusion statement:</p>
 <pre class="xml"><code>&lt;div th:replace=&quot;fragments/header :: header&quot;&gt;...&lt;/div&gt;</code></pre>
-<p>The first part of the statement, <code>fragments/header</code>, is a template name that we are referencing. This can be a file (like in this example) or it can reference to the same file either by using the <code>this</code> keyword (e.g. <code>this :: header</code>) or without any keyword (e.g. <code>:: header</code>). The expression after double colon is a fragment selector (either fragment name or <em>DOM selector</em>). As you can see also see, the header fragment contains a markup that is used for static prototyping only.</p>
+<p>The first part of the statement, <code>fragments/header</code>, is a template name that we are referencing. This can be a file (like in this example) or it can reference to the same file either by using the <code>this</code> keyword (e.g. <code>this :: header</code>) or without any keyword (e.g. <code>:: header</code>). The expression after double colon is a fragment selector (either fragment name or <em>DOM selector</em>). As you can also see, the header fragment contains a markup that is used for static prototyping only.</p>
 <p>Header and footer are defined in the following files:</p>
 <p>Template <code>fragments/header.html</code></p>
 <pre class="xml"><code>&lt;!DOCTYPE html&gt;
