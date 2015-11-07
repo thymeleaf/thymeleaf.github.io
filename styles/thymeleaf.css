@@ -16,8 +16,9 @@
  * limitations under the License.
  */
 
-/* Element selectors */
-/* -------------------------------------------------------------------------- */
+
+/* ELEMENT SELECTORS */
+/* ========================================================================== */
 
 * {
 	box-sizing: inherit;
@@ -88,6 +89,8 @@ h2, h3 {
 }
 
 img {
+	display: block;
+	margin: 0 auto;
 	max-width: 100%;
 }
 
@@ -121,8 +124,9 @@ th, td {
 	padding: 0.25em 0 0.25em 0.5em;
 }
 
-/* Object selectors */
-/* -------------------------------------------------------------------------- */
+
+/* COMMON COMPONENTS */
+/* ========================================================================== */
 
 .fluid-container {
 	padding: 0 1em;
@@ -132,6 +136,9 @@ th, td {
 	margin: 0 auto;
 	max-width: 56.25rem;
 }
+
+/* Toolbar component */
+/* -------------------------------------------------------------------------- */
 
 .toolbar-container {
 	background-color: white;
@@ -186,19 +193,6 @@ th, td {
 	padding: 1em;
 }
 
-.toolbar-image-link {
-	height: 100%;
-	padding: 0 0.5em;
-	transform-style: preserve-3d;
-}
-
-.toolbar-logo {
-	height: 30px;
-	position: relative;
-	top: 50%;
-	transform: translateY(-50%);
-}
-
 @media (min-width: 43.75rem) {
 
 	.toolbar-container {
@@ -229,6 +223,8 @@ th, td {
 	}
 }
 
+/* Hero image/title */
+/* -------------------------------------------------------------------------- */
 
 .hero-container {
 	background: url("../images/code.jpg") left 30% center no-repeat #2b2b2b;
@@ -256,19 +252,6 @@ th, td {
 	width: 400px;
 }
 
-.news {
-	color: white;
-	font-size: 0.85em;
-	font-style: italic;
-	margin-bottom: 2em;
-	text-align: center;
-}
-
-.news a {
-	color: white;
-	display: inline-block;
-}
-
 @media (min-width: 45rem) {
 	.hero-header {
 		display: flex;
@@ -280,15 +263,15 @@ th, td {
 	}
 }
 
+/* Page subsections component */
+/* -------------------------------------------------------------------------- */
 
 .subsection {
 	margin: 2em 0 3em 4%;
 }
 
-.official header {
-	background: url("../images/thymeleaf-tiny.png") left center / 50% no-repeat;
-}
-
+/* Footer component */
+/* -------------------------------------------------------------------------- */
 
 .footer-container {
 	background-color: #f0f0f0;
@@ -328,8 +311,106 @@ th, td {
 	}
 }
 
-/* ID selectors */
+
+/* PAGE-SPECIFIC COMPONENTS */
+/* ========================================================================== */
+
+/* News items */
 /* -------------------------------------------------------------------------- */
+
+.news {
+	color: white;
+	font-size: 0.85em;
+	font-style: italic;
+	margin-bottom: 2em;
+	max-width: 45rem;
+	text-align: center;
+}
+.news a {
+	color: white;
+	display: inline-block;
+	text-decoration: underline dotted;
+}
+.news a:hover,
+.news a:focus {
+	text-decoration: underline solid;
+}
+
+
+/* Who is using Thymeleaf component */
+/* -------------------------------------------------------------------------- */
+
+.thymeleaf-users,
+.thymeleaf-users-preview {
+	list-style: none;
+	margin: 1em 0;
+}
+
+.thymeleaf-users-preview {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.thymeleaf-user-preview {
+	flex-basis: 25%;
+}
+
+.thymeleaf-user-logo {
+	align-items: center;
+	display: flex;
+	height: 100%;
+	justify-content: center;
+	padding: 1em;
+}
+
+.thymeleaf-user-logo img {
+	display: block;
+	margin: 0 auto;
+	max-width: 168px;
+}
+
+.thymeleaf-user-blurb {
+	font-style: italic;
+}
+.thymeleaf-user-blurb p:first-child:before {
+	content: "“"
+}
+.thymeleaf-user-blurb p:last-child:after {
+	content: "”";
+}
+
+@media (min-width: 37.5rem) {
+	.thymeleaf-user {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: flex-end;
+		margin-bottom: 2em;
+	}
+	.thymeleaf-user-logo {
+		order: 1;
+		width: 40%;
+	}
+	.thymeleaf-user-url {
+		order: 3;
+	}
+	.thymeleaf-user-blurb {
+		order: 2;
+		width: 60%;
+	}
+}
+
+@media (min-width: 43.75rem) {
+	.thymeleaf-user-logo {
+		width: 35%;
+	}
+	.thymeleaf-user-blurb {
+		width: 65%;
+	}
+}
+
+
+/* ID SELECTORS */
+/* ========================================================================== */
 
 #site-nav-links {
 	border-top: 1px solid lightgrey;
@@ -345,8 +426,9 @@ th, td {
 	margin-top: 1em;
 }
 
-/* Code sections */
-/* -------------------------------------------------------------------------- */
+
+/* CODE SECTIONS */
+/* ========================================================================== */
 
 p > code,
 li > code {
@@ -487,4 +569,3 @@ code *::-moz-selection {
 .token.entity {
 	cursor: help;
 }*/
-
