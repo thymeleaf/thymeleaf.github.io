@@ -327,13 +327,14 @@ th, td {
 	text-align: center;
 }
 .news a {
+	border-bottom: 1px dotted white;
 	color: white;
 	display: inline-block;
-	text-decoration: underline dotted;
+	text-decoration: none;
 }
 .news a:hover,
 .news a:focus {
-	text-decoration: underline solid;
+	border-bottom: 1px solid white;
 }
 
 
