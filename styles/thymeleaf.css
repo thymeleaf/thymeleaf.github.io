@@ -354,7 +354,6 @@ th, td {
 
 .our-tools {
 	list-style: none;
-	max-width: 40rem;
 	margin: 0;
 }
 
@@ -375,6 +374,15 @@ th, td {
 	}
 	.our-tool-blurb {
 		width: 60%;
+	}
+}
+
+@media (min-width: 56.25rem) {
+	.our-tool-logo {
+		width: 30%;
+	}
+	.our-tool-blurb {
+		width: 70%;
 	}
 }
 
