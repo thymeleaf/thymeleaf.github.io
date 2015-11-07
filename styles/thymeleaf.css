@@ -349,10 +349,11 @@ th, td {
 .thymeleaf-users-preview {
 	display: flex;
 	flex-wrap: wrap;
+	justify-content: space-around;
 }
 
 .thymeleaf-user-preview {
-	flex-basis: 25%;
+	width: 200px;
 }
 
 .thymeleaf-user-logo {
@@ -380,30 +381,30 @@ th, td {
 }
 
 @media (min-width: 37.5rem) {
-	.thymeleaf-user {
+	.thymeleaf-users .thymeleaf-user {
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: flex-end;
 		margin-bottom: 2em;
 	}
-	.thymeleaf-user-logo {
+	.thymeleaf-users .thymeleaf-user-logo {
 		order: 1;
 		width: 40%;
 	}
-	.thymeleaf-user-url {
+	.thymeleaf-users .thymeleaf-user-url {
 		order: 3;
 	}
-	.thymeleaf-user-blurb {
+	.thymeleaf-users .thymeleaf-user-blurb {
 		order: 2;
 		width: 60%;
 	}
 }
 
 @media (min-width: 43.75rem) {
-	.thymeleaf-user-logo {
+	.thymeleaf-users .thymeleaf-user-logo {
 		width: 35%;
 	}
-	.thymeleaf-user-blurb {
+	.thymeleaf-users .thymeleaf-user-blurb {
 		width: 65%;
 	}
 }
