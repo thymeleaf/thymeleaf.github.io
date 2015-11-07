@@ -121,7 +121,9 @@ th {
 }
 
 th, td {
-	padding: 0.25em 0 0.25em 0.5em;
+	padding: 0.25em;
+	vertical-align: top;
+	white-space: nowrap;
 }
 
 
@@ -337,6 +339,44 @@ th, td {
 	border-bottom: 1px solid white;
 }
 
+/* Table scroller */
+/* -------------------------------------------------------------------------- */
+/* TODO: I'm not really happy with this solution for squeezing a table down to
+         a mobile device.  I should change how the information is presented
+         instead to be better responsive. */
+
+.table-scroller {
+	overflow-x: auto;
+}
+
+/* Our tools component */
+/* -------------------------------------------------------------------------- */
+
+.our-tools {
+	list-style: none;
+	max-width: 40rem;
+	margin: 0;
+}
+
+.our-tool {
+	margin-bottom: 2em;
+}
+
+.our-tool-logo {
+	padding: 1em;
+}
+
+@media (min-width: 31.25rem) {
+	.our-tool {
+		display: flex;
+	}
+	.our-tool-logo {
+		width: 40%;
+	}
+	.our-tool-blurb {
+		width: 60%;
+	}
+}
 
 /* Who is using Thymeleaf component */
 /* -------------------------------------------------------------------------- */
