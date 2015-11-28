@@ -251,7 +251,7 @@ th, td {
 }
 
 .hero-header-logo {
-	width: 400px;
+	width: 25rem;
 }
 
 @media (min-width: 45rem) {
@@ -402,7 +402,16 @@ th, td {
 }
 
 .thymeleaf-user-preview {
-	width: 200px;
+	width: 12.5rem;
+}
+
+.thymeleaf-user-preview img {
+	-webkit-filter: grayscale(100%);
+	        filter: grayscale(100%);
+}
+.thymeleaf-user-preview img:hover {
+	-webkit-filter: none;
+	        filter: none;
 }
 
 .thymeleaf-user-logo {
@@ -416,7 +425,7 @@ th, td {
 .thymeleaf-user-logo img {
 	display: block;
 	margin: 0 auto;
-	max-width: 168px;
+	max-width: 10.5rem;
 }
 
 .thymeleaf-user-blurb {
