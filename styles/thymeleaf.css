@@ -242,7 +242,12 @@ th, td {
 }
 
 .hero-header-text {
+	margin-bottom: 2em;
 	text-align: center;
+}
+
+.hero-header-title {
+	margin: 0.5em 0;
 }
 
 .hero-header-image {
