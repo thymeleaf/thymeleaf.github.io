@@ -174,7 +174,8 @@ th, td {
 }
 
 .toolbar a {
-	color: black;
+	border-bottom: none;
+	color: inherit;
 }
 .toolbar a:hover,
 .toolbar a:focus,
@@ -229,9 +230,8 @@ th, td {
 /* -------------------------------------------------------------------------- */
 
 .hero-container {
-	background: url("../images/code.jpg") left 30% center no-repeat #2b2b2b;
+	background-color: #f0f0f0;
 	border-bottom: 1px solid #99cc33;
-	color: white;
 	margin-bottom: 3em;
 	padding-top: 3em;
 }
@@ -246,12 +246,12 @@ th, td {
 }
 
 .hero-header-image {
-	margin: 2em 0;
+	margin: 1em 0;
 	text-align: center;
 }
 
 .hero-header-logo {
-	width: 25rem;
+	width: 24rem;
 }
 
 @media (min-width: 45rem) {
@@ -260,7 +260,7 @@ th, td {
 		justify-content: space-around;
 	}
 	.hero-header-text {
-		margin-top: 3em;
+		margin-top: 2em;
 		text-align: left;
 	}
 }
@@ -321,22 +321,11 @@ th, td {
 /* -------------------------------------------------------------------------- */
 
 .news {
-	color: white;
 	font-size: 0.85em;
 	font-style: italic;
 	margin-bottom: 2em;
 	max-width: 45rem;
 	text-align: center;
-}
-.news a {
-	border-bottom: 1px dotted white;
-	color: white;
-	display: inline-block;
-	text-decoration: none;
-}
-.news a:hover,
-.news a:focus {
-	border-bottom: 1px solid white;
 }
 
 /* Table scroller */
@@ -420,6 +409,10 @@ th, td {
 	height: 100%;
 	justify-content: center;
 	padding: 1em;
+}
+
+.thymeleaf-user-logo a {
+	border-bottom: none;
 }
 
 .thymeleaf-user-logo img {
