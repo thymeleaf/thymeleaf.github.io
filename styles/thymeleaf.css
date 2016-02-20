@@ -168,7 +168,7 @@ th, td {
 
 .toolbar-menu-items.show-menu {
 	box-shadow: 0 0.5rem 0.5rem 0 rgba(0, 0, 0, 0.6);
-	height: 26.25rem;
+	height: 28.125rem;
 	max-height: calc(95vh - 5.5rem);
 	overflow: auto;
 }
