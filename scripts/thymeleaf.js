@@ -17,15 +17,8 @@
 (function() {
 	'use strict';
 
-	// The following is a copy of the code from https://github.com/ultraq/dumb-query-selector
-	var $ = (function() {
-		var ID_SELECTOR_REGEX = /^#[a-zA-Z][\w-]*$/;
-		return function(query, scope) {
-			return ID_SELECTOR_REGEX.test(query) ?
-				document.getElementById(query.substring(1)) :
-				Array.prototype.slice.call((scope || document).querySelectorAll(query));
-		}
-	})();
+	var $ = DumbQuerySelector.$;
+	var $$ = DumbQuerySelector.$$;
 
 
 	/**
@@ -44,6 +37,9 @@
 			.replace(/>/g, '&gt;');
 	}
 
+	// These code samples should really be inside the HTML file that they belong
+	// to.  It's just that you can't put unescaped HTML code inside an HTML code
+	// block :/
 	var CODE_SAMPLES = {
 
 		'template-example': [
@@ -170,7 +166,7 @@
 
 
 	// Match any code samples on the page with those in this file
-	$('code[data-src]').forEach(function(codeBlock) {
+	$$('code[data-src]').forEach(function(codeBlock) {
 		var sourceId = codeBlock.dataset.src;
 		var codeSample = CODE_SAMPLES[sourceId];
 		if (codeSample) {
