@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<html>
 
 <head>
 	<title>Tutorial: Extending Thymeleaf</title>
@@ -9,17 +9,17 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	<meta name="format-detection" content="telephone=no"/>
 
-	<link rel="icon" href="images/icon.png"/>
-	<link rel="stylesheet" href="../../styles/fonts/open-sans.css"/>
-	<link rel="stylesheet" href="../../styles/fonts/source-sans-pro.css"/>
+	<link rel="icon" href="../../images/favicon.ico"/>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,400italic,700italic"/>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400italic,700,700italic"/>
 	<link rel="stylesheet" href="../../styles/normalize.css"/>
-	<link rel="stylesheet" href="../../styles/thymeleaf.css"/>
-	<link rel="stylesheet" href="../../styles/thymeleaf-screen.css" media="screen"/>
-	<link rel="stylesheet" href="../../styles/thymeleaf-print.css" media="print"/>
+	<link rel="stylesheet" href="../../styles/thymeleaf-tutorials.css"/>
+	<link rel="stylesheet" href="../../styles/thymeleaf-tutorials-screen.css" media="screen"/>
+	<link rel="stylesheet" href="../../styles/thymeleaf-tutorials-print.css" media="print"/>
 
-	<script src="../../scripts/prettify.min.js"></script>
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-	<script src="../../scripts/thymeleaf-tutorials.js"></script>
+	<script src="../../scripts/dumbqueryselector.js" defer></script>
+	<script src="../../scripts/prettify.min.js" defer></script>
+	<script src="../../scripts/thymeleaf-tutorials.js" defer></script>
 
 	<!-- Google Analytics script -->
 	<script>
@@ -253,6 +253,7 @@
 </section>
 <section id="creating-our-own-dialect" class="level1">
 <h1>4 Creating our own Dialect</h1>
+<p>The source code for the examples shown in this and future chapters of this guide can be found in the <a href="https://github.com/thymeleaf/thymeleafexamples-extrathyme">ExtraThyme GitHub repository</a>.</p>
 <section id="extrathyme-a-website-for-thymelands-football-league" class="level2">
 <h2>4.1. Extrathyme: a website for Thymeland’s football league</h2>
 <p>Football is a popular sport in Thymeland<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>. There is a 10-team league going on there each season, and its organizers have just asked us to create a website for it called “Extrathyme”.</p>

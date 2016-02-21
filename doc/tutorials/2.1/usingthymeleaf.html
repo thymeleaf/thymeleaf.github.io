@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<html>
 
 <head>
 	<title>Tutorial: Using Thymeleaf</title>
@@ -9,17 +9,17 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	<meta name="format-detection" content="telephone=no"/>
 
-	<link rel="icon" href="images/icon.png"/>
-	<link rel="stylesheet" href="../../styles/fonts/open-sans.css"/>
-	<link rel="stylesheet" href="../../styles/fonts/source-sans-pro.css"/>
+	<link rel="icon" href="../../images/favicon.ico"/>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,400italic,700italic"/>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400italic,700,700italic"/>
 	<link rel="stylesheet" href="../../styles/normalize.css"/>
-	<link rel="stylesheet" href="../../styles/thymeleaf.css"/>
-	<link rel="stylesheet" href="../../styles/thymeleaf-screen.css" media="screen"/>
-	<link rel="stylesheet" href="../../styles/thymeleaf-print.css" media="print"/>
+	<link rel="stylesheet" href="../../styles/thymeleaf-tutorials.css"/>
+	<link rel="stylesheet" href="../../styles/thymeleaf-tutorials-screen.css" media="screen"/>
+	<link rel="stylesheet" href="../../styles/thymeleaf-tutorials-print.css" media="print"/>
 
-	<script src="../../scripts/prettify.min.js"></script>
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-	<script src="../../scripts/thymeleaf-tutorials.js"></script>
+	<script src="../../scripts/dumbqueryselector.js" defer></script>
+	<script src="../../scripts/prettify.min.js" defer></script>
+	<script src="../../scripts/thymeleaf-tutorials.js" defer></script>
 
 	<!-- Google Analytics script -->
 	<script>
@@ -104,6 +104,7 @@
 <li><a href="#expressions-on-selections-asterisk-syntax">4.3 Expressions on selections (asterisk syntax)</a></li>
 <li><a href="#link-urls">4.4 Link URLs</a><ul>
 <li><a href="#a-menu-for-our-home-page">A menu for our home page</a></li>
+<li><a href="#server-root-relative-urls">Server root relative URLs</a></li>
 </ul></li>
 <li><a href="#literals">4.5 Literals</a><ul>
 <li><a href="#text-literals">Text literals</a></li>
@@ -275,6 +276,7 @@
 </section>
 <section id="the-good-thymes-virtual-grocery" class="level1">
 <h1>2 The Good Thymes Virtual Grocery</h1>
+<p>The source code for the examples shown in this and future chapters of this guide can be found in the <a href="https://github.com/thymeleaf/thymeleafexamples-gtvg">Good Thymes Virtual Grocery GitHub repository</a>.</p>
 <section id="a-website-for-a-grocery" class="level2">
 <h2>2.1 A website for a grocery</h2>
 <p>In order to better explain the concepts involved in processing templates with Thymeleaf, this tutorial will use a demo application you can download from the project web site.</p>
@@ -904,6 +906,10 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
   &lt;li&gt;&lt;a href=&quot;subscribe.html&quot; th:href=&quot;@{/subscribe}&quot;&gt;Subscribe to our Newsletter&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;userprofile.html&quot; th:href=&quot;@{/userprofile}&quot;&gt;See User Profile&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;</code></pre>
+</section>
+<section id="server-root-relative-urls" class="level3">
+<h3>Server root relative URLs</h3>
+<p>An additional syntax can be used to create server-root-relative (instead of context-root-relative) URLs in order to link to different contexts in the same server. These URLs will be specified like <code>@{~/path/to/something}</code></p>
 </section>
 </section>
 <section id="literals" class="level2">
@@ -2854,6 +2860,15 @@ ${#dates.listFormat(datesList)}
 ${#dates.setFormat(datesSet)}
 
 /*
+ * Format date with the ISO8601 format
+ * Also works with arrays, lists or sets
+ */
+${#dates.formatISO(date)}
+${#dates.arrayFormatISO(datesArray)}
+${#dates.listFormatISO(datesList)}
+${#dates.setFormatISO(datesSet)}
+
+/*
  * Format date with the specified pattern
  * Also works with arrays, lists or sets
  */
@@ -2916,6 +2931,15 @@ ${#calendars.format(cal)}
 ${#calendars.arrayFormat(calArray)}
 ${#calendars.listFormat(calList)}
 ${#calendars.setFormat(calSet)}
+
+/*
+ * Format calendar with the ISO8601 format
+ * Also works with arrays, lists or sets
+ */
+${#calendars.formatISO(cal)}
+${#calendars.arrayFormatISO(calArray)}
+${#calendars.listFormatISO(calList)}
+${#calendars.setFormatISO(calSet)}
 
 /*
  * Format calendar with the specified pattern
@@ -2990,7 +3014,7 @@ ${#numbers.setFormatInteger(numSet,3)}
 
 /* 
  * Set minimum integer digits and thousands separator: 
- * &#39;POINT&#39;, &#39;COMMA&#39;, &#39;NONE&#39; or &#39;DEFAULT&#39; (by locale).
+ * &#39;POINT&#39;, &#39;COMMA&#39;, &#39;WHITESPACE&#39;, &#39;NONE&#39; or &#39;DEFAULT&#39; (by locale).
  * Also works with arrays, lists or sets
  */
 ${#numbers.formatInteger(num,3,&#39;POINT&#39;)}
@@ -3174,10 +3198,10 @@ ${#strings.unescapeJavaScript(str)}                 // also array*, list* and se
 /*
  * Null-safe comparison and concatenation
  */
-${#strings.equals(str)}
-${#strings.equalsIgnoreCase(str)}
-${#strings.concat(str)}
-${#strings.concatReplaceNulls(str)}
+${#strings.equals(first, second)}
+${#strings.equalsIgnoreCase(first, second)}
+${#strings.concat(values...)}
+${#strings.concatReplaceNulls(nullValue, values...)}
 
 /*
  * Random
