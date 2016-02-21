@@ -73,6 +73,7 @@ figure {
 figcaption {
 	font-size: 0.85em;
 	font-style: italic;
+	text-align: center;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -503,6 +504,7 @@ pre {
 	border-top: 1px solid #99cc33;
 	border-bottom: 1px solid #99cc33;
 	line-height: 1.25em;
+	overflow: auto;
 	padding: 1em;
 }
 
@@ -547,6 +549,7 @@ pre.line-numbers > code {
 pre code {
 	color: #b9bdb6;
 	font-weight: normal;
+	white-space: pre;
 }
 
 table code {
