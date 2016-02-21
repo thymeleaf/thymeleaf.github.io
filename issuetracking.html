@@ -13,9 +13,24 @@
 	<link rel="stylesheet" href="styles/normalize.css" media="screen"/>
 	<link rel="stylesheet" href="styles/thymeleaf.css" media="screen"/>
 
-	<script src="scripts/prism.js" defer data-manual></script>
+	<!-- Google Analytics script -->
+	<script>
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-1276954-9']);
+		_gaq.push(['_trackPageview']);
+		(function() {
+			var ga = document.createElement('script');
+			ga.type = 'text/javascript';
+			ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0];
+			s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
 	<script src="scripts/dumbqueryselector.js" defer></script>
 	<script src="scripts/thymeleaf.js" defer></script>
+	<script src="scripts/prism.js" defer></script>	<!-- Run last to let other scripts modify the page -->
 </head>
 
 <body id="thymeleaf-issuetracking">
