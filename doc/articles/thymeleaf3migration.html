@@ -72,12 +72,13 @@
 		<main class="fluid-block article">
 			<article>
 				<header>
-					<h1>Thymeleaf 3 five-minute migration guide</h1>
+					<h1>Thymeleaf 3 ten-minute migration guide</h1>
 									</header>
 				<p>Are you a Thymeleaf 2 user wishing to try the new <strong>Thymeleaf 3</strong>?</p>
 <p>First, the good news. Your existing Thymeleaf templates are almost 100% compatible with Thymeleaf 3 so you will only have to do a few modifications in your configuration.</p>
 <p>Thymeleaf 3.0 BETA versions are stable and do everything 2.1 did, so we encourage you to migrate to Thymeleaf 3 as soon as possible in order to take advantage of its performance improvements and new features.</p>
 <p>The only downside is that not all Thymeleaf dialects have been migrated to Thymeleaf 3 at this stage, so if you are using some external dialects they may not work with Thymeleaf 3. Please check if the required dialects have a Thymeleaf 3 compatible version.</p>
+<p><strong>Quick pointer</strong>: if you already read this <em>migration guide</em> for Thymeleaf 3.0.0.BETA01 and you are only interested in the new features in BETA02, you can fast-forward to the new sections on <a href="#fragment-expressions"><em>“Fragment Expressions”</em></a>, <a href="#the-no-operation-token"><em>“The No-Operation token”</em></a>, <a href="#decoupled-template-logic"><em>“Decoupled Template Logic”</em></a>, <a href="#independence-from-the-servlet-api"><em>“Independence from the Servlet API”</em></a> and also check some additional comments at the <a href="#performance-improvements"><em>“Performance improvements”</em></a> section.</p>
 <section id="template-changes" class="level2">
 <h2>Template changes</h2>
 <p>The only change we <em>recommend</em> doing to your templates is removing any <code>th:inline=&quot;text&quot;</code> attributes you might have, because they are not needed anymore in order to have output inlined expressions in HTML or XML templates. And it’s just a recommendation — templates will work anyway. But you will benefit from some extra processing performance if you remove those.</p>
@@ -90,12 +91,12 @@
 <pre class="xml"><code>    &lt;dependency&gt;
         &lt;groupId&gt;org.thymeleaf&lt;/groupId&gt;
         &lt;artifactId&gt;thymeleaf&lt;/artifactId&gt;
-        &lt;version&gt;3.0.0.BETA01&lt;/version&gt;
+        &lt;version&gt;3.0.0.BETA02&lt;/version&gt;
     &lt;/dependency&gt;
     &lt;dependency&gt;
         &lt;groupId&gt;org.thymeleaf&lt;/groupId&gt;
         &lt;artifactId&gt;thymeleaf-spring4&lt;/artifactId&gt;
-        &lt;version&gt;3.0.0.BETA01&lt;/version&gt;
+        &lt;version&gt;3.0.0.BETA02&lt;/version&gt;
     &lt;/dependency&gt;</code></pre>
 <p>Second, the Spring configuration:</p>
 <pre class="java"><code>    @Configuration
@@ -134,9 +135,9 @@
     }</code></pre>
 <p>The first difference with the Thymeleaf 2 configuration is that now the recommended template resolver for Spring applications is <code>SpringResourceTemplateResolver</code>. It needs a reference to the Spring <code>ApplicationContext</code> so the configuration bean has to implement the <code>ApplicationContextAware</code> interface.</p>
 <p>The second difference is that the template mode has a value of <code>TemplateMode.HTML</code>. Template modes are not strings anymore and the possible values are a bit different from Thymeleaf 2. We will discuss it in a minute.</p>
-<p>If you need to add any extra dialect, you can use the <code>engine.addDialect(...)</code> method, but first make sure that it has a Thymeleaf 3 compatible version.</p>
+<p>If you need to add any extra dialects, you can use the <code>engine.addDialect(...)</code> method, but first make sure that it has a Thymeleaf 3 compatible version.</p>
 <p>You can browse and download the source code for simple “Hello World!” examples at <a href="https://github.com/jmiguelsamper/thymeleaf3-spring-helloworld">Thymeleaf 3 + Spring 4 + Java config example</a>, <a href="https://github.com/jmiguelsamper/thymeleaf3-spring-xml-helloworld">Thymeleaf 3 + Spring 4 + XML config example</a> and <a href="https://github.com/jmiguelsamper/thymeleaf3-servlet-helloworld">Thymeleaf 3 + Servlet 3 example</a></p>
-<p>You can also find some additional information (links to binaries and javadocs) at <a href="http://forum.thymeleaf.org/Thymeleaf-3-0-0-BETA01-just-published-td4029294.html">the Thymeleaf BETA 1 announcement</a>.</p>
+<p>You can also find some additional information (links to binaries and javadocs) at <a href="http://forum.thymeleaf.org/Thymeleaf-3-0-0-BETA02-just-published-td4029538.html">the Thymeleaf BETA 2 announcement</a>.</p>
 </section>
 <section id="full-html5-markup-support" class="level2">
 <h2>Full HTML5 markup support</h2>
@@ -173,15 +174,98 @@
 <h3>Improved inlining mechanism</h3>
 <p>Sometimes it is handy to be able to output data without using extra tags or attributes, as in:</p>
 <pre class="html"><code>    &lt;p&gt;This product is called [[${product.name}]] and it&#39;s great!&lt;/p&gt;</code></pre>
-<p>This capability, called <em>inlining</em> has been greatly improved and is now much better supported in Thymeleaf 3. See <a href="https://github.com/thymeleaf/thymeleaf/issues/394">Inlined output expressions</a> for details.</p>
+<p>This capability, called <em>inlining</em>, has been greatly improved and is now much better supported in Thymeleaf 3. See <a href="https://github.com/thymeleaf/thymeleaf/issues/394">Inlined output expressions</a> for details.</p>
 <p>The existing inlining mechanism also matches the new template modes and, indeed, make innecesary the <code>th:inline=&quot;text&quot;</code> attribute because inlining now exists in <code>HTML</code> mode itself. Take a look at the discussion on <a href="https://github.com/thymeleaf/thymeleaf/issues/396">Refactoring of the inlining mechanism</a></p>
 </section>
 </section>
+<section id="fragment-expressions" class="level2">
+<h2>Fragment Expressions</h2>
+<p>Thymeleaf 3.0 introduces a new type of expression as a part of the general <em>Thymeleaf Standard Expression</em> system: <em>Fragment Expressions</em>.</p>
+<p>They look like this: <code>~{commons::footer}</code> and yes, they are extremely similar to the syntax that could be used inside <code>th:replace</code> and <code>th:include</code> (now <code>th:insert</code>) since long ago… because they use exactly <em>that</em> syntax, but generalized so that it can now be used in other scopes.</p>
+<p>What is the advantage of that? well, first and most useful, we can now pass markup fragments as parameters to other fragments. See the <code>th:replace</code> below:</p>
+<pre class="html"><code>...
+&lt;head th:replace=&quot;base :: common_header(~{::title},~{::link})&quot;&gt;
+
+  &lt;title&gt;Awesome - Main&lt;/title&gt;
+
+  &lt;link rel=&quot;stylesheet&quot; th:href=&quot;@{/css/bootstrap.min.css}&quot;&gt;
+  &lt;link rel=&quot;stylesheet&quot; th:href=&quot;@{/themes/smoothness/jquery-ui.css}&quot;&gt;
+
+&lt;/head&gt;
+...</code></pre>
+<p>There we are passing to our <code>common_header</code> fragment two other markup fragments containing our <code>&lt;title&gt;</code> and <code>&lt;link&gt;</code> tags, which can then be easily used in our <code>common_header</code>:</p>
+<pre class="html"><code>&lt;head th:fragment=&quot;common_header(title,links)&quot;&gt;
+
+  &lt;title th:replace=&quot;${title}&quot;&gt;The awesome application&lt;/title&gt;
+
+  &lt;!-- Common styles and scripts --&gt;
+  &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; media=&quot;all&quot; th:href=&quot;@{/css/awesomeapp.css}&quot;&gt;
+  &lt;link rel=&quot;shortcut icon&quot; th:href=&quot;@{/images/favicon.ico}&quot;&gt;
+  &lt;script type=&quot;text/javascript&quot; th:src=&quot;@{/sh/scripts/codebase.js}&quot;&gt;&lt;/script&gt;
+
+  &lt;!--/* Per-page placeholder for additional links */--&gt;
+  &lt;th:block th:replace=&quot;${links}&quot; /&gt;
+
+&lt;/head&gt;</code></pre>
+<p>See how, thanks to this, many <strong>layout</strong> (or <strong>page composition</strong>) techniques have become much easier in Thymeleaf 3.0.</p>
+<p>But the possibilities don’t end here: we can use fragment expressions for much more, which you can learn about here: <a href="https://github.com/thymeleaf/thymeleaf/issues/451">Fragment Expressions</a>.</p>
+</section>
+<section id="the-no-operation-token" class="level2">
+<h2>The No-Operation token</h2>
+<p>Another new feature of <em>Thymeleaf Standard Expressions</em> in Thymeleaf 3.0 is the NO-OP (no-operation) token, represented by an underscore symbol (<code>_</code>) and which basically means <em>“do nothing”</em>.</p>
+<p>Using <em>“do-nothing”</em> as an expression result is more useful than it might look at first sight. For example, it can help us greatly reduce the complexity of our template code by letting us use our <em>prototyping code</em> as <em>default values</em>.</p>
+<p>See this very simple example:</p>
+<pre class="html"><code>&lt;span th:text=&quot;${user.name} ?: _&quot;&gt;no user authenticated&lt;/span&gt;</code></pre>
+<p>In the code above we don’t need to specify what exactly should be output if our <code>user</code> has no name: in that case, Thymeleaf will do nothing. The result? output will be that text we have written as the body of the tag: <code>no user authenticated</code>, which in this case will double as text that will make our template look nice as a prototype and default value for that <code>th:text</code> in case there is no user authenticated.</p>
+<p>Learn more about this new capability here: <a href="https://github.com/thymeleaf/thymeleaf/issues/452">The NO-OP token</a>.</p>
+</section>
+<section id="decoupled-template-logic" class="level2">
+<h2>Decoupled Template Logic</h2>
+<p>Thymeleaf 3.0 allows the complete (and optional) <em>decoupling</em> of template logic from templates themselves in the <code>HTML</code> and <code>XML</code> template modes, resulting in 100%-Thymeleaf-free, logic-less templates.</p>
+<p>Now markup of a <code>home.html</code> template file can be as clean as this:</p>
+<pre class="html"><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;body&gt;
+    &lt;table id=&quot;usersTable&quot;&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;username&quot;&gt;Jeremy Grapefruit&lt;/td&gt;
+        &lt;td class=&quot;usertype&quot;&gt;Normal User&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;username&quot;&gt;Alice Watermelon&lt;/td&gt;
+        &lt;td class=&quot;usertype&quot;&gt;Administrator&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/table&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>And the only thing Thymeleaf will need in order to use that HTML as a template is another file by its side, a <code>home.th.xml</code>, looking like this:</p>
+<pre class="xml"><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;thlogic&gt;
+  &lt;attr sel=&quot;#usersTable&quot; th:remove=&quot;all-but-first&quot;&gt;
+    &lt;attr sel=&quot;/tr[0]&quot; th:each=&quot;user : ${users}&quot;&gt;
+      &lt;attr sel=&quot;td.username&quot; th:text=&quot;${user.name}&quot; /&gt;
+      &lt;attr sel=&quot;td.usertype&quot; th:text=&quot;#{|user.type.${user.type}|}&quot; /&gt;
+    &lt;/attr&gt;
+  &lt;/attr&gt;
+&lt;/thlogic&gt;</code></pre>
+<p>This <em>decoupled logic</em> specifies attributes that should be <em>injected</em> during parsing into specific parts of the template (selected by the <em>markup selectors</em> in their <code>sel</code> attributes). The result will be 100% equivalent to a template in which those attributes had been there from the beginning.</p>
+<p>Being able to process HTML templates that have no embedded Thymeleaf code can become a huge advantage when using pure-HTML files as design artifacts: now these can be created, modified and/or understood by designers or other people in the team that don’t necessarily have Thymeleaf knowledge. But not only that — it can also allow the processing as templates of markup created by external tools or systems without the need to modify such markup.</p>
+<p>For more information, see <a href="https://github.com/thymeleaf/thymeleaf/issues/465">Decoupled Template Logic</a>.</p>
+</section>
 <section id="performance-improvements" class="level2">
 <h2>Performance improvements</h2>
-<p>The main achievement of Thymeleaf’s version 3.0 is an improvement in performance, a somewhat common discussion topic with previous versions. Being Thymeleaf an XML-based template engine up to v2.1 brought the power of implementing many great features, but sometimes at a performance cost. And while Thymeleaf rendering time was negligible for the vast majority of projects, this caveat was noticeable in projects with special characteristics (for example, high-load websites dealing with tables with dozens of thousands of rows).</p>
+<p>Even with all the great new features, the main achievement of Thymeleaf 3.0 is a <strong>very significant improvement in performance</strong>, a somewhat common discussion topic with previous versions.</p>
+<p>Being Thymeleaf an XML-based template engine up to v2.1 brought the power of implementing many great features, but sometimes at a performance cost. And while Thymeleaf rendering time was negligible for the vast majority of projects, this caveat was noticeable in projects with special characteristics (for example, high-load websites dealing with tables with dozens of thousands of rows).</p>
 <p>Thymeleaf 3’s engine has been rewritten from scratch with the main focus put on performance. Thymeleaf 3 performs much better than the previous versions so we hope it covers the needs of more and more projects. But Thymeleaf 3’s performance is not only about rendering time: it has also been specifically designed to have a low memory footprint and help reduce latency in high-concurrency scenarios.</p>
-<p>For a technical discussion in the new Thymeleaf 3 architecture, see <a href="https://github.com/thymeleaf/thymeleaf/issues/389">New event-based template processing engine</a></p>
+<p>For a technical discussion on the new Thymeleaf 3 architecture, see <a href="https://github.com/thymeleaf/thymeleaf/issues/389">New event-based template processing engine</a></p>
+<p>But performance improvements do not stop at the architectural level: there are also some <em>performance goodies</em> in v3.0 like the ability to enable the SpringEL (<em>Spring Expression Language</em> or <em>SpEL</em>) compiler that, since version 4.2.4 of the Spring Framework, can be used by Thymeleaf in order to give an extra push to template processing performance in Spring-enabled environments. See <a href="https://github.com/thymeleaf/thymeleaf-spring/issues/95">Configuring the SpringEL compiler</a>.</p>
+<p>And if you are not using Spring and therefore your expression language is OGNL, we’ve made some performance improvements there too, even making a couple of contributions to the OGNL codebase that should benefit Thymeleaf’s performance in environments such as those based on the new MVC1.0 (JSR371) standard.</p>
+</section>
+<section id="independence-from-the-servlet-api" class="level2">
+<h2>Independence from the Servlet API</h2>
+<p>Versions prior to Thymeleaf 3.0 were already <em>independent from the Java Servlet API</em> in the sense that Thymeleaf allowed <em>offline execution</em> of the template engine, i.e. processing templates without the application living in a web container. This was useful in scenarios such as processing email templates.</p>
+<p>But Thymeleaf 3.0 includes a series of improvements that can make Thymeleaf truly independent from the Servlet API <strong>in web environments</strong> that do not make use of Java Servlets such as <a href="http://vertx.io/">vert.x</a>, <a href="https://ratpack.io/">RatPack</a>, <a href="https://www.playframework.com/">Play Framework</a>… which will be now able to integrate with Thymeleaf in an easier and more elegant way.</p>
+<p>For more information see: <a href="https://github.com/thymeleaf/thymeleaf/issues/458">New extension point: Link Builders</a> and <a href="https://github.com/thymeleaf/thymeleaf/issues/459">Generalisation of the IEngineContext mechanism</a>.</p>
 </section>
 <section id="new-dialect-system" class="level2">
 <h2>New Dialect system</h2>
