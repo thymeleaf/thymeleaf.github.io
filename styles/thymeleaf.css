@@ -299,7 +299,7 @@ th, td {
 }
 
 .hero-header-logo {
-	width: 9rem;
+	width: 7rem;
 }
 
 @media (min-width: 27.5rem) {
@@ -326,18 +326,6 @@ th, td {
 	}
 	.hero-header-image {
 		margin-right: 1em;
-	}
-}
-
-@media (min-width: 45rem) {
-	.hero-header-title {
-		font-size: 6em;
-	}
-}
-
-@media (min-width: 50rem) {
-	.hero-header-title {
-		font-size: 7em;
 	}
 }
 
@@ -539,6 +527,24 @@ th, td {
 @media (min-width: 43.75rem) {
 	#site-nav-links {
 		border-top: none;
+	}
+}
+
+@media (min-width: 45rem) {
+	#thymeleaf-home .hero-header-title {
+		font-size: 6em;
+	}
+	#thymeleaf-home .hero-header-logo {
+		width: 8rem;
+	}
+}
+
+@media (min-width: 50rem) {
+	#thymeleaf-home .hero-header-title {
+		font-size: 7em;
+	}
+	#thymeleaf-home .hero-header-logo {
+		width: 9rem;
 	}
 }
 
