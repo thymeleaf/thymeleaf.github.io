@@ -97,6 +97,7 @@ h1, h2, h3, h4, h5, h6 {
 h2 {
 	background-color: #005f0f;
 	color: white;
+	margin-top: 1.5em;
 	margin-left: -1em;
 	padding-left: 1em;
 	padding-right: 0.5em;
@@ -175,7 +176,7 @@ th, td {
 }
 
 .subsection {
-	margin: 1em 0 2em;
+	margin: 1em 0 1.5em;
 }
 
 /* Toolbar component */
