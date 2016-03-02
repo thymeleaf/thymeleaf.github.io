@@ -278,17 +278,17 @@ th, td {
 }
 
 .hero-header {
-	padding: 2em;
+	padding: 1.5em 0em 1em;
 }
 
 .hero-header-text {
 	color: #333333;
-	margin-bottom: 2em;
+	margin-bottom: 1em;
 	text-align: center;
 }
 
 .hero-header-title {
-	font-size: 3em;
+	font-size: 2em;
 	margin: 0;
 	padding: 0;
 	text-transform: lowercase;
@@ -299,12 +299,12 @@ th, td {
 }
 
 .hero-header-logo {
-	width: 7rem;
+	width: 2.5rem;
 }
 
 @media (min-width: 27.5rem) {
 	.hero-header-title {
-		font-size: 4em;
+		font-size: 2em;
 	}
 }
 
@@ -321,7 +321,7 @@ th, td {
 		margin-bottom: 0;
 	}
 	.hero-header-title {
-		font-size: 5em;
+		font-size: 2em;
 		margin-right: 0.5em;
 	}
 	.hero-header-image {
@@ -528,6 +528,13 @@ th, td {
 	#site-nav-links {
 		border-top: none;
 	}
+}
+
+#thymeleaf-home .hero-header-title {
+	font-size: 3em;
+}
+#thymeleaf-home .hero-header-logo {
+	width: 4rem;
 }
 
 @media (min-width: 45rem) {
