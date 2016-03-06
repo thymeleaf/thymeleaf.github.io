@@ -59,6 +59,19 @@
 			'</table>'
 		].join('\n'),
 
+		'maven-example': [
+			'<dependency>',
+			'    <groupId>org.thymeleaf</groupId>',
+			'    <artifactId>thymeleaf</artifactId>',
+			'    <version>3.0.0.BETA02</version>',
+			'</dependency>',
+			'<dependency>',
+			'    <groupId>org.thymeleaf</groupId>',
+			'    <artifactId>thymeleaf-spring4</artifactId>',
+			'    <version>3.0.0.BETA02</version>',
+			'</dependency>'
+		].join('\n'),
+
 		'testing-example': [
 			'%TEMPLATE_MODE HTML5',
 			'# ------------ separator comment -----------',

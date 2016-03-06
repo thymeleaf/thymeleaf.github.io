@@ -72,11 +72,20 @@
 	<div class="fluid-container">
 		<main class="fluid-block">
 			<section class="description">
-				<p>The current stable version of Thymeleaf is <strong>2.1.4.RELEASE</strong>,
-				released on 22 December 2014.
-				<br/>
-				The Thymeleaf 3.0 beta is also available as <strong>3.0.0.BETA02</strong>,
-				released on 23 February 2016.</p>
+				<p>
+					<strong>Thymeleaf 2.1.4.RELEASE</strong> is the current stable version. It was released on 22 December 2014.
+					<br />
+					<strong>Thymeleaf 3.0.0.BETA02</strong> is the 
+					current <em>beta preview</em> version (learn more <a href="http://forum.thymeleaf.org/Thymeleaf-3-0-0-BETA02-just-published-td4029538.html">here</a>). It was released on 23 February 2016.
+				</p>
+				<p>
+					ChangeLogs:
+					<a href="https://github.com/thymeleaf/thymeleaf/blob/thymeleaf-2.1.4.RELEASE/ChangeLog.txt">thymeleaf</a>
+					|
+					<a href="https://github.com/thymeleaf/thymeleaf-spring/blob/thymeleaf-spring3-2.1.4.RELEASE/thymeleaf-spring3/ChangeLog.txt">thymeleaf-spring3</a>
+					|
+					<a href="https://github.com/thymeleaf/thymeleaf-spring/blob/thymeleaf-spring4-2.1.4.RELEASE/thymeleaf-spring4/ChangeLog.txt">thymeleaf-spring4</a>
+				</ul>
 			</section>
 
 			<section>
@@ -84,69 +93,195 @@
 					<h2>Maven/Gradle</h2>
 				</header>
 				<p>The easiest way to include Thymeleaf in your project is to use a
-				build system like Maven or Gradle to make use of the Thymeleaf artifacts
-				on Maven.  Then you can add the following dependencies to your project
-				and you're away!</p>
+				build system like Maven or Gradle and make use of the Thymeleaf artifacts
+				living in the Central Repository.  All you need to do is add the Thymeleaf 
+				dependencies you need to your project:</p>
 
-				<ul>
-					<li>GroupId: <code>org.thymeleaf</code></li>
-					<li>ArtifactId: <code>thymeleaf</code></li>
-					<li>Version: <code>2.1.4.RELEASE</code> or <code>3.0.0.BETA02</code></li>
-				</ul>
-				<ul>
-					<li>GroupId: <code></code></li>
-				</ul>
+				<table>
+					<thead>
+						<tr>
+							<th>Module</th>
+							<th>Group ID</th>
+							<th>Artifact ID</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Core library</td>
+							<td><code>org.thymeleaf</code></td>
+							<td><code>thymeleaf</code></td>
+						</tr>
+						<tr>
+							<td>Spring 3 integration</td>
+							<td><code>org.thymeleaf</code></td>
+							<td><code>thymeleaf-spring3</code></td>
+						</tr>
+						<tr>
+							<td>Spring 4 integration</td>
+							<td><code>org.thymeleaf</code></td>
+							<td><code>thymeleaf-spring4</code></td>
+						</tr>
+						<tr>
+							<td>Testing library</td>
+							<td><code>org.thymeleaf</code></td>
+							<td><code>thymeleaf-testing</code></td>
+						</tr>
+						<tr>
+							<td>Spring Security 3 integration</td>
+							<td><code>org.thymeleaf.extras</code></td>
+							<td><code>thymeleaf-extras-springsecurity3</code></td>
+						</tr>
+						<tr>
+							<td>Spring Security 4 integration</td>
+							<td><code>org.thymeleaf.extras</code></td>
+							<td><code>thymeleaf-extras-springsecurity4</code></td>
+						</tr>
+						<tr>
+							<td>Java 8 Time API compatibility</td>
+							<td><code>org.thymeleaf.extras</code></td>
+							<td><code>thymeleaf-extras-java8time</code></td>
+						</tr>
+						<tr>
+							<td>Tiles 2 integration</td>
+							<td><code>org.thymeleaf.extras</code></td>
+							<td><code>thymeleaf-extras-tiles2</code></td>
+						</tr>
+						<tr>
+							<td>IE Conditional Comments support</td>
+							<td><code>org.thymeleaf.extras</code></td>
+							<td><code>thymeleaf-extras-conditionalcomments</code></td>
+						</tr>
+					</tbody>
+				</table>
 
-				<p>Include just 1 of the following for either a Spring 3 or 4 project:</p>
-				<ul>
-					<li>GroupId: <code>org.thymeleaf</code></li>
-					<li>ArtifactId: <code>thymeleaf-spring3</code></li>
-					<li>Version: <code>2.1.4.RELEASE</code> or <code>3.0.0.BETA02</code></li>
-				</ul>
-				<ul>
-					<li>GroupId: <code>org.thymeleaf</code></li>
-					<li>ArtifactId: <code>thymeleaf-spring4</code></li>
-					<li>Version: <code>2.1.4.RELEASE</code> or <code>3.0.0.BETA02</code></li>
-				</ul>
+				<p>
+					An example:
+				</p>
 
-				<p>And if you want to use the Thymeleaf Testing framework (version
-				does not necessarily match that of core):</p>
-				<ul>
-					<li>GroupId: <code>org.thymeleaf</code></li>
-					<li>ArtifactId: <code>thymeleaf-testing</code></li>
-					<li>Version: <code>2.1.3.RELEASE</code> or <code>3.0.0.BETA02</code></li>
-				</ul>
+				<pre class="line-numbers"><code class="language-xml" data-src="maven-example"></code></pre>				
 			</section>
 
 			<section>
 				<header>
-					<h2>JARs</h2>
+					<h2>Distribution packages</h2>
 				</header>
-				<p>JARs for each of the artifacts above can also be downloaded
-				separately from each project's GitHub repository releases page.  The
-				Thymeleaf 3.0 beta is not currently available in standalone JAR form.</p>
+				<p>
+					In case you don't use a build tool such as Maven or Gradle, we also offer a 
+					complete distribution package containing binaries, source, javadoc and dependencies
+					in the form of a convenient <tt>.zip</tt> file, which you can download from 
+					<a href="https://sourceforge.net/projects/thymeleaf/files/thymeleaf/2.1.4.RELEASE/">SourceForge</a> (Thymeleaf 2.1) 
+					or <a href="https://github.com/thymeleaf/thymeleaf-dist/releases">GitHub</a> (Thymeleaf 3.0).
+				</p>
+			</section>
 
-				<ul>
-					<li>Thymeleaf: <a href="https://github.com/thymeleaf/thymeleaf/releases" class="url">https://github.com/thymeleaf/thymeleaf/releases</a></li>
-					<li>Thymeleaf Spring: <a href="https://github.com/thymeleaf/thymeleaf-spring/releases" class="url">https://github.com/thymeleaf/thymeleaf-spring/releases</a></li>
-					<li>Thymeleaf Testing: <a href="https://github.com/thymeleaf/thymeleaf-testing/releases" class="url">https://github.com/thymeleaf/thymeleaf-testing/releases</a></li>
-				</ul>
+			<section>
+				<header>
+					<h2>Sources</h2>
+				</header>
 
-				<p>When doing this, also be sure to download Thymeleaf's dependencies:</p>
+				<p>Thymeleaf's source code is available on <a href="https://github.com/thymeleaf">GitHub</a>. Here are the main repositories:</p>
 
-				<ul>
-					<li><a href="http://www.unbescape.org/">Unbescape</a> 1.1.0+</li>
-					<li><a href="https://commons.apache.org/proper/commons-ognl/">OGNL</a> 3.0.8+</li>
-					<li><a href="http://jboss-javassist.github.io/javassist/">Javassist</a> 3.16.1-GA+</li>
-					<li><a href="http://www.slf4j.org/">SLF4J</a> 1.6.6+</li>
-				</ul>
+				<table>
+					<thead>
+						<tr>
+							<th>Module</th>
+							<th>Repository</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Core library</td>
+							<td><a href="https://github.com/thymeleaf/thymeleaf" class="url">https://github.com/thymeleaf/thymeleaf</a></td>
+						</tr>
+						<tr>
+							<td>Spring integration</td>
+							<td><a href="https://github.com/thymeleaf/thymeleaf-spring" class="url">https://github.com/thymeleaf/thymeleaf-spring</a></td>
+						</tr>
+						<tr>
+							<td>Documentation</td>
+							<td><a href="https://github.com/thymeleaf/thymeleaf-docs" class="url">https://github.com/thymeleaf/thymeleaf-docs</a></td>
+						</tr>
+						<tr>
+							<td>Testing library</td>
+							<td><a href="https://github.com/thymeleaf/thymeleaf-testing" class="url">https://github.com/thymeleaf/thymeleaf-testing</a></td>
+						</tr>
+						<tr>
+							<td>Test suites</td>
+							<td><a href="https://github.com/thymeleaf/thymeleaf-tests" class="url">https://github.com/thymeleaf/thymeleaf-tests</a></td>
+						</tr>
+						<tr>
+							<td>Benchmarks</td>
+							<td><a href="https://github.com/thymeleaf/thymeleaf-benchmarks" class="url">https://github.com/thymeleaf/thymeleaf-benchmarks</a></td>
+						</tr>
+						<tr>
+							<td>Spring Security integration</td>
+							<td><a href="https://github.com/thymeleaf/thymeleaf-extras-springsecurity" class="url">https://github.com/thymeleaf/thymeleaf-extras-springsecurity</a></td>
+						</tr>
+						<tr>
+							<td>Java 8 Time API compatibility</td>
+							<td><a href="https://github.com/thymeleaf/thymeleaf-extras-java8time" class="url">https://github.com/thymeleaf/thymeleaf-extras-java8time</a></td>
+						</tr>
+						<tr>
+							<td>Tiles 2 integration</td>
+							<td><a href="https://github.com/thymeleaf/thymeleaf-extras-tiles2" class="url">https://github.com/thymeleaf/thymeleaf-extras-tiles2</a></td>
+						</tr>
+						<tr>
+							<td>IE Conditional Comments support</td>
+							<td><a href="https://github.com/thymeleaf/thymeleaf-extras-conditionalcomments" class="url">https://github.com/thymeleaf/thymeleaf-extras-conditionalcomments</a></td>
+						</tr>
+					</tbody>
+				</table>
 
-				<p>Additionally, if you're using the <code>LEGACYHTML5</code> template
-				mode:</p>
+			</section>
 
-				<ul>
-					<li><a href="http://nekohtml.sourceforge.net/">NekoHTML</a> 1.9.21+</li>
-				</ul>
+			<section>
+				<header>
+					<h2>External Dependencies</h2>
+				</header>
+
+				<section class="subsection">
+					<header>
+						<h3>Thymeleaf 2.1</h3>
+					</header>
+					<p>
+						Thymeleaf 2.1 requires <strong>Java SE 5.0</strong> or newer. Besides, it 
+						depends on the following external libraries:
+					</p>
+
+					<ul>
+						<li><a href="http://www.unbescape.org/">Unbescape</a> 1.1.0+</li>
+						<li><a href="https://commons.apache.org/proper/commons-ognl/">OGNL</a> 3.0.8+</li>
+						<li><a href="http://jboss-javassist.github.io/javassist/">Javassist</a> 3.16.1-GA+</li>
+						<li><a href="http://www.slf4j.org/">SLF4J</a> 1.6.6+</li>
+					</ul>
+
+					<p>Additionally, if you're using the <code>LEGACYHTML5</code> template
+					mode:</p>
+
+					<ul>
+						<li><a href="http://nekohtml.sourceforge.net/">NekoHTML</a> 1.9.21+</li>
+					</ul>
+
+				</section>
+
+				<section class="subsection">
+					<header>
+						<h3>Thymeleaf 3.0</h3>
+					</header>
+					<p>
+						Thymeleaf 3.0 requires <strong>Java SE 6.0</strong> or newer. Besides, it 
+						depends on the following external libraries:
+					</p>
+
+					<ul>
+						<li><a href="http://www.attoparser.org/">AttoParser</a> 2.0.0.BETA05+</li>
+						<li><a href="http://www.unbescape.org/">Unbescape</a> 1.1.2+</li>
+						<li><a href="https://commons.apache.org/proper/commons-ognl/">OGNL</a> 3.1+ (only in non-Spring environments)</li>
+						<li><a href="http://www.slf4j.org/">SLF4J</a> 1.6.6+</li>
+					</ul>
+
+				</section>
+
 			</section>
 
 		</main>
