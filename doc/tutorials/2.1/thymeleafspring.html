@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<html lang="en">
 
 <head>
 	<title>Tutorial: Thymeleaf + Spring</title>
@@ -9,66 +9,30 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	<meta name="format-detection" content="telephone=no"/>
 
-	<link rel="icon" href="images/icon.png"/>
-	<link rel="stylesheet" href="../../styles/fonts/open-sans.css"/>
-	<link rel="stylesheet" href="../../styles/fonts/source-sans-pro.css"/>
+	<link rel="icon" href="../../images/favicon.ico"/>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,400italic,700,700italic"/>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic,700italic"/>
 	<link rel="stylesheet" href="../../styles/normalize.css"/>
 	<link rel="stylesheet" href="../../styles/thymeleaf.css"/>
-	<link rel="stylesheet" href="../../styles/thymeleaf-screen.css" media="screen"/>
-	<link rel="stylesheet" href="../../styles/thymeleaf-print.css" media="print"/>
+	<link rel="stylesheet" href="../../styles/thymeleaf-tutorials.css"/>
+	<link rel="stylesheet" href="../../styles/thymeleaf-tutorials-screen.css" media="screen"/>
+	<link rel="stylesheet" href="../../styles/thymeleaf-tutorials-print.css" media="print"/>
 
-	<script src="../../scripts/prettify.min.js"></script>
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-	<script src="../../scripts/thymeleaf-tutorials.js"></script>
-
-	<!-- Google Analytics script -->
-	<script>
-		var _gaq = _gaq || [];
-			_gaq.push(['_setAccount', 'UA-1276954-9']);
-			_gaq.push(['_trackPageview']);
-		(function() {
-			var ga = document.createElement('script');
-				ga.type = 'text/javascript';
-				ga.async = true;
-				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-			var s = document.getElementsByTagName('script')[0];
-				s.parentNode.insertBefore(ga, s);
-		})();
-	</script>
+	<script src="../../scripts/dumbqueryselector.js" defer></script>
+	<script src="../../scripts/prism.js" defer data-manual></script>
+	<script src="../../scripts/thymeleaf-tutorials.js" defer></script>
 
 </head>
 
 <body class="tutorial">
 
-	<div id="documentation-wrapper">
-
-	<div id="title-block-wrapper">
-		<header id="title-block">
-			<img id="doc-banner" class="banner" src="images/header.png" alt="Thymeleaf logo"/>
-			<h1 id="doc-title" class="title">Tutorial: Thymeleaf + Spring</h1>
-			<div id="doc-info">
-				<div id="doc-version">
-					<span class="info-header">Document version:</span> 20141222 - 22 December 2014
-				</div>
-				<div id="project-version">
-					<span class="info-header">Project version:</span> 2.1.4.RELEASE
-				</div>
-				<div id="project-website">
-					<span class="info-header">Project web site:</span>
-					<a href="http://www.thymeleaf.org">http://www.thymeleaf.org</a>
-				</div>
-			</div>
-		</header>
-	</div>
-
-	<div id="menu">
-		<a id="menu-link" href="javascript:void(0);">
-			<img id="menu-image" src="images/logo.png" alt="Menu logo"/>
-		</a>
-	</div>
-	<div id="toc-wrapper">
+	<div class="toc-wrapper toolbar-container">
+		<div class="toolbar-menu">
+			<div id="toolbar-location" class="toolbar-menu-location"></div>
+			<button id="site-menu-button" type="button" class="toolbar-menu-button">Doc Contents</button>
+		</div>
 		<nav id="toc">
-<ul>
+			<ul>
 <li><a href="#preface">Preface</a></li>
 <li><a href="#integrating-thymeleaf-with-spring">1 Integrating Thymeleaf with Spring</a></li>
 <li><a href="#the-springstandard-dialect">2 The SpringStandard Dialect</a></li>
@@ -130,9 +94,37 @@
 		</nav>
 	</div>
 
-	<div id="content-wrapper">
-		<div id="content">
-<section id="preface" class="level1">
+	<div class="content-wrapper">
+
+		<div class="title-container">
+			<header class="hero-header fluid-block">
+				<div class="hero-header-text">
+					<h1 class="hero-header-title">Thymeleaf</h1>
+				</div>
+				<div class="hero-header-image">
+					<img src="../../images/thymeleaf.png" alt="Thymeleaf logo" class="hero-header-logo"/>
+				</div>
+			</header>
+
+			<div class="tutorial-info fluid-block">
+				<h1 id="tutorial-title" class="tutorial-title">Tutorial: Thymeleaf + Spring</h1>
+								<div class="tutorial-metadata">
+					<div id="tutorial-version">
+						<span class="tutorial-metadata-label">Document version:</span> 20141222 - 22 December 2014
+					</div>
+					<div id="project-version">
+						<span class="tutorial-metadata-label">Project version:</span> 2.1.4.RELEASE
+					</div>
+					<div id="project-website">
+						<span class="tutorial-metadata-label">Project web site:</span>
+						<a href="http://www.thymeleaf.org">http://www.thymeleaf.org</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="content" class="fluid-block">
+			<section id="preface" class="level1">
 <h1>Preface</h1>
 <p>This tutorial explains how Thymeleaf can be integrated with the Spring Framework, especially (but not only) Spring MVC.</p>
 <p>Note that Thymeleaf has integrations for both versions 3.x and 4.x of the Spring Framework, provided by two separate libraries called <code>thymeleaf-spring3</code> and <code>thymeleaf-spring4</code>. These libraries are packaged in separate <code>.jar</code> files (<code>thymeleaf-spring3-{version}.jar</code> and <code>thymeleaf-spring4-{version}.jar</code>) and need to be added to your classpath in order to use Thymeleaf’s Spring integrations in your application.</p>
@@ -259,6 +251,7 @@ public String doIt() {
 </section>
 <section id="spring-thyme-seed-starter-manager" class="level1">
 <h1>5 Spring Thyme Seed Starter Manager</h1>
+<p>The source code for the examples shown in this and future chapters of this guide can be found in the <a href="https://github.com/thymeleaf/thymeleafexamples-stsm">Spring Thyme Seed Starter Manager GitHub repository</a>.</p>
 <section id="the-concept" class="level2">
 <h2>5.1 The Concept</h2>
 <p>At Thymeleaf we’re huge fans of thyme, and every spring we prepare our seed starting kits with good soil and our favourite seeds, place them under the Spanish sun and patiently wait for our new plants to grow.</p>
@@ -1102,11 +1095,15 @@ public String showContentPart() {
 <pre class="java"><code>public class ExampleController {
 
     @RequestMapping(&quot;/data&quot;)
-    public HttpEntity getData(@RequestParam String type) { ... }
+    public String getData(Model model) { ... return &quot;template&quot; }
+
+    @RequestMapping(&quot;/data&quot;)
+    public String getDataParam(@RequestParam String type) { ... return &quot;template&quot; }
 
 }</code></pre>
 <p>The following code will create a link to it:</p>
-<pre class="html"><code>&lt;a th:href=&quot;${#mvc.url(&#39;EC#getData&#39;).arg(0,&#39;internal&#39;)}&quot;&gt;Get Data&lt;/a&gt;</code></pre>
+<pre class="html"><code>&lt;a th:href=&quot;${(#mvc.url(&#39;EC#getData&#39;)).build()}&quot;&gt;Get Data Param&lt;/a&gt;
+&lt;a th:href=&quot;${(#mvc.url(&#39;EC#getDataParam&#39;).arg(0,&#39;internal&#39;)).build()}&quot;&gt;Get Data Param&lt;/a&gt;</code></pre>
 <p>You can read more about this mechanism at http://docs.spring.io/spring-framework/docs/4.1.2.RELEASE/spring-framework-reference/html/mvc.html#mvc-links-to-controllers-from-views</p>
 </section>
 </section>
@@ -1172,7 +1169,6 @@ public String showContentPart() {
 </section>
 </section>
 		</div>
-	</div>
 
 	</div>
 

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<html lang="en">
 
 <head>
 	<title>Tutorial: Using Thymeleaf</title>
@@ -9,66 +9,30 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	<meta name="format-detection" content="telephone=no"/>
 
-	<link rel="icon" href="images/icon.png"/>
-	<link rel="stylesheet" href="../../styles/fonts/open-sans.css"/>
-	<link rel="stylesheet" href="../../styles/fonts/source-sans-pro.css"/>
+	<link rel="icon" href="../../images/favicon.ico"/>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,400italic,700,700italic"/>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic,700italic"/>
 	<link rel="stylesheet" href="../../styles/normalize.css"/>
 	<link rel="stylesheet" href="../../styles/thymeleaf.css"/>
-	<link rel="stylesheet" href="../../styles/thymeleaf-screen.css" media="screen"/>
-	<link rel="stylesheet" href="../../styles/thymeleaf-print.css" media="print"/>
+	<link rel="stylesheet" href="../../styles/thymeleaf-tutorials.css"/>
+	<link rel="stylesheet" href="../../styles/thymeleaf-tutorials-screen.css" media="screen"/>
+	<link rel="stylesheet" href="../../styles/thymeleaf-tutorials-print.css" media="print"/>
 
-	<script src="../../scripts/prettify.min.js"></script>
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-	<script src="../../scripts/thymeleaf-tutorials.js"></script>
-
-	<!-- Google Analytics script -->
-	<script>
-		var _gaq = _gaq || [];
-			_gaq.push(['_setAccount', 'UA-1276954-9']);
-			_gaq.push(['_trackPageview']);
-		(function() {
-			var ga = document.createElement('script');
-				ga.type = 'text/javascript';
-				ga.async = true;
-				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-			var s = document.getElementsByTagName('script')[0];
-				s.parentNode.insertBefore(ga, s);
-		})();
-	</script>
+	<script src="../../scripts/dumbqueryselector.js" defer></script>
+	<script src="../../scripts/prism.js" defer data-manual></script>
+	<script src="../../scripts/thymeleaf-tutorials.js" defer></script>
 
 </head>
 
 <body class="tutorial">
 
-	<div id="documentation-wrapper">
-
-	<div id="title-block-wrapper">
-		<header id="title-block">
-			<img id="doc-banner" class="banner" src="images/header.png" alt="Thymeleaf logo"/>
-			<h1 id="doc-title" class="title">Tutorial: Using Thymeleaf</h1>
-			<div id="doc-info">
-				<div id="doc-version">
-					<span class="info-header">Document version:</span> 20141222 - 22 December 2014
-				</div>
-				<div id="project-version">
-					<span class="info-header">Project version:</span> 2.1.4.RELEASE
-				</div>
-				<div id="project-website">
-					<span class="info-header">Project web site:</span>
-					<a href="http://www.thymeleaf.org">http://www.thymeleaf.org</a>
-				</div>
-			</div>
-		</header>
-	</div>
-
-	<div id="menu">
-		<a id="menu-link" href="javascript:void(0);">
-			<img id="menu-image" src="images/logo.png" alt="Menu logo"/>
-		</a>
-	</div>
-	<div id="toc-wrapper">
+	<div class="toc-wrapper toolbar-container">
+		<div class="toolbar-menu">
+			<div id="toolbar-location" class="toolbar-menu-location"></div>
+			<button id="site-menu-button" type="button" class="toolbar-menu-button">Doc Contents</button>
+		</div>
 		<nav id="toc">
-<ul>
+			<ul>
 <li><a href="#introducing-thymeleaf">1 Introducing Thymeleaf</a><ul>
 <li><a href="#what-is-thymeleaf">1.1 What is Thymeleaf?</a></li>
 <li><a href="#what-kind-of-templates-can-thymeleaf-process">1.2 What kind of templates can Thymeleaf process?</a></li>
@@ -211,9 +175,37 @@
 		</nav>
 	</div>
 
-	<div id="content-wrapper">
-		<div id="content">
-<section id="introducing-thymeleaf" class="level1">
+	<div class="content-wrapper">
+
+		<div class="title-container">
+			<header class="hero-header fluid-block">
+				<div class="hero-header-text">
+					<h1 class="hero-header-title">Thymeleaf</h1>
+				</div>
+				<div class="hero-header-image">
+					<img src="../../images/thymeleaf.png" alt="Thymeleaf logo" class="hero-header-logo"/>
+				</div>
+			</header>
+
+			<div class="tutorial-info fluid-block">
+				<h1 id="tutorial-title" class="tutorial-title">Tutorial: Using Thymeleaf</h1>
+								<div class="tutorial-metadata">
+					<div id="tutorial-version">
+						<span class="tutorial-metadata-label">Document version:</span> 20141222 - 22 December 2014
+					</div>
+					<div id="project-version">
+						<span class="tutorial-metadata-label">Project version:</span> 2.1.4.RELEASE
+					</div>
+					<div id="project-website">
+						<span class="tutorial-metadata-label">Project web site:</span>
+						<a href="http://www.thymeleaf.org">http://www.thymeleaf.org</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="content" class="fluid-block">
+			<section id="introducing-thymeleaf" class="level1">
 <h1>1 Introducing Thymeleaf</h1>
 <section id="what-is-thymeleaf" class="level2">
 <h2>1.1 What is Thymeleaf?</h2>
@@ -276,6 +268,7 @@
 </section>
 <section id="the-good-thymes-virtual-grocery" class="level1">
 <h1>2 The Good Thymes Virtual Grocery</h1>
+<p>The source code for the examples shown in this and future chapters of this guide can be found in the <a href="https://github.com/thymeleaf/thymeleafexamples-gtvg">Good Thymes Virtual Grocery GitHub repository</a>.</p>
 <section id="a-website-for-a-grocery" class="level2">
 <h2>2.1 A website for a grocery</h2>
 <p>In order to better explain the concepts involved in processing templates with Thymeleaf, this tutorial will use a demo application you can download from the project web site.</p>
@@ -1075,191 +1068,8 @@ th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &
 <p>And do you remember those <code>th:href</code> we put in our <code>home.html</code> before? They are exactly this same kind of attributes:</p>
 <pre class="html"><code>&lt;li&gt;&lt;a href=&quot;product/list.html&quot; th:href=&quot;@{/product/list}&quot;&gt;Product List&lt;/a&gt;&lt;/li&gt;</code></pre>
 <p>There are quite a lot of attributes like these, each of them targeting a specific XHTML or HTML5 attribute:</p>
-<div class="table-wrapper">
-<table>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><code>th:abbr</code></td>
-<td style="text-align: left;"><code>th:accept</code></td>
-<td style="text-align: left;"><code>th:accept-charset</code></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>th:accesskey</code></td>
-<td style="text-align: left;"><code>th:action</code></td>
-<td style="text-align: left;"><code>th:align</code></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>th:alt</code></td>
-<td style="text-align: left;"><code>th:archive</code></td>
-<td style="text-align: left;"><code>th:audio</code></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>th:autocomplete</code></td>
-<td style="text-align: left;"><code>th:axis</code></td>
-<td style="text-align: left;"><code>th:background</code></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>th:bgcolor</code></td>
-<td style="text-align: left;"><code>th:border</code></td>
-<td style="text-align: left;"><code>th:cellpadding</code></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>th:cellspacing</code></td>
-<td style="text-align: left;"><code>th:challenge</code></td>
-<td style="text-align: left;"><code>th:charset</code></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>th:cite</code></td>
-<td style="text-align: left;"><code>th:class</code></td>
-<td style="text-align: left;"><code>th:classid</code></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>th:codebase</code></td>
-<td style="text-align: left;"><code>th:codetype</code></td>
-<td style="text-align: left;"><code>th:cols</code></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>th:colspan</code></td>
-<td style="text-align: left;"><code>th:compact</code></td>
-<td style="text-align: left;"><code>th:content</code></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>th:contenteditable</code></td>
-<td style="text-align: left;"><code>th:contextmenu</code></td>
-<td style="text-align: left;"><code>th:data</code></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>th:datetime</code></td>
-<td style="text-align: left;"><code>th:dir</code></td>
-<td style="text-align: left;"><code>th:draggable</code></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>th:dropzone</code></td>
-<td style="text-align: left;"><code>th:enctype</code></td>
-<td style="text-align: left;"><code>th:for</code></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>th:form</code></td>
-<td style="text-align: left;"><code>th:formaction</code></td>
-<td style="text-align: left;"><code>th:formenctype</code></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>th:formmethod</code></td>
-<td style="text-align: left;"><code>th:formtarget</code></td>
-<td style="text-align: left;"><code>th:frame</code></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>th:frameborder</code></td>
-<td style="text-align: left;"><code>th:headers</code></td>
-<td style="text-align: left;"><code>th:height</code></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>th:high</code></td>
-<td style="text-align: left;"><code>th:href</code></td>
-<td style="text-align: left;"><code>th:hreflang</code></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>th:hspace</code></td>
-<td style="text-align: left;"><code>th:http-equiv</code></td>
-<td style="text-align: left;"><code>th:icon</code></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>th:id</code></td>
-<td style="text-align: left;"><code>th:keytype</code></td>
-<td style="text-align: left;"><code>th:kind</code></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>th:label</code></td>
-<td style="text-align: left;"><code>th:lang</code></td>
-<td style="text-align: left;"><code>th:list</code></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>th:longdesc</code></td>
-<td style="text-align: left;"><code>th:low</code></td>
-<td style="text-align: left;"><code>th:manifest</code></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>th:marginheight</code></td>
-<td style="text-align: left;"><code>th:marginwidth</code></td>
-<td style="text-align: left;"><code>th:max</code></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>th:maxlength</code></td>
-<td style="text-align: left;"><code>th:media</code></td>
-<td style="text-align: left;"><code>th:method</code></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>th:min</code></td>
-<td style="text-align: left;"><code>th:name</code></td>
-<td style="text-align: left;"><code>th:optimum</code></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>th:pattern</code></td>
-<td style="text-align: left;"><code>th:placeholder</code></td>
-<td style="text-align: left;"><code>th:poster</code></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>th:preload</code></td>
-<td style="text-align: left;"><code>th:radiogroup</code></td>
-<td style="text-align: left;"><code>th:rel</code></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>th:rev</code></td>
-<td style="text-align: left;"><code>th:rows</code></td>
-<td style="text-align: left;"><code>th:rowspan</code></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>th:rules</code></td>
-<td style="text-align: left;"><code>th:sandbox</code></td>
-<td style="text-align: left;"><code>th:scheme</code></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>th:scope</code></td>
-<td style="text-align: left;"><code>th:scrolling</code></td>
-<td style="text-align: left;"><code>th:size</code></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>th:sizes</code></td>
-<td style="text-align: left;"><code>th:span</code></td>
-<td style="text-align: left;"><code>th:spellcheck</code></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>th:src</code></td>
-<td style="text-align: left;"><code>th:srclang</code></td>
-<td style="text-align: left;"><code>th:standby</code></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>th:start</code></td>
-<td style="text-align: left;"><code>th:step</code></td>
-<td style="text-align: left;"><code>th:style</code></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>th:summary</code></td>
-<td style="text-align: left;"><code>th:tabindex</code></td>
-<td style="text-align: left;"><code>th:target</code></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>th:title</code></td>
-<td style="text-align: left;"><code>th:type</code></td>
-<td style="text-align: left;"><code>th:usemap</code></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>th:value</code></td>
-<td style="text-align: left;"><code>th:valuetype</code></td>
-<td style="text-align: left;"><code>th:vspace</code></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>th:width</code></td>
-<td style="text-align: left;"><code>th:wrap</code></td>
-<td style="text-align: left;"><code>th:xmlbase</code></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>th:xmllang</code></td>
-<td style="text-align: left;"><code>th:xmlspace</code></td>
-<td style="text-align: left;"></td>
-</tr>
-</tbody>
-</table>
+<div class="table-scroller">
+<p>|———————–+———————–+———————–| |<code>th:abbr</code> |<code>th:accept</code> |<code>th:accept-charset</code> | |<code>th:accesskey</code> |<code>th:action</code> |<code>th:align</code> | |<code>th:alt</code> |<code>th:archive</code> |<code>th:audio</code> | |<code>th:autocomplete</code> |<code>th:axis</code> |<code>th:background</code> | |<code>th:bgcolor</code> |<code>th:border</code> |<code>th:cellpadding</code> | |<code>th:cellspacing</code> |<code>th:challenge</code> |<code>th:charset</code> | |<code>th:cite</code> |<code>th:class</code> |<code>th:classid</code> | |<code>th:codebase</code> |<code>th:codetype</code> |<code>th:cols</code> | |<code>th:colspan</code> |<code>th:compact</code> |<code>th:content</code> | |<code>th:contenteditable</code> |<code>th:contextmenu</code> |<code>th:data</code> | |<code>th:datetime</code> |<code>th:dir</code> |<code>th:draggable</code> | |<code>th:dropzone</code> |<code>th:enctype</code> |<code>th:for</code> | |<code>th:form</code> |<code>th:formaction</code> |<code>th:formenctype</code> | |<code>th:formmethod</code> |<code>th:formtarget</code> |<code>th:frame</code> | |<code>th:frameborder</code> |<code>th:headers</code> |<code>th:height</code> | |<code>th:high</code> |<code>th:href</code> |<code>th:hreflang</code> | |<code>th:hspace</code> |<code>th:http-equiv</code> |<code>th:icon</code> | |<code>th:id</code> |<code>th:keytype</code> |<code>th:kind</code> | |<code>th:label</code> |<code>th:lang</code> |<code>th:list</code> | |<code>th:longdesc</code> |<code>th:low</code> |<code>th:manifest</code> | |<code>th:marginheight</code> |<code>th:marginwidth</code> |<code>th:max</code> | |<code>th:maxlength</code> |<code>th:media</code> |<code>th:method</code> | |<code>th:min</code> |<code>th:name</code> |<code>th:optimum</code> | |<code>th:pattern</code> |<code>th:placeholder</code> |<code>th:poster</code> | |<code>th:preload</code> |<code>th:radiogroup</code> |<code>th:rel</code> | |<code>th:rev</code> |<code>th:rows</code> |<code>th:rowspan</code> | |<code>th:rules</code> |<code>th:sandbox</code> |<code>th:scheme</code> | |<code>th:scope</code> |<code>th:scrolling</code> |<code>th:size</code> | |<code>th:sizes</code> |<code>th:span</code> |<code>th:spellcheck</code> | |<code>th:src</code> |<code>th:srclang</code> |<code>th:standby</code> | |<code>th:start</code> |<code>th:step</code> |<code>th:style</code> | |<code>th:summary</code> |<code>th:tabindex</code> |<code>th:target</code> | |<code>th:title</code> |<code>th:type</code> |<code>th:usemap</code> | |<code>th:value</code> |<code>th:valuetype</code> |<code>th:vspace</code> | |<code>th:width</code> |<code>th:wrap</code> |<code>th:xmlbase</code> | |<code>th:xmllang</code> |<code>th:xmlspace</code> | |</p>
 </div>
 </section>
 <section id="setting-more-than-one-value-at-a-time" class="level2">
@@ -1300,51 +1110,8 @@ th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &
 <p>The Standard Dialect includes attributes that allow you to set these attributes by evaluating a condition, so that if evaluated to true, the attribute will be set to its fixed value, and if evaluated to false, the attribute will not be set:</p>
 <pre class="html"><code>&lt;input type=&quot;checkbox&quot; name=&quot;active&quot; th:checked=&quot;${user.active}&quot; /&gt;</code></pre>
 <p>The following fixed-value boolean attributes exist in the Standard Dialect:</p>
-<div class="table-wrapper">
-<table>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><code>th:async</code></td>
-<td style="text-align: left;"><code>th:autofocus</code></td>
-<td style="text-align: left;"><code>th:autoplay</code></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>th:checked</code></td>
-<td style="text-align: left;"><code>th:controls</code></td>
-<td style="text-align: left;"><code>th:declare</code></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>th:default</code></td>
-<td style="text-align: left;"><code>th:defer</code></td>
-<td style="text-align: left;"><code>th:disabled</code></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>th:formnovalidate</code></td>
-<td style="text-align: left;"><code>th:hidden</code></td>
-<td style="text-align: left;"><code>th:ismap</code></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>th:loop</code></td>
-<td style="text-align: left;"><code>th:multiple</code></td>
-<td style="text-align: left;"><code>th:novalidate</code></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>th:nowrap</code></td>
-<td style="text-align: left;"><code>th:open</code></td>
-<td style="text-align: left;"><code>th:pubdate</code></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>th:readonly</code></td>
-<td style="text-align: left;"><code>th:required</code></td>
-<td style="text-align: left;"><code>th:reversed</code></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>th:scoped</code></td>
-<td style="text-align: left;"><code>th:seamless</code></td>
-<td style="text-align: left;"><code>th:selected</code></td>
-</tr>
-</tbody>
-</table>
+<div class="table-scroller">
+<p>|——————-+——————-+——————-| |<code>th:async</code> |<code>th:autofocus</code> |<code>th:autoplay</code> | |<code>th:checked</code> |<code>th:controls</code> |<code>th:declare</code> | |<code>th:default</code> |<code>th:defer</code> |<code>th:disabled</code> | |<code>th:formnovalidate</code>|<code>th:hidden</code> |<code>th:ismap</code> | |<code>th:loop</code> |<code>th:multiple</code> |<code>th:novalidate</code> | |<code>th:nowrap</code> |<code>th:open</code> |<code>th:pubdate</code> | |<code>th:readonly</code> |<code>th:required</code> |<code>th:reversed</code> | |<code>th:scoped</code> |<code>th:seamless</code> |<code>th:selected</code> |</p>
 </div>
 </section>
 <section id="support-for-html5-friendly-attribute-and-element-names" class="level2">
@@ -2098,6 +1865,7 @@ th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &
 &lt;/ul&gt;</code></pre>
 <p>Of course, we would expect that <code>th:each</code> attribute to execute before the <code>th:text</code> so that we get the results we want, but given the fact that the DOM (Document Object Model) standard does not give any kind of meaning to the order in which the attributes of a tag are written, a <em>precedence</em> mechanism has to be established in the attributes themselves in order to be sure that this will work as expected.</p>
 <p>So, all Thymeleaf attributes define a numeric precedence, which establishes the order in which they are executed in the tag. This order is:</p>
+<div class="table-scroller">
 <table>
 <colgroup>
 <col style="width: 11%" />
@@ -2115,7 +1883,8 @@ th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &
 <tr class="odd">
 <td style="text-align: left;">1</td>
 <td style="text-align: left;">Fragment inclusion</td>
-<td style="text-align: left;"><code>th:include</code><br /><code>th:replace</code></td>
+<td style="text-align: left;"><code>th:include</code><br />
+<code>th:replace</code></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2</td>
@@ -2125,27 +1894,37 @@ th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &
 <tr class="odd">
 <td style="text-align: left;">3</td>
 <td style="text-align: left;">Conditional evaluation</td>
-<td style="text-align: left;"><code>th:if</code><br /><code>th:unless</code><br /><code>th:switch</code><br /><code>th:case</code></td>
+<td style="text-align: left;"><code>th:if</code><br />
+<code>th:unless</code><br />
+<code>th:switch</code><br />
+<code>th:case</code></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">4</td>
 <td style="text-align: left;">Local variable definition</td>
-<td style="text-align: left;"><code>th:object</code><br /><code>th:with</code></td>
+<td style="text-align: left;"><code>th:object</code><br />
+<code>th:with</code></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">5</td>
 <td style="text-align: left;">General attribute modification</td>
-<td style="text-align: left;"><code>th:attr</code><br /><code>th:attrprepend</code><br /><code>th:attrappend</code></td>
+<td style="text-align: left;"><code>th:attr</code><br />
+<code>th:attrprepend</code><br />
+<code>th:attrappend</code></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">6</td>
 <td style="text-align: left;">Specific attribute modification</td>
-<td style="text-align: left;"><code>th:value</code><br /><code>th:href</code><br /><code>th:src</code><br /><code>...</code></td>
+<td style="text-align: left;"><code>th:value</code><br />
+<code>th:href</code><br />
+<code>th:src</code><br />
+<code>...</code></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">7</td>
 <td style="text-align: left;">Text (tag body modification)</td>
-<td style="text-align: left;"><code>th:text</code><br /><code>th:utext</code></td>
+<td style="text-align: left;"><code>th:text</code><br />
+<code>th:utext</code></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">8</td>
@@ -2159,6 +1938,7 @@ th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &
 </tr>
 </tbody>
 </table>
+</div>
 <p>This precedence mechanism means that the above iteration fragment will give exactly the same results if the attribute position is inverted (although it would be slightly less readable):</p>
 <pre class="html"><code>&lt;ul&gt;
   &lt;li th:text=&quot;${item.description}&quot; th:each=&quot;item : ${items}&quot;&gt;Item description here...&lt;/li&gt;
@@ -3573,7 +3353,6 @@ ${#ids.prev(&#39;someId&#39;)}</code></pre>
 </ol>
 </section>
 		</div>
-	</div>
 
 	</div>
 

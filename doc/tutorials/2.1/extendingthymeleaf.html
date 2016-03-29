@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<html lang="en">
 
 <head>
 	<title>Tutorial: Extending Thymeleaf</title>
@@ -9,66 +9,30 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	<meta name="format-detection" content="telephone=no"/>
 
-	<link rel="icon" href="images/icon.png"/>
-	<link rel="stylesheet" href="../../styles/fonts/open-sans.css"/>
-	<link rel="stylesheet" href="../../styles/fonts/source-sans-pro.css"/>
+	<link rel="icon" href="../../images/favicon.ico"/>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,400italic,700,700italic"/>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic,700italic"/>
 	<link rel="stylesheet" href="../../styles/normalize.css"/>
 	<link rel="stylesheet" href="../../styles/thymeleaf.css"/>
-	<link rel="stylesheet" href="../../styles/thymeleaf-screen.css" media="screen"/>
-	<link rel="stylesheet" href="../../styles/thymeleaf-print.css" media="print"/>
+	<link rel="stylesheet" href="../../styles/thymeleaf-tutorials.css"/>
+	<link rel="stylesheet" href="../../styles/thymeleaf-tutorials-screen.css" media="screen"/>
+	<link rel="stylesheet" href="../../styles/thymeleaf-tutorials-print.css" media="print"/>
 
-	<script src="../../scripts/prettify.min.js"></script>
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-	<script src="../../scripts/thymeleaf-tutorials.js"></script>
-
-	<!-- Google Analytics script -->
-	<script>
-		var _gaq = _gaq || [];
-			_gaq.push(['_setAccount', 'UA-1276954-9']);
-			_gaq.push(['_trackPageview']);
-		(function() {
-			var ga = document.createElement('script');
-				ga.type = 'text/javascript';
-				ga.async = true;
-				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-			var s = document.getElementsByTagName('script')[0];
-				s.parentNode.insertBefore(ga, s);
-		})();
-	</script>
+	<script src="../../scripts/dumbqueryselector.js" defer></script>
+	<script src="../../scripts/prism.js" defer data-manual></script>
+	<script src="../../scripts/thymeleaf-tutorials.js" defer></script>
 
 </head>
 
 <body class="tutorial">
 
-	<div id="documentation-wrapper">
-
-	<div id="title-block-wrapper">
-		<header id="title-block">
-			<img id="doc-banner" class="banner" src="images/header.png" alt="Thymeleaf logo"/>
-			<h1 id="doc-title" class="title">Tutorial: Extending Thymeleaf</h1>
-			<div id="doc-info">
-				<div id="doc-version">
-					<span class="info-header">Document version:</span> 20141222 - 22 December 2014
-				</div>
-				<div id="project-version">
-					<span class="info-header">Project version:</span> 2.1.4.RELEASE
-				</div>
-				<div id="project-website">
-					<span class="info-header">Project web site:</span>
-					<a href="http://www.thymeleaf.org">http://www.thymeleaf.org</a>
-				</div>
-			</div>
-		</header>
-	</div>
-
-	<div id="menu">
-		<a id="menu-link" href="javascript:void(0);">
-			<img id="menu-image" src="images/logo.png" alt="Menu logo"/>
-		</a>
-	</div>
-	<div id="toc-wrapper">
+	<div class="toc-wrapper toolbar-container">
+		<div class="toolbar-menu">
+			<div id="toolbar-location" class="toolbar-menu-location"></div>
+			<button id="site-menu-button" type="button" class="toolbar-menu-button">Doc Contents</button>
+		</div>
 		<nav id="toc">
-<ul>
+			<ul>
 <li><a href="#some-reasons-to-extend-thymeleaf">1 Some Reasons to Extend Thymeleaf</a><ul>
 <li><a href="#scenario-1-adding-features-to-the-standard-dialects">1.1. Scenario 1: adding features to the Standard dialects</a></li>
 <li><a href="#scenario-2-view-layer-components">1.2. Scenario 2: view-layer components</a></li>
@@ -95,9 +59,37 @@
 		</nav>
 	</div>
 
-	<div id="content-wrapper">
-		<div id="content">
-<section id="some-reasons-to-extend-thymeleaf" class="level1">
+	<div class="content-wrapper">
+
+		<div class="title-container">
+			<header class="hero-header fluid-block">
+				<div class="hero-header-text">
+					<h1 class="hero-header-title">Thymeleaf</h1>
+				</div>
+				<div class="hero-header-image">
+					<img src="../../images/thymeleaf.png" alt="Thymeleaf logo" class="hero-header-logo"/>
+				</div>
+			</header>
+
+			<div class="tutorial-info fluid-block">
+				<h1 id="tutorial-title" class="tutorial-title">Tutorial: Extending Thymeleaf</h1>
+								<div class="tutorial-metadata">
+					<div id="tutorial-version">
+						<span class="tutorial-metadata-label">Document version:</span> 20141222 - 22 December 2014
+					</div>
+					<div id="project-version">
+						<span class="tutorial-metadata-label">Project version:</span> 2.1.4.RELEASE
+					</div>
+					<div id="project-website">
+						<span class="tutorial-metadata-label">Project web site:</span>
+						<a href="http://www.thymeleaf.org">http://www.thymeleaf.org</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="content" class="fluid-block">
+			<section id="some-reasons-to-extend-thymeleaf" class="level1">
 <h1>1 Some Reasons to Extend Thymeleaf</h1>
 <p>Thymeleaf is an extremely extensible library. The key to it is that most of its user-oriented features are not directly built into its core, but rather just packaged and componentized into feature sets called <em>dialects</em>.</p>
 <p>The library offers you two dialects out-of-the-box: the <em>Standard</em> and the <em>SpringStandard</em> dialects, but you can easily create your own. Let’s explore some of the reasons for doing this:</p>
@@ -253,6 +245,7 @@
 </section>
 <section id="creating-our-own-dialect" class="level1">
 <h1>4 Creating our own Dialect</h1>
+<p>The source code for the examples shown in this and future chapters of this guide can be found in the <a href="https://github.com/thymeleaf/thymeleafexamples-extrathyme">ExtraThyme GitHub repository</a>.</p>
 <section id="extrathyme-a-website-for-thymelands-football-league" class="level2">
 <h2>4.1. Extrathyme: a website for Thymeland’s football league</h2>
 <p>Football is a popular sport in Thymeland<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>. There is a 10-team league going on there each season, and its organizers have just asked us to create a website for it called “Extrathyme”.</p>
@@ -571,7 +564,7 @@ protected String getMessageForProcessor(
 
     private final Random rand = new Random(System.currentTimeMillis());
 
-    public HeadlinesTagProcessor() {
+    public HeadlinesElementProcessor() {
         super(&quot;headlines&quot;);
     }
 
@@ -696,7 +689,6 @@ protected String getMessageForProcessor(
 </ol>
 </section>
 		</div>
-	</div>
 
 	</div>
 
