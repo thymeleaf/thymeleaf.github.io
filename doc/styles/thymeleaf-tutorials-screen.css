@@ -1,115 +1,170 @@
-/*  * Copyright 2013, The Thymeleaf Project (http://www.thymeleaf.org/)  *  * Licensed under the Apache License, Version 2.0 (the "License");  * you may not use this file except in compliance with the License.  * You may obtain a copy of the License at  *  *     http://www.apache.org/licenses/LICENSE-2.0  *  * Unless required by applicable law or agreed to in writing, software  * distributed under the License is distributed on an "AS IS" BASIS,  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  * See the License for the specific language governing permissions and  * limitations under the License.  */
 @charset "UTF-8";
-/**  * Stylesheet for all Thymeleaf documentation in screen (HTML) form.  *   * @author Emanuel Rabina  */
-body {
-  background-color: #f0f0f0;
-}
-#documentation-wrapper {
-  margin: 0 auto;
-  padding: 1em;
-}
-.tutorial #documentation-wrapper {
-  max-width: 90.625em;
-}
-/* Title block */
-/* -------------------------------------------------------------------------- */
+/*   * Copyright 2013, The Thymeleaf Project (http://www.thymeleaf.org/)  *   * Licensed under the Apache License, Version 2.0 (the "License");  * you may not use this file except in compliance with the License.  * You may obtain a copy of the License at  *   *     http://www.apache.org/licenses/LICENSE-2.0  *   * Unless required by applicable law or agreed to in writing, software  * distributed under the License is distributed on an "AS IS" BASIS,  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  * See the License for the specific language governing permissions and  * limitations under the License.  */
+/**  * Tutorial styles for the screen (HTML) form  */
+/* ELEMENT SELECTORS */
+/* ========================================================================== */
 @media (min-width: 43.75em) {
-  .tutorial #title-block-wrapper {
-    margin-left: 25%;
-    padding-left: 1.5em;
+  body {
+    border-left: none;
   }
 }
-#title-block {
-  max-width: 51.4375em;
+section.level1 {
+  background-color: white;
 }
-#doc-title {
-  margin-top: 2em;
+/* COMPONENTS */
+/* ========================================================================== */
+@media (min-width: 43.75rem) {
+  .tutorial {
+    display: flex;
+    height: 100vh;
+  }
 }
-#doc-info {
-  font-size: 0.8em;
+.hero-header-title {
+  font-size: 3em;
+}
+@media (min-width: 43.75rem) {
+  .hero-header-title {
+    font-size: 4em;
+  }
+}
+@media (min-width: 50rem) {
+  .hero-header-title {
+    font-size: 5em;
+  }
+}
+@media (min-width: 56.25rem) {
+  .hero-header-title {
+    font-size: 6em;
+  }
+}
+.hero-header-logo {
+  width: 4rem;
+}
+@media (min-width: 43.75rem) {
+  .hero-header-logo {
+    width: 6rem;
+  }
+}
+@media (min-width: 50rem) {
+  .hero-header-logo {
+    width: 7rem;
+  }
+}
+@media (min-width: 56.25rem) {
+  .hero-header-logo {
+    width: 8em;
+  }
+}
+.tutorial-title {
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+}
+@media (min-width: 43.75rem) {
+  .tutorial-title {
+    font-size: 2.5em;
+    margin-top: 1em;
+    margin-bottom: 2em;
+  }
+}
+@media (min-width: 50rem) {
+  .tutorial-title {
+    font-size: 3em;
+  }
 }
 /* Table of contents */
 /* -------------------------------------------------------------------------- */
-#menu {
-  background-color: white;
-  border-radius: 5px;
-  box-shadow: 0 0 0.5em black;
-  height: 50px;
-  position: fixed;
-  right: -5px;
-  top: 0.5em;
-  width: 50px;
-  z-index: 10;
-}
-@media (min-width: 43.75em) {
-  #menu {
-    display: none;
-  }
-}
-#menu-link {
-  display: block;
-  height: 100%;
-  width: 100%;
-}
-#toc-wrapper {
-  bottom: 0.5em;
-  box-shadow: 0.25em 0.25em 2em rgba(0, 0, 0, 0.75);
-  display: none;
-  left: 0.5em;
-  position: fixed;
-  top: 0.5em;
-  width: 80%;
-  z-index: 5;
-}
-#toc-wrapper:target {
-  display: block;
-}
-@media (min-width: 43.75em) {
-  #toc-wrapper {
-    bottom: 1em;
-    box-shadow: none;
-    display: block !important;
-    left: 1em;
-    max-width: 20.625em;
-    top: 1em;
+@media (min-width: 43.75rem) {
+  .toc-wrapper {
+    height: 100vh;
+    overflow-y: auto;
+    position: static;
     width: 25%;
   }
 }
-/* Documentation content */
-/* -------------------------------------------------------------------------- */
-.article #content {
-  margin: 0 auto;
-  max-width: 51.4375em;
+#toc {
+  font-size: 0.9em;
+  height: 0;
+  overflow: hidden;
+  transition: 200ms height;
 }
-@media (min-width: 43.75em) {
-  .tutorial #content {
-    margin-left: 25%;
-    padding-left: 1.5em;
+@media (min-width: 43.75rem) {
+  #toc {
+    height: auto;
+    overflow: auto;
   }
 }
-@media (min-width: 83.75em) {
-  .tutorial #content {
-    margin-left: 20.125em;
+#toc.show-toc {
+  box-shadow: 0 0.5rem 0.5rem 0 rgba(0, 0, 0, 0.6);
+  height: 28.125rem;
+  max-height: calc(89.5vh);
+  overflow: auto;
+}
+#toc a {
+  border-bottom: none;
+  color: #333333;
+  display: block;
+  padding: 0.5em;
+}
+#toc a:hover,
+#toc a:active {
+  background-color: #005f0f;
+  border-bottom: none;
+  color: white;
+}
+#toc ul {
+  list-style-type: none;
+  margin: 0;
+}
+#toc .level1 {
+  padding: 0;
+}
+#toc .level1 > li {
+  border-bottom: 1px solid #ececec;
+  margin-bottom: 0.5em;
+  padding-bottom: 0.5em;
+}
+#toc .level2 {
+  font-size: 0.9em;
+  padding-left: 0.5em;
+}
+@media (min-width: 62.5em) {
+  #toc .level2 {
+    padding-left: 1em;
   }
 }
-blockquote {
-  font-size: 0.8em;
+#toc .level3 {
+  padding-left: 0.5em;
 }
-figcaption {
-  font-size: 0.8em;
+@media (min-width: 62.5em) {
+  #toc .level3 {
+    padding-left: 1em;
+  }
 }
-/* Code sections */
+#toc .level4 {
+  padding-left: 0.5em;
+}
+@media (min-width: 62.5em) {
+  #toc .level4 {
+    padding-left: 1em;
+  }
+}
+/* Content */
 /* -------------------------------------------------------------------------- */
-p > code,
-li > code,
-table > code {
-  font-size: 0.8em;
+.content-wrapper {
+  background-color: #ececec;
+  padding-top: 3em;
 }
-blockquote p code {
-  font-size: 1em;
+@media (min-width: 43.75rem) {
+  .content-wrapper {
+    border-left: 0.25em solid #005f0f;
+    height: 100vh;
+    overflow-y: auto;
+    padding-top: 0;
+    width: 75%;
+  }
 }
-pre {
-  font-size: 0.8em;
-  overflow-x: auto;
-  white-space: pre;
+@media (min-width: 62.5rem) {
+  .content-wrapper {
+    border-left-width: 0.5em;
+  }
 }
