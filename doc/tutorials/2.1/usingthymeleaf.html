@@ -1069,7 +1069,190 @@ th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &
 <pre class="html"><code>&lt;li&gt;&lt;a href=&quot;product/list.html&quot; th:href=&quot;@{/product/list}&quot;&gt;Product List&lt;/a&gt;&lt;/li&gt;</code></pre>
 <p>There are quite a lot of attributes like these, each of them targeting a specific XHTML or HTML5 attribute:</p>
 <div class="table-scroller">
-<p>|———————–+———————–+———————–| |<code>th:abbr</code> |<code>th:accept</code> |<code>th:accept-charset</code> | |<code>th:accesskey</code> |<code>th:action</code> |<code>th:align</code> | |<code>th:alt</code> |<code>th:archive</code> |<code>th:audio</code> | |<code>th:autocomplete</code> |<code>th:axis</code> |<code>th:background</code> | |<code>th:bgcolor</code> |<code>th:border</code> |<code>th:cellpadding</code> | |<code>th:cellspacing</code> |<code>th:challenge</code> |<code>th:charset</code> | |<code>th:cite</code> |<code>th:class</code> |<code>th:classid</code> | |<code>th:codebase</code> |<code>th:codetype</code> |<code>th:cols</code> | |<code>th:colspan</code> |<code>th:compact</code> |<code>th:content</code> | |<code>th:contenteditable</code> |<code>th:contextmenu</code> |<code>th:data</code> | |<code>th:datetime</code> |<code>th:dir</code> |<code>th:draggable</code> | |<code>th:dropzone</code> |<code>th:enctype</code> |<code>th:for</code> | |<code>th:form</code> |<code>th:formaction</code> |<code>th:formenctype</code> | |<code>th:formmethod</code> |<code>th:formtarget</code> |<code>th:frame</code> | |<code>th:frameborder</code> |<code>th:headers</code> |<code>th:height</code> | |<code>th:high</code> |<code>th:href</code> |<code>th:hreflang</code> | |<code>th:hspace</code> |<code>th:http-equiv</code> |<code>th:icon</code> | |<code>th:id</code> |<code>th:keytype</code> |<code>th:kind</code> | |<code>th:label</code> |<code>th:lang</code> |<code>th:list</code> | |<code>th:longdesc</code> |<code>th:low</code> |<code>th:manifest</code> | |<code>th:marginheight</code> |<code>th:marginwidth</code> |<code>th:max</code> | |<code>th:maxlength</code> |<code>th:media</code> |<code>th:method</code> | |<code>th:min</code> |<code>th:name</code> |<code>th:optimum</code> | |<code>th:pattern</code> |<code>th:placeholder</code> |<code>th:poster</code> | |<code>th:preload</code> |<code>th:radiogroup</code> |<code>th:rel</code> | |<code>th:rev</code> |<code>th:rows</code> |<code>th:rowspan</code> | |<code>th:rules</code> |<code>th:sandbox</code> |<code>th:scheme</code> | |<code>th:scope</code> |<code>th:scrolling</code> |<code>th:size</code> | |<code>th:sizes</code> |<code>th:span</code> |<code>th:spellcheck</code> | |<code>th:src</code> |<code>th:srclang</code> |<code>th:standby</code> | |<code>th:start</code> |<code>th:step</code> |<code>th:style</code> | |<code>th:summary</code> |<code>th:tabindex</code> |<code>th:target</code> | |<code>th:title</code> |<code>th:type</code> |<code>th:usemap</code> | |<code>th:value</code> |<code>th:valuetype</code> |<code>th:vspace</code> | |<code>th:width</code> |<code>th:wrap</code> |<code>th:xmlbase</code> | |<code>th:xmllang</code> |<code>th:xmlspace</code> | |</p>
+<table>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>th:abbr</code></td>
+<td style="text-align: left;"><code>th:accept</code></td>
+<td style="text-align: left;"><code>th:accept-charset</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>th:accesskey</code></td>
+<td style="text-align: left;"><code>th:action</code></td>
+<td style="text-align: left;"><code>th:align</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>th:alt</code></td>
+<td style="text-align: left;"><code>th:archive</code></td>
+<td style="text-align: left;"><code>th:audio</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>th:autocomplete</code></td>
+<td style="text-align: left;"><code>th:axis</code></td>
+<td style="text-align: left;"><code>th:background</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>th:bgcolor</code></td>
+<td style="text-align: left;"><code>th:border</code></td>
+<td style="text-align: left;"><code>th:cellpadding</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>th:cellspacing</code></td>
+<td style="text-align: left;"><code>th:challenge</code></td>
+<td style="text-align: left;"><code>th:charset</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>th:cite</code></td>
+<td style="text-align: left;"><code>th:class</code></td>
+<td style="text-align: left;"><code>th:classid</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>th:codebase</code></td>
+<td style="text-align: left;"><code>th:codetype</code></td>
+<td style="text-align: left;"><code>th:cols</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>th:colspan</code></td>
+<td style="text-align: left;"><code>th:compact</code></td>
+<td style="text-align: left;"><code>th:content</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>th:contenteditable</code></td>
+<td style="text-align: left;"><code>th:contextmenu</code></td>
+<td style="text-align: left;"><code>th:data</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>th:datetime</code></td>
+<td style="text-align: left;"><code>th:dir</code></td>
+<td style="text-align: left;"><code>th:draggable</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>th:dropzone</code></td>
+<td style="text-align: left;"><code>th:enctype</code></td>
+<td style="text-align: left;"><code>th:for</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>th:form</code></td>
+<td style="text-align: left;"><code>th:formaction</code></td>
+<td style="text-align: left;"><code>th:formenctype</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>th:formmethod</code></td>
+<td style="text-align: left;"><code>th:formtarget</code></td>
+<td style="text-align: left;"><code>th:frame</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>th:frameborder</code></td>
+<td style="text-align: left;"><code>th:headers</code></td>
+<td style="text-align: left;"><code>th:height</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>th:high</code></td>
+<td style="text-align: left;"><code>th:href</code></td>
+<td style="text-align: left;"><code>th:hreflang</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>th:hspace</code></td>
+<td style="text-align: left;"><code>th:http-equiv</code></td>
+<td style="text-align: left;"><code>th:icon</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>th:id</code></td>
+<td style="text-align: left;"><code>th:keytype</code></td>
+<td style="text-align: left;"><code>th:kind</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>th:label</code></td>
+<td style="text-align: left;"><code>th:lang</code></td>
+<td style="text-align: left;"><code>th:list</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>th:longdesc</code></td>
+<td style="text-align: left;"><code>th:low</code></td>
+<td style="text-align: left;"><code>th:manifest</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>th:marginheight</code></td>
+<td style="text-align: left;"><code>th:marginwidth</code></td>
+<td style="text-align: left;"><code>th:max</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>th:maxlength</code></td>
+<td style="text-align: left;"><code>th:media</code></td>
+<td style="text-align: left;"><code>th:method</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>th:min</code></td>
+<td style="text-align: left;"><code>th:name</code></td>
+<td style="text-align: left;"><code>th:optimum</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>th:pattern</code></td>
+<td style="text-align: left;"><code>th:placeholder</code></td>
+<td style="text-align: left;"><code>th:poster</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>th:preload</code></td>
+<td style="text-align: left;"><code>th:radiogroup</code></td>
+<td style="text-align: left;"><code>th:rel</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>th:rev</code></td>
+<td style="text-align: left;"><code>th:rows</code></td>
+<td style="text-align: left;"><code>th:rowspan</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>th:rules</code></td>
+<td style="text-align: left;"><code>th:sandbox</code></td>
+<td style="text-align: left;"><code>th:scheme</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>th:scope</code></td>
+<td style="text-align: left;"><code>th:scrolling</code></td>
+<td style="text-align: left;"><code>th:size</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>th:sizes</code></td>
+<td style="text-align: left;"><code>th:span</code></td>
+<td style="text-align: left;"><code>th:spellcheck</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>th:src</code></td>
+<td style="text-align: left;"><code>th:srclang</code></td>
+<td style="text-align: left;"><code>th:standby</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>th:start</code></td>
+<td style="text-align: left;"><code>th:step</code></td>
+<td style="text-align: left;"><code>th:style</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>th:summary</code></td>
+<td style="text-align: left;"><code>th:tabindex</code></td>
+<td style="text-align: left;"><code>th:target</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>th:title</code></td>
+<td style="text-align: left;"><code>th:type</code></td>
+<td style="text-align: left;"><code>th:usemap</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>th:value</code></td>
+<td style="text-align: left;"><code>th:valuetype</code></td>
+<td style="text-align: left;"><code>th:vspace</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>th:width</code></td>
+<td style="text-align: left;"><code>th:wrap</code></td>
+<td style="text-align: left;"><code>th:xmlbase</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>th:xmllang</code></td>
+<td style="text-align: left;"><code>th:xmlspace</code></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
 </div>
 </section>
 <section id="setting-more-than-one-value-at-a-time" class="level2">
@@ -1111,7 +1294,50 @@ th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &
 <pre class="html"><code>&lt;input type=&quot;checkbox&quot; name=&quot;active&quot; th:checked=&quot;${user.active}&quot; /&gt;</code></pre>
 <p>The following fixed-value boolean attributes exist in the Standard Dialect:</p>
 <div class="table-scroller">
-<p>|——————-+——————-+——————-| |<code>th:async</code> |<code>th:autofocus</code> |<code>th:autoplay</code> | |<code>th:checked</code> |<code>th:controls</code> |<code>th:declare</code> | |<code>th:default</code> |<code>th:defer</code> |<code>th:disabled</code> | |<code>th:formnovalidate</code>|<code>th:hidden</code> |<code>th:ismap</code> | |<code>th:loop</code> |<code>th:multiple</code> |<code>th:novalidate</code> | |<code>th:nowrap</code> |<code>th:open</code> |<code>th:pubdate</code> | |<code>th:readonly</code> |<code>th:required</code> |<code>th:reversed</code> | |<code>th:scoped</code> |<code>th:seamless</code> |<code>th:selected</code> |</p>
+<table>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>th:async</code></td>
+<td style="text-align: left;"><code>th:autofocus</code></td>
+<td style="text-align: left;"><code>th:autoplay</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>th:checked</code></td>
+<td style="text-align: left;"><code>th:controls</code></td>
+<td style="text-align: left;"><code>th:declare</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>th:default</code></td>
+<td style="text-align: left;"><code>th:defer</code></td>
+<td style="text-align: left;"><code>th:disabled</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>th:formnovalidate</code></td>
+<td style="text-align: left;"><code>th:hidden</code></td>
+<td style="text-align: left;"><code>th:ismap</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>th:loop</code></td>
+<td style="text-align: left;"><code>th:multiple</code></td>
+<td style="text-align: left;"><code>th:novalidate</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>th:nowrap</code></td>
+<td style="text-align: left;"><code>th:open</code></td>
+<td style="text-align: left;"><code>th:pubdate</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>th:readonly</code></td>
+<td style="text-align: left;"><code>th:required</code></td>
+<td style="text-align: left;"><code>th:reversed</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>th:scoped</code></td>
+<td style="text-align: left;"><code>th:seamless</code></td>
+<td style="text-align: left;"><code>th:selected</code></td>
+</tr>
+</tbody>
+</table>
 </div>
 </section>
 <section id="support-for-html5-friendly-attribute-and-element-names" class="level2">
@@ -1883,8 +2109,7 @@ th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &
 <tr class="odd">
 <td style="text-align: left;">1</td>
 <td style="text-align: left;">Fragment inclusion</td>
-<td style="text-align: left;"><code>th:include</code><br />
-<code>th:replace</code></td>
+<td style="text-align: left;"><code>th:include</code><br /><code>th:replace</code></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2</td>
@@ -1894,37 +2119,27 @@ th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &
 <tr class="odd">
 <td style="text-align: left;">3</td>
 <td style="text-align: left;">Conditional evaluation</td>
-<td style="text-align: left;"><code>th:if</code><br />
-<code>th:unless</code><br />
-<code>th:switch</code><br />
-<code>th:case</code></td>
+<td style="text-align: left;"><code>th:if</code><br /><code>th:unless</code><br /><code>th:switch</code><br /><code>th:case</code></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">4</td>
 <td style="text-align: left;">Local variable definition</td>
-<td style="text-align: left;"><code>th:object</code><br />
-<code>th:with</code></td>
+<td style="text-align: left;"><code>th:object</code><br /><code>th:with</code></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">5</td>
 <td style="text-align: left;">General attribute modification</td>
-<td style="text-align: left;"><code>th:attr</code><br />
-<code>th:attrprepend</code><br />
-<code>th:attrappend</code></td>
+<td style="text-align: left;"><code>th:attr</code><br /><code>th:attrprepend</code><br /><code>th:attrappend</code></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">6</td>
 <td style="text-align: left;">Specific attribute modification</td>
-<td style="text-align: left;"><code>th:value</code><br />
-<code>th:href</code><br />
-<code>th:src</code><br />
-<code>...</code></td>
+<td style="text-align: left;"><code>th:value</code><br /><code>th:href</code><br /><code>th:src</code><br /><code>...</code></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">7</td>
 <td style="text-align: left;">Text (tag body modification)</td>
-<td style="text-align: left;"><code>th:text</code><br />
-<code>th:utext</code></td>
+<td style="text-align: left;"><code>th:text</code><br /><code>th:utext</code></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">8</td>
