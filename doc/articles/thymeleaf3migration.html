@@ -66,7 +66,6 @@
 <p>First, the good news. Your existing Thymeleaf templates are almost 100% compatible with Thymeleaf 3 so you will only have to do a few modifications in your configuration.</p>
 <p>Thymeleaf 3.0 BETA versions are stable and do everything 2.1 did, so we encourage you to migrate to Thymeleaf 3 as soon as possible in order to take advantage of its performance improvements and new features.</p>
 <p>The only downside is that not all Thymeleaf dialects have been migrated to Thymeleaf 3 at this stage, so if you are using some external dialects they may not work with Thymeleaf 3. Please check if the required dialects have a Thymeleaf 3 compatible version.</p>
-<p><strong>Quick pointer</strong>: if you already read this <em>migration guide</em> for Thymeleaf 3.0.0.BETA01 and you are only interested in the new features in BETA02, you can fast-forward to the new sections on <a href="#fragment-expressions"><em>“Fragment Expressions”</em></a>, <a href="#the-no-operation-token"><em>“The No-Operation token”</em></a>, <a href="#decoupled-template-logic"><em>“Decoupled Template Logic”</em></a>, <a href="#independence-from-the-servlet-api"><em>“Independence from the Servlet API”</em></a> and also check some additional comments at the <a href="#performance-improvements"><em>“Performance improvements”</em></a> section.</p>
 <section id="template-changes" class="level2">
 <h2>Template changes</h2>
 <p>The only change we <em>recommend</em> doing to your templates is removing any <code>th:inline=&quot;text&quot;</code> attributes you might have, because they are not needed anymore in order to have output inlined expressions in HTML or XML templates. And it’s just a recommendation — templates will work anyway. But you will benefit from some extra processing performance if you remove those.</p>
@@ -79,12 +78,12 @@
 <pre class="xml"><code>&lt;dependency&gt;
   &lt;groupId&gt;org.thymeleaf&lt;/groupId&gt;
   &lt;artifactId&gt;thymeleaf&lt;/artifactId&gt;
-  &lt;version&gt;3.0.0.BETA02&lt;/version&gt;
+  &lt;version&gt;3.0.0.BETA03&lt;/version&gt;
 &lt;/dependency&gt;
 &lt;dependency&gt;
   &lt;groupId&gt;org.thymeleaf&lt;/groupId&gt;
   &lt;artifactId&gt;thymeleaf-spring4&lt;/artifactId&gt;
-  &lt;version&gt;3.0.0.BETA02&lt;/version&gt;
+  &lt;version&gt;3.0.0.BETA03&lt;/version&gt;
 &lt;/dependency&gt;</code></pre>
 <p>Second, the Spring configuration:</p>
 <pre class="java"><code>@Configuration
@@ -124,7 +123,7 @@ public class ThymeleafConfig extends WebMvcConfigurerAdapter implements Applicat
 <p>The second difference is that the template mode has a value of <code>TemplateMode.HTML</code>. Template modes are not strings anymore and the possible values are a bit different from Thymeleaf 2. We will discuss it in a minute.</p>
 <p>If you need to add any extra dialects, you can use the <code>engine.addDialect(...)</code> method, but first make sure that it has a Thymeleaf 3 compatible version.</p>
 <p>You can browse and download the source code for simple “Hello World!” examples at <a href="https://github.com/jmiguelsamper/thymeleaf3-spring-helloworld">Thymeleaf 3 + Spring 4 + Java config example</a>, <a href="https://github.com/jmiguelsamper/thymeleaf3-spring-xml-helloworld">Thymeleaf 3 + Spring 4 + XML config example</a> and <a href="https://github.com/jmiguelsamper/thymeleaf3-servlet-helloworld">Thymeleaf 3 + Servlet 3 example</a></p>
-<p>You can also find some additional information (links to binaries and javadocs) at <a href="http://forum.thymeleaf.org/Thymeleaf-3-0-0-BETA02-just-published-td4029538.html">the Thymeleaf BETA 2 announcement</a>.</p>
+<p>You can also find some additional information (links to binaries and javadocs) at <a href="http://forum.thymeleaf.org/Thymeleaf-3-0-0-BETA03-just-published-td4029622.html">the Thymeleaf 3.0.0.BETA03 announcement</a>.</p>
 </section>
 <section id="full-html5-markup-support" class="level2">
 <h2>Full HTML5 markup support</h2>
