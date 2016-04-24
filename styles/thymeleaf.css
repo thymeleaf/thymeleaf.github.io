@@ -139,6 +139,7 @@ h2 {
 h3 {
 	border-bottom: 1px solid #005f0f;
 	font-size: 1.25em;
+	font-weight: bold;
 }
 
 h5, h6 {
@@ -599,6 +600,10 @@ th, td {
 
 #footer-issue-tracking {
 	margin-top: 1em;
+}
+
+#thymeleaf-faq h3 {
+	font-weight: normal;
 }
 
 
