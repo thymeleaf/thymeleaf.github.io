@@ -68,7 +68,7 @@ a.anchor::before {
 	cursor: pointer;
 	padding: 0 0.5em;
 	position: absolute;
-	left: -1.5em;
+	left: -1.25em;
 	top: 5rem;
 }
 a.anchor::before:hover {
