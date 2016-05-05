@@ -6,8 +6,8 @@
 h2 {
   margin-top: 0.5em;
   /* Resets what was done in the main CSS for some reason */
-  margin-left: -2em;
-  padding-left: 2em;
+  margin-left: -1.5em;
+  padding-left: 1.5em;
 }
 section:last-child {
   margin-bottom: 0;
@@ -17,7 +17,7 @@ section.level1 {
 }
 @media (min-width: 75rem) {
   section.level1 {
-    padding: 0.5em 2em 2em;
+    padding: 0.5em 1em 1em;
   }
 }
 /* COMPONENTS */
@@ -49,13 +49,9 @@ section.level1 {
 }
 #content h1 {
   margin-top: 0.25em;
-  font-weight: bold;
 }
 #content h1 + .level2 {
   margin-top: 0;
-}
-#content h4 {
-  font-weight: bold;
 }
 #content .level2 {
   margin-top: 2em;
