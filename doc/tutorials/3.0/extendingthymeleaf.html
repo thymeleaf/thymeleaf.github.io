@@ -115,7 +115,7 @@
 <h1>2 Dialects and Processors</h1>
 <section id="dialects" class="level2">
 <h2>2.1. Dialects</h2>
-<p>If you’ve read the <em>Using Thymeleaf</em> tutorial before getting here —which you should have done—, you should know that what you’ve been learning all this time was not exactly <em>Thymeleaf</em>, but rather its <em>Standard Dialect</em> (or the <em>SpringStandard Dialect</em>, if you’ve also read the <em>Thymeleaf + Spring</em> tutorial).</p>
+<p>If you’ve read the <em>Using Thymeleaf</em> tutorial before getting here —which you should have done— you should know that what you’ve been learning all this time was not exactly <em>Thymeleaf</em>, but rather its <em>Standard Dialect</em> (or the <em>SpringStandard Dialect</em>, if you’ve also read the <em>Thymeleaf + Spring</em> tutorial).</p>
 <p>What does that mean? It means that all those <code>th:x</code> attributes you learned to use are only a standard, out-of-the-box set of features, but you can define your own set of attributes (or tags) with the names you wish and use them in Thymeleaf to process your templates. <em>You can define your own dialects.</em></p>
 <p>Dialects are objects implementing the <code>org.thymeleaf.dialect.IDialect</code> interface, which cannot be any simpler:</p>
 <pre class="java"><code>public interface IDialect {
@@ -355,7 +355,7 @@ structureHandler.removeAttribute(attributeName);
 </section>
 <section id="element-model-processors-ielementmodelprocessor" class="level3">
 <h3>Element Model Processors: <code>IElementModelProcessor</code></h3>
-<p>Element Model Processors execute on the entire elements they match –including their bodies–, in the form of an <code>IModel</code> object that contains the complete sequence of events that models such element and its contents. The <code>IElementModelProcessor</code> is very similar to the one seen above for <em>tag processors</em>:</p>
+<p>Element Model Processors execute on the entire elements they match –including their bodies– in the form of an <code>IModel</code> object that contains the complete sequence of events that models such element and its contents. The <code>IElementModelProcessor</code> is very similar to the one seen above for <em>tag processors</em>:</p>
 <pre class="java"><code>public interface IElementModelProcessor extends IElementProcessor {
 
     public void process(
@@ -385,7 +385,7 @@ while (n-- != 0) {
         model.remove(n + 1);
     }
 }</code></pre>
-<p>Note also that the <code>IModel</code> interface includes an <code>accept(IModelVisitor visitor)</code> method, useful for traversing an entire model looking for specific nodes or relevant data the <em>Visitor</em> pattern.</p>
+<p>Note also that the <code>IModel</code> interface includes an <code>accept(IModelVisitor visitor)</code> method, useful for traversing an entire model looking for specific nodes or relevant data using the <em>Visitor</em> pattern.</p>
 <p><strong>Using the <code>structureHandler</code></strong></p>
 <p>Similarly to <em>tag processors</em>, model processors are passed a <em>structure handler</em> object that allows them to instruct the engine to take any actions that cannot be done by directly acting on the <code>IModel model</code> object itself. The interface these structure handlers implement, much smaller than the one for tag processors, is <code>IElementModelStructureHandler</code>:</p>
 <pre class="java"><code>public interface IElementModelStructureHandler {
@@ -418,7 +418,7 @@ while (n-- != 0) {
 </section>
 <section id="template-startend-processors-itemplateboundariesprocessor" class="level3">
 <h3>Template start/end Processors: <code>ITemplateBoundariesProcessor</code></h3>
-<p>Template Boundaries Processors are a kind of processors that execute on the <em>template start</em> and <em>template end</em> events fired during template processing. They allow to perform any kind of initialization or disposal of resources at beginning or end of the template processing operation. Note that these events are <strong>only fired for the first-level template</strong>, and not for each of the fragments that might be parsed and/or included into the template being processed.</p>
+<p>Template Boundaries Processors are a kind of processor that executes on the <em>template start</em> and <em>template end</em> events fired during template processing. They allow to perform any kind of initialization or disposal of resources at beginning or end of the template processing operation. Note that these events are <strong>only fired for the first-level template</strong>, and not for each of the fragments that might be parsed and/or included into the template being processed.</p>
 <p>The <code>ITemplateBoundariesProcessor</code> interface looks like this:</p>
 <pre class="java"><code>public interface ITemplateBoundariesProcessor extends IProcessor {
 
@@ -433,7 +433,7 @@ while (n-- != 0) {
             final ITemplateBoundariesStructureHandler structureHandler);
 
 }</code></pre>
-<p>This time the interface offers two <code>process*(...)</code> methods, one for the <em>template start</em> and another one for the <em>template end</em> events. Their signature follows the same patter as the other <code>process(...)</code> methods we saw before, receiving the context, the event object, and the structure handler. Structure handler that, in this case, implements a quite simple <code>ITemplateBoundariesStructureHandler</code> interface:</p>
+<p>This time the interface offers two <code>process*(...)</code> methods, one for the <em>template start</em> and another one for the <em>template end</em> events. Their signature follows the same pattern as the other <code>process(...)</code> methods we saw before, receiving the context, the event object, and the structure handler. Structure handler that, in this case, implements a quite simple <code>ITemplateBoundariesStructureHandler</code> interface:</p>
 <pre class="java"><code>public interface ITemplateBoundariesStructureHandler {
 
     public void reset();
@@ -504,7 +504,7 @@ while (n-- != 0) {
 </figure>
 <p>We will use HTML5, Spring MVC and the SpringStandard dialect for our application, and we will be extending Thymeleaf by creating a <code>score</code> dialect that includes:</p>
 <ul>
-<li>A <code>score:remarkforposition</code> attribute that outputs an internationalized text for the Remarks column in the table. This text should explain whether the team’s position in the table qualifies it for the World Champions League, the Continental Play-Offs, or relegates it to the Regional League.</li>
+<li>A <code>score:remarkforposition</code> attribute that outputs internationalized text for the Remarks column in the table. This text should explain whether the team’s position in the table qualifies it for the World Champions League, the Continental Play-Offs, or relegates it to the Regional League.</li>
 <li>A <code>score:classforposition</code> attribute that establishes a CSS class for the table rows depending on the team’s remarks: blue background for the World Champions League, green for the Continental Play-Offs, and red for relegation.</li>
 <li>A <code>score:headlines</code> tag for drawing the yellow box at the top with the results of recent matches. This tag should support an order attribute with values random (for showing a randomly selected match) and <code>latest</code> (default, for showing only the last match).</li>
 <li>A <code>score:match-day-today</code> attribute that can be added to the league table header in order to (conditionally, if it is Sunday) add a banner warning the user that today is a match day.</li>
@@ -589,7 +589,7 @@ while (n-- != 0) {
 </section>
 <section id="changing-the-css-class-by-team-position" class="level2">
 <h2>3.2. Changing the CSS class by team position</h2>
-<p>The first attribute processor we will develop will be <code>ClassForPositionAttrProcessor</code>, which we will implement as a subclass of a convenience abstract class provided by Thymeleaf called <code>AbstractAttributeTagProcessor</code>.</p>
+<p>The first attribute processor we will develop will be <code>ClassForPositionAttributeTagProcessor</code>, which we will implement as a subclass of a convenience abstract class provided by Thymeleaf called <code>AbstractAttributeTagProcessor</code>.</p>
 <p>This abstract class is the base for all tag processors (i.e. processors that act on <em>tag</em> events and not <em>models</em>) which match (i.e. are selected for execution) based on the existence of a specific attribute in such tag. In this case, <code>score:classforposition</code>.</p>
 <p>The idea is that we will use this processor for setting a new value to the <code>class</code> attribute of the tag <code>score:classforposition</code> is living in.</p>
 <p>Let’s have a look at our code:</p>
@@ -810,7 +810,7 @@ final Integer position = (Integer) expression.execute(context);</code></pre>
 <section id="an-element-processor-for-our-headlines" class="level2">
 <h2>3.4. An element processor for our headlines</h2>
 <p>The third processor we will write is an element (tag) processor. Note we call this an <em>element tag processor</em> in contrast with the two previous processors, which were <em>attribute tag processors</em>. The reason is, in this case we want our processor to match (i.e. to be selected for execution) based on the <strong>name of the tag</strong>, not on the name of one of its attributes.</p>
-<p>This kind of tag processors have one advantage and also one disadvantage with respect to attribute tag processors:</p>
+<p>This kind of tag processor has one advantage and also one disadvantage with respect to attribute tag processors:</p>
 <ul>
 <li>Advantage: elements can contain multiple attributes, and so your element processors can receive a richer and more complex set of configuration parameters.</li>
 <li>Disadvantage: custom elements/tags are unknown to browsers, and so if you are developing a web application using custom tags you might have to sacrifice one of the most interesting features of Thymeleaf: the ability to statically display templates as prototypes (<em>natural templating</em>).</li>
@@ -902,8 +902,8 @@ final Integer position = (Integer) expression.execute(context);</code></pre>
 <p>Also, this processor is different to the previous ones in that we will need to <em>create markup</em> as a result of its execution: we are going to replace the original <code>&lt;score:headlines .../&gt;</code> tag with a <code>&lt;div&gt;...&lt;/div&gt;</code> fragment, so we will need to make use of the <strong>model factory</strong>.</p>
 <section id="the-model-factory" class="level3">
 <h3>The Model Factory</h3>
-<p>The model factory is a special object available to processors (and other structures such as pre-processors, post-processors, etc.) able to create new instances of the <em>events</em> that conform <em>models</em> (fragments of templates), and also new instances of <em>models</em> themselves.</p>
-<p>It is therefore the tool we will use for creating new markup, like we can see in the code above:</p>
+<p>The model factory is a special object available to processors (and other structures such as pre-processors, post-processors, etc.) that can create new instances of <em>events</em> as <em>models</em> (fragments of templates), and also new instances of <em>models</em> themselves.</p>
+<p>It is therefore the tool for creating new markup, like we can see in the code above:</p>
 <pre class="java"><code>final IModelFactory modelFactory = context.getModelFactory();
 
 final IModel model = modelFactory.createModel();
@@ -924,7 +924,7 @@ model.add(modelFactory.createCloseElementTag(&quot;div&quot;));</code></pre>
 <section id="a-model-processor-for-our-match-day-today-banner" class="level2">
 <h2>3.5. A model processor for our “Match Day Today” banner</h2>
 <p>The last processor we will include in our dialect is of a different nature than the ones we’ve seen so far: it is a <strong>model processor</strong>, not a <em>tag processor</em>.</p>
-<p>As already mentioned in a previous section, model processors do not execute on a specific tag event, but on the complete sequence of events (i.e. the <em>model</em>) that conforms the entire element they are matching.</p>
+<p>As already mentioned in a previous section, model processors do not execute on a specific tag event, but on the complete sequence of events (i.e. the <em>model</em>) that contains the entire element they are matching.</p>
 <p>So if we have a model processor that matches <code>&lt;p&gt;</code> tags with attribute <code>score:matcher</code>, and a fragment of template such as:</p>
 <pre class="html"><code>&lt;p score:matcher=&quot;whatever&quot;&gt;
     This is some body
