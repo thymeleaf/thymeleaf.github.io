@@ -1,0 +1,13 @@
+org.thymeleaf.spring3
+org.thymeleaf.spring3.context
+org.thymeleaf.spring3.dialect
+org.thymeleaf.spring3.expression
+org.thymeleaf.spring3.messageresolver
+org.thymeleaf.spring3.naming
+org.thymeleaf.spring3.processor
+org.thymeleaf.spring3.requestdata
+org.thymeleaf.spring3.templateresolver
+org.thymeleaf.spring3.templateresource
+org.thymeleaf.spring3.util
+org.thymeleaf.spring3.view
+org.thymeleaf.spring3.webflow.view
