@@ -132,15 +132,27 @@
 <li><a href="#synthetic-thblock-tag">11.4. Synthetic <code>th:block</code> tag</a></li>
 </ul></li>
 <li><a href="#inlining">12 Inlining</a><ul>
-<li><a href="#text-inlining">12.1 Text inlining</a></li>
-<li><a href="#script-inlining-javascript-and-dart">12.2 Script inlining (JavaScript and Dart)</a><ul>
-<li><a href="#adding-code">Adding code</a></li>
-<li><a href="#removing-code">Removing code</a></li>
+<li><a href="#expression-inlining">12.1 Expression inlining</a><ul>
+<li><a href="#inlining-vs-natural-templates">Inlining vs natural templates</a></li>
+<li><a href="#disabling-inlining">Disabling inlining</a></li>
+</ul></li>
+<li><a href="#text-inlining">12.2 Text inlining</a></li>
+<li><a href="#javascript-inlining">12.3 JavaScript inlining</a><ul>
+<li><a href="#javascript-natural-templates">JavaScript natural templates</a></li>
+<li><a href="#advanced-inlined-evaluation-and-javascript-serialization">Advanced inlined evaluation and JavaScript serialization</a></li>
+</ul></li>
+<li><a href="#css-inlining">12.4 CSS inlining</a><ul>
+<li><a href="#advanced-features-css-natural-templates-etc.">Advanced features: CSS natural templates, etc.</a></li>
 </ul></li>
 </ul></li>
-<li><a href="#validation-and-doctypes">13 Validation and Doctypes</a><ul>
-<li><a href="#validating-templates">13.1 Validating templates</a></li>
-<li><a href="#doctype-translation">13.2 Doctype translation</a></li>
+<li><a href="#textual-template-modes">13 Textual template modes</a><ul>
+<li><a href="#textual-syntax">13.1 Textual syntax</a><ul>
+<li><a href="#escaped-element-attributes">Escaped element attributes</a></li>
+</ul></li>
+<li><a href="#extensibility">13.2 Extensibility</a></li>
+<li><a href="#textual-prototype-only-comment-blocks-adding-code">13.3 Textual prototype-only comment blocks: adding code</a></li>
+<li><a href="#textual-parser-level-comment-blocks-removing-code">13.4 Textual parser-level comment blocks: removing code</a></li>
+<li><a href="#natural-javascript-and-css-templates">13.5 Natural JavaScript and CSS templates</a></li>
 </ul></li>
 <li><a href="#some-more-pages-for-our-grocery">14 Some more Pages for our Grocery</a><ul>
 <li><a href="#order-list">14.1 Order List</a></li>
@@ -2568,73 +2580,104 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 </section>
 <section id="inlining" class="level1">
 <h1>12 Inlining</h1>
-<section id="text-inlining" class="level2">
-<h2>12.1 Text inlining</h2>
+<section id="expression-inlining" class="level2">
+<h2>12.1 Expression inlining</h2>
 <p>Although the Standard Dialect allows us to do almost everything we might need by using tag attributes, there are situations in which we could prefer writing expressions directly into our HTML texts. For example, we could prefer writing this:</p>
 <pre class="html"><code>&lt;p&gt;Hello, [[${session.user.name}]]!&lt;/p&gt;</code></pre>
 <p>…instead of this:</p>
 <pre class="html"><code>&lt;p&gt;Hello, &lt;span th:text=&quot;${session.user.name}&quot;&gt;Sebastian&lt;/span&gt;!&lt;/p&gt;</code></pre>
-<p>Expressions between <code>[[...]]</code> are considered expression inlining in Thymeleaf, and in them you can use any kind of expression that would also be valid in a <code>th:text</code> attribute.</p>
-<p>In order for inlining to work, we must activate it by using the <code>th:inline</code> attribute, which has three possible values or modes (<code>text</code>, <code>javascript</code> and <code>none</code>). Let’s try <code>text</code>:</p>
-<pre class="html"><code>&lt;p th:inline=&quot;text&quot;&gt;Hello, [[${session.user.name}]]!&lt;/p&gt;</code></pre>
-<p>The tag holding the <code>th:inline</code> does not have to be the one containing the inlined expression/s, any parent tag would do:</p>
-<pre class="html"><code>&lt;body th:inline=&quot;text&quot;&gt;
-
-   ...
-
-   &lt;p&gt;Hello, [[${session.user.name}]]!&lt;/p&gt;
-
-   ...
-
-&lt;/body&gt;</code></pre>
-<p>So you might now be asking: <em>Why aren’t we doing this from the beginning? It’s less code than all those</em> <code>th:text</code> <em>attributes!</em> Well, be careful there, because although you might find inlining quite interesting, you should always remember that inlined expressions will be displayed verbatim in your HTML files when you open them statically, so you probably won’t be able to use them as prototypes anymore!</p>
+<p>Expressions between <code>[[...]]</code> or <code>[(...)]</code> are considered <strong>inlined expressions</strong> in Thymeleaf, and in them we can use any kind of expression that would also be valid in a <code>th:text</code> or <code>th:utext</code> attribute.</p>
+<p>Note that, while <code>[[...]]</code> corresponds to <code>th:text</code> (i.e. result will be <em>HTML-escaped</em>), <code>[(...)]</code> corresponds to <code>th:utext</code> and will not perform any HTML-escaping at all. So with a variable such as <code>msg = 'This is &lt;b&gt;great!&lt;/b&gt;'</code>, given this fragment:</p>
+<pre class="html"><code>&lt;p&gt;The message is &quot;[(${msg})]&quot;&lt;/p&gt;</code></pre>
+<p>The result will have those <code>&lt;b&gt;</code> tags unescaped, so:</p>
+<pre class="html"><code>&lt;p&gt;The message is &quot;This is &lt;b&gt;great!&lt;/b&gt;&quot;&lt;/p&gt;</code></pre>
+<p>Whereas if escaped like:</p>
+<pre class="html"><code>&lt;p&gt;The message is &quot;[[${msg}]]&quot;&lt;/p&gt;</code></pre>
+<p>The result will be HTML-escaped:</p>
+<pre class="html"><code>&lt;p&gt;The message is &quot;This is &amp;lt;b&amp;gt;great!&amp;lt;/b&amp;gt;&quot;&lt;/p&gt;</code></pre>
+<p>Note that <strong>text inlining is active by default</strong> in the body of every tag in our markup –not the tags themselves–, so there is nothing we need to do to to enable it.</p>
+<section id="inlining-vs-natural-templates" class="level3">
+<h3>Inlining vs natural templates</h3>
+<p>So now, especially if you come from other template engines in which this way of outputting text is the usual thing, you might be asking: <em>Why aren’t we doing this from the beginning? It’s less code than all those</em> <code>th:text</code> <em>attributes!</em></p>
+<p>Well, be careful there, because although you might find inlining quite interesting, you should always remember that inlined expressions will be displayed verbatim in your HTML files when you open them statically, so you probably won’t be able to use them as design prototypes anymore!</p>
 <p>The difference between how a browser would statically display our fragment of code without using inlining…</p>
-<pre class="html"><code>Hello, Sebastian!</code></pre>
+<pre><code>Hello, Sebastian!</code></pre>
 <p>…and using it…</p>
-<pre class="html"><code>Hello, [[${session.user.name}]]!</code></pre>
-<p>…is quite clear.</p>
+<pre><code>Hello, [[${session.user.name}]]!</code></pre>
+<p>…is quite clear in terms of design usefulness.</p>
 </section>
-<section id="script-inlining-javascript-and-dart" class="level2">
-<h2>12.2 Script inlining (JavaScript and Dart)</h2>
-<p>Thymeleaf offers a series of “scripting” modes for its inlining capabilities, so that you can integrate your data inside scripts created in some script languages.</p>
-<p>Current scripting modes are <code>javascript</code> (<code>th:inline=&quot;javascript&quot;</code>) and <code>dart</code> (<code>th:inline=&quot;dart&quot;</code>).</p>
-<p>The first thing we can do with script inlining is writing the value of expressions into our scripts, like:</p>
+<section id="disabling-inlining" class="level3">
+<h3>Disabling inlining</h3>
+<p>This mechanism can be disabled though, because there might actually be occasions in which we do want to output the <code>[[...]]</code> or <code>[(...)]</code> sequences without its contents being processed as an expression. For that, we will use <code>th:inline=&quot;none&quot;</code>:</p>
+<pre class="html"><code>&lt;p th:inline=&quot;none&quot;&gt;A double array looks like this: [[1, 2, 3], [4, 5]]!&lt;/p&gt;</code></pre>
+<p>This will result in:</p>
+<pre class="html"><code>&lt;p&gt;A double array looks like this: [[1, 2, 3], [4, 5]]!&lt;/p&gt;</code></pre>
+</section>
+</section>
+<section id="text-inlining" class="level2">
+<h2>12.2 Text inlining</h2>
+<p><em>Text inlining</em> is actually very similar to the <em>expression inlining</em> capability we just saw, but it actually adds more power. It is enabled explicitly with <code>th:inline=&quot;text&quot;</code>.</p>
+<p>Text inlining not only allows us to use the same <em>inlined expressions</em> we just saw, but in fact processes <em>tag bodies</em> as if they were templates processed in the <code>TEXT</code> template mode, which allows us to perform text-based template logic (not only output expressions).</p>
+<p>We will see more about this in the next chapter about the <em>textual template modes</em>.</p>
+</section>
+<section id="javascript-inlining" class="level2">
+<h2>12.3 JavaScript inlining</h2>
+<p>JavaScript inlining allows for a better integration of JavaScript <code>&lt;script&gt;</code> blocks in templates being processed in the <code>HTML</code> template mode.</p>
+<p>As happens with <em>text inlining</em>, this is actually equivalent to processing the scripts’ contents as if they were templates in the <code>JAVASCRIPT</code> template mode, and therefore all the power of the <em>textual template modes</em> (see next chapter) will be at hand. However, in this section we will focus on how we can use it for adding the output of our Thymeleaf expressions into our JavaScript blocks.</p>
+<p>This mode has to be explicitly enabled using <code>th:inline=&quot;javascript&quot;</code>:</p>
 <pre class="html"><code>&lt;script th:inline=&quot;javascript&quot;&gt;
-/*&lt;![CDATA[*/
     ...
-
-    var username = /*[[${session.user.name}]]*/ &#39;Sebastian&#39;;
-
-    ...
-/*]]&gt;*/
-&lt;/script&gt;</code></pre>
-<p>The <code>/*[[...]]*/</code> syntax, instructs Thymeleaf to evaluate the contained expression. But there are more implications here:</p>
-<ul>
-<li>Being a javascript comment (<code>/*...*/</code>), our expression will be ignored when displaying the page statically in a browser.</li>
-<li>The code after the inline expression (<code>'Sebastian'</code>) will be executed when displaying the page statically.</li>
-<li>Thymeleaf will execute the expression and insert the result, but it will also remove all the code in the line after the inline expression itself (the part that is executed when displayed statically).</li>
-</ul>
-<p>So, the result of executing this will be:</p>
-<pre class="html"><code>&lt;script th:inline=&quot;javascript&quot;&gt;
-/*&lt;![CDATA[*/
-    ...
-
-    var username = &#39;John Apricot&#39;;
-
-    ...
-/*]]&gt;*/
-&lt;/script&gt;</code></pre>
-<p>You can also do it without comments with the same effects, but that will make your script to fail when loaded statically:</p>
-<pre class="html"><code>&lt;script th:inline=&quot;javascript&quot;&gt;
-/*&lt;![CDATA[*/
-    ...
-
     var username = [[${session.user.name}]];
-
     ...
-/*]]&gt;*/
 &lt;/script&gt;</code></pre>
-<p>Note that this evaluation is intelligent and not limited to Strings. Thymeleaf will correctly write in Javascript/Dart syntax the following kinds of objects:</p>
+<p>This will result in:</p>
+<pre class="html"><code>&lt;script th:inline=&quot;javascript&quot;&gt;
+    ...
+    var username = &quot;Sebastian \&quot;Fruity\&quot; Applejuice&quot;;
+    ...
+&lt;/script&gt;</code></pre>
+<p>Two important things to note in the code above:</p>
+<p><em>First</em>, that JavaScript inlining will not only output the required text, but also surround it with quotes and JavaScript-escape its contents, so that the expression results are output as a <strong>well-formed JavaScript literal</strong>.</p>
+<p><em>Second, that this is happening because we are outputting the <code>${session.user.name}</code> expression as <strong>escaped</strong>, i.e. using a double-bracket expression: <code>[[${session.user.name}]]</code>. If instead we used </em>unescaped* like:</p>
+<pre class="html"><code>&lt;script th:inline=&quot;javascript&quot;&gt;
+    ...
+    var username = [(${session.user.name})];
+    ...
+&lt;/script&gt;</code></pre>
+<p>The result would look like:</p>
+<pre class="html"><code>&lt;script th:inline=&quot;javascript&quot;&gt;
+    ...
+    var username = Sebastian &quot;Fruity&quot; Applejuice;
+    ...
+&lt;/script&gt;</code></pre>
+<p>…which is malformed JavaScript code. But outputting something unescaped might be actually what we need if we are building parts of our script by means of appending inlined expressions, so it’s good to have this tool at hand.</p>
+<section id="javascript-natural-templates" class="level3">
+<h3>JavaScript natural templates</h3>
+<p>The mentioned <em>intelligence</em> of the JavaScript inlining mechanism goes much further than just applying JavaScript-specific escaping and outputting expression results as valid literals.</p>
+<p>For example, we can wrap our (escaped) inlined expressions in JavaScript comments like:</p>
+<pre class="html"><code>&lt;script th:inline=&quot;javascript&quot;&gt;
+    ...
+    var username = /*[[${session.user.name}]]*/ &quot;Gertrud Kiwifruit&quot;;
+    ...
+&lt;/script&gt;</code></pre>
+<p>And Thymeleaf will ignore everything we have written <em>after the comment and before the semicolon</em> (in this case <code>'Gertrud Kiwifruit'</code>), so the result of executing this will look exactly like when we were not using the wrapping comments:</p>
+<pre class="html"><code>&lt;script th:inline=&quot;javascript&quot;&gt;
+    ...
+    var username = &quot;Sebastian \&quot;Fruity\&quot; Applejuice&quot;;
+    ...
+&lt;/script&gt;</code></pre>
+<p>But have another careful look at the original template code:</p>
+<pre class="html"><code>&lt;script th:inline=&quot;javascript&quot;&gt;
+    ...
+    var username = /*[[${session.user.name}]]*/ &quot;Gertrud Kiwifruit&quot;;
+    ...
+&lt;/script&gt;</code></pre>
+<p>Note how this is <strong>valid JavaScript</strong> code. And it will perfectly execute when you open your template file in a static manner (without executing it at a server).</p>
+<p>So what we have here is a way to do <strong>JavaScript natural templates</strong>!</p>
+</section>
+<section id="advanced-inlined-evaluation-and-javascript-serialization" class="level3">
+<h3>Advanced inlined evaluation and JavaScript serialization</h3>
+<p>An important thing to note regarding JavaScript inlining is that this expression evaluation is intelligent and not limited to Strings. Thymeleaf will correctly write in JavaScript syntax the following kinds of objects:</p>
 <ul>
 <li>Strings</li>
 <li>Numbers</li>
@@ -2646,33 +2689,158 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 </ul>
 <p>For example, if we had the following code:</p>
 <pre class="html"><code>&lt;script th:inline=&quot;javascript&quot;&gt;
-/*&lt;![CDATA[*/
     ...
-
     var user = /*[[${session.user}]]*/ null;
-
     ...
-/*]]&gt;*/
 &lt;/script&gt;</code></pre>
 <p>That <code>${session.user}</code> expression will evaluate to a <code>User</code> object, and Thymeleaf will correctly convert it to Javascript syntax:</p>
 <pre class="html"><code>&lt;script th:inline=&quot;javascript&quot;&gt;
-/*&lt;![CDATA[*/
     ...
-
-    var user = {&#39;age&#39;:null,&#39;firstName&#39;:&#39;John&#39;,&#39;lastName&#39;:&#39;Apricot&#39;,
-                &#39;name&#39;:&#39;John Apricot&#39;,&#39;nationality&#39;:&#39;Antarctica&#39;};
-
+    var user = {&quot;age&quot;:null,&quot;firstName&quot;:&quot;John&quot;,&quot;lastName&quot;:&quot;Apricot&quot;,
+                &quot;name&quot;:&quot;John Apricot&quot;,&quot;nationality&quot;:&quot;Antarctica&quot;};
     ...
-/*]]&gt;*/
 &lt;/script&gt;</code></pre>
-<section id="adding-code" class="level3">
-<h3>Adding code</h3>
-<p>An additional feature when using javascript inlining is the ability to include code between a special comment syntax <code>/*[+...+]*/</code> so that Thymeleaf will automatically uncomment that code when processing the template:</p>
+<p>The way this JavaScript serialization is done is by means of an implementation of the <code>org.thymeleaf.standard.serializer.IStandardJavaScriptSerializer</code> interface, which can be configured at the instance of the <code>StandardDialect</code> being used at the template engine.</p>
+<p>The default implementation of this JS serialization mechanism will look for the <a href="http://wiki.fasterxml.com/JacksonHome">Jackson library</a> in the classpath and, if present, will use it. If not, it will apply a built-in serialization mechanism that covers most of the needs of most scenarios and produces similar results (but is less flexible).</p>
+</section>
+</section>
+<section id="css-inlining" class="level2">
+<h2>12.4 CSS inlining</h2>
+<p>Thymeleaf also allows the use of inlining in CSS <code>&lt;style&gt;</code> tags, such as:</p>
+<pre class="html"><code>&lt;style th:inline=&quot;css&quot;&gt;
+  ...
+&lt;/style&gt;</code></pre>
+<p>For example, say we have two variables set to two different <code>String</code> values:</p>
+<pre><code>classname = &#39;main elems&#39;
+align = &#39;center&#39;</code></pre>
+<p>We could use them just like:</p>
+<pre class="html"><code>&lt;style th:inline=&quot;css&quot;&gt;
+    .[[${classname}]] {
+      text-align: [[${align}]];
+    }
+&lt;/style&gt;</code></pre>
+<p>And the result would be:</p>
+<pre class="html"><code>&lt;style th:inline=&quot;css&quot;&gt;
+    .main\ elems {
+      text-align: center;
+    }
+&lt;/style&gt;</code></pre>
+<p>Note how CSS inlining also bears some <em>intelligence</em>, just like JavaScript’s. Specifically, expressions output via <em>escaped</em> expressions like <code>[[${classname}]]</code> will be escaped as <strong>CSS identifiers</strong>. That is why our <code>classname = 'main elems'</code> has turned into <code>main\ elems</code> in the fragment of code above.</p>
+<section id="advanced-features-css-natural-templates-etc." class="level3">
+<h3>Advanced features: CSS natural templates, etc.</h3>
+<p>In an equivalent way to what was explained before for JavaScript, CSS inlining also allows for our <code>&lt;style&gt;</code> tags to work both statically and dynamically, i.e. to work as <strong>CSS natural templates</strong> by means of wrapping inlined expressions in comments. See:</p>
+<pre class="html"><code>&lt;style th:inline=&quot;css&quot;&gt;
+    .main\ elems {
+      text-align: /*[[${align}]]*/ left;
+    }
+&lt;/style&gt;</code></pre>
+</section>
+</section>
+</section>
+<section id="textual-template-modes" class="level1">
+<h1>13 Textual template modes</h1>
+<section id="textual-syntax" class="level2">
+<h2>13.1 Textual syntax</h2>
+<p>Three of the Thymeleaf <em>template modes</em> are considered <strong>textual</strong>: <code>TEXT</code>, <code>JAVASCRIPT</code> and <code>CSS</code>. This differentiates them from the markup template modes: <code>HTML</code> and <code>XML</code>.</p>
+<p>The key difference between <em>textual</em> template modes and the markup ones is that in a textual template there are no tags into which to insert logic in the form of attributes, so we have to rely on other mechanisms for inserting logic.</p>
+<p>The first and most basic of these mechanisms is <strong>inlining</strong>, which we have already detailed in the previous chapter. Inlining syntax is the most simple way to output results of expressions in textual template mode, so this is a perfectly valid template for a text email.</p>
+<pre><code>  Dear [(${name})],
+
+  Please find attached the results of the report you requested
+  with name &quot;[(${report.name})]&quot;.
+
+  Sincerely,
+    The Reporter.</code></pre>
+<p>Note there are no tags at all in the code above, even if it is a complete and valid Thymeleaf template that can be executed in the <code>TEXT</code> template mode. So here we are not applying <em>text inlining</em> in a markup template, but instead directly executing a template in the <code>TEXT</code> template mode.</p>
+<p>But in order to include more complex logic than mere <em>output expressions</em>, we need a new non-tag-based syntax:</p>
+<pre><code>[# th:each=&quot;item : ${items}&quot;]
+  - [(${item})]
+[/]</code></pre>
+<p>Which is actually the <em>condensed</em> version of the more verbose:</p>
+<pre><code>[#th:block th:each=&quot;item : ${items}&quot;]
+  - [#th:block th:utext=&quot;${item}&quot; /]
+[/th:block]</code></pre>
+<p>Note how this new syntax is based on elements (i.e. processable tags) that are declared as <code>[#element ...] instead of</code><element ...><code>. Elements are open like</code>[#element …]<code>and closed like</code>[/element]<code>, and standalone tags can be declared by minimizing the open element with a</code>/<code>in  a way almost equivalent to XML tags:</code>[#element … /]`.</p>
+<p>The Standard Dialect only contains a processor for one of these elements: the already-known <code>th:block</code>, though we could extend this in our dialects and create new elements in the usual way. Also, the <code>th:block</code> element (<code>[#th:block ...] ... [/th:block]</code>) is allowed to be abbreviated as the empty string (<code>[# ...] ... [/]</code>), so the above block is actually equivalent to:</p>
+<pre><code>[# th:each=&quot;item : ${items}&quot;]
+  - [# th:utext=&quot;${item}&quot; /]
+[/]</code></pre>
+<p>And given <code>[# th:utext=&quot;${item}&quot; /]</code> is exactly equivalent to an <em>inlined unescaped expression</em>, we could just use it in order to have less code. Thus we end up with the first fragment of code we saw above:</p>
+<pre><code>[# th:each=&quot;item : ${items}&quot;]
+  - [(${item})]
+[/]</code></pre>
+<p>Note that the <em>textual syntax requires full element balance (no unclosed tags) and quoted attributes</em>. So to say, it’s more XML-style than HTML-style.</p>
+<p>Let’s have a look at a more complete example of a <code>TEXT</code> template, a <em>plain text</em> email template:</p>
+<pre><code>Dear [(${customer.name})],
+
+This is the list of our products:
+
+[# th:each=&quot;prod : ${products}&quot;]
+   - [(${prod.name})]. Price: [(${prod.price})] EUR/kg
+[/]
+
+Thanks,
+  The Thymeleaf Shop</code></pre>
+<p>After executing, the result of this could be something like:</p>
+<pre><code>Dear Mary Ann Blueberry,
+
+This is the list of our products:
+
+   - Apricots. Price: 1.12 EUR/kg
+   - Bananas. Price: 1.78 EUR/kg
+   - Apples. Price: 0.85 EUR/kg
+   - Watermelon. Price: 1.91 EUR/kg
+
+Thanks,
+  The Thymeleaf Shop</code></pre>
+<p>And another example in <code>JAVASCRIPT</code> template mode, a <code>greeter.js</code> file we process as a textual template and which result we call from our HTML pages. Note this is <em>not</em> a <code>&lt;script&gt;</code> block in an HTML template, but a <code>.js</code> file being processed as a template on its own:</p>
+<pre class="javascript"><code>var greeter = function() {
+
+    var username = [[${session.user.name}]];
+
+    [# th:each=&quot;salut : ${salutations}&quot;]    
+      alert([[${salut}]] + &quot; &quot; + username);
+    [/]
+
+};</code></pre>
+<p>After executing, the result of this could be something like:</p>
+<pre class="javascript"><code>var greeter = function() {
+
+    var username = &quot;Bertrand \&quot;Crunchy\&quot; Pear&quot;;
+
+      alert(&quot;Hello&quot; + &quot; &quot; + username);
+      alert(&quot;Ol\u00E1&quot; + &quot; &quot; + username);
+      alert(&quot;Hola&quot; + &quot; &quot; + username);
+
+};</code></pre>
+<section id="escaped-element-attributes" class="level3">
+<h3>Escaped element attributes</h3>
+<p>In order to avoid interactions with parts of the template that might be processed in other modes (e.g. <code>text</code>-mode inlining inside an <code>HTML</code> template), Thymeleaf 3.0 allows the attributes in elements in its <em>textual syntax</em> to be escaped. So:</p>
+<ul>
+<li>Attributes in <code>TEXT</code> template mode will be <em>HTML-unescaped</em>.</li>
+<li>Attributes in <code>JAVASCRIPT</code> template mode will be <em>JavaScript-unescaped</em>.</li>
+<li>Attributes in <code>CSS</code> template mode will be <em>CSS-unescaped</em>.</li>
+</ul>
+<p>So this would be perfectly OK in a <code>TEXT</code>-mode template (note the <code>&amp;gt;</code>):</p>
+<pre><code>  [# th:if=&quot;${120&amp;lt;user.age}&quot;]
+     Congratulations!
+  [/]</code></pre>
+<p>Of course that <code>&amp;lt;</code> would make no sense in a <em>real text</em> template, but it is a good idea if we are processing an HTML template with a <code>th:inline=&quot;text&quot;</code> block containing the code above and we want to make sure our browser doesn’t take that <code>&lt;user.age</code> for the name of an open tag when statically opening the file as a prototype.</p>
+</section>
+</section>
+<section id="extensibility" class="level2">
+<h2>13.2 Extensibility</h2>
+<p>One of the advantages of this syntax is that it is just as extensible as the <em>markup</em> one. The user can still define his/her own dialects with custom elements and attributes, apply a prefix to them (optionally), and then use them in textual template modes:</p>
+<pre><code>  [#myorg:dosomething myorg:importantattr=&quot;211&quot;]some text[/myorg:dosomething]</code></pre>
+</section>
+<section id="textual-prototype-only-comment-blocks-adding-code" class="level2">
+<h2>13.3 Textual prototype-only comment blocks: adding code</h2>
+<p>The <code>JAVASCRIPT</code> and <code>CSS</code> template modes (not available for <code>TEXT</code>) allow including code between a special comment syntax <code>/*[+...+]*/</code> so that Thymeleaf will automatically uncomment such code when processing the template:</p>
 <pre class="javascript"><code>var x = 23;
 
 /*[+
 
-var msg  = &#39;This is a working application&#39;;
+var msg  = &quot;This is a working application&quot;;
 
 +]*/
 
@@ -2681,7 +2849,7 @@ var f = function() {
 <p>Will be executed as:</p>
 <pre class="javascript"><code>var x = 23;
 
-var msg  = &#39;This is a working application&#39;;
+var msg  = &quot;This is a working application&quot;;
 
 var f = function() {
 ...</code></pre>
@@ -2690,76 +2858,53 @@ var f = function() {
 
 /*[+
 
-var msg  = &#39;Hello, &#39; + [[${session.user.name}]];
+var msg  = &quot;Hello, &quot; + [[${session.user.name}]];
 
 +]*/
 
 var f = function() {
 ...</code></pre>
 </section>
-<section id="removing-code" class="level3">
-<h3>Removing code</h3>
-<p>It is also possible to make Thymeleaf remove code between special <code>/*[- */</code> and <code>/* -]*/</code> comments, like this:</p>
+<section id="textual-parser-level-comment-blocks-removing-code" class="level2">
+<h2>13.4 Textual parser-level comment blocks: removing code</h2>
+<p>In a way similar to that of prototype-only comment blocks, all the three textual template modes (<code>TEXT</code>, <code>JAVASCRIPT</code> and <code>CSS</code>) make possible to instruct Thymeleaf to remove code between special <code>/*[- */</code> and <code>/* -]*/</code> marks, like this:</p>
 <pre class="javascript"><code>var x = 23;
 
 /*[- */
 
-var msg  = &#39;This is a non-working template&#39;;
+var msg  = &quot;This is shown only when executed statically!&quot;;
 
 /* -]*/
 
 var f = function() {
 ...</code></pre>
+<p>Or this, in <code>TEXT</code> mode:</p>
+<pre><code>...
+/*[- Note the user is obtained from the session, which must exist -]*/
+Welcome [(${session.user.name})]!
+...</code></pre>
 </section>
-</section>
-</section>
-<section id="validation-and-doctypes" class="level1">
-<h1>13 Validation and Doctypes</h1>
-<section id="validating-templates" class="level2">
-<h2>13.1 Validating templates</h2>
-<p>As mentioned before, Thymeleaf offers us out-of-the-box two standard template modes that validate our templates before processing them: <code>VALIDXML</code> and <code>VALIDXHTML.</code> These modes require our templates to be not only <em>well-formed XML</em> (which they should always be), but in fact valid according to the specified <code>DTD</code>.</p>
-<p>The problem is that if we use the <code>VALIDXHTML</code> mode with templates including a <code>DOCTYPE</code> clause such as this:</p>
-<pre class="html"><code>&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Strict//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd&quot;&gt;</code></pre>
-<p>…we are going to obtain validation errors because the <code>th:*</code> tags do not exist according to that <code>DTD.</code> That’s perfectly normal, as the W3C obviously has no reason to include Thymeleaf’s features in their standards but, how do we solve it? By changing the <code>DTD.</code></p>
-<p>Thymeleaf includes a set of <code>DTD</code> files that mirror the original ones from the XHTML standards, but adding all the available <code>th:*</code> attributes from the Standard Dialect. That’s why we have been using this in our templates:</p>
-<pre class="html"><code>&lt;!DOCTYPE html SYSTEM &quot;http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd&quot;&gt;</code></pre>
-<p>That <code>SYSTEM</code> identifier instructs the Thymeleaf parser to resolve the special Thymeleaf-enabled <code>XHTML 1.0 Strict DTD</code> file and use it for validating our template. And don’t worry about that <code>http</code> thing, because that is only an identifier, and the <code>DTD</code> file will be locally read from Thymeleaf’s jar files.</p>
-<blockquote>
-<p>Note that because this DOCTYPE declaration is a perfectly valid one, if we open a browser to statically display our template as a prototype it will be rendered in <em>Standards Mode</em>.</p>
-</blockquote>
-<p>Here you have the complete set of Thymeleaf-enabled <code>DTD</code> declarations for all the supported flavours of XHTML:</p>
-<pre class="html"><code>&lt;!DOCTYPE html SYSTEM &quot;http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd&quot;&gt;
-&lt;!DOCTYPE html SYSTEM &quot;http://www.thymeleaf.org/dtd/xhtml1-transitional-thymeleaf-4.dtd&quot;&gt;
-&lt;!DOCTYPE html SYSTEM &quot;http://www.thymeleaf.org/dtd/xhtml1-frameset-thymeleaf-4.dtd&quot;&gt;
-&lt;!DOCTYPE html SYSTEM &quot;http://www.thymeleaf.org/dtd/xhtml11-thymeleaf-4.dtd&quot;&gt;</code></pre>
-<p>Also note that, in order for your IDE to be happy, and even if you are not working in a validating mode, you will need to declare the <code>th</code> namespace in your <code>html</code> tag:</p>
-<pre class="html"><code>&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;
-      xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;</code></pre>
-</section>
-<section id="doctype-translation" class="level2">
-<h2>13.2 Doctype translation</h2>
-<p>It is fine for our templates to have a <code>DOCTYPE</code> like:</p>
-<pre class="html"><code>&lt;!DOCTYPE html SYSTEM &quot;http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd&quot;&gt;</code></pre>
-<p>But it would not be fine for our web applications to send XHTML documents with this <code>DOCTYPE</code> to client browsers, because:</p>
-<ul>
-<li>They are not <code>PUBLIC</code> (they are <code>SYSTEM DOCTYPE</code>s), and therefore our web would not be validatable with the W3C Validators.</li>
-<li>They are not needed, because once processed, all <code>th:*</code> tags will have dissapeared.</li>
-</ul>
-<p>That’s why Thymeleaf includes a mechanism for <em>DOCTYPE translation</em>, which will automatically translate your thymeleaf-specific XHTML <code>DOCTYPE</code>s into standard <code>DOCTYPE</code>s.</p>
-<p>For example, if your template is <em>XHTML 1.0 Strict</em> and looks like this:</p>
-<pre class="html"><code>&lt;!DOCTYPE html SYSTEM &quot;http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd&quot;&gt;
-
-&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;
-      xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;
-    ... 
-&lt;/html&gt;</code></pre>
-<p>After making Thymeleaf process the template, your resulting XHTML will look like this:</p>
-<pre class="html"><code>&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Strict//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd&quot;&gt;
-
-&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
-    ... 
-&lt;/html&gt;</code></pre>
-<p>You don’t have to do anything for these transformations to take place: Thymeleaf will take care of them automatically.</p>
+<section id="natural-javascript-and-css-templates" class="level2">
+<h2>13.5 Natural JavaScript and CSS templates</h2>
+<p>As seen in the previous chapter, JavaScript and CSS inlining offer the possibility to include inlined expressions inside JavaScript/CSS comments, like:</p>
+<pre class="javascript"><code>...
+var username = /*[[${session.user.name}]]*/ &quot;Sebastian Lychee&quot;;
+...</code></pre>
+<p>…which is valid JavaScript, and once executed could look like:</p>
+<pre class="html"><code>...
+var username = &quot;John Apricot&quot;;
+...</code></pre>
+<p>This same <em>trick</em> of enclosing inlined expressions inside comments can in fact be used for the entire textual mode syntax:</p>
+<pre><code>  /*[# th:if=&quot;${user.admin}&quot;]*/
+     alert(&#39;Welcome admin&#39;);
+  /*[/]*/</code></pre>
+<p>That alert in the code above will be shown when the template is open statically –because it is 100% valid JavaScript–, and also when the template is run if the user is an admin. It is completely equivalent to:</p>
+<pre><code>  [# th:if=&quot;${user.admin}&quot;]
+     alert(&#39;Welcome admin&#39;);
+  [/]</code></pre>
+<p>…which is actually the code to which the initial version is converted during template parsing.</p>
+<p>Note however that wrapping elements in comments does not clean the lines they live in (to the right until a <code>;</code> is found) as inlined output expressions do. That behaviour is reserved for inlined output expressions only.</p>
+<p>So Thymeleaf 3.0 allows the development of <strong>complex JavaScript scripts and CSS style sheets in the form of natural templates</strong>, valid both as a <em>prototype</em> and as a <em>working template</em>.</p>
 </section>
 </section>
 <section id="some-more-pages-for-our-grocery" class="level1">

@@ -917,7 +917,7 @@ model.add(modelFactory.createCloseElementTag(&quot;div&quot;));</code></pre>
 <p>Also, the model factory is able to create <code>IModel</code> instances from scratch (like the <code>modelFactory.createModel()</code> above), from a single existing event, and also from a piece of markup that we want to convert into its corresponding sequence of events by <em>parsing</em> it:</p>
 <pre class="java"><code>final IModel model = 
         modelFactory.parse(
-                context.getTemplateData().getTemplate(), 
+                context.getTemplateData(), 
                 &quot;&lt;div class=&#39;headlines&#39;&gt;Some headlines&lt;/div&gt;&quot;);</code></pre>
 </section>
 </section>
