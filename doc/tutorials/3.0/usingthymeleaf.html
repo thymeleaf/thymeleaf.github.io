@@ -159,8 +159,13 @@
 <li><a href="#order-details">14.2 Order Details</a></li>
 </ul></li>
 <li><a href="#more-on-configuration">15 More on Configuration</a><ul>
-<li><a href="#template-resolvers">15.1 Template Resolvers</a></li>
-<li><a href="#message-resolvers">15.2 Message Resolvers</a></li>
+<li><a href="#template-resolvers">15.1 Template Resolvers</a><ul>
+<li><a href="#chaining-template-resolvers">Chaining Template Resolvers</a></li>
+</ul></li>
+<li><a href="#message-resolvers">15.2 Message Resolvers</a><ul>
+<li><a href="#standard-message-resolver">Standard Message Resolver</a></li>
+<li><a href="#configuring-message-resolvers">Configuring message resolvers</a></li>
+</ul></li>
 <li><a href="#logging">15.3 Logging</a></li>
 </ul></li>
 <li><a href="#template-cache">16 Template Cache</a></li>
@@ -2910,14 +2915,13 @@ var username = &quot;John Apricot&quot;;
 <section id="some-more-pages-for-our-grocery" class="level1">
 <h1>14 Some more Pages for our Grocery</h1>
 <p>Now we know a lot about using Thymeleaf, we can add some new pages to our website for order management.</p>
-<p>Note that we will focus on XHTML code, but you can have a look at the bundled source code if you want to see the corresponding controllers.</p>
+<p>Note that we will focus on HTML code, but you can have a look at the bundled source code if you want to see the corresponding controllers.</p>
 <section id="order-list" class="level2">
 <h2>14.1 Order List</h2>
 <p>Let’s start by creating an order list page, <code>/WEB-INF/templates/order/list.html</code>:</p>
-<pre class="html"><code>&lt;!DOCTYPE html SYSTEM &quot;http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd&quot;&gt;
+<pre class="html"><code>&lt;!DOCTYPE html&gt;
 
-&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;
-      xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;
+&lt;html xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;
 
   &lt;head&gt;
 
@@ -2963,10 +2967,9 @@ var username = &quot;John Apricot&quot;;
 <section id="order-details" class="level2">
 <h2>14.2 Order Details</h2>
 <p>Now for the order details page, in which we will make a heavy use of asterisk syntax:</p>
-<pre class="html"><code>&lt;!DOCTYPE html SYSTEM &quot;http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd&quot;&gt;
+<pre class="html"><code>&lt;!DOCTYPE html&gt;
 
-&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;
-      xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;
+&lt;html xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;
 
   &lt;head&gt;
     &lt;title&gt;Good Thymes Virtual Grocery&lt;/title&gt;
@@ -3045,7 +3048,7 @@ var username = &quot;John Apricot&quot;;
 <section id="template-resolvers" class="level2">
 <h2>15.1 Template Resolvers</h2>
 <p>For our Good Thymes Virtual Grocery, we chose an <code>ITemplateResolver</code> implementation called <code>ServletContextTemplateResolver</code> that allowed us to obtain templates as resources from the Servlet Context.</p>
-<p>Besides giving you the ability to create your own template resolver by implementing <code>ITemplateResolver,</code> Thymeleaf includes three other implementations out of the box:</p>
+<p>Besides giving us the ability to create our own template resolver by implementing <code>ITemplateResolver,</code> Thymeleaf includes three other implementations out of the box:</p>
 <ul>
 <li><p><code>org.thymeleaf.templateresolver.ClassLoaderTemplateResolver</code>, which resolves templates as classloader resources, like:</p>
 <pre class="java"><code>return Thread.currentThread().getContextClassLoader().getResourceAsStream(templateName);</code></pre></li>
@@ -3076,53 +3079,77 @@ templateResolver.getCacheablePatternSpec().addPattern(&quot;/users/*&quot;);</co
 <pre class="java"><code>// Default is no TTL (only LRU would remove entries)
 templateResolver.setCacheTTLMs(60000L);</code></pre></li>
 </ul>
+<blockquote>
+<p>The Thymeleaf + Spring integration packages offer a <code>SpringResourceTemplateResolver</code> implementation which uses all the Spring infrastructure for accessing and reading resources in applications, and which is the recommended implementation in Spring-enabled applications.</p>
+</blockquote>
+<section id="chaining-template-resolvers" class="level3">
+<h3>Chaining Template Resolvers</h3>
 <p>Also, a Template Engine can be specified several template resolvers, in which case an order can be established between them for template resolution so that, if the first one is not able to resolve the template, the second one is asked, and so on:</p>
 <pre class="java"><code>ClassLoaderTemplateResolver classLoaderTemplateResolver = new ClassLoaderTemplateResolver();
 classLoaderTemplateResolver.setOrder(Integer.valueOf(1));
 
-ServletContextTemplateResolver servletContextTemplateResolver = new ServletContextTemplateResolver();
+ServletContextTemplateResolver servletContextTemplateResolver = new ServletContextTemplateResolver(servletContext);
 servletContextTemplateResolver.setOrder(Integer.valueOf(2));
 
 templateEngine.addTemplateResolver(classLoaderTemplateResolver);
 templateEngine.addTemplateResolver(servletContextTemplateResolver);</code></pre>
-<p>When several template resolvers are applied, it is recommended to specify patterns for each template resolver so that Thymeleaf can quickly discard those template resolvers that are not meant to resolve the template, enhancing performance. Doing this is not a requirement, but an optimization:</p>
+<p>When several template resolvers are applied, it is recommended to specify patterns for each template resolver so that Thymeleaf can quickly discard those template resolvers that are not meant to resolve the template, enhancing performance. Doing this is not a requirement, but a recommendation:</p>
 <pre class="java"><code>ClassLoaderTemplateResolver classLoaderTemplateResolver = new ClassLoaderTemplateResolver();
 classLoaderTemplateResolver.setOrder(Integer.valueOf(1));
 // This classloader will not be even asked for any templates not matching these patterns 
 classLoaderTemplateResolver.getResolvablePatternSpec().addPattern(&quot;/layout/*.html&quot;);
 classLoaderTemplateResolver.getResolvablePatternSpec().addPattern(&quot;/menu/*.html&quot;);
 
-ServletContextTemplateResolver servletContextTemplateResolver = new ServletContextTemplateResolver();
+ServletContextTemplateResolver servletContextTemplateResolver = new ServletContextTemplateResolver(servletContext);
 servletContextTemplateResolver.setOrder(Integer.valueOf(2));</code></pre>
+<p>If these <em>resolvable patterns</em> are not specified, we will be relying on the specific capabilities of each of the <code>ITemplateResolver</code> implementations we are using. Note that not all implementations might be able to determine the real existence of a template before resolving, and thus could always consider a template as <em>resolvable</em> and break the resolution chain (not allowing other resolvers to check for the same template), but then be unable to read the real resource.</p>
+<p>Also, all the <code>ITemplateResolver</code> implementations that are distributed out-of-the-box, include a mechanism that will allow us to make the resolvers <em>really check</em> if a resource exists before considering it <em>resolvable</em>. It is the <code>checkExistence</code> flag, which works like:</p>
+<pre class="java"><code>ClassLoaderTemplateResolver classLoaderTemplateResolver = new ClassLoaderTemplateResolver();
+classLoaderTemplateResolver.setOrder(Integer.valueOf(1));
+classLoaderTempalteResolver.setCheckExistence(true);</code></pre>
+<p>This <code>checkExistence</code> flag forces the resolver perform a <em>real check</em> for resource existence during the resolution phase (and let the following resolver in the chain be called if existence check returns false). While this might sound as a good thing in every case, note that in most cases this will mean a double access to the resource itself (once for checking existence, another time for reading it), and this could be a performance issue in some scenarios like e.g. remote URL-based template resources – a potential performance issue that might anyway get largely mitigated by the use of a template cache (in which case templates will only be <em>resolved</em> the first time they are accessed).</p>
+</section>
 </section>
 <section id="message-resolvers" class="level2">
 <h2>15.2 Message Resolvers</h2>
 <p>We did not explicitly specify a Message Resolver implementation for our Grocery application, and as it was explained before, this meant that the implementation being used was an <code>org.thymeleaf.messageresolver.StandardMessageResolver</code> object.</p>
-<p>This <code>StandardMessageResolver,</code> which looks for messages files with the same name as the template in the way already explained, is in fact the only message resolver implementation offered by Thymeleaf core out of the box, although of course you can create your own by just implementing the <code>org.thymeleaf.messageresolver.IMessageResolver</code> interface.</p>
+<p><code>StandardMessageResolver</code> is the standard implementation of the <code>IMessageResolver</code> interface, but we could create our own if we wanted, adapted to the specific needs of our application.</p>
 <blockquote>
-<p>The Thymeleaf + Spring integration packages offer an <code>IMessageResolver</code> implementation which uses the standard Spring way of retrieving externalized messages, by using <code>MessageSource</code> objects.</p>
+<p>The Thymeleaf + Spring integration packages offer by default an <code>IMessageResolver</code> implementation which uses the standard Spring way of retrieving externalized messages, by using <code>MessageSource</code> beans declared at the Spring Application Context.</p>
 </blockquote>
-<p>What if you wanted to add a message resolver (or more) to the Template Engine? Easy:</p>
+<section id="standard-message-resolver" class="level3">
+<h3>Standard Message Resolver</h3>
+<p>So how does <code>StandardMessageResolver</code> look for the messages requested at a specific template?</p>
+<p>If the template name is <code>home</code> and it is located in <code>/WEB-INF/templates/home.html</code>, and the requested locale is <code>gl_ES</code> then this resolver will look for messages in the following files, in this order:</p>
+<ul>
+<li><code>/WEB-INF/templates/home_gl_ES.properties</code></li>
+<li><code>/WEB-INF/templates/home_gl.properties</code></li>
+<li><code>/WEB-INF/templates/home.properties</code></li>
+</ul>
+<p>Refer to the JavaDoc documentation of the <code>StandardMessageResolver</code> class for more detail on how the complete message resolution mechanism works.</p>
+</section>
+<section id="configuring-message-resolvers" class="level3">
+<h3>Configuring message resolvers</h3>
+<p>What if we wanted to add a message resolver (or more) to the Template Engine? Easy:</p>
 <pre class="java"><code>// For setting only one
 templateEngine.setMessageResolver(messageResolver);
 
 // For setting more than one
 templateEngine.addMessageResolver(messageResolver);</code></pre>
-<p>And why would you want to have more than one message resolver? for the same reason as template resolvers: message resolvers are ordered and if the first one cannot resolve a specific message, the second one will be asked, then the third, etc.</p>
+<p>And why would we want to have more than one message resolver? for the same reason as template resolvers: message resolvers are ordered and if the first one cannot resolve a specific message, the second one will be asked, then the third, etc.</p>
+</section>
 </section>
 <section id="logging" class="level2">
 <h2>15.3 Logging</h2>
 <p>Thymeleaf pays quite a lot of attention to logging, and always tries to offer the maximum amount of useful information through its logging interface.</p>
-<p>The logging library used is <code>slf4j,</code> which in fact acts as a bridge to whichever logging implementation you might want to use in your application (for example, <code>log4j</code>).</p>
-<p>Thymeleaf classes will log <code>TRACE</code>, <code>DEBUG</code> and <code>INFO</code>-level information, depending on the level of detail you desire, and besides general logging it will use three special loggers associated with the TemplateEngine class which you can configure separately for different purposes:</p>
+<p>The logging library used is <code>slf4j,</code> which in fact acts as a bridge to whichever logging implementation we might want to use in our application (for example, <code>log4j</code>).</p>
+<p>Thymeleaf classes will log <code>TRACE</code>, <code>DEBUG</code> and <code>INFO</code>-level information, depending on the level of detail we desire, and besides general logging it will use three special loggers associated with the TemplateEngine class which we can configure separately for different purposes:</p>
 <ul>
 <li><code>org.thymeleaf.TemplateEngine.CONFIG</code> will output detailed configuration of the library during initialization.</li>
 <li><code>org.thymeleaf.TemplateEngine.TIMER</code> will output information about the amount of time taken to process each template (useful for benchmarking!)</li>
 <li><code>org.thymeleaf.TemplateEngine.cache</code> is the prefix for a set of loggers that output specific information about the caches. Although the names of the cache loggers are configurable by the user and thus could change, by default they are:
 <ul>
 <li><code>org.thymeleaf.TemplateEngine.cache.TEMPLATE_CACHE</code></li>
-<li><code>org.thymeleaf.TemplateEngine.cache.FRAGMENT_CACHE</code></li>
-<li><code>org.thymeleaf.TemplateEngine.cache.MESSAGE_CACHE</code></li>
 <li><code>org.thymeleaf.TemplateEngine.cache.EXPRESSION_CACHE</code></li>
 </ul></li>
 </ul>
@@ -3135,11 +3162,11 @@ log4j.logger.org.thymeleaf.TemplateEngine.cache.TEMPLATE_CACHE=TRACE</code></pre
 </section>
 <section id="template-cache" class="level1">
 <h1>16 Template Cache</h1>
-<p>Thymeleaf works thanks to a DOM processing engine and a series of processors —one for each type of node that needs to apply logic— that modify the document’s DOM tree in order to create the results you expect by combining this tree with your data.</p>
-<p>It also includes —by default— a cache that stores parsed templates, this is, the DOM trees resulting from reading and parsing template files before processing them. This is especially useful when working in a web application, and builds on the following concepts:</p>
+<p>Thymeleaf works thanks to a set of parsers –for markup and text– that parse templates into sequences of events (open tag, text, close tag, comment, etc.) and a series of processors –one for each type of behaviour that needs to be applied– that modify the template’s parsed event sequence in order to create the results we expect by combining the original template with our data.</p>
+<p>It also includes —by default— a cache that stores parsed templates, this is, the sequences of events resulting from reading and parsing template files before processing them. This is especially useful when working in a web application, and builds on the following concepts:</p>
 <ul>
 <li>Input/Output is almost always the slowest part of any application. In-memory process is extremely quick compared to it.</li>
-<li>Cloning an existing in-memory DOM-tree is always much quicker than reading a template file, parsing it and creating a new DOM object tree for it.</li>
+<li>Cloning an existing in-memory event sequence is always much quicker than reading a template file, parsing it and creating a new event sequence for it.</li>
 <li>Web applications usually only have a few dozen templates.</li>
 <li>Template files are small-to-medium size, and they are not modified while the application is running.</li>
 </ul>
