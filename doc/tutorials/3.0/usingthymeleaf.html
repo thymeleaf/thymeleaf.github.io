@@ -169,14 +169,21 @@
 <li><a href="#logging">15.3 Logging</a></li>
 </ul></li>
 <li><a href="#template-cache">16 Template Cache</a></li>
-<li><a href="#appendix-a-expression-basic-objects">17 Appendix A: Expression Basic Objects</a><ul>
+<li><a href="#decoupled-template-logic">17 Decoupled Template Logic</a><ul>
+<li><a href="#decoupled-logic-the-concept">17.1 Decoupled logic: The concept</a></li>
+<li><a href="#configuring-decoupled-templates">17.2 Configuring decoupled templates</a></li>
+<li><a href="#the-thref-attribute">17.3 The th:ref attribute</a></li>
+<li><a href="#performance-impact-of-decoupled-templates">17.4 Performance impact of decoupled templates</a></li>
+<li><a href="#resolution-of-decoupled-logic">17.5 Resolution of decoupled logic</a></li>
+</ul></li>
+<li><a href="#appendix-a-expression-basic-objects">18 Appendix A: Expression Basic Objects</a><ul>
 <li><a href="#base-objects">Base objects</a></li>
 <li><a href="#web-context-namespaces-for-requestsession-attributes-etc.">Web context namespaces for request/session attributes, etc.</a></li>
 <li><a href="#web-context-objects">Web context objects</a></li>
 <li><a href="#spring-context-objects">Spring context objects</a></li>
 <li><a href="#spring-beans">Spring beans</a></li>
 </ul></li>
-<li><a href="#appendix-b-expression-utility-objects">18 Appendix B: Expression Utility Objects</a><ul>
+<li><a href="#appendix-b-expression-utility-objects">19 Appendix B: Expression Utility Objects</a><ul>
 <li><a href="#dates">Dates</a></li>
 <li><a href="#calendars">Calendars</a></li>
 <li><a href="#numbers">Numbers</a></li>
@@ -3051,11 +3058,13 @@ var username = &quot;John Apricot&quot;;
 <p>Besides giving us the ability to create our own template resolver by implementing <code>ITemplateResolver,</code> Thymeleaf includes three other implementations out of the box:</p>
 <ul>
 <li><p><code>org.thymeleaf.templateresolver.ClassLoaderTemplateResolver</code>, which resolves templates as classloader resources, like:</p>
-<pre class="java"><code>return Thread.currentThread().getContextClassLoader().getResourceAsStream(templateName);</code></pre></li>
+<pre class="java"><code>return Thread.currentThread().getContextClassLoader().getResourceAsStream(template);</code></pre></li>
 <li><p><code>org.thymeleaf.templateresolver.FileTemplateResolver</code>, which resolves templates as files from the file system, like:</p>
-<pre class="java"><code>return new FileInputStream(new File(templateName));</code></pre></li>
+<pre class="java"><code>return new FileInputStream(new File(template));</code></pre></li>
 <li><p><code>org.thymeleaf.templateresolver.UrlTemplateResolver</code>, which resolves templates as URLs (even non-local ones), like:</p>
-<pre class="java"><code>return (new URL(templateName)).openStream();</code></pre></li>
+<pre class="java"><code>return (new URL(template)).openStream();</code></pre></li>
+<li><p><code>org.thymeleaf.templateresolver.StringTemplateResolver</code>, which resolves templates directly as the <code>String</code> being specified as <code>template</code> (or <em>template name</em>, which in this case is obviously much more than a mere name):</p>
+<pre class="java"><code>return new StringReader(templateName);</code></pre></li>
 </ul>
 <p>All of the pre-bundled implementations of <code>ITemplateResolver</code> allow the same set of configuration parameters, which include:</p>
 <ul>
@@ -3088,7 +3097,8 @@ templateResolver.setCacheTTLMs(60000L);</code></pre></li>
 <pre class="java"><code>ClassLoaderTemplateResolver classLoaderTemplateResolver = new ClassLoaderTemplateResolver();
 classLoaderTemplateResolver.setOrder(Integer.valueOf(1));
 
-ServletContextTemplateResolver servletContextTemplateResolver = new ServletContextTemplateResolver(servletContext);
+ServletContextTemplateResolver servletContextTemplateResolver = 
+        new ServletContextTemplateResolver(servletContext);
 servletContextTemplateResolver.setOrder(Integer.valueOf(2));
 
 templateEngine.addTemplateResolver(classLoaderTemplateResolver);
@@ -3100,7 +3110,8 @@ classLoaderTemplateResolver.setOrder(Integer.valueOf(1));
 classLoaderTemplateResolver.getResolvablePatternSpec().addPattern(&quot;/layout/*.html&quot;);
 classLoaderTemplateResolver.getResolvablePatternSpec().addPattern(&quot;/menu/*.html&quot;);
 
-ServletContextTemplateResolver servletContextTemplateResolver = new ServletContextTemplateResolver(servletContext);
+ServletContextTemplateResolver servletContextTemplateResolver = 
+        new ServletContextTemplateResolver(servletContext);
 servletContextTemplateResolver.setOrder(Integer.valueOf(2));</code></pre>
 <p>If these <em>resolvable patterns</em> are not specified, we will be relying on the specific capabilities of each of the <code>ITemplateResolver</code> implementations we are using. Note that not all implementations might be able to determine the real existence of a template before resolving, and thus could always consider a template as <em>resolvable</em> and break the resolution chain (not allowing other resolvers to check for the same template), but then be unable to read the real resource.</p>
 <p>Also, all the <code>ITemplateResolver</code> implementations that are distributed out-of-the-box, include a mechanism that will allow us to make the resolvers <em>really check</em> if a resource exists before considering it <em>resolvable</em>. It is the <code>checkExistence</code> flag, which works like:</p>
@@ -3189,8 +3200,116 @@ templateEngine.clearTemplateCache();
 // Clear a specific template from the cache
 templateEngine.clearTemplateCacheFor(&quot;/users/userList&quot;);</code></pre>
 </section>
+<section id="decoupled-template-logic" class="level1">
+<h1>17 Decoupled Template Logic</h1>
+<section id="decoupled-logic-the-concept" class="level2">
+<h2>17.1 Decoupled logic: The concept</h2>
+<p>So far we have worked for our Grocery Store with templates done the <em>usual way</em>, with logic being inserted into our templates in the form of attributes.</p>
+<p>But Thymeleaf also allows us to completely <em>decouple</em> the template’s markup from its logic, allowing the creation of <strong>completely logic-less markup templates</strong> in the <code>HTML</code> and <code>XML</code> template modes.</p>
+<p>The main idea is that template logic will be defined in a separate <em>logic file</em> (more exactly a <em>logic resource</em>, as it doesn’t need to be a <em>file</em>). By default that logic resource will be an additional file living in the same place (e.g. folder) as the template file, with the same name but with <code>.th.xml</code> extension:</p>
+<pre><code>/templates
++-&gt;/home.html
++-&gt;/home.th.xml</code></pre>
+<p>Such <code>home.html</code> file can be completely logic-less. It might look like this:</p>
+<pre class="html"><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;body&gt;
+    &lt;table id=&quot;usersTable&quot;&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;username&quot;&gt;Jeremy Grapefruit&lt;/td&gt;
+        &lt;td class=&quot;usertype&quot;&gt;Normal User&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;username&quot;&gt;Alice Watermelon&lt;/td&gt;
+        &lt;td class=&quot;usertype&quot;&gt;Administrator&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/table&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>Absolutely no Thymeleaf code there. This is a template file that a designer with no Thymeleaf or templating knowledge could have created, edited and/or understood. Or a fragment of HTML provided by some external system with no Thymeleaf hooks at all.</p>
+<p>Let’s now turn that <code>home.html</code> template into a perfectly working Thymeleaf template by creating our additional <code>home.th.xml</code> file like this:</p>
+<pre class="xml"><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;thlogic&gt;
+  &lt;attr sel=&quot;#usersTable&quot; th:remove=&quot;all-but-first&quot;&gt;
+    &lt;attr sel=&quot;/tr[0]&quot; th:each=&quot;user : ${users}&quot;&gt;
+      &lt;attr sel=&quot;td.username&quot; th:text=&quot;${user.name}&quot; /&gt;
+      &lt;attr sel=&quot;td.usertype&quot; th:text=&quot;#{|user.type.${user.type}|}&quot; /&gt;
+    &lt;/attr&gt;
+  &lt;/attr&gt;
+&lt;/thlogic&gt;</code></pre>
+<p>Here we can see a lot of <code>&lt;attr&gt;</code> tags inside a <code>thlogic</code> block. Those <code>&lt;attr&gt;</code> tags perform <em>attribute injection</em> on nodes of the original template selected by means of their <code>sel</code> attributes, which contain Thymeleaf <em>markup selectors</em> (actually <em>AttoParser markup selectors</em>).</p>
+<p>Also note that <code>&lt;attr&gt;</code> tags can be nested so that their selectors are <em>appended</em>. That <code>sel=&quot;/tr[0]&quot;</code> above, for example, will be processed as <code>sel=&quot;#usersTable/tr[0]&quot;</code>. And the selector for the user name’s <code>&lt;td&gt;</code> will be processed as <code>sel=&quot;#usersTable/tr[0]//td.username&quot;</code>.</p>
+<p>So once merged, both files seen above will be completely equivalent to:</p>
+<pre class="html"><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;body&gt;
+    &lt;table id=&quot;usersTable&quot; th:remove=&quot;all-but-first&quot;&gt;
+      &lt;tr th:each=&quot;user : ${users}&quot;&gt;
+        &lt;td class=&quot;username&quot; th:text=&quot;${user.name}&quot;&gt;Jeremy Grapefruit&lt;/td&gt;
+        &lt;td class=&quot;usertype&quot; th:text=&quot;#{|user.type.${user.type}|}&quot;&gt;Normal User&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;username&quot;&gt;Alice Watermelon&lt;/td&gt;
+        &lt;td class=&quot;usertype&quot;&gt;Administrator&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/table&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>This looks more familiar, and is indeed less <em>verbose</em> than creating two separate files. But the advantage of <em>decoupled templates</em> is that we can achieve for our templates total independence from Thymeleaf, and therefore better maintainability from the design standpoint.</p>
+<p>Of course some <em>contracts</em> between designers or developers will still be needed –like e.g. the fact that the users’ <code>&lt;table&gt;</code> will need an <code>id=&quot;usersTable&quot;</code>–, but in many scenarios a pure-HTML template will be a much better communication artifact between design and development teams.</p>
+</section>
+<section id="configuring-decoupled-templates" class="level2">
+<h2>17.2 Configuring decoupled templates</h2>
+<p><strong>Enabling decoupled templates</strong></p>
+<p>Decoupled logic will not be expected for every template by default. Instead, the configured template resolvers (implementations of <code>ITemplateResolver</code>) will need to specifically mark the templates they resolve as <em>using decoupled logic</em>.</p>
+<p>Except for <code>StringTemplateResolver</code> (which does not allow decoupled logic), all other out-of-the-box implementations of <code>ITemplateResolver</code> will provide a flag called <code>useDecoupledLogic</code> that will mark all templates resolved by that resolver as potentially having all or part of its logic living in a separate resource:</p>
+<pre class="java"><code>final ServletContextTemplateResolver templateResolver = 
+        new ServletContextTemplateResolver(servletContext);
+...
+templateResolver.setUseDecoupledLogic(true);</code></pre>
+<p><strong>Mixing coupled and decoupled logic</strong></p>
+<p>Decoupled template logic, when enabled, is not a requirement. Its being enabled for a specific resolved template will only mean that the engine will <em>look for</em> a resource containing decoupled logic, parsing and merging it with the original template if it exists. No error will be issued if the decoupled logic resource does not exist.</p>
+<p>Also, in the same template we can mix both <em>coupled</em> and <em>decoupled</em> logic, for example by adding some Thymeleaf attributes at the original template file but leaving others for the separate decoupled logic file. The most common case for this is using the new (in v3.0) <code>th:ref</code> attribute.</p>
+</section>
+<section id="the-thref-attribute" class="level2">
+<h2>17.3 The th:ref attribute</h2>
+<p><code>th:ref</code> is only a marker attribute. It does nothing from the processing standpoint and simply disappears when the template is processed, but its usefulness lies in the fact that it acts as a <em>markup reference</em>, i.e. it can be resolved by name from a <em>markup selector</em> just like a <em>tag name</em> or a <em>fragment</em> (<code>th:fragment</code>).</p>
+<p>So if we have a selector like:</p>
+<pre class="xml"><code>  &lt;attr sel=&quot;whatever&quot; .../&gt;</code></pre>
+<p>This will match:</p>
+<ul>
+<li>Any <code>&lt;whatever&gt;</code> tags.</li>
+<li>Any tags with a <code>th:fragment=&quot;whatever&quot;</code> attribute.</li>
+<li>Any tags with a <code>th:ref=&quot;whatever&quot;</code> attribute.</li>
+</ul>
+<p>What is the advantage of <code>th:ref</code> against, for example, using a pure-HTML <code>id</code> attribute? merely the fact that we might not want to add so many <code>id</code> and <code>class</code> attributes to our tags to act as <em>logic anchors</em>, which might end up <em>polluting</em> a bit our output.</p>
+<p>And in the same sense, what is the disadvantage of <code>th:ref</code>? well, obviously that we’d be adding a bit of Thymeleaf logic (<em>“logic”</em>) to our templates.</p>
+<p>Note this applicability of the <code>th:ref</code> attribute <strong>does not only apply to decoupled logic template files</strong>: it works the same in other types of scenarios like e.g. in fragment expressions (<code>~{...}</code>).</p>
+</section>
+<section id="performance-impact-of-decoupled-templates" class="level2">
+<h2>17.4 Performance impact of decoupled templates</h2>
+<p>Extremely small. When a resolved template is marked to use decoupled logic and it is not cached, the template logic resource will be resolved first, parsed and processed into a secuence of instructions in-memory: basically a list of attributes to be injected to each markup selector.</p>
+<p>But this is the only <em>additional step</em> required because, after this, the real template will be parsed, and while it is parsed these attributes will be injected <em>on-the-fly</em> by the parser itself, thanks to the advanced capabilities for node selection in AttoParser. So parsed nodes will come out of the parser as if they had their injected attributes written in the original template file, no difference at all.</p>
+<p>The biggest advantage of this? when a template is configured to be cached, it will be cached already containing the injected attributes. So the overhead of using <em>decoupled templates</em> for cacheable templates, once they are cached, will be absolutely <em>zero</em>.</p>
+</section>
+<section id="resolution-of-decoupled-logic" class="level2">
+<h2>17.5 Resolution of decoupled logic</h2>
+<p>The way Thymeleaf resolves the decoupled logic resources corresponding to each template is configurable by the user. It is determined by an extension point, the <code>org.thymeleaf.templateparser.markup.decoupled.IDecoupledTemplateLogicResolver</code>, for which a <em>default implementation</em> is provided: <code>StandardDecoupledTemplateLogicResolver</code>.</p>
+<p>What does this standard implementation do?</p>
+<ul>
+<li>First, it applies a <code>prefix</code> and a <code>suffix</code> to the <em>base name</em> of the template resource (obtained by means of its <code>ITemplateResource#getBaseName()</code> method). Both prefix and suffix can be configured and, by default, the prefix will be empty and the suffix will be <code>.th.xml</code>.</li>
+<li>Second, it asks the template resource to resolve a <em>relative resource</em> with the computed name by means of its <code>ITemplateResource#relative(String relativeLocation)</code> method.</li>
+</ul>
+<p>The specific implementation of <code>IDecoupledTemplateLogicResolver</code> to be used can be configured at the <code>TemplateEngine</code> easily:</p>
+<pre class="java"><code>final StandardDecoupledTemplateLogicResolver decoupledresolver = 
+        new StandardDecoupledTemplateLogicResolver();
+decoupledResolver.setPrefix(&quot;../viewlogic/&quot;);
+...
+templateEngine.setDecoupledTemplateLogicResolver(decoupledResolver);</code></pre>
+</section>
+</section>
 <section id="appendix-a-expression-basic-objects" class="level1">
-<h1>17 Appendix A: Expression Basic Objects</h1>
+<h1>18 Appendix A: Expression Basic Objects</h1>
 <p>Some objects and variable maps are always available to be invoked at variable expressions (executed by OGNL or SpringEL). Let’s see them:</p>
 <section id="base-objects" class="level3">
 <h3>Base objects</h3>
@@ -3325,7 +3444,7 @@ ${#httpSession.lastAccessedTime}
 </section>
 </section>
 <section id="appendix-b-expression-utility-objects" class="level1">
-<h1>18 Appendix B: Expression Utility Objects</h1>
+<h1>19 Appendix B: Expression Utility Objects</h1>
 <p><strong>TODO</strong>: Add #execInfo and maybe some other new ones</p>
 <section id="dates" class="level3">
 <h3>Dates</h3>
