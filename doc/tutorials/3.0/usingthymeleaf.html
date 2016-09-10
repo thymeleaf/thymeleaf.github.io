@@ -201,9 +201,8 @@
 <li><a href="#aggregates">Aggregates</a></li>
 <li><a href="#ids">IDs</a></li>
 </ul></li>
-<li><a href="#appendix-c-markup-selector-syntax">19 Appendix C: Markup Selector syntax</a><ul>
+<li><a href="#appendix-c-markup-selector-syntax">19 Appendix C: Markup Selector Syntax</a><ul>
 <li><a href="#multivalued-class-matching">Multivalued class matching</a></li>
-<li><a href="#optional-brackets">Optional brackets</a></li>
 </ul></li>
 </ul>
 		</nav>
@@ -1949,7 +1948,7 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 <ul>
 <li><p><code>th:insert</code> is the simplest: it will simply insert the specified fragment as the body of its host tag.</p></li>
 <li><p><code>th:replace</code> actually <em>replaces</em> its host tag with the specified fragment.</p></li>
-<li><p><code>th:include</code> is similar to <code>th:insert</code>, but instead of inserting the fragment it only inserts the <em>contents</em></p></li>
+<li><p><code>th:include</code> is similar to <code>th:insert</code>, but instead of inserting the fragment it only inserts the <em>contents</em> of this fragment.</p></li>
 </ul>
 <p>So that an HTML fragment like this:</p>
 <pre class="html"><code>&lt;footer th:fragment=&quot;copy&quot;&gt;
@@ -1995,7 +1994,7 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 <pre class="html"><code>&lt;div th:fragment=&quot;frag (onevar,twovar)&quot;&gt;
     &lt;p th:text=&quot;${onevar} + &#39; - &#39; + ${twovar}&quot;&gt;...&lt;/p&gt;
 &lt;/div&gt;</code></pre>
-<p>This requires the use of one of these two syntaxes to call the fragment from <code>th:include</code>, <code>th:replace</code>:</p>
+<p>This requires the use of one of these two syntaxes to call the fragment from <code>th:insert</code> or <code>th:replace</code>:</p>
 <pre class="html"><code>&lt;div th:replace=&quot;::frag (${value1},${value2})&quot;&gt;...&lt;/div&gt;
 &lt;div th:replace=&quot;::frag (onevar=${value1},twovar=${value2})&quot;&gt;...&lt;/div&gt;</code></pre>
 <p>Note that order is not important in the last option:</p>
@@ -4228,11 +4227,12 @@ ${#ids.prev(&#39;someId&#39;)}</code></pre>
 </section>
 </section>
 <section id="appendix-c-markup-selector-syntax" class="level1">
-<h1>19 Appendix C: Markup Selector syntax</h1>
-<p>DOM Selectors borrow syntax features from XPATH, CSS and jQuery, in order to provide a powerful and easy to use way to specify template fragments.</p>
-<p>For example, the following selector will select every <code>&lt;div&gt;</code> with the class <code>content</code>, in every position inside the markup:</p>
-<pre class="html"><code>&lt;div th:include=&quot;mytemplate :: [//div[@class=&#39;content&#39;]]&quot;&gt;...&lt;/div&gt;</code></pre>
-<p>The basic syntax inspired from XPath includes:</p>
+<h1>19 Appendix C: Markup Selector Syntax</h1>
+<p>Thymeleaf’s Markup Selectors are directly borrowed from Thymeleaf’s parsing library: <a href="http://attoparser.org">AttoParser</a>.</p>
+<p>The syntax for this selectors has large similarities with that of selectors in XPath, CSS and jQuery, which makes them easy to use for most users. You can have a look at the complete syntax reference at the <a href="http://www.attoparser.org/apidocs/attoparser/2.0.0.RELEASE/org/attoparser/select/package-summary.html">AttoParser documentation</a>.</p>
+<p>For example, the following selector will select every <code>&lt;div&gt;</code> with the class <code>content</code>, in every position inside the markup (note this is not as concise as it could be, read on to know why):</p>
+<pre class="html"><code>&lt;div th:insert=&quot;mytemplate :: //div[@class=&#39;content&#39;]&quot;&gt;...&lt;/div&gt;</code></pre>
+<p>The basic syntax includes:</p>
 <ul>
 <li><p><code>/x</code> means direct children of the current node with name x.</p></li>
 <li><p><code>//x</code> means children of the current node with name x, at any depth.</p></li>
@@ -4243,8 +4243,8 @@ ${#ids.prev(&#39;someId&#39;)}</code></pre>
 </ul>
 <p>But more concise syntax can also be used:</p>
 <ul>
-<li><p><code>x</code> is exactly equivalent to <code>//x</code> (search an element with name or reference <code>x</code> at any depth level).</p></li>
-<li><p>Selectors are also allowed without element name/reference, as long as they include a specification of arguments. So <code>[@class='oneclass']</code> is a valid selector that looks for any elements (tags) with a class attribute with value “oneclass”.</p></li>
+<li><p><code>x</code> is exactly equivalent to <code>//x</code> (search an element with name or reference <code>x</code> at any depth level, a <em>reference</em> being a <code>th:ref</code> or a <code>th:fragment</code> attribute).</p></li>
+<li><p>Selectors are also allowed without element name/reference, as long as they include a specification of arguments. So <code>[@class='oneclass']</code> is a valid selector that looks for any elements (tags) with a class attribute with value <code>&quot;oneclass&quot;</code>.</p></li>
 </ul>
 <p>Advanced attribute selection features:</p>
 <ul>
@@ -4258,29 +4258,23 @@ ${#ids.prev(&#39;someId&#39;)}</code></pre>
 <li><p><code>.oneclass</code> is equivalent to <code>[class='oneclass']</code>.</p></li>
 <li><p><code>x#oneid</code> is equivalent to <code>x[id='oneid']</code>.</p></li>
 <li><p><code>#oneid</code> is equivalent to <code>[id='oneid']</code>.</p></li>
-<li><p><code>x%oneref</code> means nodes -not just elements- with name x that match reference <em>oneref</em> according to a specified <code>DOMSelector.INodeReferenceChecker</code> implementation.</p></li>
-<li><p><code>%oneref</code> means nodes -not just elements- with any name that match reference <em>oneref</em> according to a specified <code>DOMSelector.INodeReferenceChecker</code> implementation. Note this is actually equivalent to simply <code>oneref</code> because references can be used instead of element names.</p></li>
+<li><p><code>x%oneref</code> means <code>&lt;x&gt;</code> tags that have a <code>th:ref=&quot;oneref&quot;</code> or <code>th:fragment=&quot;oneref&quot;</code> attribute.</p></li>
+<li><p><code>%oneref</code> means any tags that have a <code>th:ref=&quot;oneref&quot;</code> or <code>th:fragment=&quot;oneref&quot;</code> attribute. Note this is actually equivalent to simply <code>oneref</code> because references can be used instead of element names.</p></li>
 <li><p>Direct selectors and attribute selectors can be mixed: <code>a.external[@href^='https']</code>.</p></li>
 </ul>
-<p>The above DOM Selector expression:</p>
-<pre class="html"><code>&lt;div th:include=&quot;mytemplate :: [//div[@class=&#39;content&#39;]]&quot;&gt;...&lt;/div&gt;</code></pre>
+<p>So the above Markup Selector expression:</p>
+<pre class="html"><code>&lt;div th:insert=&quot;mytemplate :: //div[@class=&#39;content&#39;]&quot;&gt;...&lt;/div&gt;</code></pre>
 <p>could be written as:</p>
-<pre class="html"><code>&lt;div th:include=&quot;mytemplate :: [div.content]&quot;&gt;...&lt;/div&gt;</code></pre>
+<pre class="html"><code>&lt;div th:insert=&quot;mytemplate :: div.content&quot;&gt;...&lt;/div&gt;</code></pre>
+<p>Examining a different example, this:</p>
+<pre class="html"><code>&lt;div th:replace=&quot;mytemplate :: myfrag&quot;&gt;...&lt;/div&gt;</code></pre>
+<p>Will look for a <code>th:fragment=&quot;myfrag&quot;</code> fragment signature (or <code>th:ref</code> references). But would also look for tags with name <code>myfrag</code> if they existed (which they don’t, in HTML). Note the difference with:</p>
+<pre class="html"><code>&lt;div th:replace=&quot;mytemplate :: .myfrag&quot;&gt;...&lt;/div&gt;</code></pre>
+<p>…which will actually look for any elements with <code>class=&quot;myfrag&quot;</code>, without caring about <code>th:fragment</code> signatures (or <code>th:ref</code> references).</p>
 <section id="multivalued-class-matching" class="level3">
 <h3>Multivalued class matching</h3>
-<p>DOM Selectors understand the class attribute to be <strong>multivalued</strong>, and therefore allow the application of selectors on this attribute even if the element has several class values.</p>
-<p>For example, <code>div[class='two']</code> will match <code>&lt;div class=&quot;one two three&quot; /&gt;</code></p>
-</section>
-<section id="optional-brackets" class="level3">
-<h3>Optional brackets</h3>
-<p>The syntax of the fragment inclusion attributes converts every fragment selection into a DOM selection, so brackets <code>[...]</code> are not needed (though allowed).</p>
-<p>So the following, with no brackets, is equivalent to the bracketed selector seen above:</p>
-<pre class="html"><code>&lt;div th:include=&quot;mytemplate :: div.content&quot;&gt;...&lt;/div&gt;</code></pre>
-<p>So, summarizing, this:</p>
-<pre class="html"><code>&lt;div th:replace=&quot;mytemplate :: myfrag&quot;&gt;...&lt;/div&gt;</code></pre>
-<p>Will look for a <code>th:fragment=&quot;myfrag&quot;</code> fragment signature. But would also look for tags with name <code>myfrag</code> if they existed (which they don’t, in HTML). Note the difference with:</p>
-<pre class="html"><code>&lt;div th:replace=&quot;mytemplate :: .myfrag&quot;&gt;...&lt;/div&gt;</code></pre>
-<p>which will actually look for any elements with <code>class=&quot;myfrag&quot;</code>, without caring about <code>th:fragment</code> signatures.</p>
+<p>Markup Selectors understand the class attribute to be <strong>multivalued</strong>, and therefore allow the application of selectors on this attribute even if the element has several class values.</p>
+<p>For example, <code>div.two</code> will match <code>&lt;div class=&quot;one two three&quot; /&gt;</code></p>
 </section>
 </section>
 		</div>
