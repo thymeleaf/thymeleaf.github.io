@@ -83,6 +83,7 @@
 <li><a href="#conditional-expressions">4.11 Conditional expressions</a></li>
 <li><a href="#default-expressions-elvis-operator">4.12 Default expressions (Elvis operator)</a></li>
 <li><a href="#the-no-operation-token">4.13 The No-Operation token</a></li>
+<li><a href="#data-conversion-formatting">4.15 Data Conversion / Formatting</a></li>
 <li><a href="#preprocessing">4.14 Preprocessing</a></li>
 </ul></li>
 <li><a href="#setting-attribute-values">5 Setting Attribute Values</a><ul>
@@ -166,7 +167,8 @@
 <li><a href="#standard-message-resolver">Standard Message Resolver</a></li>
 <li><a href="#configuring-message-resolvers">Configuring message resolvers</a></li>
 </ul></li>
-<li><a href="#logging">15.3 Logging</a></li>
+<li><a href="#conversion-services">15.3 Conversion Services</a></li>
+<li><a href="#logging">15.4 Logging</a></li>
 </ul></li>
 <li><a href="#template-cache">16 Template Cache</a></li>
 <li><a href="#decoupled-template-logic">17 Decoupled Template Logic</a><ul>
@@ -180,10 +182,12 @@
 <li><a href="#base-objects">Base objects</a></li>
 <li><a href="#web-context-namespaces-for-requestsession-attributes-etc.">Web context namespaces for request/session attributes, etc.</a></li>
 <li><a href="#web-context-objects">Web context objects</a></li>
-<li><a href="#spring-context-objects">Spring context objects</a></li>
-<li><a href="#spring-beans">Spring beans</a></li>
 </ul></li>
 <li><a href="#appendix-b-expression-utility-objects">19 Appendix B: Expression Utility Objects</a><ul>
+<li><a href="#execution-info">Execution Info</a></li>
+<li><a href="#messages-1">Messages</a></li>
+<li><a href="#urisurls">URIs/URLs</a></li>
+<li><a href="#conversions">Conversions</a></li>
 <li><a href="#dates">Dates</a></li>
 <li><a href="#calendars">Calendars</a></li>
 <li><a href="#numbers">Numbers</a></li>
@@ -195,7 +199,6 @@
 <li><a href="#sets">Sets</a></li>
 <li><a href="#maps">Maps</a></li>
 <li><a href="#aggregates">Aggregates</a></li>
-<li><a href="#messages-1">Messages</a></li>
 <li><a href="#ids">IDs</a></li>
 </ul></li>
 <li><a href="#appendix-c-markup-selector-syntax">19 Appendix C: Markup Selector syntax</a><ul>
@@ -1065,6 +1068,18 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 <pre class="html"><code>&lt;span th:text=&quot;${user.name} ?: &#39;no user authenticated&#39;&quot;&gt;...&lt;/span&gt;</code></pre>
 <p>…we can directly use <em>‘no user authenticated’</em> as a prototyping text, which results in code that is both more concise and versatile from a design standpoint:</p>
 <pre class="html"><code>&lt;span th:text=&quot;${user.name} ?: _&quot;&gt;no user authenticated&lt;/span&gt;</code></pre>
+</section>
+<section id="data-conversion-formatting" class="level2">
+<h2>4.15 Data Conversion / Formatting</h2>
+<p>Thymeleaf defines a <em>double-brace</em> syntax for variable (<code>${...}</code>) and selection (<code>*{...}</code>) expressions that allows us to apply <em>data conversion</em> by means of a configured <em>conversion service</em>.</p>
+<p>It basically goes like this:</p>
+<pre class="html"><code>&lt;td th:text=&quot;${{user.lastAccessDate}}&quot;&gt;...&lt;/td&gt;</code></pre>
+<p>Noticed the double brace there?: <code>${{...}}</code>. That instructs Thymeleaf to pass the result of the <code>user.lastAccessDate</code> expression to the <em>conversion service</em> and ask it to perform a <strong>formatting operation</strong> (a conversion to <code>String</code>) before writing the result.</p>
+<p>Assuming that <code>user.lastAccessDate</code> is of type <code>java.util.Calendar</code>, if a <em>conversion service</em> (implementation of <code>IStandardConversionService</code>) has been registered and contains a valid conversion for <code>Calendar -&gt; String</code>, it will be applied.</p>
+<p>Note that the default implementation of <code>IStandardConversionService</code> (the <code>StandardConversionService</code> class) simply executes <code>.toString()</code> on any object converted to <code>String</code>. For more information on how to register a custom <em>conversion service</em> implementation, have a look at the <em>More on Configuration</em> section in this same tutorial.</p>
+<blockquote>
+<p>The official thymeleaf-spring3 and thymeleaf-spring4 integration packages transparently integrate this <em>Thymeleaf Conversion Service</em> mechanism with Spring’s own <em>Conversion Service</em> infrastructure, so that conversion services and formatters declared in the Spring configuration will be made automatically available to <code>${{...}}</code> and <code>*{{...}}</code> expressions.</p>
+</blockquote>
 </section>
 <section id="preprocessing" class="level2">
 <h2>4.14 Preprocessing</h2>
@@ -3150,8 +3165,22 @@ templateEngine.addMessageResolver(messageResolver);</code></pre>
 <p>And why would we want to have more than one message resolver? for the same reason as template resolvers: message resolvers are ordered and if the first one cannot resolve a specific message, the second one will be asked, then the third, etc.</p>
 </section>
 </section>
+<section id="conversion-services" class="level2">
+<h2>15.3 Conversion Services</h2>
+<p>The <em>conversion service</em> that enables us to perform data conversion and formatting operations by means of the <em>double-brace</em> syntax (<code>${{...}}</code>) is actually a feature of the Standard Dialect, not of the Thymeleaf Template Engine itself.</p>
+<p>As such, the way to configure it is by setting our custom implementation of the <code>IStandardConversionService</code> interface directly into the instance of <code>StandardDialect</code> that is being configured into the template engine. Like:</p>
+<pre class="java"><code>IStandardConversionService customConversionService = ...
+
+StandardDialect dialect = new StandardDialect();
+dialect.setConversionService(customConversionService);
+
+templateEngine.setDialect(dialect);</code></pre>
+<blockquote>
+<p>Note that the thymeleaf-spring3 and thymeleaf-spring4 packages contain the <code>SpringStandardDialect</code>, and this dialect already comes pre-configured with an implementation of <code>IStandardConversionService</code> that integrates Spring’s own <em>Conversion Service</em> infrastructure into Thymeleaf.</p>
+</blockquote>
+</section>
 <section id="logging" class="level2">
-<h2>15.3 Logging</h2>
+<h2>15.4 Logging</h2>
 <p>Thymeleaf pays quite a lot of attention to logging, and always tries to offer the maximum amount of useful information through its logging interface.</p>
 <p>The logging library used is <code>slf4j,</code> which in fact acts as a bridge to whichever logging implementation we might want to use in our application (for example, <code>log4j</code>).</p>
 <p>Thymeleaf classes will log <code>TRACE</code>, <code>DEBUG</code> and <code>INFO</code>-level information, depending on the level of detail we desire, and besides general logging it will use three special loggers associated with the TemplateEngine class which we can configure separately for different purposes:</p>
@@ -3314,7 +3343,8 @@ templateEngine.setDecoupledTemplateLogicResolver(decoupledResolver);</code></pre
 <section id="base-objects" class="level3">
 <h3>Base objects</h3>
 <ul>
-<li><strong>#ctx</strong> : the context object. It will be an implementation of <code>org.thymeleaf.context.IContext</code>, <code>org.thymeleaf.context.IWebContext</code> depending on our environment (standalone or web). If we are using the <em>Spring integration module</em>, it will be an instance of <code>org.thymeleaf.spring[3|4].context.SpringWebContext</code>.</li>
+<li><p><strong>#ctx</strong> : the context object. It will be an implementation of <code>org.thymeleaf.context.IContext</code>, <code>org.thymeleaf.context.IWebContext</code> depending on our environment (standalone or web).</p>
+<p>Note <code>#vars</code> and <code>#root</code> are synomyns for the same object, but using <code>#ctx</code> is recommended.</p></li>
 </ul>
 <pre class="java"><code>/*
  * ======================================================================
@@ -3323,7 +3353,7 @@ templateEngine.setDecoupledTemplateLogicResolver(decoupledResolver);</code></pre
  */
 
 ${#ctx.locale}
-${#ctx.variables}
+${#ctx.variableNames}
 
 /*
  * ======================================================================
@@ -3331,33 +3361,14 @@ ${#ctx.variables}
  * ======================================================================
  */
 
-${#ctx.applicationAttributes}
-${#ctx.httpServletRequest}
-${#ctx.httpServletResponse}
-${#ctx.httpSession}
-${#ctx.requestAttributes}
-${#ctx.requestParameters}
-${#ctx.servletContext}
-${#ctx.sessionAttributes}</code></pre>
+${#ctx.request}
+${#ctx.response}
+${#ctx.session}
+${#ctx.servletContext}</code></pre>
 <ul>
 <li><strong>#locale</strong> : direct access to the <code>java.util.Locale</code> associated with current request.</li>
 </ul>
 <pre class="java"><code>${#locale}</code></pre>
-<ul>
-<li><p><strong>#vars</strong> : an instance of <code>org.thymeleaf.context.VariablesMap</code> with all the variables in the Context (usually the variables contained in <code>#ctx.variables</code> plus local ones).</p>
-<p>Unqualified expressions are evaluated against this object. In fact, <code>${something}</code> is completely equivalent to (but more beautiful than) <code>${#vars.something}</code>.</p>
-<p><code>#root</code> is a synomyn for the same object.</p></li>
-</ul>
-<pre class="java"><code>/*
- * ======================================================================
- * See javadoc API for class org.thymeleaf.context.VariablesMap
- * ======================================================================
- */
-
-${#vars.get(&#39;foo&#39;)}
-${#vars.containsKey(&#39;foo&#39;)}
-${#vars.size()}
-...</code></pre>
 </section>
 <section id="web-context-namespaces-for-requestsession-attributes-etc." class="level3">
 <h3>Web context namespaces for request/session attributes, etc.</h3>
@@ -3414,38 +3425,176 @@ ${application.containsKey(&#39;foo&#39;)}
 <h3>Web context objects</h3>
 <p>Inside a web environment there is also direct access to the following objects (note these are objects, not maps/namespaces):</p>
 <ul>
-<li><strong>#httpServletRequest</strong> : direct access to the <code>javax.servlet.http.HttpServletRequest</code> object associated with the current request.</li>
+<li><strong>#request</strong> : direct access to the <code>javax.servlet.http.HttpServletRequest</code> object associated with the current request.</li>
 </ul>
-<pre class="java"><code>${#httpServletRequest.getAttribute(&#39;foo&#39;)}
-${#httpServletRequest.getParameter(&#39;foo&#39;)}
-${#httpServletRequest.getContextPath()}
-${#httpServletRequest.getRequestName()}
+<pre class="java"><code>${#request.getAttribute(&#39;foo&#39;)}
+${#request.getParameter(&#39;foo&#39;)}
+${#request.getContextPath()}
+${#request.getRequestName()}
 ...</code></pre>
 <ul>
-<li><strong>#httpSession</strong> : direct access to the <code>javax.servlet.http.HttpSession</code> object associated with the current request.</li>
+<li><strong>#session</strong> : direct access to the <code>javax.servlet.http.HttpSession</code> object associated with the current request.</li>
 </ul>
-<pre class="java"><code>${#httpSession.getAttribute(&#39;foo&#39;)}
-${#httpSession.id}
-${#httpSession.lastAccessedTime}
+<pre class="java"><code>${#session.getAttribute(&#39;foo&#39;)}
+${#session.id}
+${#session.lastAccessedTime}
 ...</code></pre>
-</section>
-<section id="spring-context-objects" class="level3">
-<h3>Spring context objects</h3>
-<p>If you are using Thymeleaf from Spring, you can also access these objects:</p>
-<ul>
-<li><strong>#themes</strong> : provides the same features as the Spring <code>spring:theme</code> JSP tag.</li>
-</ul>
-<pre class="java"><code>${#themes.code(&#39;foo&#39;)}</code></pre>
-</section>
-<section id="spring-beans" class="level3">
-<h3>Spring beans</h3>
-<p>Thymeleaf also allows accessing beans registered at your Spring Application Context in the standard way defined by Spring EL, which is using the syntax <code>@beanName</code>, for example:</p>
-<pre class="html"><code>&lt;div th:text=&quot;${@authService.getUserName()}&quot;&gt;...&lt;/div&gt;</code></pre>
+<p>``<code>* **\#servletContext** : direct access to the</code>javax.servlet.ServletContext` object associated with the current request.</p>
+<pre class="java"><code>${#servletContext.getAttribute(&#39;foo&#39;)}
+${#servletContext.contextPath}
+...</code></pre>
 </section>
 </section>
 <section id="appendix-b-expression-utility-objects" class="level1">
 <h1>19 Appendix B: Expression Utility Objects</h1>
-<p><strong>TODO</strong>: Add #execInfo and maybe some other new ones</p>
+<section id="execution-info" class="level3">
+<h3>Execution Info</h3>
+<ul>
+<li><strong>#execInfo</strong> : expression object providing useful information about the template being processed inside Thymeleaf Standard Expressions.</li>
+</ul>
+<pre class="java"><code>/*
+ * ======================================================================
+ * See javadoc API for class org.thymeleaf.expression.ExecutionInfo
+ * ======================================================================
+ */
+
+/*
+ * Return the name and mode of the &#39;leaf&#39; template. This means the template
+ * from where the events being processed were parsed. So if this piece of
+ * code is not in the root template &quot;A&quot; but on a fragment being inserted
+ * into &quot;A&quot; from another template called &quot;B&quot;, this will return &quot;B&quot; as a
+ * name, and B&#39;s mode as template mode.
+ */
+${#execInfo.templateName}
+${#execInfo.templateMode}
+
+/*
+ * Return the name and mode of the &#39;root&#39; template. This means the template
+ * that the template engine was originally asked to process. So if this
+ * piece of code is not in the root template &quot;A&quot; but on a fragment being
+ * inserted into &quot;A&quot; from another template called &quot;B&quot;, this will still 
+ * return &quot;A&quot; and A&#39;s template mode.
+ */
+${#execInfo.processedTemplateName}
+${#execInfo.processedTemplateMode}
+
+/*
+ * Return the stacks (actually, List&lt;String&gt; or List&lt;TemplateMode&gt;) of
+ * templates being processed. The first element will be the 
+ * &#39;processedTemplate&#39; (the root one), the last one will be the &#39;leaf&#39;
+ * template, and in the middle all the fragments inserted in nested
+ * manner to reach the leaf from the root will appear.
+ */
+${#execInfo.templateNames}
+${#execInfo.templateModes}
+
+/*
+ * Return the stack of templates being processed similarly (and in the
+ * same order) to &#39;templateNames&#39; and &#39;templateModes&#39;, but returning
+ * a List&lt;TemplateData&gt; with the full template metadata.
+ */
+${#execInfo.templateStack}</code></pre>
+</section>
+<section id="messages-1" class="level3">
+<h3>Messages</h3>
+<ul>
+<li><strong>#messages</strong> : utility methods for obtaining externalized messages inside variables expressions, in the same way as they would be obtained using <code>#{...}</code> syntax.</li>
+</ul>
+<pre class="java"><code>/*
+ * ======================================================================
+ * See javadoc API for class org.thymeleaf.expression.Messages
+ * ======================================================================
+ */
+
+/*
+ * Obtain externalized messages. Can receive a single key, a key plus arguments,
+ * or an array/list/set of keys (in which case it will return an array/list/set of 
+ * externalized messages).
+ * If a message is not found, a default message (like &#39;??msgKey??&#39;) is returned.
+ */
+${#messages.msg(&#39;msgKey&#39;)}
+${#messages.msg(&#39;msgKey&#39;, param1)}
+${#messages.msg(&#39;msgKey&#39;, param1, param2)}
+${#messages.msg(&#39;msgKey&#39;, param1, param2, param3)}
+${#messages.msgWithParams(&#39;msgKey&#39;, new Object[] {param1, param2, param3, param4})}
+${#messages.arrayMsg(messageKeyArray)}
+${#messages.listMsg(messageKeyList)}
+${#messages.setMsg(messageKeySet)}
+
+/*
+ * Obtain externalized messages or null. Null is returned instead of a default
+ * message if a message for the specified key is not found.
+ */
+${#messages.msgOrNull(&#39;msgKey&#39;)}
+${#messages.msgOrNull(&#39;msgKey&#39;, param1)}
+${#messages.msgOrNull(&#39;msgKey&#39;, param1, param2)}
+${#messages.msgOrNull(&#39;msgKey&#39;, param1, param2, param3)}
+${#messages.msgOrNullWithParams(&#39;msgKey&#39;, new Object[] {param1, param2, param3, param4})}
+${#messages.arrayMsgOrNull(messageKeyArray)}
+${#messages.listMsgOrNull(messageKeyList)}
+${#messages.setMsgOrNull(messageKeySet)}</code></pre>
+</section>
+<section id="urisurls" class="level3">
+<h3>URIs/URLs</h3>
+<ul>
+<li><strong>#uris</strong> : utility object for performing URI/URL operations (esp. escaping/unescaping) inside Thymeleaf Standard Expressions.</li>
+</ul>
+<pre class="java"><code>/*
+ * ======================================================================
+ * See javadoc API for class org.thymeleaf.expression.Uris
+ * ======================================================================
+ */
+
+/*
+ * Escape/Unescape as a URI/URL path
+ */
+${#uris.escapePath(uri)}
+${#uris.escapePath(uri, encoding)}
+${#uris.unescapePath(uri)}
+${#uris.unescapePath(uri, encoding)}
+
+/*
+ * Escape/Unescape as a URI/URL path segment (between &#39;/&#39; symbols)
+ */
+${#uris.escapePathSegment(uri)}
+${#uris.escapePathSegment(uri, encoding)}
+${#uris.unescapePathSegment(uri)}
+${#uris.unescapePathSegment(uri, encoding)}
+
+/*
+ * Escape/Unescape as a Fragment Identifier (#frag)
+ */
+${#uris.escapeFragmentId(uri)}
+${#uris.escapeFragmentId(uri, encoding)}
+${#uris.unescapeFragmentId(uri)}
+${#uris.unescapeFragmentId(uri, encoding)}
+
+/*
+ * Escape/Unescape as a Query Parameter (?var=value)
+ */
+${#uris.escapeQueryParam(uri)}
+${#uris.escapeQueryParam(uri, encoding)}
+${#uris.unescapeQueryParam(uri)}
+${#uris.unescapeQueryParam(uri, encoding)}</code></pre>
+</section>
+<section id="conversions" class="level3">
+<h3>Conversions</h3>
+<ul>
+<li><strong>#conversions</strong> : utility object that allows the execution of the <em>Conversion Service</em> at any point of a template:</li>
+</ul>
+<pre class="java"><code>/*
+ * ======================================================================
+ * See javadoc API for class org.thymeleaf.expression.Conversions
+ * ======================================================================
+ */
+
+/*
+ * Execute the desired conversion of the &#39;object&#39; value into the
+ * specified class.
+ */
+${#conversions.convert(object, &#39;java.util.TimeZone&#39;)}
+${#conversions.convert(object, targetClass)}</code></pre>
+</section>
 <section id="dates" class="level3">
 <h3>Dates</h3>
 <ul>
@@ -4048,45 +4197,6 @@ ${#aggregates.sum(collection)}
  */
 ${#aggregates.avg(array)}
 ${#aggregates.avg(collection)}</code></pre>
-</section>
-<section id="messages-1" class="level3">
-<h3>Messages</h3>
-<ul>
-<li><strong>#messages</strong> : utility methods for obtaining externalized messages inside variables expressions, in the same way as they would be obtained using <code>#{...}</code> syntax.</li>
-</ul>
-<pre class="java"><code>/*
- * ======================================================================
- * See javadoc API for class org.thymeleaf.expression.Messages
- * ======================================================================
- */
-
-/*
- * Obtain externalized messages. Can receive a single key, a key plus arguments,
- * or an array/list/set of keys (in which case it will return an array/list/set of 
- * externalized messages).
- * If a message is not found, a default message (like &#39;??msgKey??&#39;) is returned.
- */
-${#messages.msg(&#39;msgKey&#39;)}
-${#messages.msg(&#39;msgKey&#39;, param1)}
-${#messages.msg(&#39;msgKey&#39;, param1, param2)}
-${#messages.msg(&#39;msgKey&#39;, param1, param2, param3)}
-${#messages.msgWithParams(&#39;msgKey&#39;, new Object[] {param1, param2, param3, param4})}
-${#messages.arrayMsg(messageKeyArray)}
-${#messages.listMsg(messageKeyList)}
-${#messages.setMsg(messageKeySet)}
-
-/*
- * Obtain externalized messages or null. Null is returned instead of a default
- * message if a message for the specified key is not found.
- */
-${#messages.msgOrNull(&#39;msgKey&#39;)}
-${#messages.msgOrNull(&#39;msgKey&#39;, param1)}
-${#messages.msgOrNull(&#39;msgKey&#39;, param1, param2)}
-${#messages.msgOrNull(&#39;msgKey&#39;, param1, param2, param3)}
-${#messages.msgOrNullWithParams(&#39;msgKey&#39;, new Object[] {param1, param2, param3, param4})}
-${#messages.arrayMsgOrNull(messageKeyArray)}
-${#messages.listMsgOrNull(messageKeyList)}
-${#messages.setMsgOrNull(messageKeySet)}</code></pre>
 </section>
 <section id="ids" class="level3">
 <h3>IDs</h3>
