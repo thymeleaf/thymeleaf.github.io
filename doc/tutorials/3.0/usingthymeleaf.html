@@ -242,10 +242,9 @@
 <h1>1 Introducing Thymeleaf</h1>
 <section id="what-is-thymeleaf" class="level2">
 <h2>1.1 What is Thymeleaf?</h2>
-<p>Thymeleaf is a Java library. It is a server-side Java template engine for HTML, XML, JavaScript, CSS and even plain text.</p>
-<p>It is best suited for serving web content in web applications (Servlet-based or not), but it can process template files offline too in applications that are not web-based.</p>
-<p>The main goal of Thymeleaf is to provide an elegant and highly-maintainable way of creating templates. To achieve this, it builds on the concept of <em>Natural Templates</em> in order to inject its logic into template files in a way that doesn’t affect the templates capabilities to be used as design prototypes. This improves communication of design and bridges the gap between design and development teams.</p>
-<p>Also, Thymeleaf has been designed from the beginning with Web Standards in mind –especially <strong>HTML5</strong>–, allowing you to create fully validating templates if that is a need for you.</p>
+<p>Thymeleaf is a modern server-side Java template engine for both web and standalone environments, capable of processing HTML, XML, JavaScript, CSS and even plain text.</p>
+<p>The main goal of Thymeleaf is to provide an elegant and highly-maintainable way of creating templates. To achieve this, it builds on the concept of <em>Natural Templates</em> to inject its logic into template files in a way that doesn’t affect the template from being used as a design prototype. This improves communication of design and bridges the gap between design and development teams.</p>
+<p>Thymeleaf has also been designed from the beginning with Web Standards in mind – especially <strong>HTML5</strong> – allowing you to create fully validating templates if that is a need for you.</p>
 </section>
 <section id="what-kind-of-templates-can-thymeleaf-process" class="level2">
 <h2>1.2 What kind of templates can Thymeleaf process?</h2>
@@ -259,43 +258,45 @@
 <li>RAW</li>
 </ul>
 <p>There are two <em>markup</em> template modes (<code>HTML</code> and <code>XML</code>), three <em>textual</em> template modes (<code>TEXT</code>, <code>JAVASCRIPT</code> and <code>CSS</code>) and a <em>no-op</em> template mode (<code>RAW</code>).</p>
-<p>The <strong><code>HTML</code></strong> template mode will allow any kind of HTML markup input, including HTML5, HTML 4 and XHTML. No markup validation or well-formedness check will be performed, and template markup code structure will be respected to the biggest possible extent in output.</p>
-<p>The <strong><code>XML</code></strong> template mode will allow XML input. In this case, code is expected to be well-formed from the XML standpoint: no unclosed tags, no unquoted attributes, etc. and the parser will throw exceptions if well-formedness violations are found. Note however that no <em>validation</em> (DTD, XML Schema) will be performed.</p>
-<p>The <strong><code>TEXT</code></strong> template mode will allow the use of a specific non-markup syntax in order to process templates that are not written in markup form. Examples of such templates might be text emails or templated documentation. Note that HTML or XML templates can be also processed as <code>TEXT</code>, in which case they will not be parsed as markup and every tag, DOCTYPE, comment, etc. will be treated as mere text.</p>
-<p>The <strong><code>JAVASCRIPT</code></strong> template mode will allow the templated processing of JavaScript files involved in a Thymeleaf-powered application. This will allow the use of model data inside those JavaScript files in the same way it can be done in HTML files, but with JavaScript-specific integrations such as specialized escaping or <em>natural scripting</em>. The <code>JAVASCRIPT</code> template mode is considered a <em>textual</em> mode and therefore uses the same non-markup processing syntax as the <code>TEXT</code> template mode.</p>
-<p>The <strong><code>CSS</code></strong> template mode will allow the templated processing of CSS files involved in a Thymeleaf-powered application. Similar to the <code>JAVASCRIPT</code> mode, the <code>CSS</code> template mode is also a <em>textual</em> mode and uses the non-markup processing syntax from the <code>TEXT</code> template mode.</p>
-<p>The <strong><code>RAW</code></strong> template mode will simply not process the template at all. It is meant to be used mainly for inserting untouched resources (files, URL responses, etc.) into the templates being processed. For example, using this mode, external, uncontrolled resources in HTML format could be included into application templates safely knowing that any Thymeleaf code that these resources might include will not be executed.</p>
+<p>The <strong><code>HTML</code></strong> template mode will allow any kind of HTML input, including HTML5, HTML 4 and XHTML. No validation or well-formedness check will be performed, and template code/structure will be respected to the biggest possible extent in output.</p>
+<p>The <strong><code>XML</code></strong> template mode will allow XML input. In this case, code is expected to be well-formed – no unclosed tags, no unquoted attributes, etc – and the parser will throw exceptions if well-formedness violations are found. Note that no <em>validation</em> (against a DTD or XML Schema) will be performed.</p>
+<p>The <strong><code>TEXT</code></strong> template mode will allow the use of a special syntax for templates of a non-markup nature. Examples of such templates might be text emails or templated documentation. Note that HTML or XML templates can be also processed as <code>TEXT</code>, in which case they will not be parsed as markup, and every tag, DOCTYPE, comment, etc, will be treated as mere text.</p>
+<p>The <strong><code>JAVASCRIPT</code></strong> template mode will allow the processing of JavaScript files in a Thymeleaf application. This means being able to use model data inside JavaScript files in the same way it can be done in HTML files, but with JavaScript-specific integrations such as specialized escaping or <em>natural scripting</em>. The <code>JAVASCRIPT</code> template mode is considered a <em>textual</em> mode and therefore uses the same special syntax as the <code>TEXT</code> template mode.</p>
+<p>The <strong><code>CSS</code></strong> template mode will allow the processing of CSS files involved in a Thymeleaf application. Similar to the <code>JAVASCRIPT</code> mode, the <code>CSS</code> template mode is also a <em>textual</em> mode and uses the special processing syntax from the <code>TEXT</code> template mode.</p>
+<p>The <strong><code>RAW</code></strong> template mode will simply not process templates at all. It is meant to be used for inserting untouched resources (files, URL responses, etc.) into the templates being processed. For example, external, uncontrolled resources in HTML format could be included into application templates, safely knowing that any Thymeleaf code that these resources might include will not be executed.</p>
 </section>
 <section id="dialects-the-standard-dialect" class="level2">
 <h2>1.3 Dialects: The Standard Dialect</h2>
-<p>Thymeleaf is an extremely extensible template engine (in fact it should be better called a <em>template engine framework</em>) that allows you to define and customize the way your templates will be processed to a fine level of detail.</p>
-<p>An object that applies some logic to a markup artifact (a tag, a text, a comment… or a mere placeholder if templates are not markup) is called a <em>processor</em>, and a set of these processors —plus perhaps some extra artifacts— is what normally a <strong>dialect</strong> is comprised of. Thymeleaf’s core library provides one out-of-the-box dialect called the <strong>Standard Dialect</strong>, which should be enough for the needs of a big percent of users.</p>
-<p><em>Note dialects can actually have no processors and be entirely comprised of other kinds of artifacts, but processors are definitely the most usual.</em></p>
-<p><em>The Standard Dialect is the dialect this tutorial covers</em>. Every attribute and syntax feature you will learn about in the following pages is defined by this dialect, even if that isn’t explicitly mentioned.</p>
-<p>Of course, users may create their own dialects (even extending the Standard one) if they want to define their own processing logic while taking advantage of the library’s advanced features. Thymeleaf can be configured to use Several dialects at a time.</p>
+<p>Thymeleaf is an extremely extensible template engine (in fact it could be called a <em>template engine framework</em>) that allows you to define and customize the way your templates will be processed to a fine level of detail.</p>
+<p>An object that applies some logic to a markup artifact (a tag, some text, a comment, or a mere placeholder if templates are not markup) is called a <em>processor</em>, and a set of these processors – plus perhaps some extra artifacts – is what a <strong>dialect</strong> is normally comprised of. Out of the box, Thymeleaf’s core library provides a dialect called the <strong>Standard Dialect</strong>, which should be enough for most users.</p>
 <blockquote>
-<p>The official Thymeleaf-spring3 and thymeleaf-spring4 integration packages both define a dialect called the “SpringStandard Dialect”, mostly equivalent to the Standard Dialect but with small adaptations to make better use of some features in Spring Framework (for example, by using Spring Expression Language or SpringEL instead of the default OGNL). So if you are a Spring MVC user you are not wasting your time, as almost everything you learn here will be of use in your Spring applications.</p>
+<p>Note that dialects can actually have no processors and be entirely comprised of other kinds of artifacts, but processors are definitely the most common use case.</p>
 </blockquote>
-<p>Most of the processors of the Standard Dialect are <em>attribute processors</em>. This allows browsers to correctly display HTML template files even before being processed, because they will simply ignore the additional attributes. For example, while a JSP using tag libraries could include a fragment of code not directly displayable by a browser like:</p>
+<p><em>This tutorial covers the Standard Dialect</em>. Every attribute and syntax feature you will learn about in the following pages is defined by this dialect, even if that isn’t explicitly mentioned.</p>
+<p>Of course, users can create their own dialects (even extending the Standard one) if they want to define their own processing logic while taking advantage of the library’s advanced features. Thymeleaf can also be configured to use several dialects at a time.</p>
+<blockquote>
+<p>The official thymeleaf-spring3 and thymeleaf-spring4 integration packages both define a dialect called the “SpringStandard Dialect”, which is mostly the same as the Standard Dialect, but with small adaptations to make better use of some features in the Spring Framework (for example, by using Spring Expression Language or SpringEL instead of OGNL). So if you are a Spring MVC user you are not wasting your time, as almost everything you learn here will be of use in your Spring applications.</p>
+</blockquote>
+<p>Most of the processors of the Standard Dialect are <em>attribute processors</em>. This allows browsers to correctly display HTML template files even before being processed because they will simply ignore the additional attributes. For example, while a JSP using tag libraries could include a fragment of code not directly displayable by a browser like:</p>
 <pre class="html"><code>&lt;form:inputText name=&quot;userName&quot; value=&quot;${user.name}&quot; /&gt;</code></pre>
 <p>…the Thymeleaf Standard Dialect would allow us to achieve the same functionality with:</p>
 <pre class="html"><code>&lt;input type=&quot;text&quot; name=&quot;userName&quot; value=&quot;James Carrot&quot; th:value=&quot;${user.name}&quot; /&gt;</code></pre>
-<p>Which not only will be correctly displayed by browsers, but also allow us to (optionally) specify a value attribute in it (“James Carrot”, in this case) that will be displayed when the prototype is statically opened in a browser, and that will be substituted by the value resulting from the evaluation of <code>${user.name}</code> during Thymeleaf processing of the template.</p>
-<p>If needed, this will allow your designer and developer to work on the very same template file and reduce the effort required to transform a static prototype into a working template file. The ability to do this is a feature called <em>Natural Templating</em>.</p>
+<p>Not only will this be correctly displayed by browsers, but this also allow us to (optionally) specify a value attribute in it (“James Carrot”, in this case) that will be displayed when the prototype is statically opened in a browser, and that will be substituted by the value resulting from the evaluation of <code>${user.name}</code> during processing of the template.</p>
+<p>This helps your designer and developer to work on the very same template file and reduce the effort required to transform a static prototype into a working template file. The ability to do this is a feature called <em>Natural Templating</em>.</p>
 </section>
 </section>
 <section id="the-good-thymes-virtual-grocery" class="level1">
 <h1>2 The Good Thymes Virtual Grocery</h1>
-<p>The source code for the examples shown in this and future chapters of this guide can be found in the <a href="https://github.com/thymeleaf/thymeleafexamples-gtvg">Good Thymes Virtual Grocery GitHub repository</a>.</p>
+<p>The source code for the examples shown in this, and future chapters of this guide, can be found in the <a href="https://github.com/thymeleaf/thymeleafexamples-gtvg">Good Thymes Virtual Grocery GitHub repository</a>.</p>
 <section id="a-website-for-a-grocery" class="level2">
 <h2>2.1 A website for a grocery</h2>
-<p>In order to better explain the concepts involved in processing templates with Thymeleaf, this tutorial will use a demo application you can download from the project’s web site.</p>
-<p>This application represents the web site of an imaginary virtual grocery, and will provide us with the adequate scenarios to exemplify diverse Thymeleaf features.</p>
-<p>We will need a quite simple set of model entities for our application: <code>Products</code> which are sold to <code>Customers</code> by creating <code>Orders</code>. We will also be managing <code>Comments</code> about those <code>Products</code>:</p>
+<p>To better explain the concepts involved in processing templates with Thymeleaf, this tutorial will use a demo application which you can download from the project’s web site.</p>
+<p>This application is the web site of an imaginary virtual grocery, and will provide us with many scenarios to showcase Thymeleaf’s many features.</p>
+<p>To start, we need a simple set of model entities for our application: <code>Products</code> which are sold to <code>Customers</code> by creating <code>Orders</code>. We will also be managing <code>Comments</code> about those <code>Products</code>:</p>
 <figure>
 <img src="images/usingthymeleaf/gtvg-model.png" alt="Example application model" /><figcaption>Example application model</figcaption>
 </figure>
-<p>Our small application will also have a very simple service layer, composed by <code>Service</code> objects containing methods like:</p>
+<p>Our application will also have a very simple service layer, composed by <code>Service</code> objects containing methods like:</p>
 <pre class="java"><code>public class ProductService {
 
     ...
@@ -382,9 +383,9 @@
 </section>
 <section id="creating-and-configuring-the-template-engine" class="level2">
 <h2>2.2 Creating and configuring the Template Engine</h2>
-<p>The <em>process(…)</em> method in our filter contained this sentence:</p>
+<p>The <em>process(…)</em> method in our filter contained this line:</p>
 <pre class="java"><code>ITemplateEngine templateEngine = this.application.getTemplateEngine();</code></pre>
-<p>Which means that the <em>GTVGApplication</em> class is in charge of creating and configuring one of the most important objects in a Thymeleaf-enabled application: the <code>TemplateEngine</code> instance (implementation of the <code>ITemplateEngine</code> interface).</p>
+<p>Which means that the <em>GTVGApplication</em> class is in charge of creating and configuring one of the most important objects in a Thymeleaf application: the <code>TemplateEngine</code> instance (implementation of the <code>ITemplateEngine</code> interface).</p>
 <p>Our <code>org.thymeleaf.TemplateEngine</code> object is initialized like this:</p>
 <pre class="java"><code>public class GTVGApplication {
   
@@ -421,7 +422,7 @@
     }
 
 }</code></pre>
-<p>Of course there are many ways of configuring a <code>TemplateEngine</code> object, but for now these few lines of code will teach us enough about the steps needed.</p>
+<p>There are many ways of configuring a <code>TemplateEngine</code> object, but for now these few lines of code will teach us enough about the steps needed.</p>
 <section id="the-template-resolver" class="level3">
 <h3>The Template Resolver</h3>
 <p>Let’s start with the Template Resolver:</p>
@@ -442,22 +443,22 @@
             final String ownerTemplate, final String template,
             final Map&lt;String, Object&gt; templateResolutionAttributes);
 }</code></pre>
-<p>These objects are in charge of determining how our templates will be accessed, and in this GTVG application, the <code>org.thymeleaf.templateresolver.ServletContextTemplateResolver</code> implementation that we are using specifies that we are going to retrieve our template files as resources from the <em>Servlet Context</em>: an application-wide <code>javax.servlet.ServletContext</code> object that exists in every Java web application, and that resolves resources considering the web application root as the root for resource paths.</p>
+<p>These objects are in charge of determining how our templates will be accessed, and in this GTVG application, the <code>org.thymeleaf.templateresolver.ServletContextTemplateResolver</code> means that we are going to retrieve our template files as resources from the <em>Servlet Context</em>: an application-wide <code>javax.servlet.ServletContext</code> object that exists in every Java web application, and that resolves resources from the web application root.</p>
 <p>But that’s not all we can say about the template resolver, because we can set some configuration parameters on it. First, the template mode:</p>
 <pre class="java"><code>templateResolver.setTemplateMode(TemplateMode.HTML);</code></pre>
 <p>HTML is the default template mode for <code>ServletContextTemplateResolver</code>, but it is good practice to establish it anyway so that our code documents clearly what is going on.</p>
 <pre class="java"><code>templateResolver.setPrefix(&quot;/WEB-INF/templates/&quot;);
 templateResolver.setSuffix(&quot;.html&quot;);</code></pre>
-<p>These <em>prefix</em> and <em>suffix</em> do exactly what it looks like: modify the template names that we will be passing to the engine for obtaining the real resource names to be used.</p>
+<p>The <em>prefix</em> and <em>suffix</em> modify the template names that we will be passing to the engine for obtaining the real resource names to be used.</p>
 <p>Using this configuration, the template name <em>“product/list”</em> would correspond to:</p>
 <pre class="java"><code>servletContext.getResourceAsStream(&quot;/WEB-INF/templates/product/list.html&quot;)</code></pre>
-<p>Optionally, the amount of time that a parsed template living in cache will be considered valid can be configured at the Template Resolver by means of the <em>cacheTTLMs</em> property:</p>
+<p>Optionally, the amount of time that a parsed template can live in the cache is configured at the Template Resolver by means of the <em>cacheTTLMs</em> property:</p>
 <pre class="java"><code>templateResolver.setCacheTTLMs(3600000L);</code></pre>
-<p>Of course, a template can be expelled from cache before that TTL is reached if the max cache size is reached and it is the oldest entry currently cached.</p>
+<p>A template can still be expelled from cache before that TTL is reached if the max cache size is reached and it is the oldest entry currently cached.</p>
 <blockquote>
-<p>Cache behaviour and sizes can be defined by the user by implementing the <code>ICacheManager</code> interface or simply modifying the <code>StandardCacheManager</code> object set to manage caches by default.</p>
+<p>Cache behaviour and sizes can be defined by the user by implementing the <code>ICacheManager</code> interface or by modifying the <code>StandardCacheManager</code> object to manage the default cache.</p>
 </blockquote>
-<p>We will learn more about template resolvers later. Now let’s have a look at the creation of our Template Engine object.</p>
+<p>There is much more to learn about template resolvers, but for now let’s have a look at the creation of our Template Engine object.</p>
 </section>
 <section id="the-template-engine" class="level3">
 <h3>The Template Engine</h3>
@@ -465,7 +466,7 @@ templateResolver.setSuffix(&quot;.html&quot;);</code></pre>
 <pre class="java"><code>templateEngine = new TemplateEngine();
 templateEngine.setTemplateResolver(templateResolver);</code></pre>
 <p>Rather simple, isn’t it? All we need is to create an instance and set the Template Resolver to it.</p>
-<p>A template resolver is the only <em>required</em> parameter a <code>TemplateEngine</code> needs, although of course there are many others that will be covered later (message resolvers, cache sizes, etc). For now, this is all we need.</p>
+<p>A template resolver is the only <em>required</em> parameter a <code>TemplateEngine</code> needs, although there are many others that will be covered later (message resolvers, cache sizes, etc). For now, this is all we need.</p>
 <p>Our Template Engine is now ready and we can start creating our pages using Thymeleaf.</p>
 </section>
 </section>
@@ -475,7 +476,7 @@ templateEngine.setTemplateResolver(templateResolver);</code></pre>
 <section id="a-multi-language-welcome" class="level2">
 <h2>3.1 A multi-language welcome</h2>
 <p>Our first task will be to create a home page for our grocery site.</p>
-<p>The first version we will write of this page will be extremely simple: just a title and a welcome message. This is our <code>/WEB-INF/templates/home.html</code> file:</p>
+<p>The first version of this page will be extremely simple: just a title and a welcome message. This is our <code>/WEB-INF/templates/home.html</code> file:</p>
 <pre class="html"><code>&lt;!DOCTYPE html&gt;
 
 &lt;html xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;
@@ -494,11 +495,11 @@ templateEngine.setTemplateResolver(templateResolver);</code></pre>
   &lt;/body&gt;
 
 &lt;/html&gt;</code></pre>
-<p>The first thing you will notice here is that this file is HTML5 that can be correctly displayed by any browser, because it does not include any non-HTML tags (and browsers ignore all attributes they don’t understand, like <code>th:text</code>).</p>
+<p>The first thing you will notice is that this file is HTML5 that can be correctly displayed by any browser because it does not include any non-HTML tags (browsers ignore all attributes they don’t understand, like <code>th:text</code>).</p>
 <p>But you may also notice that this template is not really a <em>valid</em> HTML5 document, because these non-standard attributes we are using in the <code>th:*</code> form are not allowed by the HTML5 specification. In fact, we are even adding an <code>xmlns:th</code> attribute to our <code>&lt;html&gt;</code> tag, something absolutely non-HTML5-ish:</p>
 <pre class="html"><code>&lt;html xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;</code></pre>
-<p>…which has no influence at all in template processing, but works as an <em>incantation</em> that prevents our IDE to complain about the lack of a namespace definition for all those <code>th:*</code> attributes.</p>
-<p>So what if we wanted to make this template <strong>HTML5-valid</strong>? That would be easy: all we would need to do is switch to Thymeleaf’s fully-HTML5-valid syntax, based on applying the <code>data-</code> prefix to attribute names and using hyphen (<code>-</code>) separators instead of semi-colon (<code>:</code>):</p>
+<p>…which has no influence at all in template processing, but works as an <em>incantation</em> that prevents our IDE from complaining about the lack of a namespace definition for all those <code>th:*</code> attributes.</p>
+<p>So what if we wanted to make this template <strong>HTML5-valid</strong>? Easy: switch to Thymeleaf’s data attribute syntax, using the <code>data-</code> prefix for attribute names and hyphen (<code>-</code>) separators instead of semi-colons (<code>:</code>):</p>
 <pre class="html"><code>&lt;!DOCTYPE html&gt;
 
 &lt;html&gt;
@@ -517,29 +518,29 @@ templateEngine.setTemplateResolver(templateResolver);</code></pre>
   &lt;/body&gt;
 
 &lt;/html&gt;</code></pre>
-<p>Custom <code>data-</code> prefixed attributes are allowed by the HTML5 specification so, with this code above, our template would be a <em>valid HTML5 document</em>.</p>
+<p>Custom <code>data-</code> prefixed attributes are allowed by the HTML5 specification, so, with this code above, our template would be a <em>valid HTML5 document</em>.</p>
 <blockquote>
-<p>Both notations are completely equivalent and interchangeable, but note that for the sake of simplicity and compactness of the code samples, throughout this tutorial we will use the <em>namespace notation</em> (<code>th:*</code>). Also, the <code>th:*</code> notation is more general and allowed in every Thymeleaf template mode (<code>XML</code>, <code>TEXT</code>…) whereas the <code>data-</code> notation is only allowed in <code>HTML</code> mode.</p>
+<p>Both notations are completely equivalent and interchangeable, but for the sake of simplicity and compactness of the code samples, this tutorial will use the <em>namespace notation</em> (<code>th:*</code>). Also, the <code>th:*</code> notation is more general and allowed in every Thymeleaf template mode (<code>XML</code>, <code>TEXT</code>…) whereas the <code>data-</code> notation is only allowed in <code>HTML</code> mode.</p>
 </blockquote>
 <section id="using-thtext-and-externalizing-text" class="level3">
 <h3>Using th:text and externalizing text</h3>
-<p>Externalizing text is extracting fragments of template code out of template files so that they can be kept in specific separate files (typically <code>.properties</code> files) and that they can be easily replaced with equivalent texts written in other languages (a process called internationalization or simply <em>i18n</em>). Externalized fragments of text are usually called <em>“messages”</em>.</p>
+<p>Externalizing text is extracting fragments of template code out of template files so that they can be kept in separate files (typically <code>.properties</code> files) and that they can be easily replaced with equivalent texts written in other languages (a process called internationalization or simply <em>i18n</em>). Externalized fragments of text are usually called <em>“messages”</em>.</p>
 <p>Messages always have a key that identifies them, and Thymeleaf allows you to specify that a text should correspond to a specific message with the <code>#{...}</code> syntax:</p>
 <pre class="html"><code>&lt;p th:text=&quot;#{home.welcome}&quot;&gt;Welcome to our grocery store!&lt;/p&gt;</code></pre>
 <p>What we can see here are in fact two different features of the Thymeleaf Standard Dialect:</p>
 <ul>
-<li>The <code>th:text</code> attribute, which evaluates its value expression and sets the result of this evaluation as the body of the host tag, effectively replacing that “Welcome to our grocery store!” text we see in the code.</li>
+<li>The <code>th:text</code> attribute, which evaluates its value expression and sets the result as the body of the host tag, effectively replacing the “Welcome to our grocery store!” text we see in the code.</li>
 <li>The <code>#{home.welcome}</code> expression, specified in the <em>Standard Expression Syntax</em>, instructing that the text to be used by the <code>th:text</code> attribute should be the message with the <code>home.welcome</code> key corresponding to whichever locale we are processing the template with.</li>
 </ul>
 <p>Now, where is this externalized text?</p>
 <p>The location of externalized text in Thymeleaf is fully configurable, and it will depend on the specific <code>org.thymeleaf.messageresolver.IMessageResolver</code> implementation being used. Normally, an implementation based on <code>.properties</code> files will be used, but we could create our own implementations if we wanted, for example, to obtain messages from a database.</p>
-<p>However, we have not specified a message resolver to our Template Engine during initialization, and that means that our application is using the <em>Standard Message Resolver</em>, implemented by class <code>org.thymeleaf.messageresolver.StandardMessageResolver</code>.</p>
-<p>This standard message resolver expects to find messages for <code>/WEB-INF/templates/home.html</code> in .properties files in the same folder and with the same name as the template, like:</p>
+<p>However, we have not specified a message resolver for our template engine during initialization, and that means that our application is using the <em>Standard Message Resolver</em>, implemented by <code>org.thymeleaf.messageresolver.StandardMessageResolver</code>.</p>
+<p>The standard message resolver expects to find messages for <code>/WEB-INF/templates/home.html</code> in properties files in the same folder and with the same name as the template, like:</p>
 <ul>
 <li><code>/WEB-INF/templates/home_en.properties</code> for English texts.</li>
 <li><code>/WEB-INF/templates/home_es.properties</code> for Spanish language texts.</li>
 <li><code>/WEB-INF/templates/home_pt_BR.properties</code> for Portuguese (Brazil) language texts.</li>
-<li><code>/WEB-INF/templates/home.properties</code> for default texts (if locale is not matched).</li>
+<li><code>/WEB-INF/templates/home.properties</code> for default texts (if the locale is not matched).</li>
 </ul>
 <p>Let’s have a look at our <code>home_es.properties</code> file:</p>
 <pre><code>home.welcome=¡Bienvenido a nuestra tienda de comestibles!</code></pre>
@@ -563,7 +564,7 @@ templateEngine.setTemplateResolver(templateResolver);</code></pre>
     }
 
 }</code></pre>
-<p>The first thing we can see here is the creation of a context. A Thymeleaf <em>context</em> is an object implementing the <code>org.thymeleaf.context.IContext</code> interface. Contexts should contain all the data required for an execution of the Template Engine in a variables map, and also reference the Locale that must be used for externalized messages.</p>
+<p>The first thing we see is the creation of a <em>context</em>. A Thymeleaf context is an object implementing the <code>org.thymeleaf.context.IContext</code> interface. Contexts should contain all the data required for an execution of the template engine in a variables map, and also reference the locale that must be used for externalized messages.</p>
 <pre class="java"><code>public interface IContext {
 
     public Locale getLocale();
@@ -572,7 +573,7 @@ templateEngine.setTemplateResolver(templateResolver);</code></pre>
     public Object getVariable(final String name);
     
 }</code></pre>
-<p>There is a specialized extension of this interface, <code>org.thymeleaf.context.IWebContext</code>, meant to be used in ServletAPI-based web applications (like e.g. SpringMVC).</p>
+<p>There is a specialized extension of this interface, <code>org.thymeleaf.context.IWebContext</code>, meant to be used in ServletAPI-based web applications (like SpringMVC).</p>
 <pre class="java"><code>public interface IWebContext extends IContext {
     
     public HttpServletRequest getRequest();
@@ -586,9 +587,9 @@ templateEngine.setTemplateResolver(templateResolver);</code></pre>
 <li><code>org.thymeleaf.context.Context</code> implements <code>IContext</code></li>
 <li><code>org.thymeleaf.context.WebContext</code> implements <code>IWebContext</code></li>
 </ul>
-<p>And as you can see in the controller code, <code>WebContext</code> is the one we will use. In fact we have to, because the use of a <code>ServletContextTemplateResolver</code> requires that we use a context implementing <code>IWebContext</code>.</p>
+<p>And as you can see in the controller code, <code>WebContext</code> is the one we use. In fact we have to, because the use of a <code>ServletContextTemplateResolver</code> requires that we use a context implementing <code>IWebContext</code>.</p>
 <pre class="java"><code>WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());</code></pre>
-<p>Only three out of those four constructor arguments are required, because the default locale for the system will be used if none is specified (although you should never let this happen in real applications).</p>
+<p>Only three out of those four constructor arguments are required because the default locale for the system will be used if none is specified (although you should never let this happen in real applications).</p>
 <p>There are some specialized expressions that we will be able to use to obtain the request parameters and the request, session and application attributes from the <code>WebContext</code> in our templates. For example:</p>
 <ul>
 <li><code>${x}</code> will return a variable <code>x</code> stored into the Thymeleaf context or as a <em>request attribute</em>.</li>
@@ -599,7 +600,7 @@ templateEngine.setTemplateResolver(templateResolver);</code></pre>
 </section>
 <section id="executing-the-template-engine" class="level3">
 <h3>Executing the template engine</h3>
-<p>With our context object ready, all we need is executing the template engine specifying the template name and the context, and passing on the response writer so that the response can be written to it:</p>
+<p>With our context object ready, now we can tell the template engine to process the template (by its name) using the context, and passing it a response writer so that the response can be written to it:</p>
 <pre class="java"><code>templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre>
 <p>Let’s see the results of this using the Spanish locale:</p>
 <pre class="html"><code>&lt;!DOCTYPE html&gt;
@@ -629,8 +630,8 @@ templateEngine.setTemplateResolver(templateResolver);</code></pre>
 <pre class="java"><code>home.welcome=Welcome to our &lt;b&gt;fantastic&lt;/b&gt; grocery store!</code></pre>
 <p>If we execute this template like before, we will obtain:</p>
 <pre class="html"><code>&lt;p&gt;Welcome to our &amp;lt;b&amp;gt;fantastic&amp;lt;/b&amp;gt; grocery store!&lt;/p&gt;</code></pre>
-<p>Which is not exactly what we expected, because our <code>&lt;b&gt;</code> tag has been escaped and therefore it will be displayed at the browser.</p>
-<p>This is the default behaviour of the th:text attribute. If we want Thymeleaf to respect our HTML tags and not escape them, we will have to use a different attribute: <code>th:utext</code> (for “unescaped text”):</p>
+<p>Which is not exactly what we expected, because our <code>&lt;b&gt;</code> tag has been escaped and therefore it will be displayed in the browser.</p>
+<p>This is the default behaviour of the <code>th:text</code> attribute. If we want Thymeleaf to respect our HTML tags and not escape them, we will have to use a different attribute: <code>th:utext</code> (for “unescaped text”):</p>
 <pre class="html"><code>&lt;p th:utext=&quot;#{home.welcome}&quot;&gt;Welcome to our grocery store!&lt;/p&gt;</code></pre>
 <p>This will output our message just like we wanted it:</p>
 <pre class="html"><code>&lt;p&gt;Welcome to our &lt;b&gt;fantastic&lt;/b&gt; grocery store!&lt;/p&gt;</code></pre>
@@ -667,18 +668,18 @@ Today is: 12 july 2010</code></pre>
 &lt;/body&gt;</code></pre>
 <p>As you can see, we are still using the <code>th:text</code> attribute for the job (and that’s correct, because we want to replace the tag’s body), but the syntax is a little bit different this time and instead of a <code>#{...}</code> expression value, we are using a <code>${...}</code> one. This is a <strong>variable expression</strong>, and it contains an expression in a language called <em>OGNL (Object-Graph Navigation Language)</em> that will be executed on the context variables map we talked about before.</p>
 <p>The <code>${today}</code> expression simply means “get the variable called today”, but these expressions could be more complex (like <code>${user.name}</code> for “get the variable called user, and call its <code>getName()</code> method”).</p>
-<p>There are quite a lot of possibilities in attribute values: messages, variable expressions… and quite a lot more. Next chapter will show us what all these possibilities are.</p>
+<p>There are quite a lot of possibilities in attribute values: messages, variable expressions… and quite a lot more. The next chapter will show us what all these possibilities are.</p>
 </section>
 </section>
 </section>
 <section id="standard-expression-syntax" class="level1">
 <h1>4 Standard Expression Syntax</h1>
-<p>We will make a small break in the development of our grocery virtual store to learn about one of the most important parts of the Thymeleaf Standard Dialect: the Thymeleaf Standard Expression syntax.</p>
+<p>We will take a small break in the development of our grocery virtual store to learn about one of the most important parts of the Thymeleaf Standard Dialect: the Thymeleaf Standard Expression syntax.</p>
 <p>We have already seen two types of valid attribute values expressed in this syntax: message and variable expressions:</p>
 <pre class="html"><code>&lt;p th:utext=&quot;#{home.welcome}&quot;&gt;Welcome to our grocery store!&lt;/p&gt;
 
 &lt;p&gt;Today is: &lt;span th:text=&quot;${today}&quot;&gt;13 february 2011&lt;/span&gt;&lt;/p&gt;</code></pre>
-<p>But there are more types of values we don’t know yet, and more interesting detail to know about the ones we already know. First, let’s see a quick summary of the Standard Expression features:</p>
+<p>But there are more types of expressions, and more interesting details to learn about the ones we already know. First, let’s see a quick summary of the Standard Expression features:</p>
 <ul>
 <li>Simple expressions:
 <ul>
@@ -735,16 +736,16 @@ Today is: 12 july 2010</code></pre>
 <pre class="html"><code>&lt;p th:utext=&quot;#{home.welcome}&quot;&gt;Welcome to our grocery store!&lt;/p&gt;</code></pre>
 <p>…to this:</p>
 <pre class="html"><code>home.welcome=¡Bienvenido a nuestra tienda de comestibles!</code></pre>
-<p>But there’s one aspect we still haven’t thought of: what happens if the message text is not completely static? What if, for example, our application knew who is the user visiting the site at any moment and we wanted to greet him/her by name?</p>
+<p>But there’s one aspect we still haven’t thought of: what happens if the message text is not completely static? What if, for example, our application knew who is the user visiting the site at any moment and we wanted to greet them by name?</p>
 <pre class="html"><code>&lt;p&gt;¡Bienvenido a nuestra tienda de comestibles, John Apricot!&lt;/p&gt;</code></pre>
 <p>This means we would need to add a parameter to our message. Just like this:</p>
 <pre class="html"><code>home.welcome=¡Bienvenido a nuestra tienda de comestibles, {0}!</code></pre>
-<p>Parameters are specified according to the <code>java.text.MessageFormat</code> standard syntax, which means you could add format to numbers and dates as specified in the API docs for that class.</p>
+<p>Parameters are specified according to the <code>java.text.MessageFormat</code> standard syntax, which means you can format to numbers and dates as specified in the API docs for those classes.</p>
 <p>In order to specify a value for our parameter, and given an HTTP session attribute called <code>user</code>, we would have:</p>
 <pre class="html"><code>&lt;p th:utext=&quot;#{home.welcome(${session.user.name})}&quot;&gt;
   Welcome to our grocery store, Sebastian Pepper!
 &lt;/p&gt;</code></pre>
-<p>If needed, several parameters could be specified, separated by commas. In fact, the message key itself could come from a variable:</p>
+<p>Several parameters can be specified, separated by commas. In fact, the message key itself could come from a variable:</p>
 <pre class="html"><code>&lt;p th:utext=&quot;#{${welcomeMsgKey}(${session.user.name})}&quot;&gt;
   Welcome to our grocery store, Sebastian Pepper!
 &lt;/p&gt;</code></pre>
@@ -754,7 +755,7 @@ Today is: 12 july 2010</code></pre>
 <p>We already mentioned that <code>${...}</code> expressions are in fact OGNL (Object-Graph Navigation Language) expressions executed on the map of variables contained in the context.</p>
 <blockquote>
 <p>For detailed info about OGNL syntax and features, you should read the <a href="http://commons.apache.org/ognl/">OGNL Language Guide</a></p>
-<p>Also note that in Spring MVC-enabled applications OGNL will be replaced with <strong>SpringEL</strong>, but its syntax is very similar to that of OGNL (actually, exactly the same for most common cases).</p>
+<p>In Spring MVC-enabled applications OGNL will be replaced with <strong>SpringEL</strong>, but its syntax is very similar to that of OGNL (actually, exactly the same for most common cases).</p>
 </blockquote>
 <p>From OGNL’s syntax, we know that the expression in:</p>
 <pre class="html"><code>&lt;p&gt;Today is: &lt;span th:text=&quot;${today}&quot;&gt;13 february 2011&lt;/span&gt;.&lt;/p&gt;</code></pre>
@@ -764,7 +765,7 @@ Today is: 12 july 2010</code></pre>
 <pre class="html"><code>&lt;p th:utext=&quot;#{home.welcome(${session.user.name})}&quot;&gt;
   Welcome to our grocery store, Sebastian Pepper!
 &lt;/p&gt;</code></pre>
-<p>…does in fact obtain the user name by executing:</p>
+<p>…obtains the user name by executing:</p>
 <pre class="java"><code>((User) ctx.getVariable(&quot;session&quot;).get(&quot;user&quot;)).getName();</code></pre>
 <p>But getter method navigation is just one of OGNL’s features. Let’s see some more:</p>
 <pre class="java"><code>/*
@@ -810,28 +811,28 @@ ${person.createCompleteNameWithSeparator(&#39;-&#39;)}</code></pre>
 </ul>
 <p>So we can do this:</p>
 <pre class="html"><code>Established locale country: &lt;span th:text=&quot;${#locale.country}&quot;&gt;US&lt;/span&gt;.</code></pre>
-<p>You can read the full reference of these objects in the <a href="#appendix-a-expression-basic-objects">Appendix A</a>.</p>
+<p>You can read the full reference of these objects in <a href="#appendix-a-expression-basic-objects">Appendix A</a>.</p>
 </section>
 <section id="expression-utility-objects" class="level3">
 <h3>Expression Utility Objects</h3>
 <p>Besides these basic objects, Thymeleaf will offer us a set of utility objects that will help us perform common tasks in our expressions.</p>
 <ul>
-<li><code>#execInfo</code>: utility information about the template being processed.</li>
-<li><code>#messages</code>: utility methods for obtaining externalized messages inside variables expressions, in the same way as they would be obtained using #{…} syntax.</li>
-<li><code>#uris</code>: utility methods for escaping parts of URLs/URIs</li>
-<li><code>#conversions</code>: utility methods for executing the configured <em>conversion service</em> (if any).</li>
-<li><code>#dates</code>: utility methods for <code>java.util.Date</code> objects: formatting, component extraction, etc.</li>
+<li><code>#execInfo</code>: information about the template being processed.</li>
+<li><code>#messages</code>: methods for obtaining externalized messages inside variables expressions, in the same way as they would be obtained using #{…} syntax.</li>
+<li><code>#uris</code>: methods for escaping parts of URLs/URIs</li>
+<li><code>#conversions</code>: methods for executing the configured <em>conversion service</em> (if any).</li>
+<li><code>#dates</code>: methods for <code>java.util.Date</code> objects: formatting, component extraction, etc.</li>
 <li><code>#calendars</code>: analogous to <code>#dates</code>, but for <code>java.util.Calendar</code> objects.</li>
-<li><code>#numbers</code>: utility methods for formatting numeric objects.</li>
-<li><code>#strings</code>: utility methods for <code>String</code> objects: contains, startsWith, prepending/appending, etc.</li>
-<li><code>#objects</code>: utility methods for objects in general.</li>
-<li><code>#bools</code>: utility methods for boolean evaluation.</li>
-<li><code>#arrays</code>: utility methods for arrays.</li>
-<li><code>#lists</code>: utility methods for lists.</li>
-<li><code>#sets</code>: utility methods for sets.</li>
-<li><code>#maps</code>: utility methods for maps.</li>
-<li><code>#aggregates</code>: utility methods for creating aggregates on arrays or collections.</li>
-<li><code>#ids</code>: utility methods for dealing with id attributes that might be repeated (for example, as a result of an iteration).</li>
+<li><code>#numbers</code>: methods for formatting numeric objects.</li>
+<li><code>#strings</code>: methods for <code>String</code> objects: contains, startsWith, prepending/appending, etc.</li>
+<li><code>#objects</code>: methods for objects in general.</li>
+<li><code>#bools</code>: methods for boolean evaluation.</li>
+<li><code>#arrays</code>: methods for arrays.</li>
+<li><code>#lists</code>: methods for lists.</li>
+<li><code>#sets</code>: methods for sets.</li>
+<li><code>#maps</code>: methods for maps.</li>
+<li><code>#aggregates</code>: methods for creating aggregates on arrays or collections.</li>
+<li><code>#ids</code>: methods for dealing with id attributes that might be repeated (for example, as a result of an iteration).</li>
 </ul>
 <p>You can check what functions are offered by each of these utility objects in the <a href="#appendix-b-expression-utility-objects">Appendix B</a>.</p>
 </section>
@@ -859,9 +860,9 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 </section>
 <section id="expressions-on-selections-asterisk-syntax" class="level2">
 <h2>4.3 Expressions on selections (asterisk syntax)</h2>
-<p>Variable expressions not only can be written in <code>${...}</code> expressions, but also in <code>*{...}</code> ones.</p>
-<p>There is an important difference, though: the asterisk syntax evaluates expressions on selected objects rather than on the whole context variables map. This is: as long as there is no selected object, the dollar and the asterisk syntaxes do exactly the same.</p>
-<p>And what is that object selection thing? A <code>th:object</code> attribute. Let’s use it in our user profile (<code>userprofile.html</code>) page:</p>
+<p>Not only can variable expressions be written as <code>${...}</code>, but also as <code>*{...}</code>.</p>
+<p>There is an important difference though: the asterisk syntax evaluates expressions on <em>selected objects</em> rather than on the whole context. That is, as long as there is no selected object, the dollar and the asterisk syntaxes do exactly the same.</p>
+<p>And what is a selected object? The result of an expression using the <code>th:object</code> attribute. Let’s use one in our user profile (<code>userprofile.html</code>) page:</p>
 <pre class="html"><code>  &lt;div th:object=&quot;${session.user}&quot;&gt;
     &lt;p&gt;Name: &lt;span th:text=&quot;*{firstName}&quot;&gt;Sebastian&lt;/span&gt;.&lt;/p&gt;
     &lt;p&gt;Surname: &lt;span th:text=&quot;*{lastName}&quot;&gt;Pepper&lt;/span&gt;.&lt;/p&gt;
@@ -885,7 +886,7 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
   &lt;p&gt;Surname: &lt;span th:text=&quot;${session.user.lastName}&quot;&gt;Pepper&lt;/span&gt;.&lt;/p&gt;
   &lt;p&gt;Nationality: &lt;span th:text=&quot;*{nationality}&quot;&gt;Saturn&lt;/span&gt;.&lt;/p&gt;
 &lt;/div&gt;</code></pre>
-<p>As said, if no object selection has been performed, dollar and asterisk syntaxes are exactly equivalent.</p>
+<p>As said, if no object selection has been performed, dollar and asterisk syntaxes are equivalent.</p>
 <pre class="html"><code>&lt;div&gt;
   &lt;p&gt;Name: &lt;span th:text=&quot;*{session.user.name}&quot;&gt;Sebastian&lt;/span&gt;.&lt;/p&gt;
   &lt;p&gt;Surname: &lt;span th:text=&quot;*{session.user.surname}&quot;&gt;Pepper&lt;/span&gt;.&lt;/p&gt;
@@ -897,17 +898,17 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 <p>Because of their importance, URLs are first-class citizens in web application templates, and the <em>Thymeleaf Standard Dialect</em> has a special syntax for them, the <code>@</code> syntax: <code>@{...}</code></p>
 <p>There are different types of URLs:</p>
 <ul>
-<li>Absolute URLs, like <code>http://www.thymeleaf.org</code></li>
+<li>Absolute URLs: <code>http://www.thymeleaf.org</code></li>
 <li>Relative URLs, which can be:
 <ul>
-<li>Page-relative, like <code>user/login.html</code></li>
-<li>Context-relative, like <code>/itemdetails?id=3</code> (context name in server will be added automatically)</li>
-<li>Server-relative, like <code>~/billing/processInvoice</code> (allows calling URLs in another context (= application) in the same server.</li>
-<li>Protocol-relative URLs, like <code>//code.jquery.com/jquery-2.0.3.min.js</code></li>
+<li>Page-relative: <code>user/login.html</code></li>
+<li>Context-relative: <code>/itemdetails?id=3</code> (context name in server will be added automatically)</li>
+<li>Server-relative: <code>~/billing/processInvoice</code> (allows calling URLs in another context (= application) in the same server.</li>
+<li>Protocol-relative URLs: <code>//code.jquery.com/jquery-2.0.3.min.js</code></li>
 </ul></li>
 </ul>
-<p>The real processing of these expressions and their conversion to the URLs that will be actually output will be done by implementations of the <code>org.thymeleaf.linkbuilder.ILinkBuilder</code> interface that are registered into the <code>ITemplateEngine</code> object being used.</p>
-<p>By default, a single implementation of this interface is registered of class <code>org.thymeleaf.linkbuilder.StandardLinkBuilder</code>, which is enough for both offline (non-web) and also web scenarios based on the Servlet API. Other scenarios (like integration with non-ServletAPI web frameworks) might need specific implementations of the link builder interface.</p>
+<p>The real processing of these expressions and their conversion to the URLs that will be output is done by implementations of the <code>org.thymeleaf.linkbuilder.ILinkBuilder</code> interface that are registered into the <code>ITemplateEngine</code> object being used.</p>
+<p>By default, a single implementation of this interface is registered of the class <code>org.thymeleaf.linkbuilder.StandardLinkBuilder</code>, which is enough for both offline (non-web) and also web scenarios based on the Servlet API. Other scenarios (like integration with non-ServletAPI web frameworks) might need specific implementations of the link builder interface.</p>
 <p>Let’s use this new syntax. Meet the <code>th:href</code> attribute:</p>
 <pre class="html"><code>&lt;!-- Will produce &#39;http://localhost:8080/gtvg/order/details?orderId=3&#39; (plus rewriting) --&gt;
 &lt;a href=&quot;details.html&quot; 
@@ -920,20 +921,20 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 &lt;a href=&quot;details.html&quot; th:href=&quot;@{/order/{orderId}/details(orderId=${o.id})}&quot;&gt;view&lt;/a&gt;</code></pre>
 <p>Some things to note here:</p>
 <ul>
-<li><code>th:href</code> is an attribute modifier attribute: once processed, it will compute the link URL to be used and set the value of the href attribute of the <code>&lt;a&gt;</code> tag to this URL.</li>
+<li><code>th:href</code> is a modifier attribute: once processed, it will compute the link URL to be used and set that value to the <code>href</code> attribute of the <code>&lt;a&gt;</code> tag.</li>
 <li>We are allowed to use expressions for URL parameters (as you can see in <code>orderId=${o.id}</code>). The required URL-parameter-encoding operations will also be automatically performed.</li>
-<li>If several parameters are needed, these will be separated by commas like <code>@{/order/process(execId=${execId},execType='FAST')}</code></li>
-<li>Variable templates are also allowed in URL paths, like <code>@{/order/{orderId}/details(orderId=${orderId})}</code></li>
-<li>Relative URLs starting with <code>/</code> (like <code>/order/details</code>) will be automatically prefixed by the application context name.</li>
-<li>If cookies are not enabled or this is not yet known, a <code>&quot;;jsessionid=...&quot;</code> suffix might be added to relative URLs so that session is preserved. This is called <em>URL Rewriting</em>, and Thymeleaf allows you to plug in your own rewriting filters by using the <code>response.encodeURL(...)</code> mechanism from the Servlet API for every URL.</li>
-<li>The <code>th:href</code> tag allowed us to (optionally) have a working static <code>href</code> attribute in our template, so that our template links remained navigable by a browser when opened directly for prototyping purposes.</li>
+<li>If several parameters are needed, these will be separated by commas: <code>@{/order/process(execId=${execId},execType='FAST')}</code></li>
+<li>Variable templates are also allowed in URL paths: <code>@{/order/{orderId}/details(orderId=${orderId})}</code></li>
+<li>Relative URLs starting with <code>/</code> (eg: <code>/order/details</code>) will be automatically prefixed by the application context name.</li>
+<li>If cookies are not enabled or this is not yet known, a <code>&quot;;jsessionid=...&quot;</code> suffix might be added to relative URLs so that the session is preserved. This is called <em>URL Rewriting</em> and Thymeleaf allows you to plug in your own rewriting filters by using the <code>response.encodeURL(...)</code> mechanism from the Servlet API for every URL.</li>
+<li>The <code>th:href</code> attribute allows us to (optionally) have a working static <code>href</code> attribute in our template, so that our template links remained navigable by a browser when opened directly for prototyping purposes.</li>
 </ul>
 <p>As was the case with the message syntax (<code>#{...}</code>), URL bases can also be the result of evaluating another expression:</p>
 <pre class="html"><code>&lt;a th:href=&quot;@{${url}(orderId=${o.id})}&quot;&gt;view&lt;/a&gt;
 &lt;a th:href=&quot;@{&#39;/details/&#39;+${user.login}(orderId=${o.id})}&quot;&gt;view&lt;/a&gt;</code></pre>
 <section id="a-menu-for-our-home-page" class="level3">
 <h3>A menu for our home page</h3>
-<p>Now we know how to create link URLs, what about adding a small menu in our home for some of the other pages in the site?</p>
+<p>Now that we know how to create link URLs, what about adding a small menu in our home page for some of the other pages in the site?</p>
 <pre class="html"><code>&lt;p&gt;Please select an option&lt;/p&gt;
 &lt;ol&gt;
   &lt;li&gt;&lt;a href=&quot;product/list.html&quot; th:href=&quot;@{/product/list}&quot;&gt;Product List&lt;/a&gt;&lt;/li&gt;
@@ -949,7 +950,7 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 </section>
 <section id="fragments" class="level2">
 <h2>4.5 Fragments</h2>
-<p>Fragment expressions are an easy way to represent fragments of markup and move them around templates. This allows us to replicate them, pass them to other templates as arguments, etc.</p>
+<p>Fragment expressions are an easy way to represent fragments of markup and move them around templates. This allows us to replicate them, pass them to other templates as arguments, and so on.</p>
 <p>The most common use is for fragment insertion using <code>th:insert</code> or <code>th:replace</code> (more on these in a later section):</p>
 <pre class="html"><code>&lt;div th:insert=&quot;~{commons :: main}&quot;&gt;...&lt;/div&gt;</code></pre>
 <p>But they can be used anywhere, just as any other variable:</p>
@@ -962,14 +963,14 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 <h2>4.6 Literals</h2>
 <section id="text-literals" class="level3">
 <h3>Text literals</h3>
-<p>Text literals are just character strings specified between single quotes. They can include any character, but you should escape any single quotes inside them as <code>\'</code>.</p>
+<p>Text literals are just character strings specified between single quotes. They can include any character, but you should escape any single quotes inside them using <code>\'</code>.</p>
 <pre class="html"><code>&lt;p&gt;
   Now you are looking at a &lt;span th:text=&quot;&#39;working web application&#39;&quot;&gt;template file&lt;/span&gt;.
 &lt;/p&gt;</code></pre>
 </section>
 <section id="number-literals" class="level3">
 <h3>Number literals</h3>
-<p>Numeric literals look exactly like what they are: numbers.</p>
+<p>Numeric literals are just that: numbers.</p>
 <pre class="html"><code>&lt;p&gt;The year is &lt;span th:text=&quot;2013&quot;&gt;1492&lt;/span&gt;.&lt;/p&gt;
 &lt;p&gt;In two years, it will be &lt;span th:text=&quot;2013 + 2&quot;&gt;1494&lt;/span&gt;.&lt;/p&gt;</code></pre>
 </section>
@@ -977,7 +978,7 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 <h3>Boolean literals</h3>
 <p>The boolean literals are <code>true</code> and <code>false</code>. For example:</p>
 <pre class="html"><code>&lt;div th:if=&quot;${user.isAdmin()} == false&quot;&gt; ...</code></pre>
-<p>Note that in the above example, the <code>== false</code> is written outside the braces, and thus it is Thymeleaf itself who takes care of it. If it were written inside the braces, it would be the responsibility of the OGNL/SpringEL engines:</p>
+<p>In this example, the <code>== false</code> is written outside the braces, and so it is Thymeleaf that takes care of it. If it were written inside the braces, it would be the responsibility of the OGNL/SpringEL engines:</p>
 <pre class="html"><code>&lt;div th:if=&quot;${user.isAdmin() == false}&quot;&gt; ...</code></pre>
 </section>
 <section id="the-null-literal" class="level3">
@@ -1002,14 +1003,16 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 </section>
 <section id="literal-substitutions" class="level2">
 <h2>4.8 Literal substitutions</h2>
-<p>Literal substitutions allow the easy formatting of strings containing values from variables without the need to append literals with <code>'...' + '...'</code>.</p>
+<p>Literal substitutions allow for an easy formatting of strings containing values from variables without the need to append literals with <code>'...' + '...'</code>.</p>
 <p>These substitutions must be surrounded by vertical bars (<code>|</code>), like:</p>
 <pre class="html"><code>&lt;span th:text=&quot;|Welcome to our application, ${user.name}!|&quot;&gt;</code></pre>
-<p>Which is actually equivalent to:</p>
+<p>Which is equivalent to:</p>
 <pre class="html"><code>&lt;span th:text=&quot;&#39;Welcome to our application, &#39; + ${user.name} + &#39;!&#39;&quot;&gt;</code></pre>
 <p>Literal substitutions can be combined with other types of expressions:</p>
 <pre class="html"><code>&lt;span th:text=&quot;${onevar} + &#39; &#39; + |${twovar}, ${threevar}|&quot;&gt;</code></pre>
-<p><strong>Note:</strong> only variable expressions (<code>${...}</code>) are allowed inside <code>|...|</code> literal substitutions. No other literals (<code>'...'</code>), boolean/numeric tokens, conditional expressions etc. are.</p>
+<blockquote>
+<p>Only variable expressions (<code>${...}</code>) are allowed inside <code>|...|</code> literal substitutions. No other literals (<code>'...'</code>), boolean/numeric tokens, conditional expressions etc. are.</p>
+</blockquote>
 </section>
 <section id="arithmetic-operations" class="level2">
 <h2>4.9 Arithmetic operations</h2>
@@ -1021,7 +1024,7 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 </section>
 <section id="comparators-and-equality" class="level2">
 <h2>4.10 Comparators and Equality</h2>
-<p>Values in expressions can be compared with the <code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code> and <code>&lt;=</code> symbols, as usual, and also the <code>==</code> and <code>!=</code> operators can be used to check equality (or the lack of it). Note that XML establishes that the <code>&lt;</code> and <code>&gt;</code> symbols should not be used in attribute values, and so they should be substituted by <code>&amp;lt;</code> and <code>&amp;gt;</code>.</p>
+<p>Values in expressions can be compared with the <code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code> and <code>&lt;=</code> symbols, and the <code>==</code> and <code>!=</code> operators can be used to check for equality (or the lack of it). Note that XML establishes that the <code>&lt;</code> and <code>&gt;</code> symbols should not be used in attribute values, and so they should be substituted by <code>&amp;lt;</code> and <code>&amp;gt;</code>.</p>
 <pre class="html"><code>&lt;div th:if=&quot;${prodStat.count} &amp;gt; 1&quot;&gt;
 &lt;span th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &#39;Development&#39; : &#39;Production&#39;)&quot;&gt;</code></pre>
 <p>A simpler alternative may be using textual aliases that exist for some of these operators: <code>gt</code> (<code>&gt;</code>), <code>lt</code> (<code>&lt;</code>), <code>ge</code> (<code>&gt;=</code>), <code>le</code> (<code>&lt;=</code>), <code>not</code> (<code>!</code>). Also <code>eq</code> (<code>==</code>), <code>neq</code>/<code>ne</code> (<code>!=</code>).</p>
@@ -1029,7 +1032,7 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 <section id="conditional-expressions" class="level2">
 <h2>4.11 Conditional expressions</h2>
 <p><em>Conditional expressions</em> are meant to evaluate only one of two expressions depending on the result of evaluating a condition (which is itself another expression).</p>
-<p>Let’s have a look at an example fragment (introducing another <em>attribute modifier</em>, this time <code>th:class</code>):</p>
+<p>Let’s have a look at an example fragment (introducing another <em>attribute modifier</em>, <code>th:class</code>):</p>
 <pre class="html"><code>&lt;tr th:class=&quot;${row.even}? &#39;even&#39; : &#39;odd&#39;&quot;&gt;
   ...
 &lt;/tr&gt;</code></pre>
@@ -1045,7 +1048,7 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 </section>
 <section id="default-expressions-elvis-operator" class="level2">
 <h2>4.12 Default expressions (Elvis operator)</h2>
-<p>A <em>default expression</em> is a special kind of conditional value without a <em>then</em> part. It is equivalent to the <em>Elvis operator</em> present in some languages like Groovy, and allows to specify two expressions, being the second one evaluated only in the case of the first one returning null.</p>
+<p>A <em>default expression</em> is a special kind of conditional value without a <em>then</em> part. It is equivalent to the <em>Elvis operator</em> present in some languages like Groovy, lets you specify two expressions: the first one is used if it doesn’t evaluate to null, but if it does then the second one is used.</p>
 <p>Let’s see it in action in our user profile page:</p>
 <pre class="html"><code>&lt;div th:object=&quot;${session.user}&quot;&gt;
   ...
@@ -1062,7 +1065,7 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 <section id="the-no-operation-token" class="level2">
 <h2>4.13 The No-Operation token</h2>
 <p>The No-Operation token is represented by an underscore symbol (<code>_</code>).</p>
-<p>The idea behind this token is to specify that the desired result for an expression is to actually <em>do nothing</em>, i.e. do exactly as if the processable attribute (e.g. <code>th:text</code>) was not there at all.</p>
+<p>The idea behind this token is to specify that the desired result for an expression is to <em>do nothing</em>, i.e. do exactly as if the processable attribute (e.g. <code>th:text</code>) was not there at all.</p>
 <p>Among other possibilities, this allows developers to use prototyping text as default values. For example, instead of:</p>
 <pre class="html"><code>&lt;span th:text=&quot;${user.name} ?: &#39;no user authenticated&#39;&quot;&gt;...&lt;/span&gt;</code></pre>
 <p>…we can directly use <em>‘no user authenticated’</em> as a prototyping text, which results in code that is both more concise and versatile from a design standpoint:</p>
@@ -1073,17 +1076,17 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 <p>Thymeleaf defines a <em>double-brace</em> syntax for variable (<code>${...}</code>) and selection (<code>*{...}</code>) expressions that allows us to apply <em>data conversion</em> by means of a configured <em>conversion service</em>.</p>
 <p>It basically goes like this:</p>
 <pre class="html"><code>&lt;td th:text=&quot;${{user.lastAccessDate}}&quot;&gt;...&lt;/td&gt;</code></pre>
-<p>Noticed the double brace there?: <code>${{...}}</code>. That instructs Thymeleaf to pass the result of the <code>user.lastAccessDate</code> expression to the <em>conversion service</em> and ask it to perform a <strong>formatting operation</strong> (a conversion to <code>String</code>) before writing the result.</p>
+<p>Noticed the double brace there?: <code>${{...}}</code>. That instructs Thymeleaf to pass the result of the <code>user.lastAccessDate</code> expression to the <em>conversion service</em> and asks it to perform a <strong>formatting operation</strong> (a conversion to <code>String</code>) before writing the result.</p>
 <p>Assuming that <code>user.lastAccessDate</code> is of type <code>java.util.Calendar</code>, if a <em>conversion service</em> (implementation of <code>IStandardConversionService</code>) has been registered and contains a valid conversion for <code>Calendar -&gt; String</code>, it will be applied.</p>
-<p>Note that the default implementation of <code>IStandardConversionService</code> (the <code>StandardConversionService</code> class) simply executes <code>.toString()</code> on any object converted to <code>String</code>. For more information on how to register a custom <em>conversion service</em> implementation, have a look at the <em>More on Configuration</em> section in this same tutorial.</p>
+<p>The default implementation of <code>IStandardConversionService</code> (the <code>StandardConversionService</code> class) simply executes <code>.toString()</code> on any object converted to <code>String</code>. For more information on how to register a custom <em>conversion service</em> implementation, have a look at the <a href="#more-on-configuration">More on Configuration</a> section.</p>
 <blockquote>
-<p>The official thymeleaf-spring3 and thymeleaf-spring4 integration packages transparently integrate this <em>Thymeleaf Conversion Service</em> mechanism with Spring’s own <em>Conversion Service</em> infrastructure, so that conversion services and formatters declared in the Spring configuration will be made automatically available to <code>${{...}}</code> and <code>*{{...}}</code> expressions.</p>
+<p>The official thymeleaf-spring3 and thymeleaf-spring4 integration packages transparently integrate Thymeleaf’s conversion service mechanism with Spring’s own <em>Conversion Service</em> infrastructure, so that conversion services and formatters declared in the Spring configuration will be made automatically available to <code>${{...}}</code> and <code>*{{...}}</code> expressions.</p>
 </blockquote>
 </section>
 <section id="preprocessing" class="level2">
 <h2>4.14 Preprocessing</h2>
-<p>In addition to all these features for expression processing, Thymeleaf offers to us the possibility of <em>preprocessing</em> expressions.</p>
-<p>And what is that preprocessing thing? It is an execution of the expressions done before the normal one, that allows the modification of the actual expression that will be eventually executed.</p>
+<p>In addition to all these features for expression processing, Thymeleaf has the feature of <em>preprocessing</em> expressions.</p>
+<p>Preprocessing is an execution of the expressions done before the normal one that allows for modification of the expression that will eventually be executed.</p>
 <p>Preprocessed expressions are exactly like normal ones, but appear surrounded by a double underscore symbol (like <code>__${expression}__</code>).</p>
 <p>Let’s imagine we have an i18n <code>Messages_fr.properties</code> entry containing an OGNL expression calling a language-specific static method, like:</p>
 <pre class="java"><code>article.text=@myapp.translator.Translator@translateToFrench({0})</code></pre>
