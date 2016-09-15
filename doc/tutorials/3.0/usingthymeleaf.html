@@ -121,6 +121,7 @@
 <li><a href="#flexible-layouts-beyond-mere-fragment-insertion">8.3 Flexible layouts: beyond mere fragment insertion</a><ul>
 <li><a href="#using-the-empty-fragment">Using the empty fragment</a></li>
 <li><a href="#using-the-no-operation-token">Using the no-operation token</a></li>
+<li><a href="#advanced-conditional-insertion-of-fragments">Advanced conditional insertion of fragments</a></li>
 </ul></li>
 <li><a href="#removing-template-fragments">8.4 Removing template fragments</a></li>
 </ul></li>
@@ -2120,6 +2121,28 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
   &lt;link rel=&quot;stylesheet&quot; href=&quot;/awe/themes/smoothness/jquery-ui.css&quot;&gt;
 
 &lt;/head&gt;
+...</code></pre>
+</section>
+<section id="advanced-conditional-insertion-of-fragments" class="level3">
+<h3>Advanced conditional insertion of fragments</h3>
+<p>The availability of both the <em>emtpy fragment</em> and <em>no-operation token</em> allows us to perform conditional insertion of fragments in a very easy and elegant way.</p>
+<p>For example, we could do this in order to insert our <code>common :: adminhead</code> fragment <em>only</em> if the user is an administrator, and insert nothing (emtpy fragment) if not:</p>
+<pre class="html"><code>...
+&lt;div th:insert=&quot;${user.isAdmin()} ? ~{common :: adminhead} : ~{}&quot;&gt;...&lt;/div&gt;
+...</code></pre>
+<p>Also, we can use the <em>no-operation token</em> in order to insert a fragment only if the specified condition is met, but leave the markup without modifications if the condition is not met:</p>
+<pre class="html"><code>...
+&lt;div th:insert=&quot;${user.isAdmin()} ? ~{common :: adminhead} : _&quot;&gt;
+    Welcome [[${user.name}]], click &lt;a th:href=&quot;@{/support}&quot;&gt;here&lt;/a&gt; for help-desk support.
+&lt;/div&gt;
+...</code></pre>
+<p>Additionally, if we have configured our template resolvers to <em>check for existence</em> of the template resources –by means of their <code>checkExistence</code> flag–, we can use the existence of the fragment itself as the condition in a <em>default</em> operation:</p>
+<pre class="html"><code>...
+&lt;!-- The body of the &lt;div&gt; will be used if the &quot;common :: salutation&quot; fragment  --&gt;
+&lt;!-- does not exist (or is empty).                                              --&gt;
+&lt;div th:insert=&quot;~{common :: salutation} ?: _&quot;&gt;
+    Welcome [[${user.name}]], click &lt;a th:href=&quot;@{/support}&quot;&gt;here&lt;/a&gt; for help-desk support.
+&lt;/div&gt;
 ...</code></pre>
 </section>
 </section>
