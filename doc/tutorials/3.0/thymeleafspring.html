@@ -85,7 +85,7 @@
 </ul></li>
 <li><a href="#spring-webflow-integration">12 Spring WebFlow integration</a><ul>
 <li><a href="#basic-configuration">12.1 Basic configuration</a></li>
-<li><a href="#ajax-fragments">12.2 Ajax fragments</a></li>
+<li><a href="#ajax-fragments-in-spring-webflow">12.2 AJAX fragments in Spring WebFlow</a></li>
 </ul></li>
 </ul>
 		</nav>
@@ -107,10 +107,10 @@
 				<h1 id="tutorial-title" class="tutorial-title">Tutorial: Thymeleaf + Spring</h1>
 								<div class="tutorial-metadata">
 					<div id="tutorial-version">
-						<span class="tutorial-metadata-label">Document version:</span> 20160911 - 11 September 2016
+						<span class="tutorial-metadata-label">Document version:</span> 20160928 - 28 September 2016
 					</div>
 					<div id="project-version">
-						<span class="tutorial-metadata-label">Project version:</span> 3.0.1.RELEASE
+						<span class="tutorial-metadata-label">Project version:</span> 3.0.2.RELEASE
 					</div>
 					<div id="project-website">
 						<span class="tutorial-metadata-label">Project web site:</span>
@@ -1151,7 +1151,7 @@ public RequestDataValueProcessor requestDataValueProcessor() {
 <h1>12 Spring WebFlow integration</h1>
 <section id="basic-configuration" class="level2">
 <h2>12.1 Basic configuration</h2>
-<p>The <code>thymeleaf-spring4</code> integration package includes integration with Spring WebFlow 2.3.x.</p>
+<p>The Thymeleaf + Spring integration packages include integration with Spring WebFlow (2.3+).</p>
 <p>WebFlow includes some AJAX capabilities for rendering fragments of the displayed page when specific events (<em>transitions</em>) are triggered, and in order to enable Thymeleaf to attend these AJAX requests, we will have to use a different <code>ViewResolver</code> implementation, configured like this:</p>
 <pre class="xml"><code>&lt;bean id=&quot;thymeleafViewResolver&quot; class=&quot;org.thymeleaf.spring4.view.AjaxThymeleafViewResolver&quot;&gt;
     &lt;property name=&quot;viewClass&quot; value=&quot;org.thymeleaf.spring4.view.FlowAjaxThymeleafView&quot; /&gt;
@@ -1168,8 +1168,11 @@ public RequestDataValueProcessor requestDataValueProcessor() {
 &lt;/view-state&gt;</code></pre>
 <p>In the above example, <code>bookingDetail</code> is a Thymeleaf template specified in the usual way, understandable by any of the <em>Template Resolvers</em> configured at the <code>TemplateEngine</code>.</p>
 </section>
-<section id="ajax-fragments" class="level2">
-<h2>12.2 Ajax fragments</h2>
+<section id="ajax-fragments-in-spring-webflow" class="level2">
+<h2>12.2 AJAX fragments in Spring WebFlow</h2>
+<blockquote>
+<p>Note that what is explained here is just the way to crete AJAX fragments to be used with Spring WebFlow. If you are not using WebFlow, creating a Spring MVC controller that responds to an AJAX request and returns a chunk of HTML is as straightforward as creating any other template-returning controller, with the only exception that you would probably be returning a fragment like <code>&quot;main :: admin&quot;</code> from your controller method.</p>
+</blockquote>
 <p>WebFlow allows the specification of fragments to be rendered via AJAX with <code>&lt;render&gt;</code> tags, like this:</p>
 <pre class="xml"><code>&lt;view-state id=&quot;detail&quot; view=&quot;bookingDetail&quot;&gt;
     &lt;transition on=&quot;updateData&quot;&gt;

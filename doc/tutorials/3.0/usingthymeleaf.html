@@ -225,10 +225,10 @@
 				<h1 id="tutorial-title" class="tutorial-title">Tutorial: Using Thymeleaf</h1>
 								<div class="tutorial-metadata">
 					<div id="tutorial-version">
-						<span class="tutorial-metadata-label">Document version:</span> 20160911 - 11 September 2016
+						<span class="tutorial-metadata-label">Document version:</span> 20160928 - 28 September 2016
 					</div>
 					<div id="project-version">
-						<span class="tutorial-metadata-label">Project version:</span> 3.0.1.RELEASE
+						<span class="tutorial-metadata-label">Project version:</span> 3.0.2.RELEASE
 					</div>
 					<div id="project-website">
 						<span class="tutorial-metadata-label">Project web site:</span>
@@ -1903,27 +1903,28 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 </section>
 <section id="fragment-specification-syntax" class="level3">
 <h3>Fragment specification syntax</h3>
-<p>The syntax of fragment expressions is quite straightforward. There are three different formats:</p>
+<p>The syntax of <em>fragment expressions</em> is quite straightforward. There are three different formats:</p>
 <ul>
-<li><code>&quot;templatename::selector&quot;</code> Includes the fragment resulting from applying the specified Markup Selector on the template named <code>templatename</code>.
+<li><code>&quot;~{templatename::selector}&quot;</code> Includes the fragment resulting from applying the specified Markup Selector on the template named <code>templatename</code>.
 <ul>
-<li>Note that <code>selector</code> can be a mere fragment name, so you could specify something as simple as <code>templatename::fragmentname</code> like in the <code>footer :: copy</code> above. More on the syntax of markup selectors below.</li>
+<li>Note that <code>selector</code> can be a mere fragment name, so you could specify something as simple as <code>~{templatename::fragmentname}</code> like in the <code>~{footer :: copy}</code> above. More on the syntax of markup selectors below.</li>
 </ul></li>
 </ul>
 <blockquote>
 <p>Markup Selector syntax is defined by the underlying AttoParser parsing library, and is similar to XPath expressions or CSS selectors, see the <a href="#appendix-c-markup-selector-syntax">Appendix C</a> for more info.</p>
 </blockquote>
 <ul>
-<li><code>&quot;templatename&quot;</code> Includes the complete template named <code>templatename</code>.</li>
+<li><code>&quot;~{templatename}&quot;</code> Includes the complete template named <code>templatename</code>.</li>
 </ul>
 <blockquote>
 <p>Note that the template name you use in <code>th:insert</code>/<code>th:replace</code> tags will have to be resolvable by the Template Resolver currently being used by the Template Engine.</p>
 </blockquote>
 <ul>
-<li><code>::selector&quot;</code> or <code>&quot;this::selector&quot;</code> Includes a fragment from the same template.</li>
+<li><code>~{::selector}&quot;</code> or <code>&quot;~{this::selector}&quot;</code> Includes a fragment from the same template.</li>
 </ul>
 <p>Both <code>templatename</code> and <code>selector</code> in the above examples can be fully-featured expressions (even conditionals!) like:</p>
 <pre class="html"><code>&lt;div th:insert=&quot;footer :: (${user.isAdmin}? #{footer.admin} : #{footer.normaluser})&quot;&gt;&lt;/div&gt;</code></pre>
+<p>Note again how the surrounding <code>~{...}</code> envelope is optional in <code>th:insert</code>/<code>th:replace</code>.</p>
 <p>Fragments can include any <code>th:*</code> attributes. These attributes will be evaluated once the fragment is included into the target template (the one with the <code>th:insert</code>/<code>th:replace</code> attribute), and they will be able to reference any context variables defined in this target template.</p>
 <blockquote>
 <p>A big advantage of this approach to fragments is that you can write your fragments code in pages that are perfectly displayable by a browser, with a complete and even <em>valid</em> markup structure, while still retaining the ability to make Thymeleaf include them into other templates.</p>
