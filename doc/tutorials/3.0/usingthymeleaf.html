@@ -156,7 +156,7 @@
 <li><a href="#textual-parser-level-comment-blocks-removing-code">13.4 Textual parser-level comment blocks: removing code</a></li>
 <li><a href="#natural-javascript-and-css-templates">13.5 Natural JavaScript and CSS templates</a></li>
 </ul></li>
-<li><a href="#some-more-pages-for-our-grocery">14 Some more Pages for our Grocery</a><ul>
+<li><a href="#some-more-pages-for-our-grocery">14 Some more pages for our grocery</a><ul>
 <li><a href="#order-list">14.1 Order List</a></li>
 <li><a href="#order-details">14.2 Order Details</a></li>
 </ul></li>
@@ -174,7 +174,10 @@
 <li><a href="#template-cache">16 Template Cache</a></li>
 <li><a href="#decoupled-template-logic">17 Decoupled Template Logic</a><ul>
 <li><a href="#decoupled-logic-the-concept">17.1 Decoupled logic: The concept</a></li>
-<li><a href="#configuring-decoupled-templates">17.2 Configuring decoupled templates</a></li>
+<li><a href="#configuring-decoupled-templates">17.2 Configuring decoupled templates</a><ul>
+<li><a href="#enabling-decoupled-templates">Enabling decoupled templates</a></li>
+<li><a href="#mixing-coupled-and-decoupled-logic">Mixing coupled and decoupled logic</a></li>
+</ul></li>
 <li><a href="#the-thref-attribute">17.3 The th:ref attribute</a></li>
 <li><a href="#performance-impact-of-decoupled-templates">17.4 Performance impact of decoupled templates</a></li>
 <li><a href="#resolution-of-decoupled-logic">17.5 Resolution of decoupled logic</a></li>
@@ -1102,29 +1105,29 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 </section>
 <section id="setting-attribute-values" class="level1">
 <h1>5 Setting Attribute Values</h1>
-<p>This chapter will explain the way in which we can set (or modify) values of attributes in our markup tags, possibly the next most basic feature we will need after setting the tag body content.</p>
+<p>This chapter will explain the way in which we can set (or modify) values of attributes in our markup.</p>
 <section id="setting-the-value-of-any-attribute" class="level2">
 <h2>5.1 Setting the value of any attribute</h2>
 <p>Say our website publishes a newsletter, and we want our users to be able to subscribe to it, so we create a <code>/WEB-INF/templates/subscribe.html</code> template with a form:</p>
 <pre class="html"><code>&lt;form action=&quot;subscribe.html&quot;&gt;
   &lt;fieldset&gt;
     &lt;input type=&quot;text&quot; name=&quot;email&quot; /&gt;
-    &lt;input type=&quot;submit&quot; value=&quot;Subscribe me!&quot; /&gt;
+    &lt;input type=&quot;submit&quot; value=&quot;Subscribe!&quot; /&gt;
   &lt;/fieldset&gt;
 &lt;/form&gt;</code></pre>
-<p>It looks quite OK, but the fact is that this file looks more like a static HTML page than a template for a web application. First, the <code>action</code> attribute in our form statically links to the template file itself, so that there is no place for useful URL rewriting. Second, the <code>value</code> attribute in the submit button makes it display a text in English, but we’d like it to be internationalized.</p>
+<p>As with Thymeleaf, this template starts off more like a static prototype than it does a template for a web application. First, the <code>action</code> attribute in our form statically links to the template file itself, so that there is no place for useful URL rewriting. Second, the <code>value</code> attribute in the submit button makes it display a text in English, but we’d like it to be internationalized.</p>
 <p>Enter then the <code>th:attr</code> attribute, and its ability to change the value of attributes of the tags it is set in:</p>
 <pre class="html"><code>&lt;form action=&quot;subscribe.html&quot; th:attr=&quot;action=@{/subscribe}&quot;&gt;
   &lt;fieldset&gt;
     &lt;input type=&quot;text&quot; name=&quot;email&quot; /&gt;
-    &lt;input type=&quot;submit&quot; value=&quot;Subscribe me!&quot; th:attr=&quot;value=#{subscribe.submit}&quot;/&gt;
+    &lt;input type=&quot;submit&quot; value=&quot;Subscribe!&quot; th:attr=&quot;value=#{subscribe.submit}&quot;/&gt;
   &lt;/fieldset&gt;
 &lt;/form&gt;</code></pre>
-<p>The concept is quite straightforward: <code>th:attr</code> simply takes an expression that assigns a value to an attribute. Having created the corresponding controller and messages files, the result of processing this file will be as expected:</p>
+<p>The concept is quite straightforward: <code>th:attr</code> simply takes an expression that assigns a value to an attribute. Having created the corresponding controller and messages files, the result of processing this file will be:</p>
 <pre class="html"><code>&lt;form action=&quot;/gtvg/subscribe&quot;&gt;
   &lt;fieldset&gt;
     &lt;input type=&quot;text&quot; name=&quot;email&quot; /&gt;
-    &lt;input type=&quot;submit&quot; value=&quot;¡Suscríbeme!&quot;/&gt;
+    &lt;input type=&quot;submit&quot; value=&quot;¡Suscríbe!&quot;/&gt;
   &lt;/fieldset&gt;
 &lt;/form&gt;</code></pre>
 <p>Besides the new attribute values, you can also see that the applicacion context name has been automatically prefixed to the URL base in <code>/gtvg/subscribe</code>, as explained in the previous chapter.</p>
@@ -1137,11 +1140,11 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 <section id="setting-value-to-specific-attributes" class="level2">
 <h2>5.2 Setting value to specific attributes</h2>
 <p>By now, you might be thinking that something like:</p>
-<pre class="html"><code>&lt;input type=&quot;submit&quot; value=&quot;Subscribe me!&quot; th:attr=&quot;value=#{subscribe.submit}&quot;/&gt;</code></pre>
+<pre class="html"><code>&lt;input type=&quot;submit&quot; value=&quot;Subscribe!&quot; th:attr=&quot;value=#{subscribe.submit}&quot;/&gt;</code></pre>
 <p>…is quite an ugly piece of markup. Specifying an assignment inside an attribute’s value can be very practical, but it is not the most elegant way of creating templates if you have to do it all the time.</p>
-<p>Thymeleaf agrees with you. And that’s why in fact <code>th:attr</code> is scarcely used in templates. Normally, you will be using other <code>th:*</code> attributes whose task is setting specific tag attributes (and not just any attribute like <code>th:attr</code>).</p>
-<p>And which attribute does the Standard Dialect offer us for setting the <code>value</code> attribute of our button? Well, in a rather obvious manner, it’s <code>th:value</code>. Let’s have a look:</p>
-<pre class="html"><code>&lt;input type=&quot;submit&quot; value=&quot;Subscribe me!&quot; th:value=&quot;#{subscribe.submit}&quot;/&gt;</code></pre>
+<p>Thymeleaf agrees with you, and that’s why <code>th:attr</code> is scarcely used in templates. Normally, you will be using other <code>th:*</code> attributes whose task is setting specific tag attributes (and not just any attribute like <code>th:attr</code>).</p>
+<p>For example, to set the <code>value</code> attribute, use <code>th:value</code>:</p>
+<pre class="html"><code>&lt;input type=&quot;submit&quot; value=&quot;Subscribe!&quot; th:value=&quot;#{subscribe.submit}&quot;/&gt;</code></pre>
 <p>This looks much better! Let’s try and do the same to the <code>action</code> attribute in the <code>form</code> tag:</p>
 <pre class="html"><code>&lt;form action=&quot;subscribe.html&quot; th:action=&quot;@{/subscribe}&quot;&gt;</code></pre>
 <p>And do you remember those <code>th:href</code> we put in our <code>home.html</code> before? They are exactly this same kind of attributes:</p>
@@ -1462,14 +1465,14 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 <p>…or this, which is equivalent:</p>
 <pre class="html"><code>&lt;img src=&quot;../../images/gtvglogo.png&quot; 
      th:src=&quot;@{/images/gtvglogo.png}&quot; th:title=&quot;#{logo}&quot; th:alt=&quot;#{logo}&quot; /&gt;</code></pre>
-<p>…by this:</p>
+<p>…with this:</p>
 <pre class="html"><code>&lt;img src=&quot;../../images/gtvglogo.png&quot; 
      th:src=&quot;@{/images/gtvglogo.png}&quot; th:alt-title=&quot;#{logo}&quot; /&gt;</code></pre>
 </section>
 <section id="appending-and-prepending" class="level2">
 <h2>5.4 Appending and prepending</h2>
-<p>Working in an equivalent way to <code>th:attr</code>, Thymeleaf offers the <code>th:attrappend</code> and <code>th:attrprepend</code> attributes, which append (suffix) or prepend (prefix) the result of their evaluation to the existing attribute values.</p>
-<p>For example, you might want to store the name of a CSS class to be added (not set, just added) to one of your buttons in a context variable, because the specific CSS class to be used would depend on something that the user did before. Easy:</p>
+<p>Thymeleaf also offers the <code>th:attrappend</code> and <code>th:attrprepend</code> attributes, which append (suffix) or prepend (prefix) the result of their evaluation to the existing attribute values.</p>
+<p>For example, you might want to store the name of a CSS class to be added (not set, just added) to one of your buttons in a context variable, because the specific CSS class to be used would depend on something that the user did before:</p>
 <pre class="html"><code>&lt;input type=&quot;button&quot; value=&quot;Do it!&quot; class=&quot;btn&quot; th:attrappend=&quot;class=${&#39; &#39; + cssStyle}&quot; /&gt;</code></pre>
 <p>If you process this template with the <code>cssStyle</code> variable set to <code>&quot;warning&quot;</code>, you will get:</p>
 <pre class="html"><code>&lt;input type=&quot;button&quot; value=&quot;Do it!&quot; class=&quot;btn warning&quot; /&gt;</code></pre>
@@ -1479,11 +1482,10 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 </section>
 <section id="fixed-value-boolean-attributes" class="level2">
 <h2>5.5 Fixed-value boolean attributes</h2>
-<p>Some XHTML/HTML5 attributes are special in that, either they are present in their elements with a specific and fixed value, or they are not present at all.</p>
+<p>HTML has the concept of <em>boolean attributes</em>, attributes that have no value and the prescence of one means that value is “true”. In XHTML, these attributes take just 1 value, which is itself.</p>
 <p>For example, <code>checked</code>:</p>
-<pre class="html"><code>&lt;input type=&quot;checkbox&quot; name=&quot;option1&quot; checked=&quot;checked&quot; /&gt;
-&lt;input type=&quot;checkbox&quot; name=&quot;option2&quot; /&gt;</code></pre>
-<p>No other value than <code>&quot;checked&quot;</code> is allowed according to the XHTML standards for the <code>checked</code> attribute (HTML5 rules are a little more relaxed on that). And the same happens with <code>disabled</code>, <code>multiple</code>, <code>readonly</code> and <code>selected</code>.</p>
+<pre class="html"><code>&lt;input type=&quot;checkbox&quot; name=&quot;option2&quot; checked /&gt; &lt;!-- HTML --&gt;
+&lt;input type=&quot;checkbox&quot; name=&quot;option1&quot; checked=&quot;checked&quot; /&gt; &lt;!-- XHTML --&gt;</code></pre>
 <p>The Standard Dialect includes attributes that allow you to set these attributes by evaluating a condition, so that if evaluated to true, the attribute will be set to its fixed value, and if evaluated to false, the attribute will not be set:</p>
 <pre class="html"><code>&lt;input type=&quot;checkbox&quot; name=&quot;active&quot; th:checked=&quot;${user.active}&quot; /&gt;</code></pre>
 <p>The following fixed-value boolean attributes exist in the Standard Dialect:</p>
@@ -1536,7 +1538,7 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 </section>
 <section id="setting-the-value-of-any-attribute-default-attribute-processor" class="level2">
 <h2>5.6 Setting the value of any attribute (default attribute processor)</h2>
-<p>Besides everything we have just seen about ways of setting attribute with specific processors such as <code>th:value</code>, <code>th:disabled</code> etc. Thymeleaf offers a <em>default attribute processor</em> that allows us to set the value of <em>any</em> attribute even if no specific <code>th:*</code> processor has been defined for it at the Standard Dialect.</p>
+<p>Thymeleaf offers a <em>default attribute processor</em> that allows us to set the value of <em>any</em> attribute, even if no specific <code>th:*</code> processor has been defined for it at the Standard Dialect.</p>
 <p>So something like:</p>
 <pre class="html"><code>&lt;span th:whatever=&quot;${user.name}&quot;&gt;...&lt;/span&gt;</code></pre>
 <p>Will result in:</p>
@@ -1544,7 +1546,7 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 </section>
 <section id="support-for-html5-friendly-attribute-and-element-names" class="level2">
 <h2>5.7 Support for HTML5-friendly attribute and element names</h2>
-<p>It is also possible to use a completely different syntax to apply processors to your templates, more HTML5-friendly.</p>
+<p>It is also possible to use a completely different syntax to apply processors to your templates in a more HTML5-friendly manner.</p>
 <pre class="html"><code>&lt;table&gt;
     &lt;tr data-th-each=&quot;user : ${users}&quot;&gt;
         &lt;td data-th-text=&quot;${user.login}&quot;&gt;...&lt;/td&gt;
@@ -1558,14 +1560,14 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 </section>
 <section id="iteration" class="level1">
 <h1>6 Iteration</h1>
-<p>So far we have created a home page, a user profile page and also a page for letting users subscribe to our newsletter… but what about our products? Shouldn’t we build a product list to let visitors know what we sell? Well, obviously yes. And there we go now.</p>
+<p>So far we have created a home page, a user profile page and also a page for letting users subscribe to our newsletter… but what about our products? For that, we will need a way to iterate over items in a collection to build out our product page.</p>
 <section id="iteration-basics" class="level2">
 <h2>6.1 Iteration basics</h2>
-<p>For listing our products in our <code>/WEB-INF/templates/product/list.html</code> page we will need a table. Each of our products will be displayed in a row (a <code>&lt;tr&gt;</code> element), and so for our template we will need to create a <em>template row</em> —one that will exemplify how we want each product to be displayed— and then instruct Thymeleaf to <em>iterate it</em> once for each product.</p>
+<p>To display products in our <code>/WEB-INF/templates/product/list.html</code> page we will use a table. Each of our products will be displayed in a row (a <code>&lt;tr&gt;</code> element), and so for our template we will need to create a <em>template row</em> – one that will exemplify how we want each product to be displayed – and then instruct Thymeleaf to repeat it, once for each product.</p>
 <p>The Standard Dialect offers us an attribute for exactly that: <code>th:each</code>.</p>
 <section id="using-theach" class="level3">
 <h3>Using th:each</h3>
-<p>For our product list page, we will need a controller that retrieves the list of products from the service layer and adds it to the template context:</p>
+<p>For our product list page, we will need a controller method that retrieves the list of products from the service layer and adds it to the template context:</p>
 <pre class="java"><code>public void process(
         final HttpServletRequest request, final HttpServletResponse response,
         final ServletContext servletContext, final ITemplateEngine templateEngine)
@@ -1580,7 +1582,7 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
     templateEngine.process(&quot;product/list&quot;, ctx, response.getWriter());
     
 }</code></pre>
-<p>And then we will use <code>th:each</code> in our template to iterate the list of products:</p>
+<p>And then we will use <code>th:each</code> in our template to iterate over the list of products:</p>
 <pre class="html"><code>&lt;!DOCTYPE html&gt;
 
 &lt;html xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;
@@ -1616,20 +1618,20 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
   &lt;/body&gt;
 
 &lt;/html&gt;</code></pre>
-<p>That <code>prod : ${prods}</code> attribute value you see above means “for each element in the result of evaluating <code>${prods}</code>, repeat this fragment of template setting that element into a variable called prod”. Let’s give a name each of the things we see:</p>
+<p>That <code>prod : ${prods}</code> attribute value you see above means “for each element in the result of evaluating <code>${prods}</code>, repeat this fragment of template, using the current element in a variable called prod”. Let’s give a name each of the things we see:</p>
 <ul>
 <li>We will call <code>${prods}</code> the <em>iterated expression</em> or <em>iterated variable</em>.</li>
 <li>We will call <code>prod</code> the <em>iteration variable</em> or simply <em>iter variable</em>.</li>
 </ul>
-<p>Note that the <code>prod</code> iter variable will only be available inside the <code>&lt;tr&gt;</code> element (including inner tags like <code>&lt;td&gt;</code>).</p>
+<p>Note that the <code>prod</code> iter variable is scoped to the <code>&lt;tr&gt;</code> element, which means it is available to inner tags like <code>&lt;td&gt;</code>.</p>
 </section>
 <section id="iterable-values" class="level3">
 <h3>Iterable values</h3>
-<p>Not only <code>java.util.List</code> objects can be used for iteration in Thymeleaf. In fact, there is a quite complete set of objects that are considered <em>iterable</em> by a <code>th:each</code> attribute:</p>
+<p>The <code>java.util.List</code> class isn’t the onlyvalue that can be used for iteration in Thymeleaf. There is a quite complete set of objects that are considered <em>iterable</em> by a <code>th:each</code> attribute:</p>
 <ul>
 <li>Any object implementing <code>java.util.Iterable</code></li>
 <li>Any object implementing <code>java.util.Enumeration</code>.</li>
-<li>Any object implementing <code>java.util.Iterator</code>, which values will be used as they are returned by the iterator, without the need to cache all values in memory.</li>
+<li>Any object implementing <code>java.util.Iterator</code>, whose values will be used as they are returned by the iterator, without the need to cache all values in memory.</li>
 <li>Any object implementing <code>java.util.Map</code>. When iterating maps, iter variables will be of class <code>java.util.Map.Entry</code>.</li>
 <li>Any array.</li>
 <li>Any other object will be treated as if it were a single-valued list containing the object itself.</li>
@@ -1649,7 +1651,7 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 <li>Whether the current iteration is the first one. This is the <code>first</code> boolean property.</li>
 <li>Whether the current iteration is the last one. This is the <code>last</code> boolean property.</li>
 </ul>
-<p>Let’s see how we could use it within the previous example:</p>
+<p>Let’s see how we could use it with the previous example:</p>
 <pre class="html"><code>&lt;table&gt;
   &lt;tr&gt;
     &lt;th&gt;NAME&lt;/th&gt;
@@ -1662,7 +1664,7 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
     &lt;td th:text=&quot;${prod.inStock}? #{true} : #{false}&quot;&gt;yes&lt;/td&gt;
   &lt;/tr&gt;
 &lt;/table&gt;</code></pre>
-<p>As you can see, the status variable (<code>iterStat</code> in this example) is defined in the <code>th:each</code> attribute by writing its name after the iter variable itself, separated by a comma. As happens to the iter variable, the status variable will only be available inside the fragment of code defined by the tag holding the <code>th:each</code> attribute.</p>
+<p>The status variable (<code>iterStat</code> in this example) is defined in the <code>th:each</code> attribute by writing its name after the iter variable itself, separated by a comma. Just like the iter variable, the status variable is also scoped to the fragment of code defined by the tag holding the <code>th:each</code> attribute.</p>
 <p>Let’s have a look at the result of processing our template:</p>
 <pre class="html"><code>&lt;!DOCTYPE html&gt;
 
@@ -1734,7 +1736,7 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 <blockquote>
 <p>Actually, this is something that can be applied to <em>any</em> piece of data, but given the size that in-memory collections might have, retrieving collections that are meant to be iterated is the most common case for this scenario.</p>
 </blockquote>
-<p>In order to support this, Thymeleaf offers a mechanism to <em>lazily load context variables</em>. Context variables that implement the <code>ILazyContextVariable</code> interface –most probably by extending its <code>LazyContextVariable</code> default implementation– will be resolved in the moment of being executed. For example:</p>
+<p>In order to support this, Thymeleaf offers a mechanism to <em>lazily load context variables</em>. Context variables that implement the <code>ILazyContextVariable</code> interface – most probably by extending its <code>LazyContextVariable</code> default implementation – will be resolved in the moment of being executed. For example:</p>
 <pre class="java"><code>context.setVariable(
      &quot;users&quot;,
      new LazyContextVariable&lt;List&lt;User&gt;&gt;() {
@@ -1743,7 +1745,7 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
              return databaseRepository.findAllUsers();
          }
      });</code></pre>
-<p>This variable can be used without noticing its <em>lazyness</em>, in code such as:</p>
+<p>This variable can be used without knowledge of its <em>lazyness</em>, in code such as:</p>
 <pre class="html"><code>&lt;ul&gt;
   &lt;li th:each=&quot;u : ${users}&quot; th:text=&quot;${u.name}&quot;&gt;user name&lt;/li&gt;
 &lt;/ul&gt;</code></pre>
@@ -1783,7 +1785,7 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 <pre class="html"><code>&lt;a href=&quot;comments.html&quot;
    th:href=&quot;@{/product/comments(prodId=${prod.id})}&quot; 
    th:if=&quot;${not #lists.isEmpty(prod.comments)}&quot;&gt;view&lt;/a&gt;</code></pre>
-<p>There is little to explain from this code, in fact: We will be creating a link to the comments page (with URL <code>/product/comments</code>) with a <code>prodId</code> parameter set to the <code>id</code> of the product, but only if the product has any comments.</p>
+<p>This will create a link to the comments page (with URL <code>/product/comments</code>) with a <code>prodId</code> parameter set to the <code>id</code> of the product, but only if the product has any comments.</p>
 <p>Let’s have a look at the resulting markup:</p>
 <pre class="html"><code>&lt;table&gt;
   &lt;tr&gt;
@@ -1840,7 +1842,7 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 </ul></li>
 <li>(If value is null, th:if will evaluate to false).</li>
 </ul>
-<p>Also, <code>th:if</code> has an inverse counterpart, <code>th:unless</code>, which we could have used in the previous example instead of using a <code>not</code> inside the OGNL expression:</p>
+<p>Also, <code>th:if</code> has an inverse attribute, <code>th:unless</code>, which we could have used in the previous example instead of using a <code>not</code> inside the OGNL expression:</p>
 <pre class="html"><code>&lt;a href=&quot;comments.html&quot;
    th:href=&quot;@{/comments(prodId=${prod.id})}&quot; 
    th:unless=&quot;${#lists.isEmpty(prod.comments)}&quot;&gt;view&lt;/a&gt;</code></pre>
@@ -1848,7 +1850,6 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 <section id="switch-statements" class="level2">
 <h2>7.2 Switch statements</h2>
 <p>There is also a way to display content conditionally using the equivalent of a <em>switch</em> structure in Java: the <code>th:switch</code> / <code>th:case</code> attribute set.</p>
-<p>They work exactly as you would expect:</p>
 <pre class="html"><code>&lt;div th:switch=&quot;${user.role}&quot;&gt;
   &lt;p th:case=&quot;&#39;admin&#39;&quot;&gt;User is an administrator&lt;/p&gt;
   &lt;p th:case=&quot;#{roles.manager}&quot;&gt;User is a manager&lt;/p&gt;
@@ -1868,9 +1869,9 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 <h2>8.1 Including template fragments</h2>
 <section id="defining-and-referencing-fragments" class="level3">
 <h3>Defining and referencing fragments</h3>
-<p>We will often want to include in our templates fragments from other templates. Common uses for this are footers, headers, menus…</p>
-<p>In order to do this, Thymeleaf needs us to define the fragments available for inclusion, what we can do by using the <code>th:fragment</code> attribute.</p>
-<p>Now let’s say we want to add a standard copyright footer to all our grocery pages, and for that we define a <code>/WEB-INF/templates/footer.html</code> file containing this code:</p>
+<p>In our templates, we will often want to include parts from other templates, parts like footers, headers, menus…</p>
+<p>In order to do this, Thymeleaf needs us to define these parts, “fragments”, for inclusion, which can be done using the <code>th:fragment</code> attribute.</p>
+<p>Say we want to add a standard copyright footer to all our grocery pages, so we create a <code>/WEB-INF/templates/footer.html</code> file containing this code:</p>
 <pre class="html"><code>&lt;!DOCTYPE html&gt;
 
 &lt;html xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;
@@ -1892,7 +1893,7 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
   &lt;div th:insert=&quot;~{footer :: copy}&quot;&gt;&lt;/div&gt;
   
 &lt;/body&gt;</code></pre>
-<p>Note that <code>th:insert</code> expects a <em>fragment expression</em> (<code>~{...}</code>), or more specifically <em>an expression that results in a fragment</em>. But in the former case (a non-complex <em>fragment expression</em>) like the code above, the (<code>~{</code>,<code>}</code>) enclosing is completely optional, so the code above would be equivalent to:</p>
+<p>Note that <code>th:insert</code> expects a <em>fragment expression</em> (<code>~{...}</code>), which is <em>an expression that results in a fragment</em>. In the above example though, which is a non-complex <em>fragment expression</em>, the (<code>~{</code>,<code>}</code>) enclosing is completely optional, so the code above would be equivalent to:</p>
 <pre class="html"><code>&lt;body&gt;
 
   ...
@@ -1905,13 +1906,10 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 <h3>Fragment specification syntax</h3>
 <p>The syntax of <em>fragment expressions</em> is quite straightforward. There are three different formats:</p>
 <ul>
-<li><code>&quot;~{templatename::selector}&quot;</code> Includes the fragment resulting from applying the specified Markup Selector on the template named <code>templatename</code>.
-<ul>
-<li>Note that <code>selector</code> can be a mere fragment name, so you could specify something as simple as <code>~{templatename::fragmentname}</code> like in the <code>~{footer :: copy}</code> above. More on the syntax of markup selectors below.</li>
-</ul></li>
+<li><code>&quot;~{templatename::selector}&quot;</code> Includes the fragment resulting from applying the specified Markup Selector on the template named <code>templatename</code>. Note that <code>selector</code> can be a mere fragment name, so you could specify something as simple as <code>~{templatename::fragmentname}</code> like in the <code>~{footer :: copy}</code> above.</li>
 </ul>
 <blockquote>
-<p>Markup Selector syntax is defined by the underlying AttoParser parsing library, and is similar to XPath expressions or CSS selectors, see the <a href="#appendix-c-markup-selector-syntax">Appendix C</a> for more info.</p>
+<p>Markup Selector syntax is defined by the underlying AttoParser parsing library, and is similar to XPath expressions or CSS selectors. See <a href="#appendix-c-markup-selector-syntax">Appendix C</a> for more info.</p>
 </blockquote>
 <ul>
 <li><code>&quot;~{templatename}&quot;</code> Includes the complete template named <code>templatename</code>.</li>
@@ -1927,7 +1925,7 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 <p>Note again how the surrounding <code>~{...}</code> envelope is optional in <code>th:insert</code>/<code>th:replace</code>.</p>
 <p>Fragments can include any <code>th:*</code> attributes. These attributes will be evaluated once the fragment is included into the target template (the one with the <code>th:insert</code>/<code>th:replace</code> attribute), and they will be able to reference any context variables defined in this target template.</p>
 <blockquote>
-<p>A big advantage of this approach to fragments is that you can write your fragments code in pages that are perfectly displayable by a browser, with a complete and even <em>valid</em> markup structure, while still retaining the ability to make Thymeleaf include them into other templates.</p>
+<p>A big advantage of this approach to fragments is that you can write your fragments in pages that are perfectly displayable by a browser, with a complete and even <em>valid</em> markup structure, while still retaining the ability to make Thymeleaf include them into other templates.</p>
 </blockquote>
 </section>
 <section id="referencing-fragments-without-thfragment" class="level3">
@@ -1949,7 +1947,7 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 </section>
 <section id="difference-between-thinsert-and-threplace-and-thinclude" class="level3">
 <h3>Difference between <code>th:insert</code> and <code>th:replace</code> (and <code>th:include</code>)</h3>
-<p>And what is the difference between <code>th:insert</code>, <code>th:replace</code> and <code>th:include</code> (not recommended since 3.0)?</p>
+<p>And what is the difference between <code>th:insert</code> and <code>th:replace</code> (and <code>th:include</code>, not recommended since 3.0)?</p>
 <ul>
 <li><p><code>th:insert</code> is the simplest: it will simply insert the specified fragment as the body of its host tag.</p></li>
 <li><p><code>th:replace</code> actually <em>replaces</em> its host tag with the specified fragment.</p></li>
@@ -1995,7 +1993,7 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 </section>
 <section id="parameterizable-fragment-signatures" class="level2">
 <h2>8.2 Parameterizable fragment signatures</h2>
-<p>In order to create a more <em>function-like</em> mechanism for the use of template fragments, fragments defined with <code>th:fragment</code> can specify a set of parameters:</p>
+<p>In order to create a more <em>function-like</em> mechanism for template fragments, fragments defined with <code>th:fragment</code> can specify a set of parameters:</p>
 <pre class="html"><code>&lt;div th:fragment=&quot;frag (onevar,twovar)&quot;&gt;
     &lt;p th:text=&quot;${onevar} + &#39; - &#39; + ${twovar}&quot;&gt;...&lt;/p&gt;
 &lt;/div&gt;</code></pre>
@@ -2006,15 +2004,15 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 <pre class="html"><code>&lt;div th:replace=&quot;::frag (twovar=${value2},onevar=${value1})&quot;&gt;...&lt;/div&gt;</code></pre>
 <section id="fragment-local-variables-without-fragment-arguments" class="level3">
 <h3>Fragment local variables without fragment arguments</h3>
-<p>Even if fragments are defined without arguments, like this:</p>
+<p>Even if fragments are defined without arguments like this:</p>
 <pre class="html"><code>&lt;div th:fragment=&quot;frag&quot;&gt;
     ...
 &lt;/div&gt;</code></pre>
 <p>We could use the second syntax specified above to call them (and only the second one):</p>
 <pre class="html"><code>&lt;div th:replace=&quot;::frag (onevar=${value1},twovar=${value2})&quot;&gt;</code></pre>
-<p>This would be, in fact, equivalent to a combination of <code>th:replace</code> and <code>th:with</code>:</p>
+<p>This would be equivalent to a combination of <code>th:replace</code> and <code>th:with</code>:</p>
 <pre class="html"><code>&lt;div th:replace=&quot;::frag&quot; th:with=&quot;onevar=${value1},twovar=${value2}&quot;&gt;</code></pre>
-<p><strong>Note</strong> that this specification of local variables for a fragment —no matter whether it has an argument signature or not— does not cause the context to be emptied previously to its execution. Fragments will still be able to access every context variable being used at the calling template like they currently are.</p>
+<p><strong>Note</strong> that this specification of local variables for a fragment – no matter whether it has an argument signature or not – does not cause the context to be emptied prior to its execution. Fragments will still be able to access every context variable being used at the calling template like they currently are.</p>
 </section>
 <section id="thassert-for-in-template-assertions" class="level3">
 <h3>th:assert for in-template assertions</h3>
@@ -2027,7 +2025,7 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 <section id="flexible-layouts-beyond-mere-fragment-insertion" class="level2">
 <h2>8.3 Flexible layouts: beyond mere fragment insertion</h2>
 <p>Thanks to <em>fragment expressions</em>, we can specify parameters for fragments that are not texts, numbers, bean objects… but instead fragments of markup.</p>
-<p>This allows us to create our fragments in a way such that they can be <em>enriched</em> wich markup coming from the calling templates, resulting in a very flexible <strong>template layout mechanism</strong>.</p>
+<p>This allows us to create our fragments in a way such that they can be <em>enriched</em> with markup coming from the calling templates, resulting in a very flexible <strong>template layout mechanism</strong>.</p>
 <p>Note the use of the <code>title</code> and <code>links</code> variables in the fragment below:</p>
 <pre class="html"><code>&lt;head th:fragment=&quot;common_header(title,links)&quot;&gt;
 
@@ -2094,7 +2092,7 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 </section>
 <section id="using-the-no-operation-token" class="level3">
 <h3>Using the no-operation token</h3>
-<p>The no-op can be also used as a parameter to a fragment, if we just want to let our fragment use its current markup as a default value. Again, using the <code>common_header</code> example:</p>
+<p>The no-op can be also used as a parameter to a fragment if we just want to let our fragment use its current markup as a default value. Again, using the <code>common_header</code> example:</p>
 <pre class="html"><code>...
 &lt;head th:replace=&quot;base :: common_header(_,~{::link})&quot;&gt;
 
@@ -2137,7 +2135,7 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
     Welcome [[${user.name}]], click &lt;a th:href=&quot;@{/support}&quot;&gt;here&lt;/a&gt; for help-desk support.
 &lt;/div&gt;
 ...</code></pre>
-<p>Additionally, if we have configured our template resolvers to <em>check for existence</em> of the template resources –by means of their <code>checkExistence</code> flag–, we can use the existence of the fragment itself as the condition in a <em>default</em> operation:</p>
+<p>Additionally, if we have configured our template resolvers to <em>check for existence</em> of the template resources –- by means of their <code>checkExistence</code> flag -– we can use the existence of the fragment itself as the condition in a <em>default</em> operation:</p>
 <pre class="html"><code>...
 &lt;!-- The body of the &lt;div&gt; will be used if the &quot;common :: salutation&quot; fragment  --&gt;
 &lt;!-- does not exist (or is empty).                                              --&gt;
@@ -2170,7 +2168,7 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
   &lt;/tr&gt;
 &lt;/table&gt;</code></pre>
 <p>This code is just fine as a template, but as a static page (when directly open by a browser without Thymeleaf processing it) it would not make a nice prototype.</p>
-<p>Why? Because although perfectly displayable by browsers, that table only has a row, and this row has mock data. As a prototype, it simply wouldn’t look realistic enough… we should have more than one product, <em>we need more rows</em>.</p>
+<p>Why? Because, although perfectly displayable by browsers, that table only has a row, and this row has mock data. As a prototype, it simply wouldn’t look realistic enough… we should have more than one product, <em>we need more rows</em>.</p>
 <p>So let’s add some:</p>
 <pre class="html"><code>&lt;table&gt;
   &lt;tr&gt;
@@ -2349,7 +2347,7 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
     &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/table&gt;</code></pre>
-<p>And what about that <code>all</code> value in the attribute, what does it mean? Well, in fact <code>th:remove</code> can behave in five different ways, depending on its value:</p>
+<p>And what does that <code>all</code> value in the attribute, mean? <code>th:remove</code> can behave in five different ways, depending on its value:</p>
 <ul>
 <li><code>all</code>: Remove both the containing tag and all its children.</li>
 <li><code>body</code>: Do not remove the containing tag, but remove all its children.</li>
@@ -2401,14 +2399,14 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 <p>The <code>th:remove</code> attribute can take any <em>Thymeleaf Standard Expression</em>, as long as it returns one of the allowed String values (<code>all</code>, <code>tag</code>, <code>body</code>, <code>all-but-first</code> or <code>none</code>).</p>
 <p>This means removals could be conditional, like:</p>
 <pre class="html"><code>&lt;a href=&quot;/something&quot; th:remove=&quot;${condition}? tag : none&quot;&gt;Link text not to be removed&lt;/a&gt;</code></pre>
-<p>Also note that <code>th:remove</code> considers <code>null</code> a synonym to <code>none</code>, so that the following works exactly as the example above:</p>
+<p>Also note that <code>th:remove</code> considers <code>null</code> a synonym to <code>none</code>, so the following works the same as the example above:</p>
 <pre class="html"><code>&lt;a href=&quot;/something&quot; th:remove=&quot;${condition}? tag&quot;&gt;Link text not to be removed&lt;/a&gt;</code></pre>
 <p>In this case, if <code>${condition}</code> is false, <code>null</code> will be returned, and thus no removal will be performed.</p>
 </section>
 </section>
 <section id="local-variables" class="level1">
 <h1>9 Local Variables</h1>
-<p>Thymeleaf calls <em>local variables</em> those variables that are defined for a specific fragment of a template, and are only available for evaluation inside that fragment.</p>
+<p>Thymeleaf calls <em>local variables</em> the variables that are defined for a specific fragment of a template, and are only available for evaluation inside that fragment.</p>
 <p>An example we have already seen is the <code>prod</code> iter variable in our product list page:</p>
 <pre class="html"><code>&lt;tr th:each=&quot;prod : ${prods}&quot;&gt;
     ...
@@ -2418,13 +2416,13 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 <li>It will be available for any other <code>th:*</code> attributes executing in that tag with less <em>precedence</em> than <code>th:each</code> (which means they will execute after <code>th:each</code>).</li>
 <li>It will be available for any child element of the <code>&lt;tr&gt;</code> tag, such as any <code>&lt;td&gt;</code> elements.</li>
 </ul>
-<p>Thymeleaf offers you a way to declare local variables without iteration. It is the <code>th:with</code> attribute, and its syntax is like that of attribute value assignments:</p>
+<p>Thymeleaf offers you a way to declare local variables without iteration, using the <code>th:with</code> attribute, and its syntax is like that of attribute value assignments:</p>
 <pre class="html"><code>&lt;div th:with=&quot;firstPer=${persons[0]}&quot;&gt;
   &lt;p&gt;
     The name of the first person is &lt;span th:text=&quot;${firstPer.name}&quot;&gt;Julius Caesar&lt;/span&gt;.
   &lt;/p&gt;
 &lt;/div&gt;</code></pre>
-<p>When <code>th:with</code> is processed, that <code>firstPer</code> variable is created as a local variable and added to the variables map coming from the context, so that it is as available for evaluation as any other variables declared in the context from the beginning, but only within the bounds of the containing <code>&lt;div&gt;</code> tag.</p>
+<p>When <code>th:with</code> is processed, that <code>firstPer</code> variable is created as a local variable and added to the variables map coming from the context, so that it is available for evaluation along with any other variables declared in the context, but only within the bounds of the containing <code>&lt;div&gt;</code> tag.</p>
 <p>You can define several variables at the same time using the usual multiple assignment syntax:</p>
 <pre class="html"><code>&lt;div th:with=&quot;firstPer=${persons[0]},secondPer=${persons[1]}&quot;&gt;
   &lt;p&gt;
@@ -2464,7 +2462,7 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 <pre class="html"><code>&lt;ul&gt;
   &lt;li th:each=&quot;item : ${items}&quot; th:text=&quot;${item.description}&quot;&gt;Item description here...&lt;/li&gt;
 &lt;/ul&gt;</code></pre>
-<p>Of course, we would expect that <code>th:each</code> attribute to execute before the <code>th:text</code> so that we get the results we want, but given the fact that the HTML or XML standards do not give any kind of meaning to the order in which the attributes in a tag are written, a <em>precedence</em> mechanism has to be established in the attributes themselves in order to be sure that this will work as expected.</p>
+<p>We would expect that <code>th:each</code> attribute to execute before the <code>th:text</code> so that we get the results we want, but given the fact that the HTML/XML standards do not give any kind of meaning to the order in which the attributes in a tag are written, a <em>precedence</em> mechanism had to be established in the attributes themselves in order to be sure that this will work as expected.</p>
 <p>So, all Thymeleaf attributes define a numeric precedence, which establishes the order in which they are executed in the tag. This order is:</p>
 <div class="table-scroller">
 <table style="width:90%;">
@@ -2549,7 +2547,7 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 <h1>11. Comments and Blocks</h1>
 <section id="standard-htmlxml-comments" class="level2">
 <h2>11.1. Standard HTML/XML comments</h2>
-<p>Standard HTML/XML comments <code>&lt;!-- ... --&gt;</code> can be used anywhere in Thymeleaf templates. Anything inside these comments won’t be processed by neither Thymeleaf nor the browser, and will be just copied verbatim to the result:</p>
+<p>Standard HTML/XML comments <code>&lt;!-- ... --&gt;</code> can be used anywhere in Thymeleaf templates. Anything inside these comments won’t be processed by Thymeleaf, and will be copied verbatim to the result:</p>
 <pre class="html"><code>&lt;!-- User info follows --&gt;
 &lt;div th:text=&quot;${...}&quot;&gt;
   ...
@@ -2559,7 +2557,7 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 <h2>11.2. Thymeleaf parser-level comment blocks</h2>
 <p>Parser-level comment blocks are code that will be simply removed from the template when Thymeleaf parses it. They look like this:</p>
 <pre class="html"><code>&lt;!--/* This code will be removed at Thymeleaf parsing time! */--&gt;</code></pre>
-<p>Thymeleaf will remove absolutely everything between <code>&lt;!--/*</code> and <code>*/--&gt;</code>, so these comment blocks can also be used for displaying code when a template is statically open, knowing that it will be removed when Thymeleaf processes it:</p>
+<p>Thymeleaf will remove everything between <code>&lt;!--/*</code> and <code>*/--&gt;</code>, so these comment blocks can also be used for displaying code when a template is statically open, knowing that it will be removed when Thymeleaf processes it:</p>
 <pre class="html"><code>&lt;!--/*--&gt; 
   &lt;div&gt;
      you can see me only before Thymeleaf processes me!
@@ -2598,12 +2596,12 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
   &lt;/div&gt;
  
 &lt;span&gt;goodbye!&lt;/span&gt;</code></pre>
-<p>As happens with parser-level comment blocks, note that this feature is dialect-independent.</p>
+<p>As with parser-level comment blocks, this feature is dialect-independent.</p>
 </section>
 <section id="synthetic-thblock-tag" class="level2">
 <h2>11.4. Synthetic <code>th:block</code> tag</h2>
 <p>Thymeleaf’s only element processor (not an attribute) included in the Standard Dialects is <code>th:block</code>.</p>
-<p><code>th:block</code> is a mere attribute container that allows template developers to specify whichever attributes they want. Thymeleaf will execute these attributes and then simply make the block dissapear without a trace.</p>
+<p><code>th:block</code> is a mere attribute container that allows template developers to specify whichever attributes they want. Thymeleaf will execute these attributes and then simply make the block, but not its contents, disappear.</p>
 <p>So it could be useful, for example, when creating iterated tables that require more than one <code>&lt;tr&gt;</code> for each element:</p>
 <pre class="html"><code>&lt;table&gt;
   &lt;th:block th:each=&quot;user : ${users}&quot;&gt;
@@ -2635,12 +2633,12 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 <h1>12 Inlining</h1>
 <section id="expression-inlining" class="level2">
 <h2>12.1 Expression inlining</h2>
-<p>Although the Standard Dialect allows us to do almost everything we might need by using tag attributes, there are situations in which we could prefer writing expressions directly into our HTML texts. For example, we could prefer writing this:</p>
+<p>Although the Standard Dialect allows us to do almost everything using tag attributes, there are situations in which we could prefer writing expressions directly into our HTML texts. For example, we could prefer writing this:</p>
 <pre class="html"><code>&lt;p&gt;Hello, [[${session.user.name}]]!&lt;/p&gt;</code></pre>
 <p>…instead of this:</p>
 <pre class="html"><code>&lt;p&gt;Hello, &lt;span th:text=&quot;${session.user.name}&quot;&gt;Sebastian&lt;/span&gt;!&lt;/p&gt;</code></pre>
 <p>Expressions between <code>[[...]]</code> or <code>[(...)]</code> are considered <strong>inlined expressions</strong> in Thymeleaf, and inside them we can use any kind of expression that would also be valid in a <code>th:text</code> or <code>th:utext</code> attribute.</p>
-<p>Note that, while <code>[[...]]</code> corresponds to <code>th:text</code> (i.e. result will be <em>HTML-escaped</em>), <code>[(...)]</code> corresponds to <code>th:utext</code> and will not perform any HTML-escaping at all. So with a variable such as <code>msg = 'This is &lt;b&gt;great!&lt;/b&gt;'</code>, given this fragment:</p>
+<p>Note that, while <code>[[...]]</code> corresponds to <code>th:text</code> (i.e. result will be <em>HTML-escaped</em>), <code>[(...)]</code> corresponds to <code>th:utext</code> and will not perform any HTML-escaping. So with a variable such as <code>msg = 'This is &lt;b&gt;great!&lt;/b&gt;'</code>, given this fragment:</p>
 <pre class="html"><code>&lt;p&gt;The message is &quot;[(${msg})]&quot;&lt;/p&gt;</code></pre>
 <p>The result will have those <code>&lt;b&gt;</code> tags unescaped, so:</p>
 <pre class="html"><code>&lt;p&gt;The message is &quot;This is &lt;b&gt;great!&lt;/b&gt;&quot;&lt;/p&gt;</code></pre>
@@ -2648,10 +2646,10 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 <pre class="html"><code>&lt;p&gt;The message is &quot;[[${msg}]]&quot;&lt;/p&gt;</code></pre>
 <p>The result will be HTML-escaped:</p>
 <pre class="html"><code>&lt;p&gt;The message is &quot;This is &amp;lt;b&amp;gt;great!&amp;lt;/b&amp;gt;&quot;&lt;/p&gt;</code></pre>
-<p>Note that <strong>text inlining is active by default</strong> in the body of every tag in our markup –not the tags themselves–, so there is nothing we need to do to to enable it.</p>
+<p>Note that <strong>text inlining is active by default</strong> in the body of every tag in our markup –- not the tags themselves -–, so there is nothing we need to do to to enable it.</p>
 <section id="inlining-vs-natural-templates" class="level3">
 <h3>Inlining vs natural templates</h3>
-<p>So now, especially if you come from other template engines in which this way of outputting text is the usual thing, you might be asking: <em>Why aren’t we doing this from the beginning? It’s less code than all those</em> <code>th:text</code> <em>attributes!</em></p>
+<p>If you come from other template engines in which this way of outputting text is the norm, you might be asking: <em>Why aren’t we doing this from the beginning? It’s less code than all those</em> <code>th:text</code> <em>attributes!</em></p>
 <p>Well, be careful there, because although you might find inlining quite interesting, you should always remember that inlined expressions will be displayed verbatim in your HTML files when you open them statically, so you probably won’t be able to use them as design prototypes anymore!</p>
 <p>The difference between how a browser would statically display our fragment of code without using inlining…</p>
 <pre><code>Hello, Sebastian!</code></pre>
@@ -2676,7 +2674,7 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 <section id="javascript-inlining" class="level2">
 <h2>12.3 JavaScript inlining</h2>
 <p>JavaScript inlining allows for a better integration of JavaScript <code>&lt;script&gt;</code> blocks in templates being processed in the <code>HTML</code> template mode.</p>
-<p>As happens with <em>text inlining</em>, this is actually equivalent to processing the scripts contents as if they were templates in the <code>JAVASCRIPT</code> template mode, and therefore all the power of the <em>textual template modes</em> (see next chapter) will be at hand. However, in this section we will focus on how we can use it for adding the output of our Thymeleaf expressions into our JavaScript blocks.</p>
+<p>As with <em>text inlining</em>, this is actually equivalent to processing the scripts contents as if they were templates in the <code>JAVASCRIPT</code> template mode, and therefore all the power of the <em>textual template modes</em> (see next chapter) will be at hand. However, in this section we will focus on how we can use it for adding the output of our Thymeleaf expressions into our JavaScript blocks.</p>
 <p>This mode has to be explicitly enabled using <code>th:inline=&quot;javascript&quot;</code>:</p>
 <pre class="html"><code>&lt;script th:inline=&quot;javascript&quot;&gt;
     ...
@@ -2703,7 +2701,7 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
     var username = Sebastian &quot;Fruity&quot; Applejuice;
     ...
 &lt;/script&gt;</code></pre>
-<p>…which is malformed JavaScript code. But outputting something unescaped might be actually what we need if we are building parts of our script by means of appending inlined expressions, so it’s good to have this tool at hand.</p>
+<p>…which is malformed JavaScript code. But outputting something unescaped might be what we need if we are building parts of our script by means of appending inlined expressions, so it’s good to have this tool at hand.</p>
 <section id="javascript-natural-templates" class="level3">
 <h3>JavaScript natural templates</h3>
 <p>The mentioned <em>intelligence</em> of the JavaScript inlining mechanism goes much further than just applying JavaScript-specific escaping and outputting expression results as valid literals.</p>
@@ -2781,7 +2779,7 @@ align = &#39;center&#39;</code></pre>
 <p>Note how CSS inlining also bears some <em>intelligence</em>, just like JavaScript’s. Specifically, expressions output via <em>escaped</em> expressions like <code>[[${classname}]]</code> will be escaped as <strong>CSS identifiers</strong>. That is why our <code>classname = 'main elems'</code> has turned into <code>main\ elems</code> in the fragment of code above.</p>
 <section id="advanced-features-css-natural-templates-etc." class="level3">
 <h3>Advanced features: CSS natural templates, etc.</h3>
-<p>In an equivalent way to what was explained before for JavaScript, CSS inlining also allows for our <code>&lt;style&gt;</code> tags to work both statically and dynamically, i.e. to work as <strong>CSS natural templates</strong> by means of wrapping inlined expressions in comments. See:</p>
+<p>In an equivalent way to what was explained before for JavaScript, CSS inlining also allows for our <code>&lt;style&gt;</code> tags to work both statically and dynamically, i.e. as <strong>CSS natural templates</strong> by means of wrapping inlined expressions in comments. See:</p>
 <pre class="html"><code>&lt;style th:inline=&quot;css&quot;&gt;
     .main\ elems {
       text-align: /*[[${align}]]*/ left;
@@ -2795,7 +2793,7 @@ align = &#39;center&#39;</code></pre>
 <section id="textual-syntax" class="level2">
 <h2>13.1 Textual syntax</h2>
 <p>Three of the Thymeleaf <em>template modes</em> are considered <strong>textual</strong>: <code>TEXT</code>, <code>JAVASCRIPT</code> and <code>CSS</code>. This differentiates them from the markup template modes: <code>HTML</code> and <code>XML</code>.</p>
-<p>The key difference between <em>textual</em> template modes and the markup ones is that in a textual template there are no tags into which to insert logic in the form of attributes, so we have to rely on other mechanisms for inserting logic.</p>
+<p>The key difference between <em>textual</em> template modes and the markup ones is that in a textual template there are no tags into which to insert logic in the form of attributes, so we have to rely on other mechanisms.</p>
 <p>The first and most basic of these mechanisms is <strong>inlining</strong>, which we have already detailed in the previous chapter. Inlining syntax is the most simple way to output results of expressions in textual template mode, so this is a perfectly valid template for a text email.</p>
 <pre><code>  Dear [(${name})],
 
@@ -2804,7 +2802,7 @@ align = &#39;center&#39;</code></pre>
 
   Sincerely,
     The Reporter.</code></pre>
-<p>Note there are no tags at all in the code above, even if it is a complete and valid Thymeleaf template that can be executed in the <code>TEXT</code> template mode. So here we are not applying <em>text inlining</em> in a markup template, but instead directly executing a template in the <code>TEXT</code> template mode.</p>
+<p>Even without tags, the example above is a complete and valid Thymeleaf template that can be executed in the <code>TEXT</code> template mode.</p>
 <p>But in order to include more complex logic than mere <em>output expressions</em>, we need a new non-tag-based syntax:</p>
 <pre><code>[# th:each=&quot;item : ${items}&quot;]
   - [(${item})]
@@ -2818,11 +2816,11 @@ align = &#39;center&#39;</code></pre>
 <pre><code>[# th:each=&quot;item : ${items}&quot;]
   - [# th:utext=&quot;${item}&quot; /]
 [/]</code></pre>
-<p>And given <code>[# th:utext=&quot;${item}&quot; /]</code> is exactly equivalent to an <em>inlined unescaped expression</em>, we could just use it in order to have less code. Thus we end up with the first fragment of code we saw above:</p>
+<p>And given <code>[# th:utext=&quot;${item}&quot; /]</code> is equivalent to an <em>inlined unescaped expression</em>, we could just use it in order to have less code. Thus we end up with the first fragment of code we saw above:</p>
 <pre><code>[# th:each=&quot;item : ${items}&quot;]
   - [(${item})]
 [/]</code></pre>
-<p>Note that the <em>textual syntax requires full element balance (no unclosed tags) and quoted attributes</em>. So to say, it’s more XML-style than HTML-style.</p>
+<p>Note that the <em>textual syntax requires full element balance (no unclosed tags) and quoted attributes</em> – it’s more XML-style than HTML-style.</p>
 <p>Let’s have a look at a more complete example of a <code>TEXT</code> template, a <em>plain text</em> email template:</p>
 <pre><code>Dear [(${customer.name})],
 
@@ -2846,7 +2844,7 @@ This is the list of our products:
 
 Thanks,
   The Thymeleaf Shop</code></pre>
-<p>And another example in <code>JAVASCRIPT</code> template mode, a <code>greeter.js</code> file we process as a textual template and which result we call from our HTML pages. Note this is <em>not</em> a <code>&lt;script&gt;</code> block in an HTML template, but a <code>.js</code> file being processed as a template on its own:</p>
+<p>And another example in <code>JAVASCRIPT</code> template mode, a <code>greeter.js</code> file, we process as a textual template and which result we call from our HTML pages. Note this is <em>not</em> a <code>&lt;script&gt;</code> block in an HTML template, but a <code>.js</code> file being processed as a template on its own:</p>
 <pre class="javascript"><code>var greeter = function() {
 
     var username = [[${session.user.name}]];
@@ -2883,7 +2881,7 @@ Thanks,
 </section>
 <section id="extensibility" class="level2">
 <h2>13.2 Extensibility</h2>
-<p>One of the advantages of this syntax is that it is just as extensible as the <em>markup</em> one. The user can still define his/her own dialects with custom elements and attributes, apply a prefix to them (optionally), and then use them in textual template modes:</p>
+<p>One of the advantages of this syntax is that it is just as extensible as the <em>markup</em> one. Developers can still define their own dialects with custom elements and attributes, apply a prefix to them (optionally), and then use them in textual template modes:</p>
 <pre><code>  [#myorg:dosomething myorg:importantattr=&quot;211&quot;]some text[/myorg:dosomething]</code></pre>
 </section>
 <section id="textual-prototype-only-comment-blocks-adding-code" class="level2">
@@ -2920,7 +2918,7 @@ var f = function() {
 </section>
 <section id="textual-parser-level-comment-blocks-removing-code" class="level2">
 <h2>13.4 Textual parser-level comment blocks: removing code</h2>
-<p>In a way similar to that of prototype-only comment blocks, all the three textual template modes (<code>TEXT</code>, <code>JAVASCRIPT</code> and <code>CSS</code>) make possible to instruct Thymeleaf to remove code between special <code>/*[- */</code> and <code>/* -]*/</code> marks, like this:</p>
+<p>In a way similar to that of prototype-only comment blocks, all the three textual template modes (<code>TEXT</code>, <code>JAVASCRIPT</code> and <code>CSS</code>) make it possible to instruct Thymeleaf to remove code between special <code>/*[- */</code> and <code>/* -]*/</code> marks, like this:</p>
 <pre class="javascript"><code>var x = 23;
 
 /*[- */
@@ -2951,7 +2949,7 @@ var username = &quot;John Apricot&quot;;
 <pre><code>  /*[# th:if=&quot;${user.admin}&quot;]*/
      alert(&#39;Welcome admin&#39;);
   /*[/]*/</code></pre>
-<p>That alert in the code above will be shown when the template is open statically –because it is 100% valid JavaScript–, and also when the template is run if the user is an admin. It is completely equivalent to:</p>
+<p>That alert in the code above will be shown when the template is open statically – because it is 100% valid JavaScript –, and also when the template is run if the user is an admin. It is equivalent to:</p>
 <pre><code>  [# th:if=&quot;${user.admin}&quot;]
      alert(&#39;Welcome admin&#39;);
   [/]</code></pre>
@@ -2961,7 +2959,7 @@ var username = &quot;John Apricot&quot;;
 </section>
 </section>
 <section id="some-more-pages-for-our-grocery" class="level1">
-<h1>14 Some more Pages for our Grocery</h1>
+<h1>14 Some more pages for our grocery</h1>
 <p>Now we know a lot about using Thymeleaf, we can add some new pages to our website for order management.</p>
 <p>Note that we will focus on HTML code, but you can have a look at the bundled source code if you want to see the corresponding controllers.</p>
 <section id="order-list" class="level2">
@@ -3087,7 +3085,7 @@ var username = &quot;John Apricot&quot;;
 
   ...
 &lt;/body&gt;</code></pre>
-<p>…which makes that <code>*{name}</code> in fact equivalent to:</p>
+<p>…which makes that <code>*{name}</code> equivalent to:</p>
 <pre class="html"><code>&lt;p&gt;&lt;b&gt;Name:&lt;/b&gt; &lt;span th:text=&quot;${order.customer.name}&quot;&gt;Frederic Tomato&lt;/span&gt;&lt;/p&gt;</code></pre>
 </section>
 </section>
@@ -3134,7 +3132,7 @@ templateResolver.setCacheTTLMs(60000L);</code></pre></li>
 </blockquote>
 <section id="chaining-template-resolvers" class="level3">
 <h3>Chaining Template Resolvers</h3>
-<p>Also, a Template Engine can be specified several template resolvers, in which case an order can be established between them for template resolution so that, if the first one is not able to resolve the template, the second one is asked, and so on:</p>
+<p>Also, a Template Engine can specify several template resolvers, in which case an order can be established between them for template resolution so that, if the first one is not able to resolve the template, the second one is asked, and so on:</p>
 <pre class="java"><code>ClassLoaderTemplateResolver classLoaderTemplateResolver = new ClassLoaderTemplateResolver();
 classLoaderTemplateResolver.setOrder(Integer.valueOf(1));
 
@@ -3154,12 +3152,12 @@ classLoaderTemplateResolver.getResolvablePatternSpec().addPattern(&quot;/menu/*.
 ServletContextTemplateResolver servletContextTemplateResolver = 
         new ServletContextTemplateResolver(servletContext);
 servletContextTemplateResolver.setOrder(Integer.valueOf(2));</code></pre>
-<p>If these <em>resolvable patterns</em> are not specified, we will be relying on the specific capabilities of each of the <code>ITemplateResolver</code> implementations we are using. Note that not all implementations might be able to determine the real existence of a template before resolving, and thus could always consider a template as <em>resolvable</em> and break the resolution chain (not allowing other resolvers to check for the same template), but then be unable to read the real resource.</p>
-<p>Also, all the <code>ITemplateResolver</code> implementations that are distributed out-of-the-box, include a mechanism that will allow us to make the resolvers <em>really check</em> if a resource exists before considering it <em>resolvable</em>. It is the <code>checkExistence</code> flag, which works like:</p>
+<p>If these <em>resolvable patterns</em> are not specified, we will be relying on the specific capabilities of each of the <code>ITemplateResolver</code> implementations we are using. Note that not all implementations might be able to determine the existence of a template before resolving, and thus could always consider a template as <em>resolvable</em> and break the resolution chain (not allowing other resolvers to check for the same template), but then be unable to read the real resource.</p>
+<p>All the <code>ITemplateResolver</code> implementations that are included with core Thymeleaf include a mechanism that will allow us to make the resolvers <em>really check</em> if a resource exists before considering it <em>resolvable</em>. It is the <code>checkExistence</code> flag, which works like:</p>
 <pre class="java"><code>ClassLoaderTemplateResolver classLoaderTemplateResolver = new ClassLoaderTemplateResolver();
 classLoaderTemplateResolver.setOrder(Integer.valueOf(1));
 classLoaderTempalteResolver.setCheckExistence(true);</code></pre>
-<p>This <code>checkExistence</code> flag forces the resolver perform a <em>real check</em> for resource existence during the resolution phase (and let the following resolver in the chain be called if existence check returns false). While this might sound as a good thing in every case, note that in most cases this will mean a double access to the resource itself (once for checking existence, another time for reading it), and this could be a performance issue in some scenarios like e.g. remote URL-based template resources – a potential performance issue that might anyway get largely mitigated by the use of a template cache (in which case templates will only be <em>resolved</em> the first time they are accessed).</p>
+<p>This <code>checkExistence</code> flag forces the resolver perform a <em>real check</em> for resource existence during the resolution phase (and let the following resolver in the chain be called if existence check returns false). While this might sound good in every case, in most cases this will mean a double access to the resource itself (once for checking existence, another time for reading it), and could be a performance issue in some scenarios, e.g. remote URL-based template resources – a potential performance issue that might anyway get largely mitigated by the use of the template cache (in which case templates will only be <em>resolved</em> the first time they are accessed).</p>
 </section>
 </section>
 <section id="message-resolvers" class="level2">
@@ -3228,15 +3226,15 @@ log4j.logger.org.thymeleaf.TemplateEngine.cache.TEMPLATE_CACHE=TRACE</code></pre
 </section>
 <section id="template-cache" class="level1">
 <h1>16 Template Cache</h1>
-<p>Thymeleaf works thanks to a set of parsers –for markup and text– that parse templates into sequences of events (open tag, text, close tag, comment, etc.) and a series of processors –one for each type of behaviour that needs to be applied– that modify the template parsed event sequence in order to create the results we expect by combining the original template with our data.</p>
-<p>It also includes —by default— a cache that stores parsed templates, this is, the sequence of events resulting from reading and parsing template files before processing them. This is especially useful when working in a web application, and builds on the following concepts:</p>
+<p>Thymeleaf works thanks to a set of parsers – for markup and text – that parse templates into sequences of events (open tag, text, close tag, comment, etc.) and a series of processors – one for each type of behaviour that needs to be applied – that modify the template parsed event sequence in order to create the results we expect by combining the original template with our data.</p>
+<p>It also includes – by default – a cache that stores parsed templates; the sequence of events resulting from reading and parsing template files before processing them. This is especially useful when working in a web application, and builds on the following concepts:</p>
 <ul>
-<li>Input/Output is almost always the slowest part of any application. In-memory process is extremely quick compared to it.</li>
+<li>Input/Output is almost always the slowest part of any application. In-memory processing is extremely quick by comparison.</li>
 <li>Cloning an existing in-memory event sequence is always much quicker than reading a template file, parsing it and creating a new event sequence for it.</li>
 <li>Web applications usually have only a few dozen templates.</li>
 <li>Template files are small-to-medium size, and they are not modified while the application is running.</li>
 </ul>
-<p>This all leads to the idea that caching the most used templates in a web application is feasible without wasting big amounts of memory, and also that it will save a lot of time that would be spent on input/output operations on a small set of files that, in fact, never change.</p>
+<p>This all leads to the idea that caching the most used templates in a web application is feasible without wasting large amounts of memory, and also that it will save a lot of time that would be spent on input/output operations on a small set of files that, in fact, never change.</p>
 <p>And how can we take control of this cache? First, we’ve learned before that we can enable or disable it at the Template Resolver, even acting only on specific templates:</p>
 <pre class="java"><code>// Default is true
 templateResolver.setCacheable(false);
@@ -3261,11 +3259,11 @@ templateEngine.clearTemplateCacheFor(&quot;/users/userList&quot;);</code></pre>
 <h2>17.1 Decoupled logic: The concept</h2>
 <p>So far we have worked for our Grocery Store with templates done the <em>usual way</em>, with logic being inserted into our templates in the form of attributes.</p>
 <p>But Thymeleaf also allows us to completely <em>decouple</em> the template markup from its logic, allowing the creation of <strong>completely logic-less markup templates</strong> in the <code>HTML</code> and <code>XML</code> template modes.</p>
-<p>The main idea is that template logic will be defined in a separate <em>logic file</em> (more exactly a <em>logic resource</em>, as it doesn’t need to be a <em>file</em>). By default that logic resource will be an additional file living in the same place (e.g. folder) as the template file, with the same name but with <code>.th.xml</code> extension:</p>
+<p>The main idea is that template logic will be defined in a separate <em>logic file</em> (more exactly a <em>logic resource</em>, as it doesn’t need to be a <em>file</em>). By default, that logic resource will be an additional file living in the same place (e.g. folder) as the template file, with the same name but with <code>.th.xml</code> extension:</p>
 <pre><code>/templates
 +-&gt;/home.html
 +-&gt;/home.th.xml</code></pre>
-<p>Such <code>home.html</code> file can be completely logic-less. It might look like this:</p>
+<p>So the <code>home.html</code> file can be completely logic-less. It might look like this:</p>
 <pre class="html"><code>&lt;!DOCTYPE html&gt;
 &lt;html&gt;
   &lt;body&gt;
@@ -3282,7 +3280,7 @@ templateEngine.clearTemplateCacheFor(&quot;/users/userList&quot;);</code></pre>
   &lt;/body&gt;
 &lt;/html&gt;</code></pre>
 <p>Absolutely no Thymeleaf code there. This is a template file that a designer with no Thymeleaf or templating knowledge could have created, edited and/or understood. Or a fragment of HTML provided by some external system with no Thymeleaf hooks at all.</p>
-<p>Let’s now turn that <code>home.html</code> template into a perfectly working Thymeleaf template by creating our additional <code>home.th.xml</code> file like this:</p>
+<p>Let’s now turn that <code>home.html</code> template into a Thymeleaf template by creating our additional <code>home.th.xml</code> file like this:</p>
 <pre class="xml"><code>&lt;?xml version=&quot;1.0&quot;?&gt;
 &lt;thlogic&gt;
   &lt;attr sel=&quot;#usersTable&quot; th:remove=&quot;all-but-first&quot;&gt;
@@ -3294,7 +3292,7 @@ templateEngine.clearTemplateCacheFor(&quot;/users/userList&quot;);</code></pre>
 &lt;/thlogic&gt;</code></pre>
 <p>Here we can see a lot of <code>&lt;attr&gt;</code> tags inside a <code>thlogic</code> block. Those <code>&lt;attr&gt;</code> tags perform <em>attribute injection</em> on nodes of the original template selected by means of their <code>sel</code> attributes, which contain Thymeleaf <em>markup selectors</em> (actually <em>AttoParser markup selectors</em>).</p>
 <p>Also note that <code>&lt;attr&gt;</code> tags can be nested so that their selectors are <em>appended</em>. That <code>sel=&quot;/tr[0]&quot;</code> above, for example, will be processed as <code>sel=&quot;#usersTable/tr[0]&quot;</code>. And the selector for the user name <code>&lt;td&gt;</code> will be processed as <code>sel=&quot;#usersTable/tr[0]//td.username&quot;</code>.</p>
-<p>So once merged, both files seen above will be completely equivalent to:</p>
+<p>So once merged, both files seen above will be the same as:</p>
 <pre class="html"><code>&lt;!DOCTYPE html&gt;
 &lt;html&gt;
   &lt;body&gt;
@@ -3310,21 +3308,25 @@ templateEngine.clearTemplateCacheFor(&quot;/users/userList&quot;);</code></pre>
     &lt;/table&gt;
   &lt;/body&gt;
 &lt;/html&gt;</code></pre>
-<p>This looks more familiar, and is indeed less <em>verbose</em> than creating two separate files. But the advantage of <em>decoupled templates</em> is that we can achieve for our templates total independence from Thymeleaf, and therefore better maintainability from the design standpoint.</p>
-<p>Of course some <em>contracts</em> between designers or developers will still be needed –like e.g. the fact that the users <code>&lt;table&gt;</code> will need an <code>id=&quot;usersTable&quot;</code>–, but in many scenarios a pure-HTML template will be a much better communication artifact between design and development teams.</p>
+<p>This looks more familiar, and is indeed less <em>verbose</em> than creating two separate files. But the advantage of <em>decoupled templates</em> is that we can give for our templates total independence from Thymeleaf, and therefore better maintainability from the design standpoint.</p>
+<p>Of course some <em>contracts</em> between designers or developers will still be needed – e.g. the fact that the users <code>&lt;table&gt;</code> will need an <code>id=&quot;usersTable&quot;</code> –, but in many scenarios a pure-HTML template will be a much better communication artifact between design and development teams.</p>
 </section>
 <section id="configuring-decoupled-templates" class="level2">
 <h2>17.2 Configuring decoupled templates</h2>
-<p><strong>Enabling decoupled templates</strong></p>
+<section id="enabling-decoupled-templates" class="level3">
+<h3>Enabling decoupled templates</h3>
 <p>Decoupled logic will not be expected for every template by default. Instead, the configured template resolvers (implementations of <code>ITemplateResolver</code>) will need to specifically mark the templates they resolve as <em>using decoupled logic</em>.</p>
 <p>Except for <code>StringTemplateResolver</code> (which does not allow decoupled logic), all other out-of-the-box implementations of <code>ITemplateResolver</code> will provide a flag called <code>useDecoupledLogic</code> that will mark all templates resolved by that resolver as potentially having all or part of its logic living in a separate resource:</p>
 <pre class="java"><code>final ServletContextTemplateResolver templateResolver = 
         new ServletContextTemplateResolver(servletContext);
 ...
 templateResolver.setUseDecoupledLogic(true);</code></pre>
-<p><strong>Mixing coupled and decoupled logic</strong></p>
-<p>Decoupled template logic, when enabled, is not a requirement. Its being enabled for a specific resolved template will only mean that the engine will <em>look for</em> a resource containing decoupled logic, parsing and merging it with the original template if it exists. No error will be thrown if the decoupled logic resource does not exist.</p>
+</section>
+<section id="mixing-coupled-and-decoupled-logic" class="level3">
+<h3>Mixing coupled and decoupled logic</h3>
+<p>Decoupled template logic, when enabled, is not a requirement. When enabled, it means that the engine will <em>look for</em> a resource containing decoupled logic, parsing and merging it with the original template if it exists. No error will be thrown if the decoupled logic resource does not exist.</p>
 <p>Also, in the same template we can mix both <em>coupled</em> and <em>decoupled</em> logic, for example by adding some Thymeleaf attributes at the original template file but leaving others for the separate decoupled logic file. The most common case for this is using the new (in v3.0) <code>th:ref</code> attribute.</p>
+</section>
 </section>
 <section id="the-thref-attribute" class="level2">
 <h2>17.3 The th:ref attribute</h2>
@@ -3337,14 +3339,14 @@ templateResolver.setUseDecoupledLogic(true);</code></pre>
 <li>Any tags with a <code>th:fragment=&quot;whatever&quot;</code> attribute.</li>
 <li>Any tags with a <code>th:ref=&quot;whatever&quot;</code> attribute.</li>
 </ul>
-<p>What is the advantage of <code>th:ref</code> against, for example, using a pure-HTML <code>id</code> attribute? Merely the fact that we might not want to add so many <code>id</code> and <code>class</code> attributes to our tags to act as <em>logic anchors</em>, which might end up <em>polluting</em> a bit our output.</p>
+<p>What is the advantage of <code>th:ref</code> against, for example, using a pure-HTML <code>id</code> attribute? Merely the fact that we might not want to add so many <code>id</code> and <code>class</code> attributes to our tags to act as <em>logic anchors</em>, which might end up <em>polluting</em> our output.</p>
 <p>And in the same sense, what is the disadvantage of <code>th:ref</code>? Well, obviously that we’d be adding a bit of Thymeleaf logic (<em>“logic”</em>) to our templates.</p>
-<p>Note this applicability of the <code>th:ref</code> attribute <strong>does not only apply to decoupled logic template files</strong>: it works the same in other types of scenarios like e.g. in fragment expressions (<code>~{...}</code>).</p>
+<p>Note this applicability of the <code>th:ref</code> attribute <strong>does not only apply to decoupled logic template files</strong>: it works the same in other types of scenarios, like in fragment expressions (<code>~{...}</code>).</p>
 </section>
 <section id="performance-impact-of-decoupled-templates" class="level2">
 <h2>17.4 Performance impact of decoupled templates</h2>
-<p>Extremely small. When a resolved template is marked to use decoupled logic and it is not cached, the template logic resource will be resolved first, parsed and processed into a secuence of instructions in-memory: basically a list of attributes to be injected to each markup selector.</p>
-<p>But this is the only <em>additional step</em> required because, after this, the real template will be parsed, and while it is parsed these attributes will be injected <em>on-the-fly</em> by the parser itself, thanks to the advanced capabilities for node selection in AttoParser. So parsed nodes will come out of the parser as if they had their injected attributes written in the original template file, no difference at all.</p>
+<p>The impact is extremely small. When a resolved template is marked to use decoupled logic and it is not cached, the template logic resource will be resolved first, parsed and processed into a secuence of instructions in-memory: basically a list of attributes to be injected to each markup selector.</p>
+<p>But this is the only <em>additional step</em> required because, after this, the real template will be parsed, and while it is parsed these attributes will be injected <em>on-the-fly</em> by the parser itself, thanks to the advanced capabilities for node selection in AttoParser. So parsed nodes will come out of the parser as if they had their injected attributes written in the original template file.</p>
 <p>The biggest advantage of this? When a template is configured to be cached, it will be cached already containing the injected attributes. So the overhead of using <em>decoupled templates</em> for cacheable templates, once they are cached, will be absolutely <em>zero</em>.</p>
 </section>
 <section id="resolution-of-decoupled-logic" class="level2">
@@ -3365,13 +3367,13 @@ templateEngine.setDecoupledTemplateLogicResolver(decoupledResolver);</code></pre
 </section>
 <section id="appendix-a-expression-basic-objects" class="level1">
 <h1>18 Appendix A: Expression Basic Objects</h1>
-<p>Some objects and variable maps are always available to be invoked at variable expressions (executed by OGNL or SpringEL). Let’s see them:</p>
+<p>Some objects and variable maps are always available to be invoked. Let’s see them:</p>
 <section id="base-objects" class="level3">
 <h3>Base objects</h3>
 <ul>
-<li><p><strong>#ctx</strong> : the context object. It will be an implementation of <code>org.thymeleaf.context.IContext</code>, <code>org.thymeleaf.context.IWebContext</code> depending on our environment (standalone or web).</p>
-<p>Note <code>#vars</code> and <code>#root</code> are synomyns for the same object, but using <code>#ctx</code> is recommended.</p></li>
+<li><strong>#ctx</strong> : the context object. An implementation of <code>org.thymeleaf.context.IContext</code> or <code>org.thymeleaf.context.IWebContext</code> depending on our environment (standalone or web).</li>
 </ul>
+<p>Note <code>#vars</code> and <code>#root</code> are synomyns for the same object, but using <code>#ctx</code> is recommended.</p>
 <pre class="java"><code>/*
  * ======================================================================
  * See javadoc API for class org.thymeleaf.context.IContext
@@ -3400,7 +3402,7 @@ ${#ctx.servletContext}</code></pre>
 <h3>Web context namespaces for request/session attributes, etc.</h3>
 <p>When using Thymeleaf in a web environment, we can use a series of shortcuts for accessing request parameters, session attributes and application attributes:</p>
 <blockquote>
-<p>Note these are not <em>context objects</em>, but maps added to the context as variables, so we access them without <code>#</code>. In some way, therefore, they act as <em>namespaces</em>.</p>
+<p>Note these are not <em>context objects</em>, but maps added to the context as variables, so we access them without <code>#</code>. In some way, they act as <em>namespaces</em>.</p>
 </blockquote>
 <ul>
 <li><strong>param</strong> : for retrieving request parameters. <code>${param.foo}</code> is a <code>String[]</code> with the values of the <code>foo</code> request parameter, so <code>${param.foo[0]}</code> will normally be used for getting the first value.</li>
@@ -4293,7 +4295,7 @@ ${#ids.prev(&#39;someId&#39;)}</code></pre>
 </ul>
 <p>So the above Markup Selector expression:</p>
 <pre class="html"><code>&lt;div th:insert=&quot;mytemplate :: //div[@class=&#39;content&#39;]&quot;&gt;...&lt;/div&gt;</code></pre>
-<p>could be written as:</p>
+<p>Could be written as:</p>
 <pre class="html"><code>&lt;div th:insert=&quot;mytemplate :: div.content&quot;&gt;...&lt;/div&gt;</code></pre>
 <p>Examining a different example, this:</p>
 <pre class="html"><code>&lt;div th:replace=&quot;mytemplate :: myfrag&quot;&gt;...&lt;/div&gt;</code></pre>
