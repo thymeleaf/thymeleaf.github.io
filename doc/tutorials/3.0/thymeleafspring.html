@@ -135,7 +135,7 @@
 <li>Make the mapped methods in your Spring MVC <code>@Controller</code> objects forward to templates managed by Thymeleaf, exactly like you do with JSPs.</li>
 <li>Use <strong>Spring Expression Language</strong> (Spring EL) instead of OGNL in your templates.</li>
 <li>Create forms in your templates that are completely integrated with your form-backing beans and result bindings, including the use of property editors, conversion services and validation error handling.</li>
-<li>Display internationalization messages from messages files managed by Spring (through the usual <code>MessageSource</code> objects).</li>
+<li>Display internationalization messages from message files managed by Spring (through the usual <code>MessageSource</code> objects).</li>
 <li>Resolve your templates using Spring’s own resource resolution mechanisms.</li>
 </ul>
 <p>Note that in order to fully understand this tutorial, you should have first gone through the <em>“Using Thymeleaf”</em> tutorial, which explains the Standard Dialect in depth.</p>
@@ -249,7 +249,7 @@ public SpringTemplateEngine templateEngine(){
 <li><code>org.thymeleaf.spring4.view.ThymeleafViewResolver</code></li>
 </ul>
 <p>These two classes will be in charge of processing Thymeleaf templates as a result of the execution of controllers.</p>
-<p>Configuration of the Thymeleaf View Resolver is very similar to that of JSP’s:</p>
+<p>Configuration of the Thymeleaf View Resolver is very similar to that of JSP:</p>
 <pre class="java"><code>@Bean
 public ThymeleafViewResolver viewResolver(){
     ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
@@ -920,7 +920,7 @@ public String removeRow(
 &lt;/ul&gt;</code></pre>
 <p>…as well as build a <code>&lt;br /&gt;</code>-separated list:</p>
 <pre class="html"><code>&lt;p th:if=&quot;${#fields.hasErrors(&#39;all&#39;)}&quot; th:errors=&quot;*{all}&quot;&gt;Incorrect date&lt;/p&gt;</code></pre>
-<p>Finally. Note <code>#fields.hasErrors('*')</code> is equivalent to <code>#fields.hasAnyErrors()</code> and <code>#fields.errors('*')</code> is equivalent to <code>#fields.allErrors()</code>. Use whichever syntax you prefer:</p>
+<p>Finally note that <code>#fields.hasErrors('*')</code> is equivalent to <code>#fields.hasAnyErrors()</code> and <code>#fields.errors('*')</code> is equivalent to <code>#fields.allErrors()</code>. Use whichever syntax you prefer:</p>
 <pre class="html"><code>&lt;div th:if=&quot;${#fields.hasAnyErrors()}&quot;&gt;
   &lt;p th:each=&quot;err : ${#fields.allErrors()}&quot; th:text=&quot;${err}&quot;&gt;...&lt;/p&gt;
 &lt;/div&gt;</code></pre>
@@ -1171,7 +1171,7 @@ public RequestDataValueProcessor requestDataValueProcessor() {
 <section id="ajax-fragments-in-spring-webflow" class="level2">
 <h2>12.2 AJAX fragments in Spring WebFlow</h2>
 <blockquote>
-<p>Note that what is explained here is just the way to crete AJAX fragments to be used with Spring WebFlow. If you are not using WebFlow, creating a Spring MVC controller that responds to an AJAX request and returns a chunk of HTML is as straightforward as creating any other template-returning controller, with the only exception that you would probably be returning a fragment like <code>&quot;main :: admin&quot;</code> from your controller method.</p>
+<p>Note that what is explained here is just the way to create AJAX fragments to be used with Spring WebFlow. If you are not using WebFlow, creating a Spring MVC controller that responds to an AJAX request and returns a chunk of HTML is as straightforward as creating any other template-returning controller, with the only exception that you would probably be returning a fragment like <code>&quot;main :: admin&quot;</code> from your controller method.</p>
 </blockquote>
 <p>WebFlow allows the specification of fragments to be rendered via AJAX with <code>&lt;render&gt;</code> tags, like this:</p>
 <pre class="xml"><code>&lt;view-state id=&quot;detail&quot; view=&quot;bookingDetail&quot;&gt;
