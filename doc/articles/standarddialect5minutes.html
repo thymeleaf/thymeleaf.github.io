@@ -72,37 +72,50 @@
 </section>
 <section id="standard-expression-syntax" class="level2">
 <h2>Standard Expression syntax</h2>
-<p>Most Thymeleaf attributes allow their values to be set as or containing <em>expressions</em>, which we will call <em>Standard Expressions</em> because of the dialects they are used in. These can be of four types:</p>
+<p>Most Thymeleaf attributes allow their values to be set as or containing <em>expressions</em>, which we will call <em>Standard Expressions</em> because of the dialects they are used in. These can be of five types:</p>
 <ul>
-<li>Variable expressions</li>
-<li>Selection or <em>asterisk</em> expressions</li>
-<li>Text externalization or <em>internationalization</em> expressions</li>
-<li>URL expressions</li>
+<li><code>${...}</code> : Variable expressions.</li>
+<li><code>*{...}</code> : Selection expressions.</li>
+<li><code>#{...}</code> : Message (i18n) expressions.</li>
+<li><code>@{...}</code> : Link (URL) expressions.</li>
+<li><code>~{...}</code> : Fragment expressions.</li>
 </ul>
 <section id="variable-expressions" class="level3">
 <h3>Variable expressions</h3>
-<p>Variable expressions are OGNL expressions —or Spring EL if you’re using <em>SpringStandard</em>— executed on the map of context variables —also called <em>model attributes</em> in Spring jargon. They look like this:</p>
-<pre class="html"><code>    ${session.user.name}</code></pre>
+<p>Variable expressions are OGNL expressions –or Spring EL if you’re integrating Thymeleaf with Spring– executed on the <em>context variables</em> — also called <em>model attributes</em> in Spring jargon. They look like this:</p>
+<pre class="html"><code>${session.user.name}</code></pre>
 <p>And you will find them as attribute values or as a part of them, depending on the attribute:</p>
 <pre class="html"><code>&lt;span th:text=&quot;${book.author.name}&quot;&gt;</code></pre>
+<p>The expression above is equivalent (both in OGNL and SpringEL) to:</p>
+<pre class="java"><code>((Book)context.getVariable(&quot;book&quot;)).getAuthor().getName()</code></pre>
+<p>But we can find variable expressions in scenarios which not only involve <em>output</em>, but more complex processing like <em>conditionals</em>, <em>iteration</em>…</p>
 <pre class="html"><code>&lt;li th:each=&quot;book : ${books}&quot;&gt;</code></pre>
+<p>Here <code>${books}</code> selects the variable called <code>books</code> from the context, and evaluates it as an <em>iterable</em> to be used at a <code>th:each</code> loop.</p>
 </section>
-<section id="selection-asterisk-expressions" class="level3">
-<h3>Selection (asterisk) expressions</h3>
+<section id="selection-expressions" class="level3">
+<h3>Selection expressions</h3>
 <p>Selection expressions are just like variable expressions, except they will be executed on a previously selected object instead of the whole context variables map. They look like this:</p>
-<pre class="html"><code>    *{customer.name}</code></pre>
+<pre class="html"><code>*{customer.name}</code></pre>
 <p>The object they act on is specified by a <code>th:object</code> attribute:</p>
 <pre class="html"><code>&lt;div th:object=&quot;${book}&quot;&gt;
   ...
   &lt;span th:text=&quot;*{title}&quot;&gt;...&lt;/span&gt;
   ...
 &lt;/div&gt;</code></pre>
+<p>So that would be equivalent to:</p>
+<pre class="java"><code>{
+  // th:object=&quot;${book}&quot;
+  final Book selection = (Book) context.getVariable(&quot;book&quot;);
+  // th:text=&quot;*{title}&quot;
+  output(selection.getTitle());
+}</code></pre>
 </section>
-<section id="text-externalization-expressions" class="level3">
-<h3>Text externalization expressions</h3>
-<p>Text externalization (often called <em>internationalization</em>) allows us to retrieve locale-specific messages from external sources (<code>.properties</code> files), referencing them by a key and (optionally) applying a set of parameters.</p>
-<pre class="html"><code>    #{main.title}</code></pre>
-<pre class="html"><code>    #{message.entrycreated(${entryId})}</code></pre>
+<section id="message-i18n-expressions" class="level3">
+<h3>Message (i18n) expressions</h3>
+<p>Message expressions (often called <em>text externalization</em>, <em>internationalization</em> or <em>i18n</em>) allows us to retrieve locale-specific messages from external sources (<code>.properties</code> files), referencing them by a key and (optionally) applying a set of parameters.</p>
+<p>In Spring applications, this will automatically integrate with Spring’s <code>MessageSource</code> mechanism.</p>
+<pre class="html"><code>#{main.title}</code></pre>
+<pre class="html"><code>#{message.entrycreated(${entryId})}</code></pre>
 <p>You can find them in templates like:</p>
 <pre class="html"><code>&lt;table&gt;
   ...
@@ -110,19 +123,43 @@
   &lt;th th:text=&quot;#{header.address.country}&quot;&gt;...&lt;/th&gt;
   ...
 &lt;/table&gt;</code></pre>
+<p>Note you can use <em>variable expressions</em> inside <em>message expressions</em> if you want the message key to be determined by the value of a context variable, or you want to specify variables as parameters:</p>
+<pre class="html"><code>#{${config.adminWelcomeKey}(${session.user.name})}</code></pre>
 </section>
-<section id="url-expressions" class="level3">
-<h3>URL expressions</h3>
-<p>URL expressions are meant to add useful context and session info to the URLs, a process usually called <em>URL rewriting</em>.</p>
-<pre class="html"><code>    @{/order/list}</code></pre>
+<section id="link-url-expressions" class="level3">
+<h3>Link (URL) expressions</h3>
+<p>Link expressions are meant to build URLs and add useful context and session info to them (a process usually called <em>URL rewriting</em>).</p>
+<p>So for a web application deployed at the <code>/myapp</code> context of your web server, an expression such as:</p>
+<pre class="html"><code>&lt;a th:href=&quot;@{/order/list}&quot;&gt;...&lt;/a&gt;</code></pre>
+<p>Could be converted into something like this:</p>
+<pre class="html"><code>&lt;a href=&quot;/myapp/order/list&quot;&gt;...&lt;/a&gt;</code></pre>
+<p>Or even this, if we need to keep sessions and cookies are not enabled (or the server doesn’t know yet):</p>
+<pre class="html"><code>&lt;a href=&quot;/myapp/order/list;jsessionid=23fa31abd41ea093&quot;&gt;...&lt;/a&gt;</code></pre>
 <p>URLs can also take parameters:</p>
-<pre class="html"><code>    @{/order/details(id=${orderId})}</code></pre>
-<p>And be relative (in which case no application context will be added to the URL):</p>
-<pre class="html"><code>    @{../documents/report}</code></pre>
-<p>Let’s see these expressions in context:</p>
-<pre class="html"><code>&lt;form th:action=&quot;@{/createOrder}&quot;&gt;</code></pre>
-<pre class="html"><code>&lt;a href=&quot;main.html&quot; th:href=&quot;@{/main}&quot;&gt;</code></pre>
-<p>From this last example, see how Thymleaf allows us to set an <code>href</code> value for static prototyping, letting our templates link to each other nicely when directly open in a browser, and at the same time with <code>th:href</code> we can specify the URL that will be set as <code>href</code> when Thymeleaf really executes the template.</p>
+<pre class="html"><code>&lt;a th:href=&quot;@{/order/details(id=${orderId},type=${orderType})}&quot;&gt;...&lt;/a&gt;</code></pre>
+<p>Resulting in something like this:</p>
+<pre class="html"><code>&lt;!-- Note ampersands (&amp;) should be HTML-escaped in tag attributes... --&gt;
+&lt;a href=&quot;/myapp/order/details?id=23&amp;amp;type=online&quot;&gt;...&lt;/a&gt;</code></pre>
+<p>Link expressions can be relative, in which case no application context will be prefixed to the URL:</p>
+<pre class="html"><code>&lt;a th:href=&quot;@{../documents/report}&quot;&gt;...&lt;/a&gt;</code></pre>
+<p>Also server-relative (again, no application context to be prefixed):</p>
+<pre class="html"><code>&lt;a th:href=&quot;@{~/contents/main}&quot;&gt;...&lt;/a&gt;</code></pre>
+<p>And protocol-relative (just like absolute URLs, but browser will use the same HTTP or HTTPS protocol used in the page being displayed):</p>
+<pre class="html"><code>&lt;a th:href=&quot;@{//static.mycompany.com/res/initial}&quot;&gt;...&lt;/a&gt;</code></pre>
+<p>And of course, Link expressions can be absolute:</p>
+<pre class="html"><code>&lt;a th:href=&quot;@{http://www.mycompany.com/main}&quot;&gt;...&lt;/a&gt;</code></pre>
+<p>But wait, in an absolute (or protocol-relative) URL… what value does the Thymeleaf Link Expression add? easy: the possibility of URL-rewriting defined by <em>response filters</em>: In a Servlet-based web application, for every URL being output (context-relative, relative, absolute…) Thymeleaf will always call the <code>HttpServletResponse.encodeUrl(...)</code> mechanism before displaying the URL. Which means that a filter can perform customized URL-rewriting for the application by means of wrapping the <code>HttpServletResponse</code> object (a commonly used mechanism).</p>
+</section>
+<section id="fragment-expressions" class="level3">
+<h3>Fragment expressions</h3>
+<p>Fragment expressions are an easy way to represent fragments of markup and move them around templates. Thanks to these expressions, fragments can be replicated, passed to other templates are arguments, and so on.</p>
+<p>The most common use is for fragment insertion using <code>th:insert</code> or <code>th:replace</code>:</p>
+<pre class="html"><code>&lt;div th:insert=&quot;~{commons :: main}&quot;&gt;...&lt;/div&gt;</code></pre>
+<p>But they can be used anywhere, just as any other variable:</p>
+<pre class="html"><code>&lt;div th:with=&quot;frag=~{footer :: #main/text()}&quot;&gt;
+  &lt;p th:insert=&quot;${frag}&quot;&gt;
+&lt;/div&gt;</code></pre>
+<p>Fragment expressions can have arguments:</p>
 </section>
 <section id="literals-and-operations" class="level3">
 <h3>Literals and operations</h3>
@@ -167,7 +204,7 @@
 <section id="expression-preprocessing" class="level3">
 <h3>Expression preprocessing</h3>
 <p>One last thing to know about expressions is there is something called <em>expression preprocessing</em>, specified between <code>__</code>, which looks like this:</p>
-<pre class="html"><code>    #{selection.__${sel.code}__}</code></pre>
+<pre class="html"><code>#{selection.__${sel.code}__}</code></pre>
 <p>What we are seeing there is a variable expression (<code>${sel.code}</code>) that will be executed first and which result – let’s say, “<code>ALL</code>” – will be used as a part of the real expression to be executed afterwards, in this case an internationalization one (which would look for the message with key <code>selection.ALL</code>).</p>
 </section>
 </section>

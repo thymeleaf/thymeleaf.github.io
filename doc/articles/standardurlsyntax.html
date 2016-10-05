@@ -62,12 +62,12 @@
 				<header>
 					<h1>Standard URL Syntax</h1>
 									</header>
-				<p>The Thymeleaf standard dialects —called <em>Standard</em> and <em>SpringStandard</em>— offer a way to easily create URLs in your web applications so that they include any required <em>URL preparation</em> artifacts. This is done by means of the so-called <em>“at” syntax</em> of the <em>standard expressions</em>: <code>@{...}</code></p>
+				<p>The Thymeleaf standard dialects –called <em>Standard</em> and <em>SpringStandard</em>– offer a way to easily create URLs in your web applications so that they include any required <em>URL preparation</em> artifacts. This is done by means of the so-called <em>link expressions</em>, a type of <em>Thymeleaf Standard Epression</em>: <code>@{...}</code></p>
 <section id="absolute-urls" class="level2">
 <h2>Absolute URLs</h2>
 <p>Absolute URLs allow you to create links to other servers. They start by specifying a protocol name (<code>http://</code> or <code>https://</code>)</p>
 <pre class="html"><code>&lt;a th:href=&quot;@{http://www.thymeleaf/documentation.html}&quot;&gt;</code></pre>
-<p>They are not modified at all (unless you have an <em>URL Rewriting</em> filter configured at your server):</p>
+<p>They are not modified at all (unless you have an <em>URL Rewriting</em> filter configured at your server and performing modifications at the <code>HttpServletResponse.encodeUrl(...)</code> method):</p>
 <pre class="html"><code>&lt;a href=&quot;http://www.thymeleaf/documentation.html&quot;&gt;</code></pre>
 </section>
 <section id="context-relative-urls" class="level2">
@@ -89,7 +89,7 @@
 <h2>Protocol-relative URLs</h2>
 <p><em>Protocol-relative</em> URLs are in fact absolute URLs which will keep the protocol (HTTP, HTTPS) being used for displaying the current page. They are typically used for including external resources like styles, scripts, etc.:</p>
 <pre class="html"><code>&lt;script th:src=&quot;@{//scriptserver.example.net/myscript.js}&quot;&gt;...&lt;/script&gt;</code></pre>
-<p>…which will render unmodified, as:</p>
+<p>…which will render unmodified (except for <em>URL rewriting</em>), like:</p>
 <pre class="html"><code>&lt;script src=&quot;//scriptserver.example.net/myscript.js&quot;&gt;...&lt;/script&gt;</code></pre>
 </section>
 <section id="adding-parameters" class="level2">
@@ -101,7 +101,8 @@
 <p>You can add several parameters, separating them with commas:</p>
 <pre class="html"><code>&lt;a th:href=&quot;@{/order/details(id=3,action=&#39;show_all&#39;)}&quot;&gt;</code></pre>
 <p>Which would output as:</p>
-<pre class="html"><code>&lt;a href=&quot;/order/details?id=3&amp;action=show_all&quot;&gt;</code></pre>
+<pre class="html"><code>&lt;!-- Note ampersands (&amp;) should be HTML-escaped in tag attributes... --&gt;
+&lt;a href=&quot;/order/details?id=3&amp;amp;action=show_all&quot;&gt;</code></pre>
 <p>You can also include parameters in the form of <em>path variables</em> similarly to <em>normal</em> parameters but specifying a placeholder inside your URL’s path:</p>
 <pre class="html"><code>&lt;a th:href=&quot;@{/order/{id}/details(id=3,action=&#39;show_all&#39;)}&quot;&gt;</code></pre>
 <p>Which would output as:</p>
@@ -116,7 +117,7 @@
 </section>
 <section id="url-rewriting" class="level2">
 <h2>URL rewriting</h2>
-<p>Thymeleaf allows you to configure <em>URL rewriting filters</em> in your application, and it does so by calling the <code>response.encodeURL(...)</code> method in the <code>javax.servlet.http.HttpServletResponse</code> class of the Servlet API for every URL generated from a thymeleaf template.</p>
+<p>Thymeleaf allows you to configure <em>URL rewriting filters</em> in your application, and it does so by calling the <code>response.encodeURL(...)</code> method in the <code>javax.servlet.http.HttpServletResponse</code> class of the Servlet API for every URL generated from a Thymeleaf template.</p>
 <p>This is the standard way of supporting URL rewriting operations in Java web applications, and allows URLs to:</p>
 <ul>
 <li>Automatically detect whether the user has cookies enabled or not, and add the <code>;jsessionid=...</code> fragment to the URL if not —or if it is the first request and cookie configuration is still unknown.</li>

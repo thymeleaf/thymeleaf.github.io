@@ -180,7 +180,7 @@
             &lt;li th:each=&quot;type : ${allTypes}&quot;&gt;
               &lt;input type=&quot;radio&quot; th:field=&quot;*{subscriptionType}&quot; th:value=&quot;${type}&quot; /&gt;
               &lt;label th:for=&quot;${#ids.prev(&#39;subscriptionType&#39;)}&quot;
-                th:text=&quot;#{&#39;subscriptionType.&#39;+${type}}&quot;&gt;First type&lt;/label&gt;
+                th:text=&quot;#{|subscriptionType.${type}|}&quot;&gt;First type&lt;/label&gt;
             &lt;/li&gt;
             &lt;li th:remove=&quot;all&quot;&gt;&lt;input type=&quot;radio&quot; /&gt; &lt;label&gt;Second Type&lt;/label&gt;&lt;/li&gt;
           &lt;/ul&gt;

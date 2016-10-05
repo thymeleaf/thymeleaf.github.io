@@ -65,7 +65,8 @@
 							Written by Rafał Borowiec — <a href="http://blog.codeleak.pl">http://blog.codeleak.pl</a>
 						</div>
 									</header>
-				<p>In a typical Spring MVC application, <code>@Controller</code> classes are responsible for preparing a model map with data and selecting a view to be rendered. This <em>model map</em> allows for the complete abstraction of the view technology and, in the case of Thymeleaf, it is transformed into a <code>VariablesMap</code> object (part of the Thymeleaf <em>template execution context</em>) that makes all the defined variables available to expressions executed in templates.</p>
+				<p><strong>Note</strong>: this article refers to an older version of Thymeleaf (Thymeleaf 2.1).</p>
+<p>In a typical Spring MVC application, <code>@Controller</code> classes are responsible for preparing a model map with data and selecting a view to be rendered. This <em>model map</em> allows for the complete abstraction of the view technology and, in the case of Thymeleaf, it is transformed into a <code>VariablesMap</code> object (part of the Thymeleaf <em>template execution context</em>) that makes all the defined variables available to expressions executed in templates.</p>
 <section id="spring-model-attributes" class="level2">
 <h2>Spring model attributes</h2>
 <p>Spring MVC calls the pieces of data that can be accessed during the execution of views <em>model attributes</em>. The equivalent term in Thymeleaf language is <em>context variables</em>.</p>
