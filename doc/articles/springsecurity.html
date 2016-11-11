@@ -65,8 +65,7 @@
 							Written by José Miguel Samper &lt;jmiguelsamper AT users.sourceforge.net&gt;
 						</div>
 									</header>
-				<p><strong>Note</strong>: this article refers to an older version of Thymeleaf (Thymeleaf 2.1).</p>
-<p>Have you switched to Thymeleaf but your login and error pages are still using JSP? In this article we will see how to configure your Spring application to use Thymeleaf for login and error pages.</p>
+				<p>Have you switched to Thymeleaf but your login and error pages are still using JSP? In this article we will see how to configure your Spring application to use Thymeleaf for login and error pages.</p>
 <p>All the code seen here comes from a working application. You can view or download the source code from <a href="https://github.com/thymeleaf/thymeleafexamples-springsecurity">its GitHub repo</a>.</p>
 <section id="prerequisites" class="level2">
 <h2>Prerequisites</h2>
@@ -74,12 +73,17 @@
 </section>
 <section id="login-pages" class="level2">
 <h2>Login pages</h2>
-<p>With Spring security you could specify any URL to act as a login page, so we simply set URLs for login page and login error page as <strong>&lt;form-login&gt;</strong> element attributes into the Spring-Security configuration file (usually <strong>applicationContext-security.xml</strong>):</p>
-<pre class="html"><code>&lt;http auto-config=&quot;true&quot;&gt;
-  &lt;form-login login-page=&quot;/login.html&quot; authentication-failure-url=&quot;/login-error.html&quot; /&gt;
-  &lt;logout /&gt;
-  ...
-&lt;/http&gt;</code></pre>
+<p>With Spring Security you could specify any URL to act as a login page, just like:</p>
+<pre class="java"><code>@Override
+protected void configure(final HttpSecurity http) throws Exception {
+    http
+        .formLogin()
+        .loginPage(&quot;/login.html&quot;)
+        .failureUrl(&quot;/login-error.html&quot;)
+      .and()
+        .logout()
+        .logoutSuccessUrl(&quot;/index.html&quot;);
+}</code></pre>
 <p>Now we have to match these pages inside a Spring Controller:</p>
 <pre class="java"><code>@Controller
 public class MainController {
@@ -103,18 +107,18 @@ public class MainController {
 <p>Note that we are using the same template <strong>login.html</strong> for both pages, but when there is an error, we set a boolean attribute into the model.</p>
 <p>Our <strong>login.html</strong> template is as follows:</p>
 <pre class="html"><code>&lt;!DOCTYPE html&gt;
-&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;
+&lt;html xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;
   &lt;head&gt;
     &lt;title&gt;Login page&lt;/title&gt;
   &lt;/head&gt;
   &lt;body&gt;
     &lt;h1&gt;Login page&lt;/h1&gt;
-    &lt;p th:if=&quot;${loginError}&quot;&gt;Wrong user or password&lt;/p&gt;
-    &lt;form th:action=&quot;@{/j_spring_security_check}&quot; method=&quot;post&quot;&gt;
-      &lt;label for=&quot;j_username&quot;&gt;Username&lt;/label&gt;:
-      &lt;input type=&quot;text&quot; id=&quot;j_username&quot; name=&quot;j_username&quot; /&gt; &lt;br /&gt;
-      &lt;label for=&quot;j_password&quot;&gt;Password&lt;/label&gt;:
-      &lt;input type=&quot;password&quot; id=&quot;j_password&quot; name=&quot;j_password&quot; /&gt; &lt;br /&gt;
+    &lt;p th:if=&quot;${loginError}&quot; class=&quot;error&quot;&gt;Wrong user or password&lt;/p&gt;
+    &lt;form th:action=&quot;@{/login.html}&quot; method=&quot;post&quot;&gt;
+      &lt;label for=&quot;username&quot;&gt;Username&lt;/label&gt;:
+      &lt;input type=&quot;text&quot; id=&quot;username&quot; name=&quot;username&quot; autofocus=&quot;autofocus&quot; /&gt; &lt;br /&gt;
+      &lt;label for=&quot;password&quot;&gt;Password&lt;/label&gt;:
+      &lt;input type=&quot;password&quot; id=&quot;password&quot; name=&quot;password&quot; /&gt; &lt;br /&gt;
       &lt;input type=&quot;submit&quot; value=&quot;Log in&quot; /&gt;
     &lt;/form&gt;
   &lt;/body&gt;
@@ -122,62 +126,53 @@ public class MainController {
 </section>
 <section id="error-page" class="level2">
 <h2>Error page</h2>
-<p>We also can configure a Thymeleaf error page. In this case Spring Security is not involved at all, we should simply modify our <strong>web.xml</strong> adding error <strong>&lt;error-page&gt;</strong> elements like:</p>
-<pre class="xml"><code>...
-&lt;error-page&gt;
-  &lt;exception-type&gt;java.lang.Throwable&lt;/exception-type&gt;
-  &lt;location&gt;/error.html&lt;/location&gt;
-&lt;/error-page&gt;
-&lt;error-page&gt;
-  &lt;error-code&gt;500&lt;/error-code&gt;
-  &lt;location&gt;/error.html&lt;/location&gt;
-&lt;/error-page&gt;
-...</code></pre>
-<p>Then, we have to map the <strong>/error.html</strong> in our Spring Controller:</p>
-<pre class="java"><code>@Controller
-public class HomeController {
+<p>We can also configure a Thymeleaf error page. In this case Spring Security is not involved at all, we should simply modify our <strong>web.xml</strong> adding error <strong>&lt;error-page&gt;</strong> elements like:</p>
+<pre class="java"><code>@ControllerAdvice
+public class ErrorController {
 
-  ...
+    private static Logger logger = LoggerFactory.getLogger(ErrorController.class);
 
-  // Error page
-  @RequestMapping(&quot;/error.html&quot;)
-  public String error(HttpServletRequest request, Model model) {
-    model.addAttribute(&quot;errorCode&quot;, request.getAttribute(&quot;javax.servlet.error.status_code&quot;));
-    Throwable throwable = (Throwable) request.getAttribute(&quot;javax.servlet.error.exception&quot;);
-    String errorMessage = null;
-    if (throwable != null) {
-      errorMessage = throwable.getMessage();
+    @ExceptionHandler(Throwable.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public String exception(final Throwable throwable, final Model model) {
+        logger.error(&quot;Exception during execution of SpringSecurity application&quot;, throwable);
+        String errorMessage = (throwable != null ? throwable.getMessage() : &quot;Unknown error&quot;);
+        model.addAttribute(&quot;errorMessage&quot;, errorMessage);
+        return &quot;error&quot;;
     }
-    model.addAttribute(&quot;errorMessage&quot;, errorMessage);
-    return &quot;error.html&quot;;
-  }
 
 }</code></pre>
-<p>Note that we store error code and error message into the model to show some information in the error page.</p>
 <p>The <strong>error.html</strong> template could be like:</p>
 <pre class="html"><code>&lt;!DOCTYPE html&gt;
-&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;
-  &lt;head&gt;
-    &lt;title&gt;Error page&lt;/title&gt;
-  &lt;/head&gt;
-  &lt;body&gt;
-    &lt;h1 th:text=&quot;${errorCode}&quot;&gt;500&lt;/h1&gt;
-    &lt;p th:text=&quot;${errorMessage}&quot;&gt;java.lang.NullPointerException&lt;/p&gt;
-  &lt;/body&gt;
+&lt;html xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;
+    &lt;head&gt;
+        &lt;title&gt;Error page&lt;/title&gt;
+        &lt;meta charset=&quot;utf-8&quot; /&gt;
+        &lt;link rel=&quot;stylesheet&quot; href=&quot;css/main.css&quot; th:href=&quot;@{/css/main.css}&quot; /&gt;
+    &lt;/head&gt;
+    &lt;body th:with=&quot;httpStatus=${T(org.springframework.http.HttpStatus).valueOf(#response.status)}&quot;&gt;
+        &lt;h1 th:text=&quot;|${httpStatus} - ${httpStatus.reasonPhrase}|&quot;&gt;404&lt;/h1&gt;
+        &lt;p th:utext=&quot;${errorMessage}&quot;&gt;Error java.lang.NullPointerException&lt;/p&gt;
+        &lt;a href=&quot;index.html&quot; th:href=&quot;@{/index.html}&quot;&gt;Back to Home Page&lt;/a&gt;
+    &lt;/body&gt;
 &lt;/html&gt;</code></pre>
+<p>Note how we are using Spring’s <code>HttpStatus</code> enum in order to obtain detailed information about the response status that has been set (which in this case will always be <code>500</code>, but this allows us to use this <code>error.html</code> in other error reporting scenarios).</p>
 </section>
 <section id="spring-security-dialect" class="level2">
-<h2>Spring security dialect</h2>
-<p>The <a href="https://github.com/thymeleaf/thymeleaf-extras-springsecurity3">Spring Security 3 integration module</a> is a Thymeleaf dialect equivalent to <a href="http://static.springsource.org/spring-security/site/docs/3.1.x/reference/taglibs.html">Spring security taglib</a>.</p>
+<h2>Spring Security Dialect</h2>
+<p>The <a href="https://github.com/thymeleaf/thymeleaf-extras-springsecurity3">Spring Security 3 integration module</a> is a Thymeleaf dialect equivalent to <a href="http://docs.spring.io/spring-security/site/docs/4.2.x/reference/html/taglibs.html">Spring security taglib</a>.</p>
 <p>We use this dialect in the example in order to print the logged user credentials and to show different content to different roles.</p>
-<p>The attribute <strong>sec:authorize</strong> renders its content when the attribute expression is evaluated to <strong>true</strong>:</p>
-<pre class="html"><code>&lt;div sec:authorize=&quot;hasRole(&#39;ROLE_ADMIN&#39;)&quot;&gt;
+<p>The <strong>sec:authorize</strong> attribute renders its content when the attribute expression is evaluated to <strong>true</strong>:</p>
+<pre class="html"><code>&lt;div sec:authorize=&quot;isAuthenticated()&quot;&gt;
+  This content is only shown to authenticated users.
+&lt;/div&gt;
+&lt;div sec:authorize=&quot;hasRole(&#39;ROLE_ADMIN&#39;)&quot;&gt;
   This content is only shown to administrators.
 &lt;/div&gt;
 &lt;div sec:authorize=&quot;hasRole(&#39;ROLE_USER&#39;)&quot;&gt;
   This content is only shown to users.
 &lt;/div&gt;</code></pre>
-<p>The attribute <strong>sec:authentication</strong> is used to print logged user name and roles:</p>
+<p>The <strong>sec:authentication</strong> attribute is used to print logged user name and roles:</p>
 <pre class="html"><code>Logged user: &lt;span sec:authentication=&quot;name&quot;&gt;Bob&lt;/span&gt;
 Roles: &lt;span sec:authentication=&quot;principal.authorities&quot;&gt;[ROLE_USER, ROLE_ADMIN]&lt;/span&gt;</code></pre>
 </section>
