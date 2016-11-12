@@ -65,8 +65,7 @@
 							Written by Rafał Borowiec — <a href="http://blog.codeleak.pl">http://blog.codeleak.pl</a>
 						</div>
 									</header>
-				<p><strong>Note</strong>: this article refers to an older version of Thymeleaf (Thymeleaf 2.1).</p>
-<p>In a typical Spring MVC application, <code>@Controller</code> classes are responsible for preparing a model map with data and selecting a view to be rendered. This <em>model map</em> allows for the complete abstraction of the view technology and, in the case of Thymeleaf, it is transformed into a <code>VariablesMap</code> object (part of the Thymeleaf <em>template execution context</em>) that makes all the defined variables available to expressions executed in templates.</p>
+				<p>In a typical Spring MVC application, <code>@Controller</code> classes are responsible for preparing a model map with data and selecting a view to be rendered. This <em>model map</em> allows for the complete abstraction of the view technology and, in the case of Thymeleaf, it is transformed into a Thymeleaf context object (part of the Thymeleaf <em>template execution context</em>) that makes all the defined variables available to expressions executed in templates.</p>
 <section id="spring-model-attributes" class="level2">
 <h2>Spring model attributes</h2>
 <p>Spring MVC calls the pieces of data that can be accessed during the execution of views <em>model attributes</em>. The equivalent term in Thymeleaf language is <em>context variables</em>.</p>
@@ -107,18 +106,17 @@
     public class SomeController {
         @RequestMapping(&quot;/&quot;)
         public String redirect() {
-            return &quot;redirect:/query?q=Thymeleaf Is Great!&quot;;
+            return &quot;redirect:/query?q=Thymeleaf+Is+Great!&quot;;
         }
     }</code></pre>
 <p>In order to access the <code>q</code> parameter you can use the <code>param.</code> prefix:</p>
-<pre class="html"><code>    &lt;p th:text=&quot;${param.q[0]}&quot; th:unless=&quot;${param.q == null}&quot;&gt;Test&lt;/p&gt;</code></pre>
-<p>Two things are important to notice in the above example:</p>
-<ul>
-<li><code>${param.q != null}</code> checks if the parameter <code>q</code> is set</li>
-<li>Parameters are always string arrays, as they can be multivalued (e.g. <code>https://example.com/query?q=Thymeleaf%20Is%20Great!&amp;q=Really%3F</code>).</li>
-</ul>
-<p>Another way to access request parameters is by using the special object <code>#httpServletRequest</code> that gives you direct access to the <code>javax.servlet.http.HttpServletRequest</code> object:</p>
-<pre class="html"><code>    &lt;p th:text=&quot;${#httpServletRequest.getParameter(&#39;q&#39;)}&quot; th:unless=&quot;${#httpServletRequest.getParameter(&#39;q&#39;) == null}&quot;&gt;Test&lt;/p&gt;</code></pre>
+<pre class="html"><code>    &lt;p th:text=&quot;${param.q}&quot;&gt;Test&lt;/p&gt;</code></pre>
+<p>In the above example if parameter <code>q</code> is not present, empty string will be displayed in the above paragraph otherwise the value of <code>q</code> will be shown.</p>
+<p>Since parameters can be multivalued (e.g. `https://example.com/query?q=Thymeleaf%20Is%20Great!&amp;q=Really%3F) you may access them using brackets syntax:</p>
+<pre class="html"><code>    &lt;p th:text=&quot;${param.q[0] + &#39; &#39; + param.q[1]}&quot; th:unless=&quot;${param.q == null}&quot;&gt;Test&lt;/p&gt;</code></pre>
+<p>Note: If you access multivalued parameter with <code>${param.q}</code> you will get a serialized array as a value.</p>
+<p>Another way to access request parameters is by using the special <code>#request</code> object that gives you direct access to the <code>javax.servlet.http.HttpServletRequest</code> object:</p>
+<pre class="html"><code>    &lt;p th:text=&quot;${#request.getParameter(&#39;q&#39;)}&quot; th:unless=&quot;${#request.getParameter(&#39;q&#39;) == null}&quot;&gt;Test&lt;/p&gt;</code></pre>
 </section>
 <section id="session-attributes" class="level2">
 <h2>Session attributes</h2>
@@ -129,26 +127,21 @@
         return &quot;index&quot;;
     }</code></pre>
 <p>Similarly to the request parameters, session attributes can be access by using the <code>session.</code> prefix:</p>
-<pre class="html"><code>    &lt;div th:text=&quot;${session.mySessionAttribute}&quot;&gt;[...]&lt;/div&gt;</code></pre>
-<p>Or by using <code>#httpSession</code>, that gives you direct access to the <code>javax.servlet.http.HttpSession</code> object.</p>
+<pre class="html"><code>    &lt;p th:text=&quot;${session.mySessionAttribute}&quot; th:unless=&quot;${session == null}&quot;&gt;[...]&lt;/p&gt;</code></pre>
+<p>Or by using <code>#session</code>, that gives you direct access to the <code>javax.servlet.http.HttpSession</code> object: <code>${#session.getAttribute('mySessionAttribute')}</code></p>
 </section>
 <section id="servletcontext-attributes" class="level2">
 <h2>ServletContext attributes</h2>
-<p>The ServletContext attributes are shared between requests and sessions. In order to access ServletContext attributes in Thymeleaf you can use the <code>application.</code> prefix:</p>
+<p>The ServletContext attributes are shared between requests and sessions. In order to access ServletContext attributes in Thymeleaf you can use the <code>#servletContext.</code> prefix:</p>
 <pre class="html"><code>        &lt;table&gt;
             &lt;tr&gt;
                 &lt;td&gt;My context attribute&lt;/td&gt;
                 &lt;!-- Retrieves the ServletContext attribute &#39;myContextAttribute&#39; --&gt;
-                &lt;td th:text=&quot;${application.myContextAttribute}&quot;&gt;42&lt;/td&gt;
+                &lt;td th:text=&quot;${#servletContext.getAttribute(&#39;myContextAttribute&#39;)}&quot;&gt;42&lt;/td&gt;
             &lt;/tr&gt;
-            &lt;tr&gt;
-                &lt;td&gt;Number of attributes&lt;/td&gt;
-                &lt;!-- Returns the number of attributes --&gt;
-                &lt;td th:text=&quot;${application.size()}&quot;&gt;42&lt;/td&gt;
-            &lt;/tr&gt;
-            &lt;tr th:each=&quot;attr : ${application.keySet()}&quot;&gt;
+            &lt;tr th:each=&quot;attr : ${#servletContext.getAttributeNames()}&quot;&gt;
                 &lt;td th:text=&quot;${attr}&quot;&gt;javax.servlet.context.tempdir&lt;/td&gt;
-                &lt;td th:text=&quot;${application.get(attr)}&quot;&gt;/tmp&lt;/td&gt;
+                &lt;td th:text=&quot;${#servletContext.getAttribute(attr)}&quot;&gt;/tmp&lt;/td&gt;
             &lt;/tr&gt;
         &lt;/table&gt;</code></pre>
 </section>
@@ -161,10 +154,10 @@
     public class MyConfiguration {
         @Bean(name = &quot;urlService&quot;)
         public UrlService urlService() {
-            return new FixedUrlService(&quot;somedomain.com/myapp&quot;); // some implementation
+            return () -&gt; &quot;domain.com/myapp&quot;;
         }
     }
-    
+
     public interface UrlService {
         String getApplicationUrl();
     }</code></pre>
@@ -172,7 +165,10 @@
 </section>
 <section id="references" class="level2">
 <h2>References</h2>
-<p><a href="http://www.thymeleaf.org/doc/html/Thymeleaf-Spring3.html">Thymeleaf + Spring 3</a> <a href="http://www.thymeleaf.org/doc/html/Using-Thymeleaf.html#appendix-a-expression-basic-objects">Expression Basic Objects</a></p>
+<ul>
+<li><a href="http://www.thymeleaf.org/doc/tutorials/3.0/thymeleafspring.html">Thymeleaf + Spring 3</a></li>
+<li><a href="http://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#appendix-a-expression-basic-objects">Expression Basic Objects</a></li>
+</ul>
 </section>
 			</article>
 		</main>
