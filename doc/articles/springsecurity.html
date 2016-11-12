@@ -126,7 +126,7 @@ public class MainController {
 </section>
 <section id="error-page" class="level2">
 <h2>Error page</h2>
-<p>We can also configure a Thymeleaf error page. In this case Spring Security is not involved at all, we should simply modify our <strong>web.xml</strong> adding error <strong>&lt;error-page&gt;</strong> elements like:</p>
+<p>We can also configure an error page based on Thymeleaf . In this case Spring Security is not involved at all, we should simply add an <a href="https://spring.io/blog/2013/11/01/exception-handling-in-spring-mvc">ExceptionHandler</a> to our Spring configuration like:</p>
 <pre class="java"><code>@ControllerAdvice
 public class ErrorController {
 
