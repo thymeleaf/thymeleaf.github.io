@@ -228,10 +228,10 @@
 				<h1 id="tutorial-title" class="tutorial-title">Tutorial: Using Thymeleaf</h1>
 								<div class="tutorial-metadata">
 					<div id="tutorial-version">
-						<span class="tutorial-metadata-label">Document version:</span> 20161119 - 19 November 2016
+						<span class="tutorial-metadata-label">Document version:</span> 20170105 - 05 January 2017
 					</div>
 					<div id="project-version">
-						<span class="tutorial-metadata-label">Project version:</span> 3.0.2.RELEASE
+						<span class="tutorial-metadata-label">Project version:</span> 3.0.3.RELEASE
 					</div>
 					<div id="project-website">
 						<span class="tutorial-metadata-label">Project web site:</span>
@@ -3094,7 +3094,7 @@ var username = &quot;John Apricot&quot;;
 <section id="template-resolvers" class="level2">
 <h2>15.1 Template Resolvers</h2>
 <p>For our Good Thymes Virtual Grocery, we chose an <code>ITemplateResolver</code> implementation called <code>ServletContextTemplateResolver</code> that allowed us to obtain templates as resources from the Servlet Context.</p>
-<p>Besides giving us the ability to create our own template resolver by implementing <code>ITemplateResolver,</code> Thymeleaf includes three other implementations out of the box:</p>
+<p>Besides giving us the ability to create our own template resolver by implementing <code>ITemplateResolver,</code> Thymeleaf includes four implementations out of the box:</p>
 <ul>
 <li><p><code>org.thymeleaf.templateresolver.ClassLoaderTemplateResolver</code>, which resolves templates as classloader resources, like:</p>
 <pre class="java"><code>return Thread.currentThread().getContextClassLoader().getResourceAsStream(template);</code></pre></li>
@@ -3115,10 +3115,9 @@ templateResolver.setSuffix(&quot;.html&quot;);</code></pre></li>
 templateResolver.setTemplateAliases(aliasesMap);</code></pre></li>
 <li><p>Encoding to be applied when reading templates:</p>
 <pre class="java"><code>templateResolver.setEncoding(&quot;UTF-8&quot;);</code></pre></li>
-<li><p>Default template mode, and patterns for defining other modes for specific templates:</p>
-<pre class="java"><code>// Default is TemplateMode.XHTML
-templateResolver.setTemplateMode(&quot;HTML5&quot;);
-templateResolver.getXhtmlTemplateModePatternSpec().addPattern(&quot;*.xhtml&quot;);</code></pre></li>
+<li><p>Template mode to be used:</p>
+<pre class="java"><code>// Default is HTML
+templateResolver.setTemplateMode(&quot;XML&quot;);</code></pre></li>
 <li><p>Default mode for template cache, and patterns for defining whether specific templates are cacheable or not:</p>
 <pre class="java"><code>// Default is true
 templateResolver.setCacheable(false);

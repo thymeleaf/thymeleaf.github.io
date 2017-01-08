@@ -107,10 +107,10 @@
 				<h1 id="tutorial-title" class="tutorial-title">Tutorial: Thymeleaf + Spring</h1>
 								<div class="tutorial-metadata">
 					<div id="tutorial-version">
-						<span class="tutorial-metadata-label">Document version:</span> 20161119 - 19 November 2016
+						<span class="tutorial-metadata-label">Document version:</span> 20170105 - 05 January 2017
 					</div>
 					<div id="project-version">
-						<span class="tutorial-metadata-label">Project version:</span> 3.0.2.RELEASE
+						<span class="tutorial-metadata-label">Project version:</span> 3.0.3.RELEASE
 					</div>
 					<div id="project-website">
 						<span class="tutorial-metadata-label">Project web site:</span>
@@ -662,7 +662,7 @@ seedstarter.feature.PH_CORRECTOR=Corrector de PH</code></pre>
 <pre class="html"><code>&lt;td th:text=&quot;#{|bool.${sb.covered}|}&quot;&gt;yes&lt;/td&gt;</code></pre>
 <p>Now we have to show the type of seed starter container. Type is a java enum with two values (<code>WOOD</code> and <code>PLASTIC</code>), and that’s why we defined two properties in our <code>Messages</code> file called <code>seedstarter.type.WOOD</code> and <code>seedstarter.type.PLASTIC</code>.</p>
 <p>But in order to obtain the internationalized names of the types, we will need to add the <code>seedstarter.type.</code> prefix to the enum value by means of an expression, which result we will then use as the message key:</p>
-<pre class="html"><code>&lt;td th:text=&quot;#{|seedstarter.type.${sb.type}|&quot;&gt;Wireframe&lt;/td&gt;</code></pre>
+<pre class="html"><code>&lt;td th:text=&quot;#{|seedstarter.type.${sb.type}|}&quot;&gt;Wireframe&lt;/td&gt;</code></pre>
 <p>The most difficult part of this listing is the <em>features</em> column. In it we want to display all the features of our container —that come in the form of an array of <code>Feature</code> enums—, separated by commas. Like <em>“Electric Heating, Turf”</em>.</p>
 <p>Note that this is particularly difficult because these enum values also need to be externalized, as we did with Types. The flow is then:</p>
 <ol type="1">
