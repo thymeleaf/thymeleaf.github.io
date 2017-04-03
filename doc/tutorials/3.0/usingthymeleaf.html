@@ -127,7 +127,7 @@
 </ul></li>
 <li><a href="#local-variables">9 Local Variables</a></li>
 <li><a href="#attribute-precedence">10 Attribute Precedence</a></li>
-<li><a href="#comments-and-blocks">11. Comments and Blocks</a><ul>
+<li><a href="#comments-and-blocks">11 Comments and Blocks</a><ul>
 <li><a href="#standard-htmlxml-comments">11.1. Standard HTML/XML comments</a></li>
 <li><a href="#thymeleaf-parser-level-comment-blocks">11.2. Thymeleaf parser-level comment blocks</a></li>
 <li><a href="#thymeleaf-prototype-only-comment-blocks">11.3. Thymeleaf prototype-only comment blocks</a></li>
@@ -205,7 +205,7 @@
 <li><a href="#aggregates">Aggregates</a></li>
 <li><a href="#ids">IDs</a></li>
 </ul></li>
-<li><a href="#appendix-c-markup-selector-syntax">19 Appendix C: Markup Selector Syntax</a><ul>
+<li><a href="#appendix-c-markup-selector-syntax">20 Appendix C: Markup Selector Syntax</a><ul>
 <li><a href="#multivalued-class-matching">Multivalued class matching</a></li>
 </ul></li>
 </ul>
@@ -228,10 +228,10 @@
 				<h1 id="tutorial-title" class="tutorial-title">Tutorial: Using Thymeleaf</h1>
 								<div class="tutorial-metadata">
 					<div id="tutorial-version">
-						<span class="tutorial-metadata-label">Document version:</span> 20170105 - 05 January 2017
+						<span class="tutorial-metadata-label">Document version:</span> 20170329 - 29 March 2017
 					</div>
 					<div id="project-version">
-						<span class="tutorial-metadata-label">Project version:</span> 3.0.3.RELEASE
+						<span class="tutorial-metadata-label">Project version:</span> 3.0.5.RELEASE
 					</div>
 					<div id="project-website">
 						<span class="tutorial-metadata-label">Project web site:</span>
@@ -2544,7 +2544,7 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 &lt;/ul&gt;</code></pre>
 </section>
 <section id="comments-and-blocks" class="level1">
-<h1>11. Comments and Blocks</h1>
+<h1>11 Comments and Blocks</h1>
 <section id="standard-htmlxml-comments" class="level2">
 <h2>11.1. Standard HTML/XML comments</h2>
 <p>Standard HTML/XML comments <code>&lt;!-- ... --&gt;</code> can be used anywhere in Thymeleaf templates. Anything inside these comments won’t be processed by Thymeleaf, and will be copied verbatim to the result:</p>
@@ -4301,7 +4301,7 @@ ${#ids.prev(&#39;someId&#39;)}</code></pre>
 </section>
 </section>
 <section id="appendix-c-markup-selector-syntax" class="level1">
-<h1>19 Appendix C: Markup Selector Syntax</h1>
+<h1>20 Appendix C: Markup Selector Syntax</h1>
 <p>Thymeleaf’s Markup Selectors are directly borrowed from Thymeleaf’s parsing library: <a href="http://attoparser.org">AttoParser</a>.</p>
 <p>The syntax for this selectors has large similarities with that of selectors in XPath, CSS and jQuery, which makes them easy to use for most users. You can have a look at the complete syntax reference at the <a href="http://www.attoparser.org/apidocs/attoparser/2.0.0.RELEASE/org/attoparser/select/package-summary.html">AttoParser documentation</a>.</p>
 <p>For example, the following selector will select every <code>&lt;div&gt;</code> with the class <code>content</code>, in every position inside the markup (note this is not as concise as it could be, read on to know why):</p>
