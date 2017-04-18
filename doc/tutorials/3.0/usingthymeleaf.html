@@ -228,7 +228,7 @@
 				<h1 id="tutorial-title" class="tutorial-title">Tutorial: Using Thymeleaf</h1>
 								<div class="tutorial-metadata">
 					<div id="tutorial-version">
-						<span class="tutorial-metadata-label">Document version:</span> 20170329 - 29 March 2017
+						<span class="tutorial-metadata-label">Document version:</span> 20170418 - 18 April 2017
 					</div>
 					<div id="project-version">
 						<span class="tutorial-metadata-label">Project version:</span> 3.0.5.RELEASE
@@ -1015,7 +1015,7 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 <p>Literal substitutions can be combined with other types of expressions:</p>
 <pre class="html"><code>&lt;span th:text=&quot;${onevar} + &#39; &#39; + |${twovar}, ${threevar}|&quot;&gt;</code></pre>
 <blockquote>
-<p>Only variable expressions (<code>${...}</code>) are allowed inside <code>|...|</code> literal substitutions. No other literals (<code>'...'</code>), boolean/numeric tokens, conditional expressions etc. are.</p>
+<p>Only variable/message expressions (<code>${...}</code>, <code>*{...}</code>, <code>#{...}</code>) are allowed inside <code>|...|</code> literal substitutions. No other literals (<code>'...'</code>), boolean/numeric tokens, conditional expressions etc. are.</p>
 </blockquote>
 </section>
 <section id="arithmetic-operations" class="level2">

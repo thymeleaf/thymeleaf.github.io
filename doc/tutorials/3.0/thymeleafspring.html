@@ -107,7 +107,7 @@
 				<h1 id="tutorial-title" class="tutorial-title">Tutorial: Thymeleaf + Spring</h1>
 								<div class="tutorial-metadata">
 					<div id="tutorial-version">
-						<span class="tutorial-metadata-label">Document version:</span> 20170329 - 29 March 2017
+						<span class="tutorial-metadata-label">Document version:</span> 20170418 - 18 April 2017
 					</div>
 					<div id="project-version">
 						<span class="tutorial-metadata-label">Project version:</span> 3.0.5.RELEASE
@@ -188,7 +188,7 @@ public SpringTemplateEngine templateEngine(){
 <pre class="xml"><code>&lt;!-- SpringResourceTemplateResolver automatically integrates with Spring&#39;s own --&gt;
 &lt;!-- resource resolution infrastructure, which is highly recommended.          --&gt;
 &lt;bean id=&quot;templateResolver&quot;
-       class=&quot;org.thymeleaf.templateresolver.SpringResourceTemplateResolver&quot;&gt;
+       class=&quot;org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver&quot;&gt;
   &lt;property name=&quot;prefix&quot; value=&quot;/WEB-INF/templates/&quot; /&gt;
   &lt;property name=&quot;suffix&quot; value=&quot;.html&quot; /&gt;
   &lt;!-- HTML is the default value, added here for the sake of clarity.          --&gt;

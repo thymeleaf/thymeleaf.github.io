@@ -280,15 +280,15 @@ final String htmlContent = this.templateEngine.process(&quot;html/email-inlineim
 <section id="text-non-html-email" class="level3">
 <h3>Text (non-HTML) email</h3>
 <p>And what about text email? Well, we have already configured a template resolver for textual email templates, so all we would have to do is create template using Thymeleaf’s textual syntax, just like:</p>
-<pre><code>[[ #{greeting(${name})} ]]
+<pre><code>[( #{greeting(${name})} )]
 
 [# th:if=&quot;${name.length() gt 10}&quot;]Wow! You&#39;ve got a long name (more than 10 chars)![/]
 
-You have been successfully subscribed to the Fake newsletter on [[ ${#dates.format(subscriptionDate)} ]].
+You have been successfully subscribed to the Fake newsletter on [( ${#dates.format(subscriptionDate)} )].
 
 Your hobbies are:
 [# th:each=&quot;hobby : ${hobbies}&quot;]
- - [[ ${hobby} ]]
+ - [( ${hobby} )]
 [/]
 
 Regards,
