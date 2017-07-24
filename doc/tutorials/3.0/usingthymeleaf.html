@@ -12,14 +12,18 @@
 	<link rel="icon" href="../../images/favicon.ico"/>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,400italic,700,700italic"/>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic,700italic"/>
-	<link rel="stylesheet" href="../../styles/normalize.css"/>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/2.1.3/normalize.min.css" media="screen"/>
 	<link rel="stylesheet" href="../../styles/thymeleaf.css"/>
 	<link rel="stylesheet" href="../../styles/thymeleaf-tutorials.css"/>
 	<link rel="stylesheet" href="../../styles/thymeleaf-tutorials-screen.css" media="screen"/>
 	<link rel="stylesheet" href="../../styles/thymeleaf-tutorials-print.css" media="print"/>
 
-	<script src="../../scripts/dumbqueryselector.js" defer></script>
-	<script src="../../scripts/prism.js" defer data-manual></script>
+	<script src="https://unpkg.com/dumb-query-selector@3.0.0/dumb-query-selector.js" defer></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/components/prism-core.min.js" defer data-manual></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/components/prism-markup.min.js" defer></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/components/prism-clike.min.js" defer></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/components/prism-java.min.js" defer></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/plugins/line-numbers/prism-line-numbers.min.js" defer></script>
 	<script src="../../scripts/thymeleaf-tutorials.js" defer></script>
 
 </head>
@@ -228,10 +232,10 @@
 				<h1 id="tutorial-title" class="tutorial-title">Tutorial: Using Thymeleaf</h1>
 								<div class="tutorial-metadata">
 					<div id="tutorial-version">
-						<span class="tutorial-metadata-label">Document version:</span> 20170418 - 18 April 2017
+						<span class="tutorial-metadata-label">Document version:</span> 20170724 - 24 July 2017
 					</div>
 					<div id="project-version">
-						<span class="tutorial-metadata-label">Project version:</span> 3.0.5.RELEASE
+						<span class="tutorial-metadata-label">Project version:</span> 3.0.7.RELEASE
 					</div>
 					<div id="project-website">
 						<span class="tutorial-metadata-label">Project web site:</span>
@@ -395,7 +399,7 @@
   
     
     ...
-    private static TemplateEngine templateEngine;
+    private final TemplateEngine templateEngine;
     ...
     
     
@@ -1918,7 +1922,7 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 <p>Note that the template name you use in <code>th:insert</code>/<code>th:replace</code> tags will have to be resolvable by the Template Resolver currently being used by the Template Engine.</p>
 </blockquote>
 <ul>
-<li><code>~{::selector}&quot;</code> or <code>&quot;~{this::selector}&quot;</code> Includes a fragment from the same template.</li>
+<li><code>~{::selector}&quot;</code> or <code>&quot;~{this::selector}&quot;</code> Inserts a fragment from the same template, matching <code>selector</code>. If not found on the template where the expression appears, the stack of template calls (insertions) is traversed towards the originally processed template (the <em>root</em>), until <code>selector</code> matches at some level.</li>
 </ul>
 <p>Both <code>templatename</code> and <code>selector</code> in the above examples can be fully-featured expressions (even conditionals!) like:</p>
 <pre class="html"><code>&lt;div th:insert=&quot;footer :: (${user.isAdmin}? #{footer.admin} : #{footer.normaluser})&quot;&gt;&lt;/div&gt;</code></pre>
@@ -4303,7 +4307,7 @@ ${#ids.prev(&#39;someId&#39;)}</code></pre>
 <section id="appendix-c-markup-selector-syntax" class="level1">
 <h1>20 Appendix C: Markup Selector Syntax</h1>
 <p>Thymeleaf’s Markup Selectors are directly borrowed from Thymeleaf’s parsing library: <a href="http://attoparser.org">AttoParser</a>.</p>
-<p>The syntax for this selectors has large similarities with that of selectors in XPath, CSS and jQuery, which makes them easy to use for most users. You can have a look at the complete syntax reference at the <a href="http://www.attoparser.org/apidocs/attoparser/2.0.0.RELEASE/org/attoparser/select/package-summary.html">AttoParser documentation</a>.</p>
+<p>The syntax for this selectors has large similarities with that of selectors in XPath, CSS and jQuery, which makes them easy to use for most users. You can have a look at the complete syntax reference at the <a href="http://www.attoparser.org/apidocs/attoparser/2.0.4.RELEASE/org/attoparser/select/package-summary.html">AttoParser documentation</a>.</p>
 <p>For example, the following selector will select every <code>&lt;div&gt;</code> with the class <code>content</code>, in every position inside the markup (note this is not as concise as it could be, read on to know why):</p>
 <pre class="html"><code>&lt;div th:insert=&quot;mytemplate :: //div[@class=&#39;content&#39;]&quot;&gt;...&lt;/div&gt;</code></pre>
 <p>The basic syntax includes:</p>
