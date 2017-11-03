@@ -153,7 +153,6 @@ section.level1 {
 .content-wrapper {
   background-color: #ececec;
   padding-top: 3em;
-  scroll-behavior: smooth;
 }
 @media (min-width: 43.75rem) {
   .content-wrapper {
