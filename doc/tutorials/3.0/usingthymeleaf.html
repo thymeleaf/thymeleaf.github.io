@@ -3243,7 +3243,7 @@ log4j.logger.org.thymeleaf.TemplateEngine.cache.TEMPLATE_CACHE=TRACE</code></pre
 templateResolver.setCacheable(false);
 templateResolver.getCacheablePatternSpec().addPattern(&quot;/users/*&quot;);</code></pre>
 <p>Also, we could modify its configuration by establishing our own <em>Cache Manager</em> object, which could be an instance of the default <code>StandardCacheManager</code> implementation:</p>
-<pre class="java"><code>// Default is 50
+<pre class="java"><code>// Default is 200
 StandardCacheManager cacheManager = new StandardCacheManager();
 cacheManager.setTemplateCacheMaxSize(100);
 ...
