@@ -94,7 +94,7 @@
 					</div>
 					<div id="project-website">
 						<span class="tutorial-metadata-label">Project web site:</span>
-						<a href="http://www.thymeleaf.org">http://www.thymeleaf.org</a>
+						<a href="https://www.thymeleaf.org">https://www.thymeleaf.org</a>
 					</div>
 				</div>
 			</div>
@@ -663,8 +663,9 @@ while (n-- != 0) {
          * Set the new value into the &#39;class&#39; attribute (maybe appending to an existing value)
          */
         if (newValue != null) {
-            if (attributeValue != null) {
-                structureHandler.setAttribute(&quot;class&quot;, attributeValue + &quot; &quot; + newValue);
+            String currentClass = tag.getAttribute(&quot;class&quot;).getValue();
+            if (currentClass != null) {
+                structureHandler.setAttribute(&quot;class&quot;, currentClass + &quot; &quot; + newValue);
             } else {
                 structureHandler.setAttribute(&quot;class&quot;, newValue);
             }
@@ -685,8 +686,9 @@ final IStandardExpression expression = parser.parseExpression(context, attribute
 final Integer position = (Integer) expression.execute(context);</code></pre>
 <p>It’s also interesting the way we use the <code>structureHandler</code> to add a new attribute to the host tag (remember the <code>tag</code> object is immutable):</p>
 <pre class="java"><code>if (newValue != null) {
-    if (attributeValue != null) {
-        structureHandler.setAttribute(&quot;class&quot;, attributeValue + &quot; &quot; + newValue);
+    String currentClass = tag.getAttribute(&quot;class&quot;).getValue();
+    if (currentClass != null) {
+        structureHandler.setAttribute(&quot;class&quot;, currentClass + &quot; &quot; + newValue);
     } else {
         structureHandler.setAttribute(&quot;class&quot;, newValue);
     }

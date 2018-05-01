@@ -195,14 +195,14 @@
 				<h1 id="tutorial-title" class="tutorial-title">Tutorial: Using Thymeleaf</h1>
 								<div class="tutorial-metadata">
 					<div id="tutorial-version">
-						<span class="tutorial-metadata-label">Document version:</span> 20171104 - 04 November 2017
+						<span class="tutorial-metadata-label">Document version:</span> 20171105 - 05 November 2017
 					</div>
 					<div id="project-version">
-						<span class="tutorial-metadata-label">Project version:</span> 2.1.6.RELEASE
+						<span class="tutorial-metadata-label">Project version:</span> 3.0.9.RELEASE
 					</div>
 					<div id="project-website">
 						<span class="tutorial-metadata-label">Project web site:</span>
-						<a href="http://www.thymeleaf.org">http://www.thymeleaf.org</a>
+						<a href="https://www.thymeleaf.org">https://www.thymeleaf.org</a>
 					</div>
 				</div>
 			</div>
@@ -2096,7 +2096,7 @@ th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &
 <p>Of course, we would expect that <code>th:each</code> attribute to execute before the <code>th:text</code> so that we get the results we want, but given the fact that the DOM (Document Object Model) standard does not give any kind of meaning to the order in which the attributes of a tag are written, a <em>precedence</em> mechanism has to be established in the attributes themselves in order to be sure that this will work as expected.</p>
 <p>So, all Thymeleaf attributes define a numeric precedence, which establishes the order in which they are executed in the tag. This order is:</p>
 <div class="table-scroller">
-<table style="width:90%;">
+<table>
 <colgroup>
 <col style="width: 11%" />
 <col style="width: 48%" />
@@ -2113,8 +2113,7 @@ th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &
 <tr class="odd">
 <td style="text-align: left;">1</td>
 <td style="text-align: left;">Fragment inclusion</td>
-<td style="text-align: left;"><code>th:include</code><br />
-<code>th:replace</code></td>
+<td style="text-align: left;"><code>th:include</code><br /><code>th:replace</code></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2</td>
@@ -2124,37 +2123,27 @@ th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &
 <tr class="odd">
 <td style="text-align: left;">3</td>
 <td style="text-align: left;">Conditional evaluation</td>
-<td style="text-align: left;"><code>th:if</code><br />
-<code>th:unless</code><br />
-<code>th:switch</code><br />
-<code>th:case</code></td>
+<td style="text-align: left;"><code>th:if</code><br /><code>th:unless</code><br /><code>th:switch</code><br /><code>th:case</code></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">4</td>
 <td style="text-align: left;">Local variable definition</td>
-<td style="text-align: left;"><code>th:object</code><br />
-<code>th:with</code></td>
+<td style="text-align: left;"><code>th:object</code><br /><code>th:with</code></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">5</td>
 <td style="text-align: left;">General attribute modification</td>
-<td style="text-align: left;"><code>th:attr</code><br />
-<code>th:attrprepend</code><br />
-<code>th:attrappend</code></td>
+<td style="text-align: left;"><code>th:attr</code><br /><code>th:attrprepend</code><br /><code>th:attrappend</code></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">6</td>
 <td style="text-align: left;">Specific attribute modification</td>
-<td style="text-align: left;"><code>th:value</code><br />
-<code>th:href</code><br />
-<code>th:src</code><br />
-<code>...</code></td>
+<td style="text-align: left;"><code>th:value</code><br /><code>th:href</code><br /><code>th:src</code><br /><code>...</code></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">7</td>
 <td style="text-align: left;">Text (tag body modification)</td>
-<td style="text-align: left;"><code>th:text</code><br />
-<code>th:utext</code></td>
+<td style="text-align: left;"><code>th:text</code><br /><code>th:utext</code></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">8</td>

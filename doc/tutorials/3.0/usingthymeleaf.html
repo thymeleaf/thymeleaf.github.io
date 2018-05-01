@@ -87,8 +87,8 @@
 <li><a href="#conditional-expressions">4.11 Conditional expressions</a></li>
 <li><a href="#default-expressions-elvis-operator">4.12 Default expressions (Elvis operator)</a></li>
 <li><a href="#the-no-operation-token">4.13 The No-Operation token</a></li>
-<li><a href="#data-conversion-formatting">4.15 Data Conversion / Formatting</a></li>
-<li><a href="#preprocessing">4.14 Preprocessing</a></li>
+<li><a href="#data-conversion-formatting">4.14 Data Conversion / Formatting</a></li>
+<li><a href="#preprocessing">4.15 Preprocessing</a></li>
 </ul></li>
 <li><a href="#setting-attribute-values">5 Setting Attribute Values</a><ul>
 <li><a href="#setting-the-value-of-any-attribute">5.1 Setting the value of any attribute</a></li>
@@ -239,7 +239,7 @@
 					</div>
 					<div id="project-website">
 						<span class="tutorial-metadata-label">Project web site:</span>
-						<a href="http://www.thymeleaf.org">http://www.thymeleaf.org</a>
+						<a href="https://www.thymeleaf.org">https://www.thymeleaf.org</a>
 					</div>
 				</div>
 			</div>
@@ -415,7 +415,7 @@
         // This will convert &quot;home&quot; to &quot;/WEB-INF/templates/home.html&quot;
         templateResolver.setPrefix(&quot;/WEB-INF/templates/&quot;);
         templateResolver.setSuffix(&quot;.html&quot;);
-        // Template cache TTL=1h. If not set, entries would be cached until expelled by LRU
+        // Template cache TTL=1h. If not set, entries would be cached until expelled
         templateResolver.setCacheTTLMs(Long.valueOf(3600000L));
         
         // Cache is set to true by default. Set to false if you want templates to
@@ -1080,7 +1080,7 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 <pre class="html"><code>&lt;span th:text=&quot;${user.name} ?: _&quot;&gt;no user authenticated&lt;/span&gt;</code></pre>
 </section>
 <section id="data-conversion-formatting" class="level2">
-<h2>4.15 Data Conversion / Formatting</h2>
+<h2>4.14 Data Conversion / Formatting</h2>
 <p>Thymeleaf defines a <em>double-brace</em> syntax for variable (<code>${...}</code>) and selection (<code>*{...}</code>) expressions that allows us to apply <em>data conversion</em> by means of a configured <em>conversion service</em>.</p>
 <p>It basically goes like this:</p>
 <pre class="html"><code>&lt;td th:text=&quot;${{user.lastAccessDate}}&quot;&gt;...&lt;/td&gt;</code></pre>
@@ -1092,7 +1092,7 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 </blockquote>
 </section>
 <section id="preprocessing" class="level2">
-<h2>4.14 Preprocessing</h2>
+<h2>4.15 Preprocessing</h2>
 <p>In addition to all these features for expression processing, Thymeleaf has the feature of <em>preprocessing</em> expressions.</p>
 <p>Preprocessing is an execution of the expressions done before the normal one that allows for modification of the expression that will eventually be executed.</p>
 <p>Preprocessed expressions are exactly like normal ones, but appear surrounded by a double underscore symbol (like <code>__${expression}__</code>).</p>
@@ -2469,7 +2469,7 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 <p>We would expect that <code>th:each</code> attribute to execute before the <code>th:text</code> so that we get the results we want, but given the fact that the HTML/XML standards do not give any kind of meaning to the order in which the attributes in a tag are written, a <em>precedence</em> mechanism had to be established in the attributes themselves in order to be sure that this will work as expected.</p>
 <p>So, all Thymeleaf attributes define a numeric precedence, which establishes the order in which they are executed in the tag. This order is:</p>
 <div class="table-scroller">
-<table style="width:90%;">
+<table>
 <colgroup>
 <col style="width: 11%" />
 <col style="width: 48%" />
@@ -2486,8 +2486,7 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 <tr class="odd">
 <td style="text-align: left;">1</td>
 <td style="text-align: left;">Fragment inclusion</td>
-<td style="text-align: left;"><code>th:insert</code><br />
-<code>th:replace</code></td>
+<td style="text-align: left;"><code>th:insert</code><br /><code>th:replace</code></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2</td>
@@ -2497,37 +2496,27 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 <tr class="odd">
 <td style="text-align: left;">3</td>
 <td style="text-align: left;">Conditional evaluation</td>
-<td style="text-align: left;"><code>th:if</code><br />
-<code>th:unless</code><br />
-<code>th:switch</code><br />
-<code>th:case</code></td>
+<td style="text-align: left;"><code>th:if</code><br /><code>th:unless</code><br /><code>th:switch</code><br /><code>th:case</code></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">4</td>
 <td style="text-align: left;">Local variable definition</td>
-<td style="text-align: left;"><code>th:object</code><br />
-<code>th:with</code></td>
+<td style="text-align: left;"><code>th:object</code><br /><code>th:with</code></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">5</td>
 <td style="text-align: left;">General attribute modification</td>
-<td style="text-align: left;"><code>th:attr</code><br />
-<code>th:attrprepend</code><br />
-<code>th:attrappend</code></td>
+<td style="text-align: left;"><code>th:attr</code><br /><code>th:attrprepend</code><br /><code>th:attrappend</code></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">6</td>
 <td style="text-align: left;">Specific attribute modification</td>
-<td style="text-align: left;"><code>th:value</code><br />
-<code>th:href</code><br />
-<code>th:src</code><br />
-<code>...</code></td>
+<td style="text-align: left;"><code>th:value</code><br /><code>th:href</code><br /><code>th:src</code><br /><code>...</code></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">7</td>
 <td style="text-align: left;">Text (tag body modification)</td>
-<td style="text-align: left;"><code>th:text</code><br />
-<code>th:utext</code></td>
+<td style="text-align: left;"><code>th:text</code><br /><code>th:utext</code></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">8</td>
@@ -2650,7 +2639,7 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 <pre class="html"><code>&lt;p&gt;The message is &quot;[[${msg}]]&quot;&lt;/p&gt;</code></pre>
 <p>The result will be HTML-escaped:</p>
 <pre class="html"><code>&lt;p&gt;The message is &quot;This is &amp;lt;b&amp;gt;great!&amp;lt;/b&amp;gt;&quot;&lt;/p&gt;</code></pre>
-<p>Note that <strong>text inlining is active by default</strong> in the body of every tag in our markup –- not the tags themselves -–, so there is nothing we need to do to to enable it.</p>
+<p>Note that <strong>text inlining is active by default</strong> in the body of every tag in our markup –- not the tags themselves -–, so there is nothing we need to do to enable it.</p>
 <section id="inlining-vs-natural-templates" class="level3">
 <h3>Inlining vs natural templates</h3>
 <p>If you come from other template engines in which this way of outputting text is the norm, you might be asking: <em>Why aren’t we doing this from the beginning? It’s less code than all those</em> <code>th:text</code> <em>attributes!</em></p>
@@ -3126,8 +3115,8 @@ templateResolver.setTemplateMode(&quot;XML&quot;);</code></pre></li>
 <pre class="java"><code>// Default is true
 templateResolver.setCacheable(false);
 templateResolver.getCacheablePatternSpec().addPattern(&quot;/users/*&quot;);</code></pre></li>
-<li><p>TTL in milliseconds for parsed template cache entries originated in this template resolver. If not set, the only way to remove an entry from the cache will be LRU (cache max size exceeded and the entry is the oldest).</p>
-<pre class="java"><code>// Default is no TTL (only LRU would remove entries)
+<li><p>TTL in milliseconds for parsed template cache entries originated in this template resolver. If not set, the only way to remove an entry from the cache will be to exceed the cache max size (oldest entry will be removed).</p>
+<pre class="java"><code>// Default is no TTL (only cache size exceeded would remove entries)
 templateResolver.setCacheTTLMs(60000L);</code></pre></li>
 </ul>
 <blockquote>
