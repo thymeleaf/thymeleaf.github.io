@@ -225,7 +225,7 @@ class HomeController {
 <section id="including-with-markup-selectors" class="level3">
 <h3>Including with Markup Selectors</h3>
 <p>In Thymeleaf, fragments don’t need to be explicitly specified using <code>th:fragment</code> at the page they are extracted from. Thymeleaf can select an arbitrary section of a page as a fragment (even a page living on an external server) by means of its Markup Selector syntax, similar to XPath expressions, CSS or jQuery selectors.</p>
-<pre class="xml"><code>&lt;div th:insert=&quot;http://www.thymeleaf.org :: section.description&quot; &gt;...&lt;/div&gt;</code></pre>
+<pre class="xml"><code>&lt;div th:insert=&quot;https://www.thymeleaf.org :: section.description&quot; &gt;...&lt;/div&gt;</code></pre>
 <p>The above code will include a <code>section</code> with <code>class=&quot;description&quot;</code> from <code>thymeleaf.org</code>.</p>
 <p>In order to make it happen, the template engine must be configured with <code>UrlTemplateResolver</code>:</p>
 <pre class="java"><code>@Bean
