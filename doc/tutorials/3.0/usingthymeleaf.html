@@ -232,7 +232,7 @@
 				<h1 id="tutorial-title" class="tutorial-title">Tutorial: Using Thymeleaf</h1>
 								<div class="tutorial-metadata">
 					<div id="tutorial-version">
-						<span class="tutorial-metadata-label">Document version:</span> 20171105 - 05 November 2017
+						<span class="tutorial-metadata-label">Document version:</span> 20180605 - 05 June 2018
 					</div>
 					<div id="project-version">
 						<span class="tutorial-metadata-label">Project version:</span> 3.0.9.RELEASE
@@ -743,17 +743,21 @@ Today is: 12 july 2010</code></pre>
 <p>As we already know, <code>#{...}</code> message expressions allow us to link this:</p>
 <pre class="html"><code>&lt;p th:utext=&quot;#{home.welcome}&quot;&gt;Welcome to our grocery store!&lt;/p&gt;</code></pre>
 <p>…to this:</p>
-<pre class="html"><code>home.welcome=¡Bienvenido a nuestra tienda de comestibles!</code></pre>
+<pre><code>home.welcome=¡Bienvenido a nuestra tienda de comestibles!</code></pre>
 <p>But there’s one aspect we still haven’t thought of: what happens if the message text is not completely static? What if, for example, our application knew who is the user visiting the site at any moment and we wanted to greet them by name?</p>
 <pre class="html"><code>&lt;p&gt;¡Bienvenido a nuestra tienda de comestibles, John Apricot!&lt;/p&gt;</code></pre>
 <p>This means we would need to add a parameter to our message. Just like this:</p>
-<pre class="html"><code>home.welcome=¡Bienvenido a nuestra tienda de comestibles, {0}!</code></pre>
-<p>Parameters are specified according to the <code>java.text.MessageFormat</code> standard syntax, which means you can format to numbers and dates as specified in the API docs for those classes.</p>
-<p>In order to specify a value for our parameter, and given an HTTP session attribute called <code>user</code>, we would have:</p>
+<pre><code>home.welcome=¡Bienvenido a nuestra tienda de comestibles, {0}!</code></pre>
+<p>Parameters are specified according to the <a href="https://docs.oracle.com/javase/10/docs/api/java/text/MessageFormat.html"><code>java.text.MessageFormat</code></a> standard syntax, which means you can format to numbers and dates as specified in the API docs for classes in the <code>java.text.*</code> package.</p>
+<p>In order to specify a value for our parameter, and given an HTTP session attribute called <code>user</code>, we could have:</p>
 <pre class="html"><code>&lt;p th:utext=&quot;#{home.welcome(${session.user.name})}&quot;&gt;
   Welcome to our grocery store, Sebastian Pepper!
 &lt;/p&gt;</code></pre>
-<p>Several parameters can be specified, separated by commas. In fact, the message key itself could come from a variable:</p>
+<blockquote>
+<p>Note that the use of <code>th:utext</code> here means that the formatted message will not be escaped. This example assumes that <code>user.name</code> is already escaped.</p>
+</blockquote>
+<p>Several parameters can be specified, separated by commas.</p>
+<p>The message key itself can come from a variable:</p>
 <pre class="html"><code>&lt;p th:utext=&quot;#{${welcomeMsgKey}(${session.user.name})}&quot;&gt;
   Welcome to our grocery store, Sebastian Pepper!
 &lt;/p&gt;</code></pre>
@@ -2469,7 +2473,7 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 <p>We would expect that <code>th:each</code> attribute to execute before the <code>th:text</code> so that we get the results we want, but given the fact that the HTML/XML standards do not give any kind of meaning to the order in which the attributes in a tag are written, a <em>precedence</em> mechanism had to be established in the attributes themselves in order to be sure that this will work as expected.</p>
 <p>So, all Thymeleaf attributes define a numeric precedence, which establishes the order in which they are executed in the tag. This order is:</p>
 <div class="table-scroller">
-<table>
+<table style="width:90%;">
 <colgroup>
 <col style="width: 11%" />
 <col style="width: 48%" />
@@ -2486,7 +2490,8 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 <tr class="odd">
 <td style="text-align: left;">1</td>
 <td style="text-align: left;">Fragment inclusion</td>
-<td style="text-align: left;"><code>th:insert</code><br /><code>th:replace</code></td>
+<td style="text-align: left;"><code>th:insert</code><br />
+<code>th:replace</code></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2</td>
@@ -2496,27 +2501,37 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 <tr class="odd">
 <td style="text-align: left;">3</td>
 <td style="text-align: left;">Conditional evaluation</td>
-<td style="text-align: left;"><code>th:if</code><br /><code>th:unless</code><br /><code>th:switch</code><br /><code>th:case</code></td>
+<td style="text-align: left;"><code>th:if</code><br />
+<code>th:unless</code><br />
+<code>th:switch</code><br />
+<code>th:case</code></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">4</td>
 <td style="text-align: left;">Local variable definition</td>
-<td style="text-align: left;"><code>th:object</code><br /><code>th:with</code></td>
+<td style="text-align: left;"><code>th:object</code><br />
+<code>th:with</code></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">5</td>
 <td style="text-align: left;">General attribute modification</td>
-<td style="text-align: left;"><code>th:attr</code><br /><code>th:attrprepend</code><br /><code>th:attrappend</code></td>
+<td style="text-align: left;"><code>th:attr</code><br />
+<code>th:attrprepend</code><br />
+<code>th:attrappend</code></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">6</td>
 <td style="text-align: left;">Specific attribute modification</td>
-<td style="text-align: left;"><code>th:value</code><br /><code>th:href</code><br /><code>th:src</code><br /><code>...</code></td>
+<td style="text-align: left;"><code>th:value</code><br />
+<code>th:href</code><br />
+<code>th:src</code><br />
+<code>...</code></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">7</td>
 <td style="text-align: left;">Text (tag body modification)</td>
-<td style="text-align: left;"><code>th:text</code><br /><code>th:utext</code></td>
+<td style="text-align: left;"><code>th:text</code><br />
+<code>th:utext</code></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">8</td>
