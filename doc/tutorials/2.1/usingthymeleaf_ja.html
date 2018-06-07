@@ -74,13 +74,7 @@
 <li><a href="#私たちのホームページ用のメニュー">私たちのホームページ用のメニュー</a></li>
 <li><a href="#サーバールート相対url">サーバールート相対URL</a></li>
 </ul></li>
-<li><a href="#リテラル">4.5 リテラル</a><ul>
-<li><a href="#テキストリテラル">テキストリテラル</a></li>
-<li><a href="#数値リテラル">数値リテラル</a></li>
-<li><a href="#真偽値リテラル">真偽値リテラル</a></li>
-<li><a href="#nullリテラル">nullリテラル</a></li>
-<li><a href="#リテラルトークン">リテラルトークン</a></li>
-</ul></li>
+<li><a href="#リテラル">4.5 リテラル</a></li>
 <li><a href="#テキストの追加">4.6 テキストの追加</a></li>
 <li><a href="#リテラル置換">4.7 リテラル置換</a></li>
 <li><a href="#算術演算子">4.8 算術演算子</a></li>
@@ -171,10 +165,7 @@
 <li><a href="#メッセージ-1">メッセージ</a></li>
 <li><a href="#id">ID</a></li>
 </ul></li>
-<li><a href="#appendix-c-dom-selector-syntax">19 Appendix C: DOM Selector syntax</a><ul>
-<li><a href="#複数の値を持つclassのマッチング">複数の値を持つclassのマッチング</a></li>
-<li><a href="#任意の括弧">任意の括弧</a></li>
-</ul></li>
+<li><a href="#appendix-c-dom-selector-syntax">19 Appendix C: DOM Selector syntax</a></li>
 </ul>
 		</nav>
 	</div>
@@ -282,7 +273,7 @@ code)^[Given the fact that XHTML5 is just XML-formed HTML5 served with the
 application/xhtml+xml content type, we could also say that Thymeleaf supports
 XHTML5.].
 -->
-<p><em>Legacy HTML5</em> 以外は整形式XMLです。<em>Legacy HTML5</em> モードでは閉じていないタグ・値がない属性・引用符で囲まれていない属性が許容されていますが、Thymeleafはこのモードのファイルを最初に整形式XMLに変換します。それでもHTML5としては正しい状態です(そして実際こちらがHTML5を書くのに推奨されている方法です) <a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>。</p>
+<p><em>Legacy HTML5</em> 以外は整形式XMLです。<em>Legacy HTML5</em> モードでは閉じていないタグ・値がない属性・引用符で囲まれていない属性が許容されていますが、Thymeleafはこのモードのファイルを最初に整形式XMLに変換します。それでもHTML5としては正しい状態です(そして実際こちらがHTML5を書くのに推奨されている方法です) <a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>。</p>
 <!--
 Also note that validation is only available for XML and XHTML templates.
 -->
@@ -829,7 +820,7 @@ attributes are removed), Thymeleaf will automatically substitute that DTD
 declaration in the `DOCTYPE` clause by a standard `XHTML 1.0 Strict` one (we
 will leave this DTD translation features for a later chapter).
 -->
-<p>次に、このファイルは <code>th:text</code> のような属性を定義したThymeleafのDTDを指定しているので「妥当な」XHTMLでもあります <a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a>。 さらに、テンプレートが処理されると(全ての <code>th:*</code> 属性が取り除かれますが)、Thymeleafは自動的に <code>DOCTYPE</code> 内のDTD定義を標準的な <code>XHTML 1.0 Strict</code> のものに置き換えます(このDTD変換機能に関しては後の章で説明します)。</p>
+<p>次に、このファイルは <code>th:text</code> のような属性を定義したThymeleafのDTDを指定しているので「妥当な」XHTMLでもあります <a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>。 さらに、テンプレートが処理されると(全ての <code>th:*</code> 属性が取り除かれますが)、Thymeleafは自動的に <code>DOCTYPE</code> 内のDTD定義を標準的な <code>XHTML 1.0 Strict</code> のものに置き換えます(このDTD変換機能に関しては後の章で説明します)。</p>
 <!--
 A thymeleaf namespace is also being declared for `th:*` attributes:
 -->
@@ -1787,8 +1778,7 @@ URLs in order to link to different contexts in the same server. These URLs will 
 <!--
 ###Text literals
 -->
-<section id="テキストリテラル" class="level3">
-<h3>テキストリテラル</h3>
+<p>###テキストリテラル</p>
 <!--
 Text literals are just character strings specified between single quotes. They can include any character, but you should escape any single quotes inside them as `\'`.
 -->
@@ -1799,9 +1789,7 @@ Text literals are just character strings specified between single quotes. They c
 <!--
 ###Number literals
 -->
-</section>
-<section id="数値リテラル" class="level3">
-<h3>数値リテラル</h3>
+<p>###数値リテラル</p>
 <!--
 Numeric literals look exactly like what they are: numbers.
 -->
@@ -1811,9 +1799,7 @@ Numeric literals look exactly like what they are: numbers.
 <!--
 ###Boolean literals
 -->
-</section>
-<section id="真偽値リテラル" class="level3">
-<h3>真偽値リテラル</h3>
+<p>###真偽値リテラル</p>
 <!--
 The boolean literals are `true` and `false`. For example:
 -->
@@ -1829,9 +1815,7 @@ be the responsibility of the OGNL/SpringEL engines:
 <!--
 ###The null literal
 -->
-</section>
-<section id="nullリテラル" class="level3">
-<h3>nullリテラル</h3>
+<p>###nullリテラル</p>
 <!--
 The `null` literal can be also used:
 -->
@@ -1840,9 +1824,7 @@ The `null` literal can be also used:
 <!--
 ###Literal tokens
 -->
-</section>
-<section id="リテラルトークン" class="level3">
-<h3>リテラルトークン</h3>
+<p>###リテラルトークン</p>
 <!--
 Numeric, boolean and null literals are in fact a particular case of _literal tokens_.
 -->
@@ -1873,7 +1855,6 @@ instead of:
 <!--
 4.6 Appending texts
 -->
-</section>
 </section>
 <section id="テキストの追加" class="level2">
 <h2>4.6 テキストの追加</h2>
@@ -2458,7 +2439,7 @@ we see:
  * We will call `prod` the _iteration variable_ or simply _iter variable_.
 -->
 <ul>
-<li>ここでは <code>${prods}</code> のことを「被繰り返し式」または「被繰り返し変数」と呼びます。 <a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a></li>
+<li>ここでは <code>${prods}</code> のことを「被繰り返し式」または「被繰り返し変数」と呼びます。 <a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a></li>
 <li>ここでは <code>prod</code> のことを「繰り返し変数」と呼びます。</li>
 </ul>
 <!--
@@ -2898,19 +2879,15 @@ are three different formats:
 <li><code>&quot;templatename::domselector&quot;</code> またはそれと同等の <code>templatename::[domselector]</code> <code>templatename</code> という名前のテンプレート内にある、DOMセレクターで指定されたフラグメントをインクルードします。
 <ul>
 <li><code>domselector</code> はフラグメント名でも大丈夫なので上記の例の <code>footer :: copy</code> のように単に <code>templatename::fragmentname</code> を指定することもできることに注意してください。</li>
-</ul></li>
 </ul>
 <blockquote>
 <p>DOMセレクター構文はXPath表現やCSSセレクターと似ています。詳しくは <a href="#appendix-c-dom-selector-syntax">Appendix C</a> を参照してください。</p>
-</blockquote>
-<ul>
-<li><code>&quot;templatename&quot;</code> <code>templatename</code> という名前のテンプレート全体をインクルードします。</li>
-</ul>
+</blockquote></li>
+<li><p><code>&quot;templatename&quot;</code> <code>templatename</code> という名前のテンプレート全体をインクルードします。</p>
 <blockquote>
 <p><code>th:include</code>/<code>th:replace</code> タグで使用されるテンプレート名は現在テンプレートエンジンで使用されているテンプレートリゾルバーによって解決可能でなければならないことに注意してください。</p>
-</blockquote>
-<ul>
-<li><code>::domselector&quot;</code> or <code>&quot;this::domselector&quot;</code> 同じテンプレート内のフラグメントをインクルードします。</li>
+</blockquote></li>
+<li><p><code>::domselector&quot;</code> or <code>&quot;this::domselector&quot;</code> 同じテンプレート内のフラグメントをインクルードします。</p></li>
 </ul>
 <!--
 Both `templatename` and `domselector` in the above examples
@@ -3580,11 +3557,11 @@ Order   Feature                            Attributes
       9 Fragment removal                   `th:remove`
 -->
 <div class="table-scroller">
-<table style="width:90%;">
+<table style="width:92%;">
 <colgroup>
 <col style="width: 11%" />
 <col style="width: 48%" />
-<col style="width: 30%" />
+<col style="width: 31%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3834,7 +3811,7 @@ In order for inlining to work, we must activate it by using the `th:inline`
 attribute, which has three possible values or modes (`text`, `javascript` and `none`).
 Let's try `text`:
 -->
-<p>インライン処理を動作させるためには <code>th:inline</code> 属性を使用してアクティブにしなければなりません。<code>`th:inline</code> 属性には3つの値またはモードを指定することができます (<code>text</code> と <code>javascript</code> と <code>none</code>)。</p>
+<p>インライン処理を動作させるためには <code>th:inline</code> 属性を使用してアクティブにしなければなりません。` <code>th:inline</code> 属性には3つの値またはモードを指定することができます (<code>text</code> と <code>javascript</code> と <code>none</code>)。</p>
 <pre class="html"><code>&lt;p th:inline=&quot;text&quot;&gt;Hello, [[${session.user.name}]]!&lt;/p&gt;</code></pre>
 <!--
 The tag holding the `th:inline` does not have to be the one containing the
@@ -6403,8 +6380,7 @@ could be written as:
 <!--
 ###Multivalued class matching
 -->
-<section id="複数の値を持つclassのマッチング" class="level3">
-<h3>複数の値を持つclassのマッチング</h3>
+<p>###複数の値を持つclassのマッチング</p>
 <!--
 DOM Selectors understand the class attribute to be **multivalued**, and therefore allow the application of selectors on this attribute even if the element has several class values.
 -->
@@ -6416,9 +6392,7 @@ For example, `div[class='two']` will match `<div class="one two three" />`
 <!--
 ###Optional brackets
 -->
-</section>
-<section id="任意の括弧" class="level3">
-<h3>任意の括弧</h3>
+<p>###任意の括弧</p>
 <!--
 The syntax of the fragment inclusion attributes converts every fragment selection into a DOM selection, so brackets `[...]` are not needed (though allowed).
 -->
@@ -6443,13 +6417,12 @@ which will actually look for any elements with `class="myfrag"`, without caring 
 -->
 <p>この場合は実際 <code>class=&quot;myfrag&quot;</code> の要素を探しますが、 <code>th:fragment</code> シグネチャについては気にしません。</p>
 </section>
-</section>
 <section class="footnotes">
 <hr />
 <ol>
-<li id="fn1"><p>application/xhtml+xmlコンテンツタイプで取り扱われるXML整形式のHTML5はXHTML5と呼ばれるので、ThymeleafはXHTML5をサポートしていると言ってもいいかもしれません。<a href="#fnref1">↩</a></p></li>
-<li id="fn2"><p>このテンプレートは妥当なXHTMLですが、テンプレートモードとしては “VALIDXHTML” ではなく “XHTML” を選んでいます。ですので今のところ、バリデーションを気にしなくても問題ないのですが、そうはいってもIDEにたくさん指摘されるのも嫌ですよね。<a href="#fnref2">↩</a></p></li>
-<li id="fn3"><p>訳注: iterated expression の適当な訳が分かりませんでした…<a href="#fnref3">↩</a></p></li>
+<li id="fn1"><p>application/xhtml+xmlコンテンツタイプで取り扱われるXML整形式のHTML5はXHTML5と呼ばれるので、ThymeleafはXHTML5をサポートしていると言ってもいいかもしれません。<a href="#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn2"><p>このテンプレートは妥当なXHTMLですが、テンプレートモードとしては “VALIDXHTML” ではなく “XHTML” を選んでいます。ですので今のところ、バリデーションを気にしなくても問題ないのですが、そうはいってもIDEにたくさん指摘されるのも嫌ですよね。<a href="#fnref2" class="footnote-back">↩</a></p></li>
+<li id="fn3"><p>訳注: iterated expression の適当な訳が分かりませんでした…<a href="#fnref3" class="footnote-back">↩</a></p></li>
 </ol>
 </section>
 		</div>

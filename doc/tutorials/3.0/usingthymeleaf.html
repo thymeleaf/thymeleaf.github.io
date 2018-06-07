@@ -128,6 +128,7 @@
 <li><a href="#advanced-conditional-insertion-of-fragments">Advanced conditional insertion of fragments</a></li>
 </ul></li>
 <li><a href="#removing-template-fragments">8.4 Removing template fragments</a></li>
+<li><a href="#layout-inheritance">8.5 Layout Inheritance</a></li>
 </ul></li>
 <li><a href="#local-variables">9 Local Variables</a></li>
 <li><a href="#attribute-precedence">10 Attribute Precedence</a></li>
@@ -1740,7 +1741,7 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 </section>
 <section id="optimizing-through-lazy-retrieval-of-data" class="level2">
 <h2>6.3 Optimizing through lazy retrieval of data</h2>
-<p>Sometimes we might want to optimize the retrieval of collections of data (e.g. from a database) so that these collections are only retrieved if they are really going to be used.</p>
+<p>Sometimes we might want to optimize the retrieval of collections of data ( e.g. from a database) so that these collections are only retrieved if they are really going to be used.</p>
 <blockquote>
 <p>Actually, this is something that can be applied to <em>any</em> piece of data, but given the size that in-memory collections might have, retrieving collections that are meant to be iterated is the most common case for this scenario.</p>
 </blockquote>
@@ -1914,19 +1915,15 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 <h3>Fragment specification syntax</h3>
 <p>The syntax of <em>fragment expressions</em> is quite straightforward. There are three different formats:</p>
 <ul>
-<li><code>&quot;~{templatename::selector}&quot;</code> Includes the fragment resulting from applying the specified Markup Selector on the template named <code>templatename</code>. Note that <code>selector</code> can be a mere fragment name, so you could specify something as simple as <code>~{templatename::fragmentname}</code> like in the <code>~{footer :: copy}</code> above.</li>
-</ul>
+<li><p><code>&quot;~{templatename::selector}&quot;</code> Includes the fragment resulting from applying the specified Markup Selector on the template named <code>templatename</code>. Note that <code>selector</code> can be a mere fragment name, so you could specify something as simple as <code>~{templatename::fragmentname}</code> like in the <code>~{footer :: copy}</code> above.</p>
 <blockquote>
 <p>Markup Selector syntax is defined by the underlying AttoParser parsing library, and is similar to XPath expressions or CSS selectors. See <a href="#appendix-c-markup-selector-syntax">Appendix C</a> for more info.</p>
-</blockquote>
-<ul>
-<li><code>&quot;~{templatename}&quot;</code> Includes the complete template named <code>templatename</code>.</li>
-</ul>
+</blockquote></li>
+<li><p><code>&quot;~{templatename}&quot;</code> Includes the complete template named <code>templatename</code>.</p>
 <blockquote>
 <p>Note that the template name you use in <code>th:insert</code>/<code>th:replace</code> tags will have to be resolvable by the Template Resolver currently being used by the Template Engine.</p>
-</blockquote>
-<ul>
-<li><code>~{::selector}&quot;</code> or <code>&quot;~{this::selector}&quot;</code> Inserts a fragment from the same template, matching <code>selector</code>. If not found on the template where the expression appears, the stack of template calls (insertions) is traversed towards the originally processed template (the <em>root</em>), until <code>selector</code> matches at some level.</li>
+</blockquote></li>
+<li><p><code>~{::selector}&quot;</code> or <code>&quot;~{this::selector}&quot;</code> Inserts a fragment from the same template, matching <code>selector</code>. If not found on the template where the expression appears, the stack of template calls (insertions) is traversed towards the originally processed template (the <em>root</em>), until <code>selector</code> matches at some level.</p></li>
 </ul>
 <p>Both <code>templatename</code> and <code>selector</code> in the above examples can be fully-featured expressions (even conditionals!) like:</p>
 <pre class="html"><code>&lt;div th:insert=&quot;footer :: (${user.isAdmin}? #{footer.admin} : #{footer.normaluser})&quot;&gt;&lt;/div&gt;</code></pre>
@@ -2411,6 +2408,40 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 <pre class="html"><code>&lt;a href=&quot;/something&quot; th:remove=&quot;${condition}? tag&quot;&gt;Link text not to be removed&lt;/a&gt;</code></pre>
 <p>In this case, if <code>${condition}</code> is false, <code>null</code> will be returned, and thus no removal will be performed.</p>
 </section>
+<section id="layout-inheritance" class="level2">
+<h2>8.5 Layout Inheritance</h2>
+<p>To be able to have a single file as layout, fragments can be used. An example of a simple layout having <code>title</code> and <code>content</code> using <code>th:fragment</code> and <code>th:replace</code>:</p>
+<pre class="html"><code>&lt;!DOCTYPE html&gt;
+&lt;html th:fragment=&quot;layout (title, content)&quot; xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;
+&lt;head&gt;
+    &lt;title th:replace=&quot;${title}&quot;&gt;Layout Title&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Layout H1&lt;/h1&gt;
+    &lt;div th:replace=&quot;${content}&quot;&gt;
+        &lt;p&gt;Layout content&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;footer&gt;
+        Layout footer
+    &lt;/footer&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>This example declares a fragment called <strong>layout</strong> having <em>title</em> and <em>content</em> as parameters. Both will be replaced on page inheriting it by provided fragment expressions in the example below.</p>
+<pre class="html"><code>&lt;!DOCTYPE html&gt;
+&lt;html th:replace=&quot;~{layoutFile :: layout(~{::title}, ~{::section})}&quot;&gt;
+&lt;head&gt;
+    &lt;title&gt;Page Title&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;section&gt;
+    &lt;p&gt;Page content&lt;/p&gt;
+    &lt;div&gt;Included on page&lt;/div&gt;
+&lt;/section&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>In this file, the <code>html</code> tag will be replaced by <em>layout</em>, but in the layout <code>title</code> and <code>content</code> will have been replaced by <code>title</code> and <code>section</code> blocks respectively.</p>
+<p>If desired, the layout can be composed by several fragments as <em>header</em> and <em>footer</em>.</p>
+</section>
 </section>
 <section id="local-variables" class="level1">
 <h1>9 Local Variables</h1>
@@ -2473,11 +2504,11 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 <p>We would expect that <code>th:each</code> attribute to execute before the <code>th:text</code> so that we get the results we want, but given the fact that the HTML/XML standards do not give any kind of meaning to the order in which the attributes in a tag are written, a <em>precedence</em> mechanism had to be established in the attributes themselves in order to be sure that this will work as expected.</p>
 <p>So, all Thymeleaf attributes define a numeric precedence, which establishes the order in which they are executed in the tag. This order is:</p>
 <div class="table-scroller">
-<table style="width:90%;">
+<table style="width:92%;">
 <colgroup>
 <col style="width: 11%" />
 <col style="width: 48%" />
-<col style="width: 30%" />
+<col style="width: 31%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -2787,7 +2818,7 @@ align = &#39;center&#39;</code></pre>
 <p>Note how CSS inlining also bears some <em>intelligence</em>, just like JavaScript’s. Specifically, expressions output via <em>escaped</em> expressions like <code>[[${classname}]]</code> will be escaped as <strong>CSS identifiers</strong>. That is why our <code>classname = 'main elems'</code> has turned into <code>main\ elems</code> in the fragment of code above.</p>
 <section id="advanced-features-css-natural-templates-etc." class="level3">
 <h3>Advanced features: CSS natural templates, etc.</h3>
-<p>In an equivalent way to what was explained before for JavaScript, CSS inlining also allows for our <code>&lt;style&gt;</code> tags to work both statically and dynamically, i.e. as <strong>CSS natural templates</strong> by means of wrapping inlined expressions in comments. See:</p>
+<p>In an equivalent way to what was explained before for JavaScript, CSS inlining also allows for our <code>&lt;style&gt;</code> tags to work both statically and dynamically, i.e. as <strong>CSS natural templates</strong> by means of wrapping inlined expressions in comments. See:</p>
 <pre class="html"><code>&lt;style th:inline=&quot;css&quot;&gt;
     .main\ elems {
       text-align: /*[[${align}]]*/ left;
@@ -3266,7 +3297,7 @@ templateEngine.clearTemplateCacheFor(&quot;/users/userList&quot;);</code></pre>
 <h2>17.1 Decoupled logic: The concept</h2>
 <p>So far we have worked for our Grocery Store with templates done the <em>usual way</em>, with logic being inserted into our templates in the form of attributes.</p>
 <p>But Thymeleaf also allows us to completely <em>decouple</em> the template markup from its logic, allowing the creation of <strong>completely logic-less markup templates</strong> in the <code>HTML</code> and <code>XML</code> template modes.</p>
-<p>The main idea is that template logic will be defined in a separate <em>logic file</em> (more exactly a <em>logic resource</em>, as it doesn’t need to be a <em>file</em>). By default, that logic resource will be an additional file living in the same place (e.g. folder) as the template file, with the same name but with <code>.th.xml</code> extension:</p>
+<p>The main idea is that template logic will be defined in a separate <em>logic file</em> (more exactly a <em>logic resource</em>, as it doesn’t need to be a <em>file</em>). By default, that logic resource will be an additional file living in the same place ( e.g. folder) as the template file, with the same name but with <code>.th.xml</code> extension:</p>
 <pre><code>/templates
 +-&gt;/home.html
 +-&gt;/home.th.xml</code></pre>
@@ -3378,9 +3409,9 @@ templateEngine.setDecoupledTemplateLogicResolver(decoupledResolver);</code></pre
 <section id="base-objects" class="level3">
 <h3>Base objects</h3>
 <ul>
-<li><strong>#ctx</strong> : the context object. An implementation of <code>org.thymeleaf.context.IContext</code> or <code>org.thymeleaf.context.IWebContext</code> depending on our environment (standalone or web).</li>
+<li><p><strong>#ctx</strong> : the context object. An implementation of <code>org.thymeleaf.context.IContext</code> or <code>org.thymeleaf.context.IWebContext</code> depending on our environment (standalone or web).</p>
+<p>Note <code>#vars</code> and <code>#root</code> are synomyns for the same object, but using <code>#ctx</code> is recommended.</p></li>
 </ul>
-<p>Note <code>#vars</code> and <code>#root</code> are synomyns for the same object, but using <code>#ctx</code> is recommended.</p>
 <pre class="java"><code>/*
  * ======================================================================
  * See javadoc API for class org.thymeleaf.context.IContext
@@ -3574,7 +3605,7 @@ ${#messages.setMsgOrNull(messageKeySet)}</code></pre>
 <section id="urisurls" class="level3">
 <h3>URIs/URLs</h3>
 <ul>
-<li><strong>#uris</strong> : utility object for performing URI/URL operations (esp. escaping/unescaping) inside Thymeleaf Standard Expressions.</li>
+<li><strong>#uris</strong> : utility object for performing URI/URL operations ( esp. escaping/unescaping) inside Thymeleaf Standard Expressions.</li>
 </ul>
 <pre class="java"><code>/*
  * ======================================================================

@@ -1919,19 +1919,15 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 <h3>フラグメント仕様構文</h3>
 <p><em>フラグメント式</em>の構文はとても直感的です。3種類のフォーマットがあります：</p>
 <ul>
-<li><code>&quot;~{templatename::selector}&quot;</code>：<code>templatename</code>という名前のテンプレートからマークアップセレクターで指定されたフラグメントをインクルードします。<code>selector</code>は単なるフラグメント名でも良いので、上記の<code>~{footer :: copy}</code>のように<code>~{templatename::fragmentname}</code>としてシンプルに指定することもできます。</li>
-</ul>
+<li><p><code>&quot;~{templatename::selector}&quot;</code>：<code>templatename</code>という名前のテンプレートからマークアップセレクターで指定されたフラグメントをインクルードします。<code>selector</code>は単なるフラグメント名でも良いので、上記の<code>~{footer :: copy}</code>のように<code>~{templatename::fragmentname}</code>としてシンプルに指定することもできます。</p>
 <blockquote>
 <p>マークアップセレクターの構文は、内部で使用しているAttoParserというパース用ライブラリーで定義されており、XPath式やCSSセレクターに似たものになっています。詳細はこちらを参照してください： <a href="#appendix-cマークアップセレクター構文">Appendix C</a></p>
-</blockquote>
-<ul>
-<li><code>&quot;~{templatename}&quot;</code>：<code>templatename</code>という名前のテンプレート全体をインクルードします。</li>
-</ul>
+</blockquote></li>
+<li><p><code>&quot;~{templatename}&quot;</code>：<code>templatename</code>という名前のテンプレート全体をインクルードします。</p>
 <blockquote>
 <p><code>th:insert</code>/<code>th:replace</code>タグで使用するテンプレート名は、現在テンプレートエンジンによって使用されているテンプレートリゾルバーで解決可能でなければならないことに注意してください。</p>
-</blockquote>
-<ul>
-<li><code>~{::selector}&quot;</code>または<code>&quot;~{this::selector}&quot;</code>：同じテンプレート内で<code>selector</code>に一致するフラグメントを挿入します。もし、フラグメント式が定義されているのと同じテンプレート内に見つからなかった場合は、<code>selector</code>が見つかるまでテンプレート（挿入）呼び出しのスタックを元のテンプレート（<em>root</em>）までさかのぼって探します。</li>
+</blockquote></li>
+<li><p><code>~{::selector}&quot;</code>または<code>&quot;~{this::selector}&quot;</code>：同じテンプレート内で<code>selector</code>に一致するフラグメントを挿入します。もし、フラグメント式が定義されているのと同じテンプレート内に見つからなかった場合は、<code>selector</code>が見つかるまでテンプレート（挿入）呼び出しのスタックを元のテンプレート（<em>root</em>）までさかのぼって探します。</p></li>
 </ul>
 <p>上記の例の<code>templatename</code>と<code>selector</code>には式を指定することができます（条件式でも大丈夫です！）：</p>
 <pre class="html"><code>&lt;div th:insert=&quot;footer :: (${user.isAdmin}? #{footer.admin} : #{footer.normaluser})&quot;&gt;&lt;/div&gt;</code></pre>
@@ -2478,11 +2474,11 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 <p>期待した結果を得るためには<code>th:each</code>属性が<code>th:text</code>より先に実行されて欲しいですよね。ですが、HTML/XML標準ではタグの中の属性が書かれている順番には特に意味を持たせていないので、私たちの想定通りに動作することを保証するためには、属性自身に<em>優先順位</em>というメカニズムを持たせなければなりません。</p>
 <p>ですので、Thymeleafの全ての属性には数値の優先順位が定義されています。その値によってタグの中で実行される順番が決まります。この順番は次の通りです：</p>
 <div class="table-scroller">
-<table style="width:90%;">
+<table style="width:92%;">
 <colgroup>
 <col style="width: 11%" />
 <col style="width: 48%" />
-<col style="width: 30%" />
+<col style="width: 31%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3383,9 +3379,9 @@ templateEngine.setDecoupledTemplateLogicResolver(decoupledResolver);</code></pre
 <section id="基本オブジェクト" class="level3">
 <h3>基本オブジェクト</h3>
 <ul>
-<li><strong>#ctx</strong>：コンテキストオブジェクト。環境（スタンドアローンかウェブか）によって<code>org.thymeleaf.context.IContext</code>または<code>org.thymeleaf.context.IWebContext</code>の実装になります。</li>
+<li><p><strong>#ctx</strong>：コンテキストオブジェクト。環境（スタンドアローンかウェブか）によって<code>org.thymeleaf.context.IContext</code>または<code>org.thymeleaf.context.IWebContext</code>の実装になります。</p>
+<p>このオブジェクトの同意語として<code>#vars</code>と<code>#root</code>がありますが<code>#ctx</code>の利用を推奨しています。</p></li>
 </ul>
-<p>このオブジェクトの同意語として<code>#vars</code>と<code>#root</code>がありますが<code>#ctx</code>の利用を推奨しています。</p>
 <pre class="java"><code>/*
  * ======================================================================
  * See javadoc API for class org.thymeleaf.context.IContext

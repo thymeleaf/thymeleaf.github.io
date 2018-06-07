@@ -74,13 +74,7 @@
 <li><a href="#a-menu-for-our-home-page">A menu for our home page</a></li>
 <li><a href="#server-root-relative-urls">Server root relative URLs</a></li>
 </ul></li>
-<li><a href="#literals">4.5 Literals</a><ul>
-<li><a href="#text-literals">Text literals</a></li>
-<li><a href="#number-literals">Number literals</a></li>
-<li><a href="#boolean-literals">Boolean literals</a></li>
-<li><a href="#the-null-literal">The null literal</a></li>
-<li><a href="#literal-tokens">Literal tokens</a></li>
-</ul></li>
+<li><a href="#literals">4.5 Literals</a></li>
 <li><a href="#appending-texts">4.6 Appending texts</a></li>
 <li><a href="#literal-substitutions">4.7 Literal substitutions</a></li>
 <li><a href="#arithmetic-operations">4.8 Arithmetic operations</a></li>
@@ -114,10 +108,7 @@
 <li><a href="#referencing-fragments-without-thfragment">Referencing fragments without <code>th:fragment</code></a></li>
 <li><a href="#difference-between-thinclude-and-threplace">Difference between <code>th:include</code> and <code>th:replace</code></a></li>
 </ul></li>
-<li><a href="#parameterizable-fragment-signatures">8.2 Parameterizable fragment signatures</a><ul>
-<li><a href="#fragment-local-variables-without-fragment-signature">Fragment local variables without fragment signature</a></li>
-<li><a href="#thassert-for-in-template-assertions">th:assert for in-template assertions</a></li>
-</ul></li>
+<li><a href="#parameterizable-fragment-signatures">8.2 Parameterizable fragment signatures</a></li>
 <li><a href="#removing-template-fragments">8.3 Removing template fragments</a></li>
 </ul></li>
 <li><a href="#local-variables">9 Local Variables</a></li>
@@ -171,10 +162,7 @@
 <li><a href="#messages-1">Messages</a></li>
 <li><a href="#ids">IDs</a></li>
 </ul></li>
-<li><a href="#appendix-c-dom-selector-syntax">19 Appendix C: DOM Selector syntax</a><ul>
-<li><a href="#multivalued-class-matching">Multivalued class matching</a></li>
-<li><a href="#optional-brackets">Optional brackets</a></li>
-</ul></li>
+<li><a href="#appendix-c-dom-selector-syntax">19 Appendix C: DOM Selector syntax</a></li>
 </ul>
 		</nav>
 	</div>
@@ -230,7 +218,7 @@
 <li>HTML5</li>
 <li>Legacy HTML5</li>
 </ul>
-<p>All of these modes refer to well-formed XML files except the <em>Legacy HTML5</em> mode, which allows you to process HTML5 files with features such as standalone (not closed) tags, tag attributes without a value or not written between quotes. In order to process files in this specific mode, Thymeleaf will first perform a transformation that will convert your files to well-formed XML files which are still perfectly valid HTML5 (and are in fact the recommended way to create HTML5 code)<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>.</p>
+<p>All of these modes refer to well-formed XML files except the <em>Legacy HTML5</em> mode, which allows you to process HTML5 files with features such as standalone (not closed) tags, tag attributes without a value or not written between quotes. In order to process files in this specific mode, Thymeleaf will first perform a transformation that will convert your files to well-formed XML files which are still perfectly valid HTML5 (and are in fact the recommended way to create HTML5 code)<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>.</p>
 <p>Also note that validation is only available for XML and XHTML templates.</p>
 <p>Nevertheless, these are not the only types of template that Thymeleaf can process, and the user is always able to define his/her own mode by specifying both a way to <em>parse</em> templates in this mode and a way to <em>write</em> the results. This way, anything that can be modelled as a DOM tree (be it XML or not) could effectively be processed as a template by Thymeleaf.</p>
 </section>
@@ -465,7 +453,7 @@ templateEngine.setTemplateResolver(templateResolver);</code></pre>
 
 &lt;/html&gt;</code></pre>
 <p>The first thing you will notice here is that this file is XHTML that can be correctly displayed by any browser, because it does not include any non-XHTML tags (and browsers ignore all attributes they don’t understand, like <code>th:text</code>). Also, browsers will display it in standards mode (not in quirks mode), because it has a well-formed <code>DOCTYPE</code> declaration.</p>
-<p>Next, this is also <em>valid</em> XHTML<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a>, because we have specified a Thymeleaf DTD which defines attributes like <code>th:text</code> so that your templates can be considered valid. And even more: once the template is processed (and all <code>th:*</code> attributes are removed), Thymeleaf will automatically substitute that DTD declaration in the <code>DOCTYPE</code> clause by a standard <code>XHTML 1.0 Strict</code> one (we will leave this DTD translation features for a later chapter).</p>
+<p>Next, this is also <em>valid</em> XHTML<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>, because we have specified a Thymeleaf DTD which defines attributes like <code>th:text</code> so that your templates can be considered valid. And even more: once the template is processed (and all <code>th:*</code> attributes are removed), Thymeleaf will automatically substitute that DTD declaration in the <code>DOCTYPE</code> clause by a standard <code>XHTML 1.0 Strict</code> one (we will leave this DTD translation features for a later chapter).</p>
 <p>A thymeleaf namespace is also being declared for <code>th:*</code> attributes:</p>
 <pre class="html"><code>&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;
       xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;</code></pre>
@@ -910,40 +898,30 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 </section>
 <section id="literals" class="level2">
 <h2>4.5 Literals</h2>
-<section id="text-literals" class="level3">
-<h3>Text literals</h3>
+<p>###Text literals</p>
 <p>Text literals are just character strings specified between single quotes. They can include any character, but you should escape any single quotes inside them as <code>\'</code>.</p>
 <pre class="html"><code>&lt;p&gt;
   Now you are looking at a &lt;span th:text=&quot;&#39;working web application&#39;&quot;&gt;template file&lt;/span&gt;.
 &lt;/p&gt;</code></pre>
-</section>
-<section id="number-literals" class="level3">
-<h3>Number literals</h3>
+<p>###Number literals</p>
 <p>Numeric literals look exactly like what they are: numbers.</p>
 <pre class="html"><code>&lt;p&gt;The year is &lt;span th:text=&quot;2013&quot;&gt;1492&lt;/span&gt;.&lt;/p&gt;
 &lt;p&gt;In two years, it will be &lt;span th:text=&quot;2013 + 2&quot;&gt;1494&lt;/span&gt;.&lt;/p&gt;</code></pre>
-</section>
-<section id="boolean-literals" class="level3">
-<h3>Boolean literals</h3>
+<p>###Boolean literals</p>
 <p>The boolean literals are <code>true</code> and <code>false</code>. For example:</p>
 <pre class="html"><code>&lt;div th:if=&quot;${user.isAdmin()} == false&quot;&gt; ...</code></pre>
 <p>Note that in the above example, the <code>== false</code> is written outside the braces, and thus it is Thymeleaf itself who takes care of it. If it were written inside the braces, it would be the responsibility of the OGNL/SpringEL engines:</p>
 <pre class="html"><code>&lt;div th:if=&quot;${user.isAdmin() == false}&quot;&gt; ...</code></pre>
-</section>
-<section id="the-null-literal" class="level3">
-<h3>The null literal</h3>
+<p>###The null literal</p>
 <p>The <code>null</code> literal can be also used:</p>
 <pre class="html"><code>&lt;div th:if=&quot;${variable.something} == null&quot;&gt; ...</code></pre>
-</section>
-<section id="literal-tokens" class="level3">
-<h3>Literal tokens</h3>
+<p>###Literal tokens</p>
 <p>Numeric, boolean and null literals are in fact a particular case of <em>literal tokens</em>.</p>
 <p>These tokens allow a little bit of simplification in Standard Expressions. They work exactly the same as text literals (<code>'...'</code>), but they only allow letters (<code>A-Z</code> and <code>a-z</code>), numbers (<code>0-9</code>), brackets (<code>[</code> and <code>]</code>), dots (<code>.</code>), hyphens (<code>-</code>) and underscores (<code>_</code>). So no whitespaces, no commas, etc.</p>
 <p>The nice part? Tokens don’t need any quotes surrounding them. So we can do this:</p>
 <pre class="html"><code>&lt;div th:class=&quot;content&quot;&gt;...&lt;/div&gt;</code></pre>
 <p>instead of:</p>
 <pre class="html"><code>&lt;div th:class=&quot;&#39;content&#39;&quot;&gt;...&lt;/div&gt;</code></pre>
-</section>
 </section>
 <section id="appending-texts" class="level2">
 <h2>4.6 Appending texts</h2>
@@ -1676,19 +1654,15 @@ th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &
 <li><code>&quot;templatename::domselector&quot;</code> or the equivalent <code>templatename::[domselector]</code> Includes the fragment resulting from executing the specified DOM Selector on the template named <code>templatename</code>.
 <ul>
 <li>Note that <code>domselector</code> can be a mere fragment name, so you could specify something as simple as <code>templatename::fragmentname</code> like in the <code>footer :: copy</code> above.</li>
-</ul></li>
 </ul>
 <blockquote>
 <p>DOM Selector syntax is similar to XPath expressions and CSS selectors, see the <a href="#appendix-c-dom-selector-syntax">Appendix C</a> for more info on this syntax.</p>
-</blockquote>
-<ul>
-<li><code>&quot;templatename&quot;</code> Includes the complete template named <code>templatename</code>.</li>
-</ul>
+</blockquote></li>
+<li><p><code>&quot;templatename&quot;</code> Includes the complete template named <code>templatename</code>.</p>
 <blockquote>
 <p>Note that the template name you use in <code>th:include</code>/<code>th:replace</code> tags will have to be resolvable by the Template Resolver currently being used by the Template Engine.</p>
-</blockquote>
-<ul>
-<li><code>::domselector&quot;</code> or <code>&quot;this::domselector&quot;</code> Includes a fragment from the same template.</li>
+</blockquote></li>
+<li><p><code>::domselector&quot;</code> or <code>&quot;this::domselector&quot;</code> Includes a fragment from the same template.</p></li>
 </ul>
 <p>Both <code>templatename</code> and <code>domselector</code> in the above examples can be fully-featured expressions (even conditionals!) like:</p>
 <pre class="html"><code>&lt;div th:include=&quot;footer :: (${user.isAdmin}? #{footer.admin} : #{footer.normaluser})&quot;&gt;&lt;/div&gt;</code></pre>
@@ -1756,8 +1730,7 @@ th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &
 &lt;div th:include=&quot;::frag (onevar=${value1},twovar=${value2})&quot;&gt;...&lt;/div&gt;</code></pre>
 <p>Note that order is not important in the last option:</p>
 <pre class="html"><code>&lt;div th:include=&quot;::frag (twovar=${value2},onevar=${value1})&quot;&gt;...&lt;/div&gt;</code></pre>
-<section id="fragment-local-variables-without-fragment-signature" class="level3">
-<h3>Fragment local variables without fragment signature</h3>
+<p>###Fragment local variables without fragment signature</p>
 <p>Even if fragments are defined without signature, like this:</p>
 <pre class="html"><code>&lt;div th:fragment=&quot;frag&quot;&gt;
     ...
@@ -1767,14 +1740,11 @@ th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &
 <p>This would be, in fact, equivalent to a combination of <code>th:include</code> and <code>th:with</code>:</p>
 <pre class="html"><code>&lt;div th:include=&quot;::frag&quot; th:with=&quot;onevar=${value1},twovar=${value2}&quot;&gt;</code></pre>
 <p><strong>Note</strong> that this specification of local variables for a fragment —no matter whether it has a signature or not— does not cause the context to emptied previously to its execution. Fragments will still be able to access every context variable being used at the calling template like they currently are.</p>
-</section>
-<section id="thassert-for-in-template-assertions" class="level3">
-<h3>th:assert for in-template assertions</h3>
+<p>###th:assert for in-template assertions</p>
 <p>The <code>th:assert</code> attribute can specify a comma-separated list of expressions which should be evaluated and produce true for every evaluation, raising an exception if not.</p>
 <pre class="html"><code>&lt;div th:assert=&quot;${onevar},(${twovar} != 43)&quot;&gt;...&lt;/div&gt;</code></pre>
 <p>This comes in handy for validating parameters at a fragment signature:</p>
 <pre class="html"><code>&lt;header th:fragment=&quot;contentheader(title)&quot; th:assert=&quot;${!#strings.isEmpty(title)}&quot;&gt;...&lt;/header&gt;</code></pre>
-</section>
 </section>
 <section id="removing-template-fragments" class="level2">
 <h2>8.3 Removing template fragments</h2>
@@ -2096,11 +2066,11 @@ th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &
 <p>Of course, we would expect that <code>th:each</code> attribute to execute before the <code>th:text</code> so that we get the results we want, but given the fact that the DOM (Document Object Model) standard does not give any kind of meaning to the order in which the attributes of a tag are written, a <em>precedence</em> mechanism has to be established in the attributes themselves in order to be sure that this will work as expected.</p>
 <p>So, all Thymeleaf attributes define a numeric precedence, which establishes the order in which they are executed in the tag. This order is:</p>
 <div class="table-scroller">
-<table style="width:90%;">
+<table style="width:92%;">
 <colgroup>
 <col style="width: 11%" />
 <col style="width: 48%" />
-<col style="width: 30%" />
+<col style="width: 31%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3571,13 +3541,10 @@ ${#ids.prev(&#39;someId&#39;)}</code></pre>
 <pre class="html"><code>&lt;div th:include=&quot;mytemplate :: [//div[@class=&#39;content&#39;]]&quot;&gt;...&lt;/div&gt;</code></pre>
 <p>could be written as:</p>
 <pre class="html"><code>&lt;div th:include=&quot;mytemplate :: [div.content]&quot;&gt;...&lt;/div&gt;</code></pre>
-<section id="multivalued-class-matching" class="level3">
-<h3>Multivalued class matching</h3>
+<p>###Multivalued class matching</p>
 <p>DOM Selectors understand the class attribute to be <strong>multivalued</strong>, and therefore allow the application of selectors on this attribute even if the element has several class values.</p>
 <p>For example, <code>div[class='two']</code> will match <code>&lt;div class=&quot;one two three&quot; /&gt;</code></p>
-</section>
-<section id="optional-brackets" class="level3">
-<h3>Optional brackets</h3>
+<p>###Optional brackets</p>
 <p>The syntax of the fragment inclusion attributes converts every fragment selection into a DOM selection, so brackets <code>[...]</code> are not needed (though allowed).</p>
 <p>So the following, with no brackets, is equivalent to the bracketed selector seen above:</p>
 <pre class="html"><code>&lt;div th:include=&quot;mytemplate :: div.content&quot;&gt;...&lt;/div&gt;</code></pre>
@@ -3587,12 +3554,11 @@ ${#ids.prev(&#39;someId&#39;)}</code></pre>
 <pre class="html"><code>&lt;div th:replace=&quot;mytemplate :: .myfrag&quot;&gt;...&lt;/div&gt;</code></pre>
 <p>which will actually look for any elements with <code>class=&quot;myfrag&quot;</code>, without caring about <code>th:fragment</code> signatures.</p>
 </section>
-</section>
 <section class="footnotes">
 <hr />
 <ol>
-<li id="fn1"><p>Given the fact that XHTML5 is just XML-formed HTML5 served with the application/xhtml+xml content type, we could also say that Thymeleaf supports XHTML5.<a href="#fnref1">↩</a></p></li>
-<li id="fn2"><p>Note that, although this template is valid XHTML, we earlier selected template mode “XHTML” and not “VALIDXHTML”. For now, it will be OK for us to just have validation turned off – but at the same time we don’t want our IDE to complain too much.<a href="#fnref2">↩</a></p></li>
+<li id="fn1"><p>Given the fact that XHTML5 is just XML-formed HTML5 served with the application/xhtml+xml content type, we could also say that Thymeleaf supports XHTML5.<a href="#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn2"><p>Note that, although this template is valid XHTML, we earlier selected template mode “XHTML” and not “VALIDXHTML”. For now, it will be OK for us to just have validation turned off – but at the same time we don’t want our IDE to complain too much.<a href="#fnref2" class="footnote-back">↩</a></p></li>
 </ol>
 </section>
 		</div>
