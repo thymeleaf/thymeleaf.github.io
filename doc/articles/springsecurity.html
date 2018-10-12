@@ -71,6 +71,7 @@
 									</header>
 				<p>Have you switched to Thymeleaf but your login and error pages are still using JSP? In this article we will see how to configure your Spring application to use Thymeleaf for login and error pages.</p>
 <p>All the code seen here comes from a working application. You can view or download the source code from <a href="https://github.com/thymeleaf/thymeleafexamples-springsecurity">its GitHub repo</a>.</p>
+<p><strong>Note</strong> that the Thymeleaf integration packages for Spring Security support both Spring MVC and Spring WebFlux applications since Spring Security 5, but this article will focus on a Spring MVC configuration.</p>
 <section id="prerequisites" class="level2">
 <h2>Prerequisites</h2>
 <p>We asume you are familiar with Thymeleaf and Spring Security, and you have a working application using these technologies. If you don’t know Spring Security, you could be interested on reading the <a href="http://static.springsource.org/spring-security/site/reference.html">Spring Security Documentation</a>.</p>
@@ -130,7 +131,7 @@ public class MainController {
 </section>
 <section id="error-page" class="level2">
 <h2>Error page</h2>
-<p>We can also configure an error page based on Thymeleaf . In this case Spring Security is not involved at all, we should simply add an <a href="https://spring.io/blog/2013/11/01/exception-handling-in-spring-mvc">ExceptionHandler</a> to our Spring configuration like:</p>
+<p>We can also configure an error page based on Thymeleaf. In this case Spring Security is not involved at all, we should simply add an <a href="https://spring.io/blog/2013/11/01/exception-handling-in-spring-mvc">ExceptionHandler</a> to our Spring configuration like:</p>
 <pre class="java"><code>@ControllerAdvice
 public class ErrorController {
 
@@ -164,7 +165,7 @@ public class ErrorController {
 </section>
 <section id="spring-security-dialect" class="level2">
 <h2>Spring Security Dialect</h2>
-<p>The <a href="https://github.com/thymeleaf/thymeleaf-extras-springsecurity3">Spring Security 3 integration module</a> is a Thymeleaf dialect equivalent to <a href="http://docs.spring.io/spring-security/site/docs/4.2.x/reference/html/taglibs.html">Spring security taglib</a>.</p>
+<p>In Spring MVC environments, the <a href="https://github.com/thymeleaf/thymeleaf-extras-springsecurity">Spring Security integration module</a> works as a replacement of the <a href="http://docs.spring.io/spring-security/site/docs/4.2.x/reference/html/taglibs.html">Spring security taglib</a>.</p>
 <p>We use this dialect in the example in order to print the logged user credentials and to show different content to different roles.</p>
 <p>The <strong>sec:authorize</strong> attribute renders its content when the attribute expression is evaluated to <strong>true</strong>:</p>
 <pre class="html"><code>&lt;div sec:authorize=&quot;isAuthenticated()&quot;&gt;
