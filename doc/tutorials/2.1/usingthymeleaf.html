@@ -1030,7 +1030,7 @@ th:text=&quot;&#39;Execution mode is &#39; + ( (${execMode} == &#39;dev&#39;)? &
     &lt;input type=&quot;submit&quot; value=&quot;¡Suscríbeme!&quot;/&gt;
   &lt;/fieldset&gt;
 &lt;/form&gt;</code></pre>
-<p>Besides the new attribute values, you can also see that the applicacion context name has been automatically prefixed to the URL base in <code>/gtvg/subscribe</code>, as explained in the previous chapter.</p>
+<p>Besides the new attribute values, you can also see that the application context name has been automatically prefixed to the URL base in <code>/gtvg/subscribe</code>, as explained in the previous chapter.</p>
 <p>But what if we wanted to set more than one attribute at a time? XML rules do not allow you to set an attribute twice in a tag, so <code>th:attr</code> will take a comma-separated list of assignments, like:</p>
 <pre class="html"><code>&lt;img src=&quot;../../images/gtvglogo.png&quot; 
      th:attr=&quot;src=@{/images/gtvglogo.png},title=#{logo},alt=#{logo}&quot; /&gt;</code></pre>

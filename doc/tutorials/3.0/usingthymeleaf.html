@@ -1139,7 +1139,7 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
     &lt;input type=&quot;submit&quot; value=&quot;¡Suscríbe!&quot;/&gt;
   &lt;/fieldset&gt;
 &lt;/form&gt;</code></pre>
-<p>Besides the new attribute values, you can also see that the applicacion context name has been automatically prefixed to the URL base in <code>/gtvg/subscribe</code>, as explained in the previous chapter.</p>
+<p>Besides the new attribute values, you can also see that the application context name has been automatically prefixed to the URL base in <code>/gtvg/subscribe</code>, as explained in the previous chapter.</p>
 <p>But what if we wanted to set more than one attribute at a time? XML rules do not allow you to set an attribute twice in a tag, so <code>th:attr</code> will take a comma-separated list of assignments, like:</p>
 <pre class="html"><code>&lt;img src=&quot;../../images/gtvglogo.png&quot; 
      th:attr=&quot;src=@{/images/gtvglogo.png},title=#{logo},alt=#{logo}&quot; /&gt;</code></pre>
@@ -2129,8 +2129,8 @@ templateEngine.process(&quot;home&quot;, ctx, response.getWriter());</code></pre
 </section>
 <section id="advanced-conditional-insertion-of-fragments" class="level3">
 <h3>Advanced conditional insertion of fragments</h3>
-<p>The availability of both the <em>emtpy fragment</em> and <em>no-operation token</em> allows us to perform conditional insertion of fragments in a very easy and elegant way.</p>
-<p>For example, we could do this in order to insert our <code>common :: adminhead</code> fragment <em>only</em> if the user is an administrator, and insert nothing (emtpy fragment) if not:</p>
+<p>The availability of both the <em>empty fragment</em> and <em>no-operation token</em> allows us to perform conditional insertion of fragments in a very easy and elegant way.</p>
+<p>For example, we could do this in order to insert our <code>common :: adminhead</code> fragment <em>only</em> if the user is an administrator, and insert nothing (empty fragment) if not:</p>
 <pre class="html"><code>...
 &lt;div th:insert=&quot;${user.isAdmin()} ? ~{common :: adminhead} : ~{}&quot;&gt;...&lt;/div&gt;
 ...</code></pre>
