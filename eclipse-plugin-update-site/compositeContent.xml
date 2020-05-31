@@ -5,14 +5,15 @@
 	version="1.0.0">
 	<properties size="2">
 		<property name="p2.compressed" value="true"/>
-		<property name="p2.timestamp" value="201603310000"/>
+		<property name="p2.timestamp" value="202005310144"/>
 	</properties>
-	<children size="6">
+	<children size="7">
 		<child location="https://dl.bintray.com/thymeleaf/downloads/thymeleaf-extras-eclipse-plugin/2.0.2/update-site/"/>
 		<child location="https://dl.bintray.com/thymeleaf/downloads/thymeleaf-extras-eclipse-plugin/2.0.3/update-site/"/>
 		<child location="https://dl.bintray.com/thymeleaf/downloads/thymeleaf-extras-eclipse-plugin/2.0.4/update-site/"/>
 		<child location="https://dl.bintray.com/thymeleaf/downloads/thymeleaf-extras-eclipse-plugin/2.1.0/update-site/"/>
 		<child location="https://dl.bintray.com/thymeleaf/downloads/thymeleaf-extras-eclipse-plugin/2.1.1/update-site/"/>
 		<child location="https://dl.bintray.com/thymeleaf/downloads/thymeleaf-extras-eclipse-plugin/2.1.2/update-site/"/>
+		<child location="https://dl.bintray.com/thymeleaf/downloads/thymeleaf-extras-eclipse-plugin/3.0.0/update-site/"/>
 	</children>
 </repository>
