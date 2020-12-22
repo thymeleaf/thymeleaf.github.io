@@ -42,7 +42,6 @@
 					<li><a href="faq.html" class="toolbar-link">FAQ</a></li>
 				</ul>
 				<ul id="site-nav-links" class="toolbar-links">
-					<li><a href="http://forum.thymeleaf.org/" class="toolbar-link">Forum</a></li>
 					<li><a href="https://twitter.com/thymeleaf" class="toolbar-link">Twitter</a></li>
 					<li><a href="https://github.com/thymeleaf" class="toolbar-link">GitHub</a></li>
 				</ul>
@@ -68,8 +67,66 @@
 			<section>
 				<header>
 					<h2>
+						<a id="thymeleaf-3.0.12" href="#thymeleaf-3.0.12" class="anchor"></a>
+						Thymeleaf 3.0.12 &mdash; Release Notes
+					</h2>
+				</header>
+				<p><time datetime="2020-12-21">21 December 2020</time></p>
+
+				<p><strong>Thymeleaf 3.0.12</strong> (<code>3.0.12.RELEASE</code>) has
+				just been published.</p>
+
+				<p>This is a <em>highly recommended</em> security update with some 
+					bugfixing and feature changes.</p>
+				<p>Security improvements:</p>
+				<ul>
+					<li>Avoided instantiation of new objects and calls to static classes in 
+						<a href="https://github.com/thymeleaf/thymeleaf/issues/809"><em>restricted expression
+						evaluation mode</em></a>, both for OGNL and SpringEL-based scenarios.</li>
+					<li>Users of <strong>Spring</strong>: Avoided execution of view names as a fragment 
+						expressions when the view name is contained in the URL path or query parameters.</li>
+				</ul>
+				<p>Issues fixed:</p>
+				<ul>
+					<li>Fixed <kbd>#numbers.format*(...)</kbd> expression utility methods not producing 
+						numbers using the correct digit symbols for locales that use 
+						them (e.g. farsi), in JDK versions where NumberFormat does this.</li>
+					<li>Fixed <kbd>package-list</kbd> not being produced for JavaDoc since JDK 11 
+						started being used for compiling the project.</li>
+					<li>Users of <strong>Spring</strong>: Fixed memory leak at 
+						<kbd>ThymeleafViewResolver</kbd> in redirects to dynamically built URLs.</li>
+				</ul>
+				<p>Feature changes:</p>
+				<ul>
+					<li>Users of <strong>Spring 5.x</strong>: Added <kbd>encode()</kbd> method to the 
+						<kbd>#mvc.url(...)</kbd> expression utility methods.</li>
+					<li>Users of <strong>Spring 5.x and Spring WebFlow</strong>: Adapted support of 
+						WebFlow to Spring WebFlow 2.5 after changes in API (WebFlow 2.5.0+ is now required).</li>
+				</ul>
+				<p>Dependency updates:</p>
+				<ul>
+					<li>OGNL updated to 3.1.26.</li>
+					<li>Jackson updated to 2.11.3.</li>
+				</ul>
+
+				<p>This version should work as a drop-in replacement for 3.0.x versions.
+				Have a look at our <a href="download.html">Download Page</a> to learn
+				how to obtain it.</p>
+
+				<p>If you are interested, you can have a look at the list of issues on
+				GitHub, which usually contain more detailed explanations:</p>
+				<ul>
+					<li><i>thymeleaf:</i> <a href="https://github.com/thymeleaf/thymeleaf/milestone/24?closed=1">see milestone</a>.</li>
+					<li><i>thymeleaf-spring:</i> <a href="https://github.com/thymeleaf/thymeleaf-spring/milestone/21?closed=1">see milestone</a>.</li>
+				</ul>
+			</section>
+			
+			<!-- Create a new section or copy this one for every new announcement -->
+			<section>
+				<header>
+					<h2>
 						<a id="thymeleaf-3.0.11" href="#thymeleaf-3.0.11" class="anchor"></a>
-						Thymeleaf 3.0.11 JUST PUBLISHED
+						Thymeleaf 3.0.11 &mdash; Release Notes
 					</h2>
 				</header>
 				<p><time datetime="2018-11-29">29 October 2018</time></p>
@@ -103,10 +160,6 @@
 					<li><i>thymeleaf-spring:</i> <a href="https://github.com/thymeleaf/thymeleaf-spring/issues?labels=version%3A3.0.11&page=1&state=closed">see milestone</a>.</li>
 				</ul>
 
-				<p>And of course we invite you to visit the project website at <a href="http://www.thymeleaf.org">http://www.thymeleaf.org</a></p>
-
-				<p>Regards,<br/>
-				Daniel.</p>
 			</section>
 
 		</main>
@@ -130,7 +183,6 @@
 			<div>
 				<h5>External links</h5>
 				<ul class="footer-sections-links">
-					<li><a href="http://forum.thymeleaf.org/">Forum</a></li>
 					<li><a href="https://twitter.com/thymeleaf">Follow us on Twitter</a></li>
 					<li><a href="https://github.com/thymeleaf">Fork us on GitHub</a></li>
 				</ul>
