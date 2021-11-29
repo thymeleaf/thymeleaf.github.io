@@ -396,16 +396,16 @@
 					<p>Also, you will have to modify your Thymeleaf dependency/ies to use
 					a <i>snapshot version</i>, which usually consists of the version
 					number of the <b>next</b> release (not the current one), followed by
-					<code>-SNAPSHOT</code>. For example, if <code>3.0.12.RELEASE</code> is the
+					<code>-SNAPSHOT</code>. For example, if <code>3.0.13.RELEASE</code> is the
 					latest published stable release, snapshots will probably appear under
-					the <code>3.0.13-SNAPSHOT</code> or even
+					the <code>3.0.14-SNAPSHOT</code> or even
 					<code>3.1.0-SNAPSHOT</code> version numbers:</p>
 
 					<pre><code class="language-xml"><!--
 						<dependency>
 							<groupId>org.thymeleaf</groupId>
 							<artifactId>thymeleaf</artifactId>
-							<version>3.0.13-SNAPSHOT</version>
+							<version>3.0.14-SNAPSHOT</version>
 							<scope>compile</scope>
 						</dependency>
 					--></code></pre>
@@ -432,7 +432,7 @@
 					repository contained more than 1,300 test files, adding up to more
 					than 37,000 lines of testing code.</p>
 
-					<p>Besides, we use <a href="https://travis-ci.com/">Travis CI</a> for
+					<p>Besides, we use <a href="https://travis-ci.org/">Travis CI</a> for
 					continuous integration, thanks to what every release is published
 					after being tested in no-Spring, Spring 3.0, Spring 3.1, Spring 3.2
 					and Spring 4.0 environments, with Java 6, 7 and 8 (unfortunately
