@@ -64,11 +64,11 @@
 		<main class="fluid-block">
 			<section class="description">
 				<p>
-					<strong>Thymeleaf 3.0.15.RELEASE</strong> is the current stable version. It requires <strong>Java SE 6</strong> or newer.
+					<strong>Thymeleaf 3.1.0.RC2</strong> is the latest version. It requires <strong>Java SE 8</strong> or newer.
 				</p>
 				<ul>
-					<li>Release date: 31 January 2022</li>
-					<li>Release notes: <a href="releasenotes.html#thymeleaf-3.0.15">Thymeleaf 3.0.15 release notes</a></li>
+					<li>Release date: 09 November 2022</li>
+					<li>See <a href="doc/articles/thymeleaf31whatsnew.html">what's new in Thymeleaf 3.1 and how to migrate</a>.</li>
 				</ul>
 			</section>
 
@@ -100,49 +100,39 @@
 								<td><code>thymeleaf</code></td>
 							</tr>
 							<tr>
-								<td>Spring 3 integration</td>
-								<td><code>org.thymeleaf</code></td>
-								<td><code>thymeleaf-spring3</code></td>
-							</tr>
-							<tr>
-								<td>Spring 4 integration</td>
-								<td><code>org.thymeleaf</code></td>
-								<td><code>thymeleaf-spring4</code></td>
-							</tr>
-							<tr>
 								<td>Spring 5 integration</td>
 								<td><code>org.thymeleaf</code></td>
 								<td><code>thymeleaf-spring5</code></td>
 							</tr>
 							<tr>
-								<td>Testing library</td>
+								<td>Spring 6 integration</td>
 								<td><code>org.thymeleaf</code></td>
+								<td><code>thymeleaf-spring6</code></td>
+							</tr>
+							<tr>
+								<td>Spring Security 5 integration</td>
+								<td><code>org.thymeleaf.extras</code></td>
+								<td><code>thymeleaf-extras-springsecurity5</code></td>
+							</tr>
+							<tr>
+								<td>Spring Security 6 integration</td>
+								<td><code>org.thymeleaf.extras</code></td>
+								<td><code>thymeleaf-extras-springsecurity6</code></td>
+							</tr>
+							<tr>
+								<td>Testing library</td>
+								<td><code>org.thymeleaf.testing</code></td>
 								<td><code>thymeleaf-testing</code></td>
 							</tr>
 							<tr>
-								<td>Spring Security 3 integration</td>
-								<td><code>org.thymeleaf.extras</code></td>
-								<td><code>thymeleaf-extras-springsecurity3</code></td>
+								<td>Testing library - Spring 5 integration</td>
+								<td><code>org.thymeleaf.testing</code></td>
+								<td><code>thymeleaf-testing-spring5</code></td>
 							</tr>
 							<tr>
-								<td>Spring Security 4 integration</td>
-								<td><code>org.thymeleaf.extras</code></td>
-								<td><code>thymeleaf-extras-springsecurity4</code></td>
-							</tr>
-							<tr>
-								<td>Java 8 Time API compatibility</td>
-								<td><code>org.thymeleaf.extras</code></td>
-								<td><code>thymeleaf-extras-java8time</code></td>
-							</tr>
-							<tr>
-								<td>Tiles 2 integration</td>
-								<td><code>org.thymeleaf.extras</code></td>
-								<td><code>thymeleaf-extras-tiles2</code></td>
-							</tr>
-							<tr>
-								<td>IE Conditional Comments support</td>
-								<td><code>org.thymeleaf.extras</code></td>
-								<td><code>thymeleaf-extras-conditionalcomments</code></td>
+								<td>Testing library - Spring 6 integration</td>
+								<td><code>org.thymeleaf.testing</code></td>
+								<td><code>thymeleaf-testing-spring6</code></td>
 							</tr>
 						</tbody>
 					</table>
@@ -156,7 +146,7 @@
 					<dependency>
 					  <groupId>org.thymeleaf</groupId>
 						<artifactId>thymeleaf</artifactId>
-						<version>3.0.15.RELEASE</version>
+						<version>3.1.0.RC2</version>
 					</dependency>
 				--></code></pre>				
 			</section>
@@ -172,7 +162,7 @@
 					In case you don't use a build tool such as Maven or Gradle, we also offer a 
 					complete distribution package containing binaries, source, javadoc and dependencies
 					in the form of a convenient <tt>.zip</tt> file, which you can download from
-					our <a href="https://github.com/thymeleaf/thymeleaf-dist/releases/" target="_blank"><strong>GitHub's</strong>
+					our <a href="https://github.com/thymeleaf/thymeleaf/releases/" target="_blank"><strong>GitHub's</strong>
 					releases distribution</a>.
 				</p>
 			</section>
@@ -185,60 +175,10 @@
 					</h2>
 				</header>
 
-				<p>Thymeleaf's source code is available on <a href="https://github.com/thymeleaf">GitHub</a>. Here are the main repositories:</p>
-
-				<div class="table-scroller">
-					<table>
-						<thead>
-							<tr>
-								<th>Module</th>
-								<th>Repository</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>Core library</td>
-								<td><a href="https://github.com/thymeleaf/thymeleaf">https://github.com/thymeleaf/thymeleaf</a></td>
-							</tr>
-							<tr>
-								<td>Spring integration</td>
-								<td><a href="https://github.com/thymeleaf/thymeleaf-spring">https://github.com/thymeleaf/thymeleaf-spring</a></td>
-							</tr>
-							<tr>
-								<td>Documentation</td>
-								<td><a href="https://github.com/thymeleaf/thymeleaf-docs">https://github.com/thymeleaf/thymeleaf-docs</a></td>
-							</tr>
-							<tr>
-								<td>Testing library</td>
-								<td><a href="https://github.com/thymeleaf/thymeleaf-testing">https://github.com/thymeleaf/thymeleaf-testing</a></td>
-							</tr>
-							<tr>
-								<td>Test suites</td>
-								<td><a href="https://github.com/thymeleaf/thymeleaf-tests">https://github.com/thymeleaf/thymeleaf-tests</a></td>
-							</tr>
-							<tr>
-								<td>Benchmarks</td>
-								<td><a href="https://github.com/thymeleaf/thymeleaf-benchmarks">https://github.com/thymeleaf/thymeleaf-benchmarks</a></td>
-							</tr>
-							<tr>
-								<td>Spring Security integration</td>
-								<td><a href="https://github.com/thymeleaf/thymeleaf-extras-springsecurity">https://github.com/thymeleaf/thymeleaf-extras-springsecurity</a></td>
-							</tr>
-							<tr>
-								<td>Java 8 Time API compatibility</td>
-								<td><a href="https://github.com/thymeleaf/thymeleaf-extras-java8time">https://github.com/thymeleaf/thymeleaf-extras-java8time</a></td>
-							</tr>
-							<tr>
-								<td>Tiles 2 integration</td>
-								<td><a href="https://github.com/thymeleaf/thymeleaf-extras-tiles2">https://github.com/thymeleaf/thymeleaf-extras-tiles2</a></td>
-							</tr>
-							<tr>
-								<td>IE Conditional Comments support</td>
-								<td><a href="https://github.com/thymeleaf/thymeleaf-extras-conditionalcomments">https://github.com/thymeleaf/thymeleaf-extras-conditionalcomments</a></td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
+				<p>
+					Thymeleaf's source code is available on GitHub at
+					<a href="https://github.com/thymeleaf/thymeleaf/">https://github.com/thymeleaf/thymeleaf</a>
+				</p>
 
 			</section>
 
@@ -252,7 +192,7 @@
 
 				<p>
 					If you need to use the Thymeleaf logo, you can just copy the one below, or have a look
-					<a href="https://github.com/thymeleaf/thymeleaf-dist/tree/master/src/artwork/thymeleaf%202016">here</a> and
+					<a href="https://github.com/thymeleaf/thymeleaf-org/tree/main/artwork/thymeleaf%202016">here</a> and
 					find several versions of it along with instructions on how to use it.
 				</p>
 				<img src="https://raw.githubusercontent.com/thymeleaf/thymeleaf-org/main/artwork/thymeleaf%202016/thymeleaf_logo_white.png"/>
