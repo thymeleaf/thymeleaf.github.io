@@ -71,7 +71,7 @@
 <p>Let’s have a quick look at each of the important new concepts and features this new version brings:</p>
 <section id="template-changes" class="level2">
 <h2>Template changes</h2>
-<p>The only change we <em>recommend</em> doing to your templates is removing any <code>th:inline=&quot;text&quot;</code> attributes you might have, because they are not needed anymore in order to have output inlined expressions in HTML or XML templates. And it’s just a recommendation — templates will work anyway. But you will benefit from some extra processing performance if you remove those.</p>
+<p>The only change we <em>recommend</em> doing to your templates is removing any <code>th:inline="text"</code> attributes you might have, because they are not needed anymore in order to have output inlined expressions in HTML or XML templates. And it’s just a recommendation — templates will work anyway. But you will benefit from some extra processing performance if you remove those.</p>
 <p>See more information about this below in the <em>Improved inlining mechanism</em> section.</p>
 </section>
 <section id="configuration-changes" class="level2">
@@ -153,7 +153,7 @@ public class ThymeleafConfig extends WebMvcConfigurerAdapter implements Applicat
 <p>There are two <em>markup</em> template modes (<code>HTML</code> and <code>XML</code>), three <em>textual</em> template modes (<code>TEXT</code>, <code>JAVASCRIPT</code> and <code>CSS</code>) and a <em>no-op</em> template mode (<code>RAW</code>).</p>
 <p>The <code>HTML</code> template mode will admit any kind of HTML markup input, including <strong>HTML5</strong>, HTML 4 and XHTML. No markup validation of well-formedness check will be performed, and template markup code structure will be respected to the biggest possible extent in output.</p>
 <p>For a detailed explanation of the different template modes, please take a look at <a href="https://github.com/thymeleaf/thymeleaf/issues/391">Thymeleaf 3.0 Template Mode set</a>.</p>
-<p>You can see a simple example exercising the new template modes at <a href="https://github.com/jmiguelsamper/thymeleaf3-template-modes-example" class="uri">https://github.com/jmiguelsamper/thymeleaf3-template-modes-example</a></p>
+<p>You can see a simple example exercising the new template modes at <a href="https://github.com/jmiguelsamper/thymeleaf3-template-modes-example">https://github.com/jmiguelsamper/thymeleaf3-template-modes-example</a></p>
 <section id="textual-template-modes" class="level3">
 <h3>Textual template modes</h3>
 <p>The new textual template modes bring to Thymeleaf the ability to output <strong>CSS</strong>, <strong>Javascript</strong> and <strong>plain text</strong>. This is handy if you want to use the values of server-side variables in your CSS and Javascript files, or to generate plain text content as, for example, in e-mail composing.</p>
@@ -168,7 +168,7 @@ public class ThymeleafConfig extends WebMvcConfigurerAdapter implements Applicat
 <p>Sometimes it is handy to be able to output data without using extra tags or attributes, as in:</p>
 <pre class="html"><code>&lt;p&gt;This product is called [[${product.name}]] and it&#39;s great!&lt;/p&gt;</code></pre>
 <p>This capability, called <em>inlining</em>, has been greatly improved and is now much better supported in Thymeleaf 3. See <a href="https://github.com/thymeleaf/thymeleaf/issues/394">Inlined output expressions</a> for details.</p>
-<p>The existing inlining mechanism also matches the new template modes and, indeed, make innecesary the <code>th:inline=&quot;text&quot;</code> attribute because inlining now exists in <code>HTML</code> mode itself. Take a look at the discussion on <a href="https://github.com/thymeleaf/thymeleaf/issues/396">Refactoring of the inlining mechanism</a></p>
+<p>The existing inlining mechanism also matches the new template modes and, indeed, make innecesary the <code>th:inline="text"</code> attribute because inlining now exists in <code>HTML</code> mode itself. Take a look at the discussion on <a href="https://github.com/thymeleaf/thymeleaf/issues/396">Refactoring of the inlining mechanism</a></p>
 </section>
 </section>
 <section id="fragment-expressions" class="level2">

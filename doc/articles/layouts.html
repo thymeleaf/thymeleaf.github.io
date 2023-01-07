@@ -88,7 +88,7 @@
 </section>
 <section id="example-application" class="level2">
 <h2>Example Application</h2>
-<p>All the samples and code fragments presented in this article are available on GitHub at <a href="https://github.com/thymeleaf/thymeleafexamples-layouts" class="uri">https://github.com/thymeleaf/thymeleafexamples-layouts</a></p>
+<p>All the samples and code fragments presented in this article are available on GitHub at <a href="https://github.com/thymeleaf/thymeleafexamples-layouts">https://github.com/thymeleaf/thymeleafexamples-layouts</a></p>
 </section>
 <section id="thymeleaf-standard-layout-system" class="level2">
 <h2>Thymeleaf Standard Layout System</h2>
@@ -154,10 +154,10 @@ class HomeController {
 <figure>
 <img src="images/layouts/homeNotSignedIn.png" alt="Home page when not signed in" /><figcaption>Home page when not signed in</figcaption>
 </figure>
-<p>In the above example, we are building a page that consists of page header and page footer. In Thymeleaf all fragments can be defined in a single file (e.g. <code>fragments.html</code>) or in a separate files, like in this particular case.</p>
+<p>In the above example, we are building a page that consists of page header and page footer. In Thymeleaf all fragments can be defined in a single file (e.g. <code>fragments.html</code>) or in a separate files, like in this particular case.</p>
 <p>Let’s shortly analyze the inclusion statement:</p>
 <pre class="xml"><code>&lt;div th:replace=&quot;fragments/header :: header&quot;&gt;...&lt;/div&gt;</code></pre>
-<p>The first part of the statement, <code>fragments/header</code>, is a template name that we are referencing. This can be a file (like in this example) or it can reference to the same file either by using the <code>this</code> keyword (e.g. <code>this :: header</code>) or without any keyword (e.g. <code>:: header</code>). The expression after double colon is a fragment selector (either fragment name or <em>Markup Selector</em>). As you can also see, the header fragment contains a markup that is used for static prototyping only.</p>
+<p>The first part of the statement, <code>fragments/header</code>, is a template name that we are referencing. This can be a file (like in this example) or it can reference to the same file either by using the <code>this</code> keyword (e.g. <code>this :: header</code>) or without any keyword (e.g. <code>:: header</code>). The expression after double colon is a fragment selector (either fragment name or <em>Markup Selector</em>). As you can also see, the header fragment contains a markup that is used for static prototyping only.</p>
 <p>Header and footer are defined in the following files:</p>
 <p>Template <code>fragments/header.html</code></p>
 <pre class="xml"><code>&lt;!DOCTYPE html&gt;
@@ -226,7 +226,7 @@ class HomeController {
 <h3>Including with Markup Selectors</h3>
 <p>In Thymeleaf, fragments don’t need to be explicitly specified using <code>th:fragment</code> at the page they are extracted from. Thymeleaf can select an arbitrary section of a page as a fragment (even a page living on an external server) by means of its Markup Selector syntax, similar to XPath expressions, CSS or jQuery selectors.</p>
 <pre class="xml"><code>&lt;div th:insert=&quot;https://www.thymeleaf.org :: section.description&quot; &gt;...&lt;/div&gt;</code></pre>
-<p>The above code will include a <code>section</code> with <code>class=&quot;description&quot;</code> from <code>thymeleaf.org</code>.</p>
+<p>The above code will include a <code>section</code> with <code>class="description"</code> from <code>thymeleaf.org</code>.</p>
 <p>In order to make it happen, the template engine must be configured with <code>UrlTemplateResolver</code>:</p>
 <pre class="java"><code>@Bean
 public SpringTemplateEngine templateEngine() {
@@ -463,7 +463,7 @@ public SpringTemplateEngine templateEngine() {
 <figure>
 <img src="images/layouts/layoutlayoutdialect.png" alt="Layout page" /><figcaption>Layout page</figcaption>
 </figure>
-<p>The above file is our decorator for content pages we will be creating in the application. The most important thing about the above example is <code>layout:fragment=&quot;content&quot;</code>. This is the <em>heart</em> of the decorator page (layout). You can also notice, that header and footer are included using Standard Thymeleaf Layout System.</p>
+<p>The above file is our decorator for content pages we will be creating in the application. The most important thing about the above example is <code>layout:fragment="content"</code>. This is the <em>heart</em> of the decorator page (layout). You can also notice, that header and footer are included using Standard Thymeleaf Layout System.</p>
 <p>The content page looks as follows (<code>WEB-INF/views/task/list.html</code>):</p>
 <pre class="xml"><code>&lt;!DOCTYPE html&gt;
 &lt;html layout:decorate=&quot;~{task/layout}&quot;&gt;
@@ -502,7 +502,7 @@ public SpringTemplateEngine templateEngine() {
 <figure>
 <img src="images/layouts/layoutlayoutdialectlist.png" alt="Layout page" /><figcaption>Layout page</figcaption>
 </figure>
-<p>Content of this <code>task/list</code> view will be decorated by the elements of <code>task/layout</code> view. Please note <code>layout:decorate=&quot;~{task/layout}&quot;</code> attribute in <code>&lt;html&gt;</code> element. This attribute signals to the Layout Dialect which layout should be used to decorate given view. And please note it is using Thymeleaf Fragment Expression syntax.</p>
+<p>Content of this <code>task/list</code> view will be decorated by the elements of <code>task/layout</code> view. Please note <code>layout:decorate="~{task/layout}"</code> attribute in <code>&lt;html&gt;</code> element. This attribute signals to the Layout Dialect which layout should be used to decorate given view. And please note it is using Thymeleaf Fragment Expression syntax.</p>
 <p>And what about <em>Natural Templates</em> using the Layout Dialect? Again, possible! You simply need to add some prototyping-only markup around the fragments being included in your templates and that’s it!</p>
 </section>
 <section id="include-style-approach-with-layout-dialect" class="level3">
@@ -584,7 +584,7 @@ public SpringTemplateEngine templateEngine() {
 <ul>
 <li>Controllers return view names, that translate to single Thymeleaf view file (1)</li>
 <li>Before rendering the view, the original <code>viewName</code> attribute in <code>ModelAndView</code> object is replaced with with the name of the layout view and the original <code>viewName</code> becomes an attribute in <code>ModelAndView</code>.</li>
-<li>The layout view (2) contains several include elements: <code>&lt;div th:replace=&quot;${view} :: content&quot;&gt;Page Content&lt;/div&gt;</code></li>
+<li>The layout view (2) contains several include elements: <code>&lt;div th:replace="${view} :: content"&gt;Page Content&lt;/div&gt;</code></li>
 <li>The actual view file contains fragments, <em>pulled</em> by the template which embeds the actual view</li>
 </ul>
 <p>The project can be found on <a href="https://github.com/kolorobot/thymeleaf-custom-layout">GitHub</a>.</p>
