@@ -1,0 +1,17 @@
+org.thymeleaf.spring6
+org.thymeleaf.spring6.context
+org.thymeleaf.spring6.context.webflux
+org.thymeleaf.spring6.context.webmvc
+org.thymeleaf.spring6.dialect
+org.thymeleaf.spring6.expression
+org.thymeleaf.spring6.messageresolver
+org.thymeleaf.spring6.naming
+org.thymeleaf.spring6.processor
+org.thymeleaf.spring6.requestdata
+org.thymeleaf.spring6.templateresolver
+org.thymeleaf.spring6.templateresource
+org.thymeleaf.spring6.util
+org.thymeleaf.spring6.view
+org.thymeleaf.spring6.view.reactive
+org.thymeleaf.spring6.web.webflux
+org.thymeleaf.spring6.webflow.view
