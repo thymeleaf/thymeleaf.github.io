@@ -37,35 +37,41 @@
 		</div>
 		<nav id="toc">
 			<ul>
-<li><a href="#some-reasons-to-extend-thymeleaf">1 Some Reasons to Extend Thymeleaf</a></li>
-<li><a href="#dialects-and-processors">2 Dialects and Processors</a><ul>
-<li><a href="#dialects">2.1. Dialects</a><ul>
-<li><a href="#processor-dialects-iprocessordialect">Processor dialects: <code>IProcessorDialect</code></a></li>
-<li><a href="#pre-processor-dialects-ipreprocessordialect">Pre-processor dialects: <code>IPreProcessorDialect</code></a></li>
-<li><a href="#post-processor-dialects-ipostprocessordialect">Post-processor dialects: <code>IPostProcessorDialect</code></a></li>
-<li><a href="#expression-object-dialects-iexpressionobjectdialect">Expression Object dialects: <code>IExpressionObjectDialect</code></a></li>
-<li><a href="#execution-attribute-dialects-iexecutionattributedialect">Execution Attribute dialects: <code>IExecutionAttributeDialect</code></a></li>
+<li><a href="#some-reasons-to-extend-thymeleaf" id="toc-some-reasons-to-extend-thymeleaf">1 Some Reasons to Extend Thymeleaf</a></li>
+<li><a href="#dialects-and-processors" id="toc-dialects-and-processors">2 Dialects and Processors</a>
+<ul>
+<li><a href="#dialects" id="toc-dialects">2.1. Dialects</a>
+<ul>
+<li><a href="#processor-dialects-iprocessordialect" id="toc-processor-dialects-iprocessordialect">Processor dialects: <code>IProcessorDialect</code></a></li>
+<li><a href="#pre-processor-dialects-ipreprocessordialect" id="toc-pre-processor-dialects-ipreprocessordialect">Pre-processor dialects: <code>IPreProcessorDialect</code></a></li>
+<li><a href="#post-processor-dialects-ipostprocessordialect" id="toc-post-processor-dialects-ipostprocessordialect">Post-processor dialects: <code>IPostProcessorDialect</code></a></li>
+<li><a href="#expression-object-dialects-iexpressionobjectdialect" id="toc-expression-object-dialects-iexpressionobjectdialect">Expression Object dialects: <code>IExpressionObjectDialect</code></a></li>
+<li><a href="#execution-attribute-dialects-iexecutionattributedialect" id="toc-execution-attribute-dialects-iexecutionattributedialect">Execution Attribute dialects: <code>IExecutionAttributeDialect</code></a></li>
 </ul></li>
-<li><a href="#processors">2.2. Processors</a><ul>
-<li><a href="#element-processors">Element Processors</a></li>
-<li><a href="#element-tag-processors-ielementtagprocessor">Element Tag Processors: <code>IElementTagProcessor</code></a></li>
-<li><a href="#element-model-processors-ielementmodelprocessor">Element Model Processors: <code>IElementModelProcessor</code></a></li>
-<li><a href="#template-startend-processors-itemplateboundariesprocessor">Template start/end Processors: <code>ITemplateBoundariesProcessor</code></a></li>
-<li><a href="#other-processors">Other processors</a></li>
+<li><a href="#processors" id="toc-processors">2.2. Processors</a>
+<ul>
+<li><a href="#element-processors" id="toc-element-processors">Element Processors</a></li>
+<li><a href="#element-tag-processors-ielementtagprocessor" id="toc-element-tag-processors-ielementtagprocessor">Element Tag Processors: <code>IElementTagProcessor</code></a></li>
+<li><a href="#element-model-processors-ielementmodelprocessor" id="toc-element-model-processors-ielementmodelprocessor">Element Model Processors: <code>IElementModelProcessor</code></a></li>
+<li><a href="#template-startend-processors-itemplateboundariesprocessor" id="toc-template-startend-processors-itemplateboundariesprocessor">Template start/end Processors: <code>ITemplateBoundariesProcessor</code></a></li>
+<li><a href="#other-processors" id="toc-other-processors">Other processors</a></li>
 </ul></li>
 </ul></li>
-<li><a href="#creating-our-own-dialect">3 Creating our own Dialect</a><ul>
-<li><a href="#extrathyme-a-website-for-thymelands-football-league">3.1. extraThyme: a website for Thymeland’s football league</a></li>
-<li><a href="#changing-the-css-class-by-team-position">3.2. Changing the CSS class by team position</a></li>
-<li><a href="#displaying-an-internationalized-remark">3.3. Displaying an internationalized remark</a><ul>
-<li><a href="#accessing-i18n-messages">Accessing i18n messages</a></li>
-<li><a href="#html-escaping-content">HTML-escaping content</a></li>
+<li><a href="#creating-our-own-dialect" id="toc-creating-our-own-dialect">3 Creating our own Dialect</a>
+<ul>
+<li><a href="#extrathyme-a-website-for-thymelands-football-league" id="toc-extrathyme-a-website-for-thymelands-football-league">3.1. extraThyme: a website for Thymeland’s football league</a></li>
+<li><a href="#changing-the-css-class-by-team-position" id="toc-changing-the-css-class-by-team-position">3.2. Changing the CSS class by team position</a></li>
+<li><a href="#displaying-an-internationalized-remark" id="toc-displaying-an-internationalized-remark">3.3. Displaying an internationalized remark</a>
+<ul>
+<li><a href="#accessing-i18n-messages" id="toc-accessing-i18n-messages">Accessing i18n messages</a></li>
+<li><a href="#html-escaping-content" id="toc-html-escaping-content">HTML-escaping content</a></li>
 </ul></li>
-<li><a href="#an-element-processor-for-our-headlines">3.4. An element processor for our headlines</a><ul>
-<li><a href="#the-model-factory">The Model Factory</a></li>
+<li><a href="#an-element-processor-for-our-headlines" id="toc-an-element-processor-for-our-headlines">3.4. An element processor for our headlines</a>
+<ul>
+<li><a href="#the-model-factory" id="toc-the-model-factory">The Model Factory</a></li>
 </ul></li>
-<li><a href="#a-model-processor-for-our-match-day-today-banner">3.5. A model processor for our “Match Day Today” banner</a></li>
-<li><a href="#declaring-it-all-the-dialect">3.6. Declaring it all: the Dialect</a></li>
+<li><a href="#a-model-processor-for-our-match-day-today-banner" id="toc-a-model-processor-for-our-match-day-today-banner">3.5. A model processor for our “Match Day Today” banner</a></li>
+<li><a href="#declaring-it-all-the-dialect" id="toc-declaring-it-all-the-dialect">3.6. Declaring it all: the Dialect</a></li>
 </ul></li>
 </ul>
 		</nav>
@@ -499,7 +505,7 @@ while (n-- != 0) {
 </ul>
 <section id="extrathyme-a-website-for-thymelands-football-league" class="level2">
 <h2>3.1. extraThyme: a website for Thymeland’s football league</h2>
-<p>Football is a popular sport in Thymeland<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>. There is a 10-team league going on there each season, and its organizers have just asked us to create a website for it called “extraThyme”.</p>
+<p>Football is a popular sport in Thymeland<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. There is a 10-team league going on there each season, and its organizers have just asked us to create a website for it called “extraThyme”.</p>
 <p>This website will be very simple: just a table with:</p>
 <ul>
 <li>The team names.</li>
@@ -508,7 +514,8 @@ while (n-- != 0) {
 </ul>
 <p>Above the league table, a banner will be displaying headlines with the results of recent matches, and also there will be a clearly visible banner that warns users every Sunday that Sundays are match days, and therefore they should be going to the stadium instead of browsing the internet.</p>
 <figure>
-<img src="images/extendingthymeleaf/extrathyme-league-table.png" alt="extraThyme league table" /><figcaption>extraThyme league table</figcaption>
+<img src="images/extendingthymeleaf/extrathyme-league-table.png" alt="extraThyme league table" />
+<figcaption aria-hidden="true">extraThyme league table</figcaption>
 </figure>
 <p>We will use HTML5, Spring MVC and the SpringStandard dialect for our application, and we will be extending Thymeleaf by creating a <code>score</code> dialect that includes:</p>
 <ul>
@@ -1078,12 +1085,12 @@ public SpringTemplateEngine templateEngine(){
 <p>And that’s it! Our dialect is ready to run now, and our league table will display in exactly the way we wanted.</p>
 </section>
 </section>
-<section class="footnotes">
+<aside id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr />
 <ol>
-<li id="fn1"><p>European football, of course ;-)<a href="#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn1"><p>European football, of course ;-)<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
-</section>
+</aside>
 		</div>
 
 	</div>

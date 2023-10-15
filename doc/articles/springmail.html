@@ -41,7 +41,6 @@
 					<li><a href="../../faq.html" class="toolbar-link">FAQ</a></li>
 				</ul>
 				<ul id="site-nav-links" class="toolbar-links">
-					<li><a href="http://forum.thymeleaf.org/" class="toolbar-link">Forum</a></li>
 					<li><a href="https://twitter.com/thymeleaf" class="toolbar-link">Twitter</a></li>
 					<li><a href="https://github.com/thymeleaf" class="toolbar-link">GitHub</a></li>
 				</ul>
@@ -274,7 +273,8 @@ final String htmlContent = this.templateEngine.process(&quot;html/email-inlineim
 <li>The former template is fully WYSIWYG; you can check how it looks just by opening it with your browser. That’s much better than sending an email to see the result, isn’t it?</li>
 </ul>
 <figure>
-<img src="images/springmail/inline.png" alt="Image inlined in email" /><figcaption>Image inlined in email</figcaption>
+<img src="images/springmail/inline.png" alt="Image inlined in email" />
+<figcaption aria-hidden="true">Image inlined in email</figcaption>
 </figure>
 <ul>
 <li>We can use all Thymeleaf features. Here for example we have used i18n with a parameterized <code>#{...}</code> expression, <code>th:each</code> to iterate over a list, <code>#dates</code> to format a date…</li>

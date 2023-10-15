@@ -37,181 +37,215 @@
 		</div>
 		<nav id="toc">
 			<ul>
-<li><a href="#introducing-thymeleaf">1 Introducing Thymeleaf</a><ul>
-<li><a href="#what-is-thymeleaf">1.1 What is Thymeleaf?</a></li>
-<li><a href="#what-kind-of-templates-can-thymeleaf-process">1.2 What kind of templates can Thymeleaf process?</a></li>
-<li><a href="#dialects-the-standard-dialect">1.3 Dialects: The Standard Dialect</a></li>
+<li><a href="#introducing-thymeleaf" id="toc-introducing-thymeleaf">1 Introducing Thymeleaf</a>
+<ul>
+<li><a href="#what-is-thymeleaf" id="toc-what-is-thymeleaf">1.1 What is Thymeleaf?</a></li>
+<li><a href="#what-kind-of-templates-can-thymeleaf-process" id="toc-what-kind-of-templates-can-thymeleaf-process">1.2 What kind of templates can Thymeleaf process?</a></li>
+<li><a href="#dialects-the-standard-dialect" id="toc-dialects-the-standard-dialect">1.3 Dialects: The Standard Dialect</a></li>
 </ul></li>
-<li><a href="#the-good-thymes-virtual-grocery">2 The Good Thymes Virtual Grocery</a><ul>
-<li><a href="#a-website-for-a-grocery">2.1 A website for a grocery</a></li>
-<li><a href="#creating-and-configuring-the-template-engine">2.2 Creating and configuring the Template Engine</a><ul>
-<li><a href="#the-template-resolver">The Template Resolver</a></li>
-<li><a href="#the-template-engine">The Template Engine</a></li>
-</ul></li>
-</ul></li>
-<li><a href="#using-texts">3 Using Texts</a><ul>
-<li><a href="#a-multi-language-welcome">3.1 A multi-language welcome</a><ul>
-<li><a href="#using-thtext-and-externalizing-text">Using th:text and externalizing text</a></li>
-<li><a href="#contexts">Contexts</a></li>
-<li><a href="#executing-the-template-engine">Executing the template engine</a></li>
-</ul></li>
-<li><a href="#more-on-texts-and-variables">3.2 More on texts and variables</a><ul>
-<li><a href="#unescaped-text">Unescaped Text</a></li>
-<li><a href="#using-and-displaying-variables">Using and displaying variables</a></li>
+<li><a href="#the-good-thymes-virtual-grocery" id="toc-the-good-thymes-virtual-grocery">2 The Good Thymes Virtual Grocery</a>
+<ul>
+<li><a href="#a-website-for-a-grocery" id="toc-a-website-for-a-grocery">2.1 A website for a grocery</a></li>
+<li><a href="#creating-and-configuring-the-template-engine" id="toc-creating-and-configuring-the-template-engine">2.2 Creating and configuring the Template Engine</a>
+<ul>
+<li><a href="#the-template-resolver" id="toc-the-template-resolver">The Template Resolver</a></li>
+<li><a href="#the-template-engine" id="toc-the-template-engine">The Template Engine</a></li>
 </ul></li>
 </ul></li>
-<li><a href="#standard-expression-syntax">4 Standard Expression Syntax</a><ul>
-<li><a href="#messages">4.1 Messages</a></li>
-<li><a href="#variables">4.2 Variables</a><ul>
-<li><a href="#expression-basic-objects">Expression Basic Objects</a></li>
-<li><a href="#expression-utility-objects">Expression Utility Objects</a></li>
-<li><a href="#reformatting-dates-in-our-home-page">Reformatting dates in our home page</a></li>
+<li><a href="#using-texts" id="toc-using-texts">3 Using Texts</a>
+<ul>
+<li><a href="#a-multi-language-welcome" id="toc-a-multi-language-welcome">3.1 A multi-language welcome</a>
+<ul>
+<li><a href="#using-thtext-and-externalizing-text" id="toc-using-thtext-and-externalizing-text">Using th:text and externalizing text</a></li>
+<li><a href="#contexts" id="toc-contexts">Contexts</a></li>
+<li><a href="#executing-the-template-engine" id="toc-executing-the-template-engine">Executing the template engine</a></li>
 </ul></li>
-<li><a href="#expressions-on-selections-asterisk-syntax">4.3 Expressions on selections (asterisk syntax)</a></li>
-<li><a href="#link-urls">4.4 Link URLs</a><ul>
-<li><a href="#a-menu-for-our-home-page">A menu for our home page</a></li>
-<li><a href="#server-root-relative-urls">Server root relative URLs</a></li>
-</ul></li>
-<li><a href="#fragments">4.5 Fragments</a></li>
-<li><a href="#literals">4.6 Literals</a><ul>
-<li><a href="#text-literals">Text literals</a></li>
-<li><a href="#number-literals">Number literals</a></li>
-<li><a href="#boolean-literals">Boolean literals</a></li>
-<li><a href="#the-null-literal">The null literal</a></li>
-<li><a href="#literal-tokens">Literal tokens</a></li>
-</ul></li>
-<li><a href="#appending-texts">4.7 Appending texts</a></li>
-<li><a href="#literal-substitutions">4.8 Literal substitutions</a></li>
-<li><a href="#arithmetic-operations">4.9 Arithmetic operations</a></li>
-<li><a href="#comparators-and-equality">4.10 Comparators and Equality</a></li>
-<li><a href="#conditional-expressions">4.11 Conditional expressions</a></li>
-<li><a href="#default-expressions-elvis-operator">4.12 Default expressions (Elvis operator)</a></li>
-<li><a href="#the-no-operation-token">4.13 The No-Operation token</a></li>
-<li><a href="#data-conversion-formatting">4.14 Data Conversion / Formatting</a></li>
-<li><a href="#preprocessing">4.15 Preprocessing</a></li>
-</ul></li>
-<li><a href="#setting-attribute-values">5 Setting Attribute Values</a><ul>
-<li><a href="#setting-the-value-of-any-attribute">5.1 Setting the value of any attribute</a></li>
-<li><a href="#setting-value-to-specific-attributes">5.2 Setting value to specific attributes</a></li>
-<li><a href="#setting-more-than-one-value-at-a-time">5.3 Setting more than one value at a time</a></li>
-<li><a href="#appending-and-prepending">5.4 Appending and prepending</a></li>
-<li><a href="#fixed-value-boolean-attributes">5.5 Fixed-value boolean attributes</a></li>
-<li><a href="#setting-the-value-of-any-attribute-default-attribute-processor">5.6 Setting the value of any attribute (default attribute processor)</a></li>
-<li><a href="#support-for-html5-friendly-attribute-and-element-names">5.7 Support for HTML5-friendly attribute and element names</a></li>
-</ul></li>
-<li><a href="#iteration">6 Iteration</a><ul>
-<li><a href="#iteration-basics">6.1 Iteration basics</a><ul>
-<li><a href="#using-theach">Using th:each</a></li>
-<li><a href="#iterable-values">Iterable values</a></li>
-</ul></li>
-<li><a href="#keeping-iteration-status">6.2 Keeping iteration status</a></li>
-<li><a href="#optimizing-through-lazy-retrieval-of-data">6.3 Optimizing through lazy retrieval of data</a></li>
-</ul></li>
-<li><a href="#conditional-evaluation">7 Conditional Evaluation</a><ul>
-<li><a href="#simple-conditionals-if-and-unless">7.1 Simple conditionals: “if” and “unless”</a></li>
-<li><a href="#switch-statements">7.2 Switch statements</a></li>
-</ul></li>
-<li><a href="#template-layout">8 Template Layout</a><ul>
-<li><a href="#including-template-fragments">8.1 Including template fragments</a><ul>
-<li><a href="#defining-and-referencing-fragments">Defining and referencing fragments</a></li>
-<li><a href="#fragment-specification-syntax">Fragment specification syntax</a></li>
-<li><a href="#referencing-fragments-without-thfragment">Referencing fragments without <code>th:fragment</code></a></li>
-<li><a href="#difference-between-thinsert-and-threplace">Difference between <code>th:insert</code> and <code>th:replace</code></a></li>
-</ul></li>
-<li><a href="#parameterizable-fragment-signatures">8.2 Parameterizable fragment signatures</a><ul>
-<li><a href="#fragment-local-variables-without-fragment-arguments">Fragment local variables without fragment arguments</a></li>
-<li><a href="#thassert-for-in-template-assertions">th:assert for in-template assertions</a></li>
-</ul></li>
-<li><a href="#flexible-layouts-beyond-mere-fragment-insertion">8.3 Flexible layouts: beyond mere fragment insertion</a><ul>
-<li><a href="#using-the-empty-fragment">Using the empty fragment</a></li>
-<li><a href="#using-the-no-operation-token">Using the no-operation token</a></li>
-<li><a href="#advanced-conditional-insertion-of-fragments">Advanced conditional insertion of fragments</a></li>
-</ul></li>
-<li><a href="#removing-template-fragments">8.4 Removing template fragments</a></li>
-<li><a href="#layout-inheritance">8.5 Layout Inheritance</a></li>
-</ul></li>
-<li><a href="#local-variables">9 Local Variables</a></li>
-<li><a href="#attribute-precedence">10 Attribute Precedence</a></li>
-<li><a href="#comments-and-blocks">11 Comments and Blocks</a><ul>
-<li><a href="#standard-htmlxml-comments">11.1. Standard HTML/XML comments</a></li>
-<li><a href="#thymeleaf-parser-level-comment-blocks">11.2. Thymeleaf parser-level comment blocks</a></li>
-<li><a href="#thymeleaf-prototype-only-comment-blocks">11.3. Thymeleaf prototype-only comment blocks</a></li>
-<li><a href="#synthetic-thblock-tag">11.4. Synthetic <code>th:block</code> tag</a></li>
-</ul></li>
-<li><a href="#inlining">12 Inlining</a><ul>
-<li><a href="#expression-inlining">12.1 Expression inlining</a><ul>
-<li><a href="#inlining-vs-natural-templates">Inlining vs natural templates</a></li>
-<li><a href="#disabling-inlining">Disabling inlining</a></li>
-</ul></li>
-<li><a href="#text-inlining">12.2 Text inlining</a></li>
-<li><a href="#javascript-inlining">12.3 JavaScript inlining</a><ul>
-<li><a href="#javascript-natural-templates">JavaScript natural templates</a></li>
-<li><a href="#advanced-inlined-evaluation-and-javascript-serialization">Advanced inlined evaluation and JavaScript serialization</a></li>
-</ul></li>
-<li><a href="#css-inlining">12.4 CSS inlining</a><ul>
-<li><a href="#advanced-features-css-natural-templates-etc.">Advanced features: CSS natural templates, etc.</a></li>
+<li><a href="#more-on-texts-and-variables" id="toc-more-on-texts-and-variables">3.2 More on texts and variables</a>
+<ul>
+<li><a href="#unescaped-text" id="toc-unescaped-text">Unescaped Text</a></li>
+<li><a href="#using-and-displaying-variables" id="toc-using-and-displaying-variables">Using and displaying variables</a></li>
 </ul></li>
 </ul></li>
-<li><a href="#textual-template-modes">13 Textual template modes</a><ul>
-<li><a href="#textual-syntax">13.1 Textual syntax</a><ul>
-<li><a href="#escaped-element-attributes">Escaped element attributes</a></li>
+<li><a href="#standard-expression-syntax" id="toc-standard-expression-syntax">4 Standard Expression Syntax</a>
+<ul>
+<li><a href="#messages" id="toc-messages">4.1 Messages</a></li>
+<li><a href="#variables" id="toc-variables">4.2 Variables</a>
+<ul>
+<li><a href="#expression-basic-objects" id="toc-expression-basic-objects">Expression Basic Objects</a></li>
+<li><a href="#expression-utility-objects" id="toc-expression-utility-objects">Expression Utility Objects</a></li>
+<li><a href="#reformatting-dates-in-our-home-page" id="toc-reformatting-dates-in-our-home-page">Reformatting dates in our home page</a></li>
 </ul></li>
-<li><a href="#extensibility">13.2 Extensibility</a></li>
-<li><a href="#textual-prototype-only-comment-blocks-adding-code">13.3 Textual prototype-only comment blocks: adding code</a></li>
-<li><a href="#textual-parser-level-comment-blocks-removing-code">13.4 Textual parser-level comment blocks: removing code</a></li>
-<li><a href="#natural-javascript-and-css-templates">13.5 Natural JavaScript and CSS templates</a></li>
+<li><a href="#expressions-on-selections-asterisk-syntax" id="toc-expressions-on-selections-asterisk-syntax">4.3 Expressions on selections (asterisk syntax)</a></li>
+<li><a href="#link-urls" id="toc-link-urls">4.4 Link URLs</a>
+<ul>
+<li><a href="#a-menu-for-our-home-page" id="toc-a-menu-for-our-home-page">A menu for our home page</a></li>
+<li><a href="#server-root-relative-urls" id="toc-server-root-relative-urls">Server root relative URLs</a></li>
 </ul></li>
-<li><a href="#some-more-pages-for-our-grocery">14 Some more pages for our grocery</a><ul>
-<li><a href="#order-list">14.1 Order List</a></li>
-<li><a href="#order-details">14.2 Order Details</a></li>
+<li><a href="#fragments" id="toc-fragments">4.5 Fragments</a></li>
+<li><a href="#literals" id="toc-literals">4.6 Literals</a>
+<ul>
+<li><a href="#text-literals" id="toc-text-literals">Text literals</a></li>
+<li><a href="#number-literals" id="toc-number-literals">Number literals</a></li>
+<li><a href="#boolean-literals" id="toc-boolean-literals">Boolean literals</a></li>
+<li><a href="#the-null-literal" id="toc-the-null-literal">The null literal</a></li>
+<li><a href="#literal-tokens" id="toc-literal-tokens">Literal tokens</a></li>
 </ul></li>
-<li><a href="#more-on-configuration">15 More on Configuration</a><ul>
-<li><a href="#template-resolvers">15.1 Template Resolvers</a><ul>
-<li><a href="#chaining-template-resolvers">Chaining Template Resolvers</a></li>
+<li><a href="#appending-texts" id="toc-appending-texts">4.7 Appending texts</a></li>
+<li><a href="#literal-substitutions" id="toc-literal-substitutions">4.8 Literal substitutions</a></li>
+<li><a href="#arithmetic-operations" id="toc-arithmetic-operations">4.9 Arithmetic operations</a></li>
+<li><a href="#comparators-and-equality" id="toc-comparators-and-equality">4.10 Comparators and Equality</a></li>
+<li><a href="#conditional-expressions" id="toc-conditional-expressions">4.11 Conditional expressions</a></li>
+<li><a href="#default-expressions-elvis-operator" id="toc-default-expressions-elvis-operator">4.12 Default expressions (Elvis operator)</a></li>
+<li><a href="#the-no-operation-token" id="toc-the-no-operation-token">4.13 The No-Operation token</a></li>
+<li><a href="#data-conversion-formatting" id="toc-data-conversion-formatting">4.14 Data Conversion / Formatting</a></li>
+<li><a href="#preprocessing" id="toc-preprocessing">4.15 Preprocessing</a></li>
 </ul></li>
-<li><a href="#message-resolvers">15.2 Message Resolvers</a><ul>
-<li><a href="#standard-message-resolver">Standard Message Resolver</a></li>
-<li><a href="#configuring-message-resolvers">Configuring message resolvers</a></li>
+<li><a href="#setting-attribute-values" id="toc-setting-attribute-values">5 Setting Attribute Values</a>
+<ul>
+<li><a href="#setting-the-value-of-any-attribute" id="toc-setting-the-value-of-any-attribute">5.1 Setting the value of any attribute</a></li>
+<li><a href="#setting-value-to-specific-attributes" id="toc-setting-value-to-specific-attributes">5.2 Setting value to specific attributes</a></li>
+<li><a href="#setting-more-than-one-value-at-a-time" id="toc-setting-more-than-one-value-at-a-time">5.3 Setting more than one value at a time</a></li>
+<li><a href="#appending-and-prepending" id="toc-appending-and-prepending">5.4 Appending and prepending</a></li>
+<li><a href="#fixed-value-boolean-attributes" id="toc-fixed-value-boolean-attributes">5.5 Fixed-value boolean attributes</a></li>
+<li><a href="#setting-the-value-of-any-attribute-default-attribute-processor" id="toc-setting-the-value-of-any-attribute-default-attribute-processor">5.6 Setting the value of any attribute (default attribute processor)</a></li>
+<li><a href="#support-for-html5-friendly-attribute-and-element-names" id="toc-support-for-html5-friendly-attribute-and-element-names">5.7 Support for HTML5-friendly attribute and element names</a></li>
 </ul></li>
-<li><a href="#conversion-services">15.3 Conversion Services</a></li>
-<li><a href="#logging">15.4 Logging</a></li>
+<li><a href="#iteration" id="toc-iteration">6 Iteration</a>
+<ul>
+<li><a href="#iteration-basics" id="toc-iteration-basics">6.1 Iteration basics</a>
+<ul>
+<li><a href="#using-theach" id="toc-using-theach">Using th:each</a></li>
+<li><a href="#iterable-values" id="toc-iterable-values">Iterable values</a></li>
 </ul></li>
-<li><a href="#template-cache">16 Template Cache</a></li>
-<li><a href="#decoupled-template-logic">17 Decoupled Template Logic</a><ul>
-<li><a href="#decoupled-logic-the-concept">17.1 Decoupled logic: The concept</a></li>
-<li><a href="#configuring-decoupled-templates">17.2 Configuring decoupled templates</a><ul>
-<li><a href="#enabling-decoupled-templates">Enabling decoupled templates</a></li>
-<li><a href="#mixing-coupled-and-decoupled-logic">Mixing coupled and decoupled logic</a></li>
+<li><a href="#keeping-iteration-status" id="toc-keeping-iteration-status">6.2 Keeping iteration status</a></li>
+<li><a href="#optimizing-through-lazy-retrieval-of-data" id="toc-optimizing-through-lazy-retrieval-of-data">6.3 Optimizing through lazy retrieval of data</a></li>
 </ul></li>
-<li><a href="#the-thref-attribute">17.3 The th:ref attribute</a></li>
-<li><a href="#performance-impact-of-decoupled-templates">17.4 Performance impact of decoupled templates</a></li>
-<li><a href="#resolution-of-decoupled-logic">17.5 Resolution of decoupled logic</a></li>
+<li><a href="#conditional-evaluation" id="toc-conditional-evaluation">7 Conditional Evaluation</a>
+<ul>
+<li><a href="#simple-conditionals-if-and-unless" id="toc-simple-conditionals-if-and-unless">7.1 Simple conditionals: “if” and “unless”</a></li>
+<li><a href="#switch-statements" id="toc-switch-statements">7.2 Switch statements</a></li>
 </ul></li>
-<li><a href="#appendix-a-expression-basic-objects">18 Appendix A: Expression Basic Objects</a><ul>
-<li><a href="#base-objects">Base objects</a></li>
-<li><a href="#web-context-namespaces-for-requestsession-attributes-etc.">Web context namespaces for request/session attributes, etc.</a></li>
+<li><a href="#template-layout" id="toc-template-layout">8 Template Layout</a>
+<ul>
+<li><a href="#including-template-fragments" id="toc-including-template-fragments">8.1 Including template fragments</a>
+<ul>
+<li><a href="#defining-and-referencing-fragments" id="toc-defining-and-referencing-fragments">Defining and referencing fragments</a></li>
+<li><a href="#fragment-specification-syntax" id="toc-fragment-specification-syntax">Fragment specification syntax</a></li>
+<li><a href="#referencing-fragments-without-thfragment" id="toc-referencing-fragments-without-thfragment">Referencing fragments without <code>th:fragment</code></a></li>
+<li><a href="#difference-between-thinsert-and-threplace" id="toc-difference-between-thinsert-and-threplace">Difference between <code>th:insert</code> and <code>th:replace</code></a></li>
 </ul></li>
-<li><a href="#appendix-b-expression-utility-objects">19 Appendix B: Expression Utility Objects</a><ul>
-<li><a href="#execution-info">Execution Info</a></li>
-<li><a href="#messages-1">Messages</a></li>
-<li><a href="#urisurls">URIs/URLs</a></li>
-<li><a href="#conversions">Conversions</a></li>
-<li><a href="#dates">Dates</a></li>
-<li><a href="#calendars">Calendars</a></li>
-<li><a href="#temporals-java.time">Temporals (java.time)</a></li>
-<li><a href="#numbers">Numbers</a></li>
-<li><a href="#strings">Strings</a></li>
-<li><a href="#objects">Objects</a></li>
-<li><a href="#booleans">Booleans</a></li>
-<li><a href="#arrays">Arrays</a></li>
-<li><a href="#lists">Lists</a></li>
-<li><a href="#sets">Sets</a></li>
-<li><a href="#maps">Maps</a></li>
-<li><a href="#aggregates">Aggregates</a></li>
-<li><a href="#ids">IDs</a></li>
+<li><a href="#parameterizable-fragment-signatures" id="toc-parameterizable-fragment-signatures">8.2 Parameterizable fragment signatures</a>
+<ul>
+<li><a href="#fragment-local-variables-without-fragment-arguments" id="toc-fragment-local-variables-without-fragment-arguments">Fragment local variables without fragment arguments</a></li>
+<li><a href="#thassert-for-in-template-assertions" id="toc-thassert-for-in-template-assertions">th:assert for in-template assertions</a></li>
 </ul></li>
-<li><a href="#appendix-c-markup-selector-syntax">20 Appendix C: Markup Selector Syntax</a><ul>
-<li><a href="#multivalued-class-matching">Multivalued class matching</a></li>
+<li><a href="#flexible-layouts-beyond-mere-fragment-insertion" id="toc-flexible-layouts-beyond-mere-fragment-insertion">8.3 Flexible layouts: beyond mere fragment insertion</a>
+<ul>
+<li><a href="#using-the-empty-fragment" id="toc-using-the-empty-fragment">Using the empty fragment</a></li>
+<li><a href="#using-the-no-operation-token" id="toc-using-the-no-operation-token">Using the no-operation token</a></li>
+<li><a href="#advanced-conditional-insertion-of-fragments" id="toc-advanced-conditional-insertion-of-fragments">Advanced conditional insertion of fragments</a></li>
+</ul></li>
+<li><a href="#removing-template-fragments" id="toc-removing-template-fragments">8.4 Removing template fragments</a></li>
+<li><a href="#layout-inheritance" id="toc-layout-inheritance">8.5 Layout Inheritance</a></li>
+</ul></li>
+<li><a href="#local-variables" id="toc-local-variables">9 Local Variables</a></li>
+<li><a href="#attribute-precedence" id="toc-attribute-precedence">10 Attribute Precedence</a></li>
+<li><a href="#comments-and-blocks" id="toc-comments-and-blocks">11 Comments and Blocks</a>
+<ul>
+<li><a href="#standard-htmlxml-comments" id="toc-standard-htmlxml-comments">11.1. Standard HTML/XML comments</a></li>
+<li><a href="#thymeleaf-parser-level-comment-blocks" id="toc-thymeleaf-parser-level-comment-blocks">11.2. Thymeleaf parser-level comment blocks</a></li>
+<li><a href="#thymeleaf-prototype-only-comment-blocks" id="toc-thymeleaf-prototype-only-comment-blocks">11.3. Thymeleaf prototype-only comment blocks</a></li>
+<li><a href="#synthetic-thblock-tag" id="toc-synthetic-thblock-tag">11.4. Synthetic <code>th:block</code> tag</a></li>
+</ul></li>
+<li><a href="#inlining" id="toc-inlining">12 Inlining</a>
+<ul>
+<li><a href="#expression-inlining" id="toc-expression-inlining">12.1 Expression inlining</a>
+<ul>
+<li><a href="#inlining-vs-natural-templates" id="toc-inlining-vs-natural-templates">Inlining vs natural templates</a></li>
+<li><a href="#disabling-inlining" id="toc-disabling-inlining">Disabling inlining</a></li>
+</ul></li>
+<li><a href="#text-inlining" id="toc-text-inlining">12.2 Text inlining</a></li>
+<li><a href="#javascript-inlining" id="toc-javascript-inlining">12.3 JavaScript inlining</a>
+<ul>
+<li><a href="#javascript-natural-templates" id="toc-javascript-natural-templates">JavaScript natural templates</a></li>
+<li><a href="#advanced-inlined-evaluation-and-javascript-serialization" id="toc-advanced-inlined-evaluation-and-javascript-serialization">Advanced inlined evaluation and JavaScript serialization</a></li>
+</ul></li>
+<li><a href="#css-inlining" id="toc-css-inlining">12.4 CSS inlining</a>
+<ul>
+<li><a href="#advanced-features-css-natural-templates-etc." id="toc-advanced-features-css-natural-templates-etc.">Advanced features: CSS natural templates, etc.</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#textual-template-modes" id="toc-textual-template-modes">13 Textual template modes</a>
+<ul>
+<li><a href="#textual-syntax" id="toc-textual-syntax">13.1 Textual syntax</a>
+<ul>
+<li><a href="#escaped-element-attributes" id="toc-escaped-element-attributes">Escaped element attributes</a></li>
+</ul></li>
+<li><a href="#extensibility" id="toc-extensibility">13.2 Extensibility</a></li>
+<li><a href="#textual-prototype-only-comment-blocks-adding-code" id="toc-textual-prototype-only-comment-blocks-adding-code">13.3 Textual prototype-only comment blocks: adding code</a></li>
+<li><a href="#textual-parser-level-comment-blocks-removing-code" id="toc-textual-parser-level-comment-blocks-removing-code">13.4 Textual parser-level comment blocks: removing code</a></li>
+<li><a href="#natural-javascript-and-css-templates" id="toc-natural-javascript-and-css-templates">13.5 Natural JavaScript and CSS templates</a></li>
+</ul></li>
+<li><a href="#some-more-pages-for-our-grocery" id="toc-some-more-pages-for-our-grocery">14 Some more pages for our grocery</a>
+<ul>
+<li><a href="#order-list" id="toc-order-list">14.1 Order List</a></li>
+<li><a href="#order-details" id="toc-order-details">14.2 Order Details</a></li>
+</ul></li>
+<li><a href="#more-on-configuration" id="toc-more-on-configuration">15 More on Configuration</a>
+<ul>
+<li><a href="#template-resolvers" id="toc-template-resolvers">15.1 Template Resolvers</a>
+<ul>
+<li><a href="#chaining-template-resolvers" id="toc-chaining-template-resolvers">Chaining Template Resolvers</a></li>
+</ul></li>
+<li><a href="#message-resolvers" id="toc-message-resolvers">15.2 Message Resolvers</a>
+<ul>
+<li><a href="#standard-message-resolver" id="toc-standard-message-resolver">Standard Message Resolver</a></li>
+<li><a href="#configuring-message-resolvers" id="toc-configuring-message-resolvers">Configuring message resolvers</a></li>
+</ul></li>
+<li><a href="#conversion-services" id="toc-conversion-services">15.3 Conversion Services</a></li>
+<li><a href="#logging" id="toc-logging">15.4 Logging</a></li>
+</ul></li>
+<li><a href="#template-cache" id="toc-template-cache">16 Template Cache</a></li>
+<li><a href="#decoupled-template-logic" id="toc-decoupled-template-logic">17 Decoupled Template Logic</a>
+<ul>
+<li><a href="#decoupled-logic-the-concept" id="toc-decoupled-logic-the-concept">17.1 Decoupled logic: The concept</a></li>
+<li><a href="#configuring-decoupled-templates" id="toc-configuring-decoupled-templates">17.2 Configuring decoupled templates</a>
+<ul>
+<li><a href="#enabling-decoupled-templates" id="toc-enabling-decoupled-templates">Enabling decoupled templates</a></li>
+<li><a href="#mixing-coupled-and-decoupled-logic" id="toc-mixing-coupled-and-decoupled-logic">Mixing coupled and decoupled logic</a></li>
+</ul></li>
+<li><a href="#the-thref-attribute" id="toc-the-thref-attribute">17.3 The th:ref attribute</a></li>
+<li><a href="#performance-impact-of-decoupled-templates" id="toc-performance-impact-of-decoupled-templates">17.4 Performance impact of decoupled templates</a></li>
+<li><a href="#resolution-of-decoupled-logic" id="toc-resolution-of-decoupled-logic">17.5 Resolution of decoupled logic</a></li>
+</ul></li>
+<li><a href="#appendix-a-expression-basic-objects" id="toc-appendix-a-expression-basic-objects">18 Appendix A: Expression Basic Objects</a>
+<ul>
+<li><a href="#base-objects" id="toc-base-objects">Base objects</a></li>
+<li><a href="#web-context-namespaces-for-requestsession-attributes-etc." id="toc-web-context-namespaces-for-requestsession-attributes-etc.">Web context namespaces for request/session attributes, etc.</a></li>
+</ul></li>
+<li><a href="#appendix-b-expression-utility-objects" id="toc-appendix-b-expression-utility-objects">19 Appendix B: Expression Utility Objects</a>
+<ul>
+<li><a href="#execution-info" id="toc-execution-info">Execution Info</a></li>
+<li><a href="#messages-1" id="toc-messages-1">Messages</a></li>
+<li><a href="#urisurls" id="toc-urisurls">URIs/URLs</a></li>
+<li><a href="#conversions" id="toc-conversions">Conversions</a></li>
+<li><a href="#dates" id="toc-dates">Dates</a></li>
+<li><a href="#calendars" id="toc-calendars">Calendars</a></li>
+<li><a href="#temporals-java.time" id="toc-temporals-java.time">Temporals (java.time)</a></li>
+<li><a href="#numbers" id="toc-numbers">Numbers</a></li>
+<li><a href="#strings" id="toc-strings">Strings</a></li>
+<li><a href="#objects" id="toc-objects">Objects</a></li>
+<li><a href="#booleans" id="toc-booleans">Booleans</a></li>
+<li><a href="#arrays" id="toc-arrays">Arrays</a></li>
+<li><a href="#lists" id="toc-lists">Lists</a></li>
+<li><a href="#sets" id="toc-sets">Sets</a></li>
+<li><a href="#maps" id="toc-maps">Maps</a></li>
+<li><a href="#aggregates" id="toc-aggregates">Aggregates</a></li>
+<li><a href="#ids" id="toc-ids">IDs</a></li>
+</ul></li>
+<li><a href="#appendix-c-markup-selector-syntax" id="toc-appendix-c-markup-selector-syntax">20 Appendix C: Markup Selector Syntax</a>
+<ul>
+<li><a href="#multivalued-class-matching" id="toc-multivalued-class-matching">Multivalued class matching</a></li>
 </ul></li>
 </ul>
 		</nav>
@@ -307,7 +341,8 @@
 <p>This application is the web site of an imaginary virtual grocery, and will provide us with many scenarios to showcase Thymeleaf’s many features.</p>
 <p>To start, we need a simple set of model entities for our application: <code>Products</code> which are sold to <code>Customers</code> by creating <code>Orders</code>. We will also be managing <code>Comments</code> about those <code>Products</code>:</p>
 <figure>
-<img src="images/usingthymeleaf/gtvg-model.png" alt="Example application model" /><figcaption>Example application model</figcaption>
+<img src="images/usingthymeleaf/gtvg-model.png" alt="Example application model" />
+<figcaption aria-hidden="true">Example application model</figcaption>
 </figure>
 <p>Our application will also have a very simple service layer, composed by <code>Service</code> objects containing methods like:</p>
 <pre class="java"><code>public class ProductService {
@@ -413,7 +448,8 @@ private boolean process(HttpServletRequest request, HttpServletResponse response
 <p>All we have to do now is create implementations of the <code>IGTVGController</code> interface, retrieving data from the services and processing templates using the <code>ITemplateEngine</code> object.</p>
 <p>In the end, it will look like this:</p>
 <figure>
-<img src="images/usingthymeleaf/gtvg-view.png" alt="Example application home page" /><figcaption>Example application home page</figcaption>
+<img src="images/usingthymeleaf/gtvg-view.png" alt="Example application home page" />
+<figcaption aria-hidden="true">Example application home page</figcaption>
 </figure>
 <p>But first let’s see how that template engine is initialized.</p>
 </section>
@@ -1764,7 +1800,7 @@ templateEngine.process(&quot;home&quot;, ctx, writer);</code></pre>
              return databaseRepository.findAllUsers();
          }
      });</code></pre>
-<p>This variable can be used without knowledge of its <em>lazyness</em>, in code such as:</p>
+<p>This variable can be used without knowledge of its <em>laziness</em>, in code such as:</p>
 <pre class="html"><code>&lt;ul&gt;
   &lt;li th:each=&quot;u : ${users}&quot; th:text=&quot;${u.name}&quot;&gt;user name&lt;/li&gt;
 &lt;/ul&gt;</code></pre>
@@ -3378,7 +3414,7 @@ templateResolver.setUseDecoupledLogic(true);</code></pre>
 </section>
 <section id="performance-impact-of-decoupled-templates" class="level2">
 <h2>17.4 Performance impact of decoupled templates</h2>
-<p>The impact is extremely small. When a resolved template is marked to use decoupled logic and it is not cached, the template logic resource will be resolved first, parsed and processed into a secuence of instructions in-memory: basically a list of attributes to be injected to each markup selector.</p>
+<p>The impact is extremely small. When a resolved template is marked to use decoupled logic and it is not cached, the template logic resource will be resolved first, parsed and processed into a sequence of instructions in-memory: basically a list of attributes to be injected to each markup selector.</p>
 <p>But this is the only <em>additional step</em> required because, after this, the real template will be parsed, and while it is parsed these attributes will be injected <em>on-the-fly</em> by the parser itself, thanks to the advanced capabilities for node selection in AttoParser. So parsed nodes will come out of the parser as if they had their injected attributes written in the original template file.</p>
 <p>The biggest advantage of this? When a template is configured to be cached, it will be cached already containing the injected attributes. So the overhead of using <em>decoupled templates</em> for cacheable templates, once they are cached, will be absolutely <em>zero</em>.</p>
 </section>

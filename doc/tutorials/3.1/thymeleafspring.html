@@ -37,59 +37,69 @@
 		</div>
 		<nav id="toc">
 			<ul>
-<li><a href="#preface">Preface</a></li>
-<li><a href="#integrating-thymeleaf-with-spring">1 Integrating Thymeleaf with Spring</a></li>
-<li><a href="#the-springstandard-dialect">2 The SpringStandard Dialect</a></li>
-<li><a href="#views-and-view-resolvers">3 Views and View Resolvers</a><ul>
-<li><a href="#views-and-view-resolvers-in-spring-mvc">3.1 Views and View Resolvers in Spring MVC</a></li>
-<li><a href="#views-and-view-resolvers-in-thymeleaf">3.2 Views and View Resolvers in Thymeleaf</a></li>
+<li><a href="#preface" id="toc-preface">Preface</a></li>
+<li><a href="#integrating-thymeleaf-with-spring" id="toc-integrating-thymeleaf-with-spring">1 Integrating Thymeleaf with Spring</a></li>
+<li><a href="#the-springstandard-dialect" id="toc-the-springstandard-dialect">2 The SpringStandard Dialect</a></li>
+<li><a href="#views-and-view-resolvers" id="toc-views-and-view-resolvers">3 Views and View Resolvers</a>
+<ul>
+<li><a href="#views-and-view-resolvers-in-spring-mvc" id="toc-views-and-view-resolvers-in-spring-mvc">3.1 Views and View Resolvers in Spring MVC</a></li>
+<li><a href="#views-and-view-resolvers-in-thymeleaf" id="toc-views-and-view-resolvers-in-thymeleaf">3.2 Views and View Resolvers in Thymeleaf</a></li>
 </ul></li>
-<li><a href="#spring-thyme-seed-starter-manager">4 Spring Thyme Seed Starter Manager</a><ul>
-<li><a href="#the-concept">4.1 The Concept</a></li>
-<li><a href="#business-layer">4.2 Business Layer</a></li>
-<li><a href="#spring-mvc-configuration">4.3 Spring MVC configuration</a></li>
-<li><a href="#the-controller">4.4 The Controller</a><ul>
-<li><a href="#model-attributes">Model Attributes</a></li>
-<li><a href="#mapped-methods">Mapped methods</a></li>
+<li><a href="#spring-thyme-seed-starter-manager" id="toc-spring-thyme-seed-starter-manager">4 Spring Thyme Seed Starter Manager</a>
+<ul>
+<li><a href="#the-concept" id="toc-the-concept">4.1 The Concept</a></li>
+<li><a href="#business-layer" id="toc-business-layer">4.2 Business Layer</a></li>
+<li><a href="#spring-mvc-configuration" id="toc-spring-mvc-configuration">4.3 Spring MVC configuration</a></li>
+<li><a href="#the-controller" id="toc-the-controller">4.4 The Controller</a>
+<ul>
+<li><a href="#model-attributes" id="toc-model-attributes">Model Attributes</a></li>
+<li><a href="#mapped-methods" id="toc-mapped-methods">Mapped methods</a></li>
 </ul></li>
-<li><a href="#configuring-a-conversion-service">4.5 Configuring a Conversion Service</a></li>
+<li><a href="#configuring-a-conversion-service" id="toc-configuring-a-conversion-service">4.5 Configuring a Conversion Service</a></li>
 </ul></li>
-<li><a href="#listing-seed-starter-data">5 Listing Seed Starter Data</a></li>
-<li><a href="#creating-a-form">6 Creating a Form</a><ul>
-<li><a href="#handling-the-command-object">6.1 Handling the command object</a></li>
-<li><a href="#inputs">6.2 Inputs</a></li>
-<li><a href="#checkbox-fields">6.3 Checkbox fields</a></li>
-<li><a href="#radio-button-fields">6.4 Radio Button fields</a></li>
-<li><a href="#dropdownlist-selectors">6.5 Dropdown/List selectors</a></li>
-<li><a href="#dynamic-fields">6.6 Dynamic fields</a></li>
+<li><a href="#listing-seed-starter-data" id="toc-listing-seed-starter-data">5 Listing Seed Starter Data</a></li>
+<li><a href="#creating-a-form" id="toc-creating-a-form">6 Creating a Form</a>
+<ul>
+<li><a href="#handling-the-command-object" id="toc-handling-the-command-object">6.1 Handling the command object</a></li>
+<li><a href="#inputs" id="toc-inputs">6.2 Inputs</a></li>
+<li><a href="#checkbox-fields" id="toc-checkbox-fields">6.3 Checkbox fields</a></li>
+<li><a href="#radio-button-fields" id="toc-radio-button-fields">6.4 Radio Button fields</a></li>
+<li><a href="#dropdownlist-selectors" id="toc-dropdownlist-selectors">6.5 Dropdown/List selectors</a></li>
+<li><a href="#dynamic-fields" id="toc-dynamic-fields">6.6 Dynamic fields</a></li>
 </ul></li>
-<li><a href="#validation-and-error-messages">7 Validation and Error Messages</a><ul>
-<li><a href="#field-errors">7.1 Field errors</a><ul>
-<li><a href="#simplifying-error-based-css-styling-therrorclass">Simplifying error-based CSS styling: <code>th:errorclass</code></a></li>
+<li><a href="#validation-and-error-messages" id="toc-validation-and-error-messages">7 Validation and Error Messages</a>
+<ul>
+<li><a href="#field-errors" id="toc-field-errors">7.1 Field errors</a>
+<ul>
+<li><a href="#simplifying-error-based-css-styling-therrorclass" id="toc-simplifying-error-based-css-styling-therrorclass">Simplifying error-based CSS styling: <code>th:errorclass</code></a></li>
 </ul></li>
-<li><a href="#all-errors">7.2 All errors</a></li>
-<li><a href="#global-errors">7.3 Global errors</a></li>
-<li><a href="#displaying-errors-outside-forms">7.4 Displaying errors outside forms</a></li>
-<li><a href="#rich-error-objects">7.5 Rich error objects</a></li>
+<li><a href="#all-errors" id="toc-all-errors">7.2 All errors</a></li>
+<li><a href="#global-errors" id="toc-global-errors">7.3 Global errors</a></li>
+<li><a href="#displaying-errors-outside-forms" id="toc-displaying-errors-outside-forms">7.4 Displaying errors outside forms</a></li>
+<li><a href="#rich-error-objects" id="toc-rich-error-objects">7.5 Rich error objects</a></li>
 </ul></li>
-<li><a href="#its-still-a-prototype">8 It’s still a Prototype!</a></li>
-<li><a href="#the-conversion-service">9 The Conversion Service</a><ul>
-<li><a href="#configuration">9.1 Configuration</a></li>
-<li><a href="#double-brace-syntax">9.1 Double-brace syntax</a></li>
-<li><a href="#use-in-forms">9.2 Use in forms</a></li>
-<li><a href="#conversions-utility-object">9.3 <code>#conversions</code> utility object</a></li>
+<li><a href="#its-still-a-prototype" id="toc-its-still-a-prototype">8 It’s still a Prototype!</a></li>
+<li><a href="#the-conversion-service" id="toc-the-conversion-service">9 The Conversion Service</a>
+<ul>
+<li><a href="#configuration" id="toc-configuration">9.1 Configuration</a></li>
+<li><a href="#double-brace-syntax" id="toc-double-brace-syntax">9.1 Double-brace syntax</a></li>
+<li><a href="#use-in-forms" id="toc-use-in-forms">9.2 Use in forms</a></li>
+<li><a href="#conversions-utility-object" id="toc-conversions-utility-object">9.3 <code>#conversions</code> utility object</a></li>
 </ul></li>
-<li><a href="#rendering-template-fragments">10 Rendering Template Fragments</a><ul>
-<li><a href="#specifying-fragments-in-view-beans">10.1 Specifying fragments in view beans</a></li>
-<li><a href="#specifying-fragments-in-controller-return-values">10.2 Specifying fragments in controller return values</a></li>
+<li><a href="#rendering-template-fragments" id="toc-rendering-template-fragments">10 Rendering Template Fragments</a>
+<ul>
+<li><a href="#specifying-fragments-in-view-beans" id="toc-specifying-fragments-in-view-beans">10.1 Specifying fragments in view beans</a></li>
+<li><a href="#specifying-fragments-in-controller-return-values" id="toc-specifying-fragments-in-controller-return-values">10.2 Specifying fragments in controller return values</a></li>
 </ul></li>
-<li><a href="#advanced-integration-features">11 Advanced Integration Features</a><ul>
-<li><a href="#integration-with-requestdatavalueprocessor">11.1 Integration with <code>RequestDataValueProcessor</code></a></li>
-<li><a href="#building-uris-to-controllers">11.1 Building URIs to controllers</a></li>
+<li><a href="#advanced-integration-features" id="toc-advanced-integration-features">11 Advanced Integration Features</a>
+<ul>
+<li><a href="#integration-with-requestdatavalueprocessor" id="toc-integration-with-requestdatavalueprocessor">11.1 Integration with <code>RequestDataValueProcessor</code></a></li>
+<li><a href="#building-uris-to-controllers" id="toc-building-uris-to-controllers">11.1 Building URIs to controllers</a></li>
 </ul></li>
-<li><a href="#spring-webflow-integration">12 Spring WebFlow integration</a><ul>
-<li><a href="#basic-configuration">12.1 Basic configuration</a></li>
-<li><a href="#ajax-fragments-in-spring-webflow">12.2 AJAX fragments in Spring WebFlow</a></li>
+<li><a href="#spring-webflow-integration" id="toc-spring-webflow-integration">12 Spring WebFlow integration</a>
+<ul>
+<li><a href="#basic-configuration" id="toc-basic-configuration">12.1 Basic configuration</a></li>
+<li><a href="#ajax-fragments-in-spring-webflow" id="toc-ajax-fragments-in-spring-webflow">12.2 AJAX fragments in Spring WebFlow</a></li>
 </ul></li>
 </ul>
 		</nav>
@@ -128,7 +138,7 @@
 			<section id="preface" class="level1">
 <h1>Preface</h1>
 <p>This tutorial explains how Thymeleaf can be integrated with the Spring Framework, especially (but not only) Spring MVC.</p>
-<p>Note that Thymeleaf has integrations for both versions 3.x and 4.x of the Spring Framework, provided by two separate libraries called <code>thymeleaf-spring5</code> and <code>thymeleaf-spring6</code>. These libraries are packaged in separate <code>.jar</code> files (<code>thymeleaf-spring5-{version}.jar</code> and <code>thymeleaf-spring6-{version}.jar</code>) and need to be added to your classpath in order to use Thymeleaf’s Spring integrations in your application.</p>
+<p>Note that Thymeleaf has integrations for both versions 5.x and 6.x of the Spring Framework, provided by two separate libraries called <code>thymeleaf-spring5</code> and <code>thymeleaf-spring6</code>. These libraries are packaged in separate <code>.jar</code> files (<code>thymeleaf-spring5-{version}.jar</code> and <code>thymeleaf-spring6-{version}.jar</code>) and need to be added to your classpath in order to use Thymeleaf’s Spring integrations in your application.</p>
 <p>The code samples and example application in this tutorial make use of <strong>Spring 6.x</strong> and its corresponding Thymeleaf integrations, but the contents of this text are valid also for Spring 5.x. If your application uses Spring 5.x, all you have to do is replace the <code>org.thymeleaf.spring6</code> package with <code>org.thymeleaf.spring5</code> in the code samples.</p>
 </section>
 <section id="integrating-thymeleaf-with-spring" class="level1">
@@ -295,7 +305,8 @@ public ThymeleafView mainView() {
 <p>At Thymeleaf we’re huge fans of thyme, and every spring we prepare our seed starting kits with good soil and our favourite seeds, place them under the Spanish sun and patiently wait for our new plants to grow.</p>
 <p>But this year we got fed up with sticking labels to the seed starter containers for knowing which seed was in each cell of the container, so we decided to prepare an application using Spring MVC and Thymeleaf to help us catalogue our starters: <em>The Spring Thyme SeedStarter Manager</em>.</p>
 <figure>
-<img src="images/thymeleafspring/stsm-view.png" alt="STSM front page" /><figcaption>STSM front page</figcaption>
+<img src="images/thymeleafspring/stsm-view.png" alt="STSM front page" />
+<figcaption aria-hidden="true">STSM front page</figcaption>
 </figure>
 <p>In a similar way to the Good Thymes Virtual Grocery application we developed in the <em>Using Thymeleaf</em> tutorial, the STSM will allow us to exemplify the most important aspects of the integration of Thymeleaf as a template engine for Spring MVC.</p>
 </section>
@@ -303,7 +314,8 @@ public ThymeleafView mainView() {
 <h2>4.2 Business Layer</h2>
 <p>We will need a very simple business layer for our application. First of all, let’s have a look at our model entities:</p>
 <figure>
-<img src="images/thymeleafspring/stsm-model.png" alt="STSM model" /><figcaption>STSM model</figcaption>
+<img src="images/thymeleafspring/stsm-model.png" alt="STSM model" />
+<figcaption aria-hidden="true">STSM model</figcaption>
 </figure>
 <p>A couple of very simple service classes will provide the required business methods. Like:</p>
 <pre class="java"><code>@Service
@@ -977,7 +989,8 @@ public String removeRow(
 <p>Our application is ready now. But let’s have a second look at the <code>.html</code> page we created…</p>
 <p>One of the nicest consequences of working with Thymeleaf is that after all this functionality we have added to our HTML, we can still use it as a prototype (we say it is a <em>Natural Template</em>). Let’s open <code>seedstartermng.html</code> directly in our browser without executing our application:</p>
 <figure>
-<img src="images/thymeleafspring/stsm-natural-templating.png" alt="STSM natural templating" /><figcaption>STSM natural templating</figcaption>
+<img src="images/thymeleafspring/stsm-natural-templating.png" alt="STSM natural templating" />
+<figcaption aria-hidden="true">STSM natural templating</figcaption>
 </figure>
 <p>There it is! It’s not a working application, it’s not real data… but it is a perfectly valid prototype made up of perfectly displayable HTML code.</p>
 </section>

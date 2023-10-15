@@ -41,7 +41,6 @@
 					<li><a href="../../faq.html" class="toolbar-link">FAQ</a></li>
 				</ul>
 				<ul id="site-nav-links" class="toolbar-links">
-					<li><a href="http://forum.thymeleaf.org/" class="toolbar-link">Forum</a></li>
 					<li><a href="https://twitter.com/thymeleaf" class="toolbar-link">Twitter</a></li>
 					<li><a href="https://github.com/thymeleaf" class="toolbar-link">GitHub</a></li>
 				</ul>
@@ -74,7 +73,8 @@
 <h2>The Spring PetClinic application</h2>
 <p><em>PetClinic</em> is one of the example applications created by SpringSource for the Spring Framework. It is designed to display and manage information related to pets and veterinarians in a pet clinic. The original SpringSource version lives in GitHub <a href="https://github.com/SpringSource/spring-petclinic">here</a>, and the thymeleaf-enabled version lives also in GitHub <a href="https://github.com/thymeleaf/thymeleafexamples-petclinic">here</a>.</p>
 <figure>
-<img src="images/petclinic/home.png" alt="PetClinic home page" /><figcaption>PetClinic home page</figcaption>
+<img src="images/petclinic/home.png" alt="PetClinic home page" />
+<figcaption aria-hidden="true">PetClinic home page</figcaption>
 </figure>
 <p><em>Pet Clinic</em> originally includes a view layer created with JSP, which we will replace using Thymeleaf:</p>
 <ul>
@@ -154,7 +154,8 @@
 <p>Remember you can see all the templates at the source code, downloadable from <a href="/documentation.html">the documentation page</a>, and also that you can review the original JSP files at the <code>doc/old_viewlayer</code> folder.</p>
 <p>The <em>owners/ownersList</em> page looks like this:</p>
 <figure>
-<img src="images/petclinic/owners.png" alt="Owners page" /><figcaption>Owners page</figcaption>
+<img src="images/petclinic/owners.png" alt="Owners page" />
+<figcaption aria-hidden="true">Owners page</figcaption>
 </figure>
 <p>In order to convert this page to Thymeleaf, we will:</p>
 <ul>
@@ -194,7 +195,7 @@
 
     &lt;!-- ============================================================================ --&gt;
     &lt;!-- This &lt;head&gt; is only used for static prototyping purposes (natural templates) --&gt;
-    &lt;!-- and is therefore entirely optionl, as this markup fragment will be included  --&gt;
+    &lt;!-- and is therefore entirely optional, as this markup fragment will be included  --&gt;
     &lt;!-- from &quot;fragments.html&quot; at runtime.                                            --&gt;
     &lt;!-- ============================================================================ --&gt;
 
@@ -225,7 +226,7 @@
 
         &lt;!-- =========================================================================== --&gt;
         &lt;!-- This div is only used for static prototyping purposes (natural templates)   --&gt;
-        &lt;!-- and is therefore entirely optionl, as this markup fragment will be included --&gt;
+        &lt;!-- and is therefore entirely optional, as this markup fragment will be included --&gt;
         &lt;!-- from &quot;fragments.html&quot; at runtime.                                           --&gt;
         &lt;!-- =========================================================================== --&gt;
 
@@ -275,7 +276,7 @@
 
         &lt;!-- =========================================================================== --&gt;
         &lt;!-- This table section is only used for static prototyping purposes (natural    --&gt;
-        &lt;!-- templates) and is therefore entirely optionl, as this markup fragment will  --&gt;
+        &lt;!-- templates) and is therefore entirely optional, as this markup fragment will  --&gt;
         &lt;!-- be included from &quot;fragments.html&quot; at runtime.                               --&gt;
         &lt;!-- =========================================================================== --&gt;
 
@@ -363,11 +364,13 @@
 <p>Before we started this migration, we set a goal that our new Thymeleaf templates would be able to display correctly when open statically in a browser (without starting the application server) thanks to the <em>Natural Templating</em> capabilities of Thymeleaf.</p>
 <p>Well, let’s have a look at how the original <code>owners/ownersList.jsp</code> template looks like when seen statically:</p>
 <figure>
-<img src="images/petclinic/ownerslist_jsp_static.png" alt="Owners list (JSP), statically opened" /><figcaption>Owners list (JSP), statically opened</figcaption>
+<img src="images/petclinic/ownerslist_jsp_static.png" alt="Owners list (JSP), statically opened" />
+<figcaption aria-hidden="true">Owners list (JSP), statically opened</figcaption>
 </figure>
 <p>…and now let’s have a look at our new Thymeleaf-powered <code>owners/ownersList.html</code>:</p>
 <figure>
-<img src="images/petclinic/ownerslist_thymeleaf_static.png" alt="Owners list (thymeleaf), statically opened" /><figcaption>Owners list (thymeleaf), statically opened</figcaption>
+<img src="images/petclinic/ownerslist_thymeleaf_static.png" alt="Owners list (thymeleaf), statically opened" />
+<figcaption aria-hidden="true">Owners list (thymeleaf), statically opened</figcaption>
 </figure>
 <p>There we are. Data is not valid, because it is a prototype. But it looks good!</p>
 </section>

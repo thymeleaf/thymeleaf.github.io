@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+	<title>Thymeleaf 3.1: What’s new and how to migrate (ja) - Thymeleaf</title>
+	<meta charset="UTF-8"/>
+	<meta name="generator" content="pandoc">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+	<link rel="icon" href="../images/favicon.ico"/>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,400italic,700,700italic"/>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic,700italic"/>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/2.1.3/normalize.min.css" media="screen"/>
+	<link rel="stylesheet" href="../styles/thymeleaf.css"/>
+	<link rel="stylesheet" href="../styles/thymeleaf-articles.css"/>
+
+	<script src="https://unpkg.com/dumb-query-selector@3.0.0/dumb-query-selector.js" defer></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/components/prism-core.min.js" defer data-manual></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/components/prism-markup.min.js" defer></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/components/prism-clike.min.js" defer></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/components/prism-java.min.js" defer></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/plugins/line-numbers/prism-line-numbers.min.js" defer></script>
+	<script src="../scripts/thymeleaf-articles.js" defer></script>
+</head>
+
+<body lang="en" class="article">
+
+	<div class="fluid-container toolbar-container">
+		<nav class="fluid-block toolbar">
+			<div class="toolbar-menu">
+				<div class="toolbar-menu-location">Docs</div>
+				<button id="site-menu-button" type="button" class="toolbar-menu-button">Site Menu</button>
+			</div>
+			<div id="site-menu" class="toolbar-menu-items">
+				<ul class="toolbar-links">
+					<li><a href="../../index.html" class="toolbar-link">Home</a></li>
+					<li><a href="../../download.html" class="toolbar-link">Download</a></li>
+					<li class="selected"><a href="../../documentation.html" class="toolbar-link">Docs</a></li>
+					<li><a href="../../ecosystem.html" class="toolbar-link">Ecosystem</a></li>
+					<li><a href="../../faq.html" class="toolbar-link">FAQ</a></li>
+				</ul>
+				<ul id="site-nav-links" class="toolbar-links">
+					<li><a href="https://twitter.com/thymeleaf" class="toolbar-link">Twitter</a></li>
+					<li><a href="https://github.com/thymeleaf" class="toolbar-link">GitHub</a></li>
+				</ul>
+			</div>
+		</nav>
+	</div>
+
+	<div class="hero-container fluid-container">
+		<header class="hero-header fluid-block">
+			<div class="hero-header-text">
+				<h1 class="hero-header-title">Thymeleaf</h1>
+			</div>
+			<div class="hero-header-image">
+				<img src="../images/thymeleaf.png" alt="Thymeleaf logo" class="hero-header-logo"/>
+			</div>
+		</header>
+	</div>
+
+	<div class="fluid-container">
+		<main class="fluid-block article">
+			<article>
+				<header>
+					<h1>Thymeleaf 3.1: What’s new and how to migrate (ja)</h1>
+									</header>
+				<p>Latest version is Thymeleaf <code>3.1.1.RELEASE</code>.</p>
+<section id="whats-new" class="level2">
+<h2>What’s new</h2>
+<section id="サーブレットapi-5.0とjakarta.ネームスペースのサポート" class="level3">
+<h3>サーブレットAPI 5.0と<code>jakarta.*</code>ネームスペースのサポート</h3>
+<p>Thymeleaf 3.1では、以前のバージョンでの<code>javax.*</code>クラスのサポートを削除すること無く、サーブレットAPI 5.0以降における<code>jakarta.*</code>クラスネームスペースのサポートを追加しました。</p>
+</section>
+<section id="spring-6.0のサポート" class="level3">
+<h3>Spring 6.0のサポート</h3>
+<p>Thymeleaf 3.1は、Spring Framework 6.0と連携する新しい<code>thymeleaf-spring6</code>コアライブラリを追加しました。</p>
+<p>Spring 5.0よりも前のバージョンのサポートは削除されました。</p>
+</section>
+<section id="spring-security-6.0のサポート" class="level3">
+<h3>Spring Security 6.0のサポート</h3>
+<p>Thymeleaf 3.1は、Spring Security 6.0と連携する新しい<code>thymeleaf-extras-springsecurity6</code>コアライブラリを追加しました。</p>
+<p>Spring Security 5.0よりも前のバージョンのサポートは削除されました。</p>
+</section>
+<section id="java.timeパッケージのコアサポート" class="level3">
+<h3><code>java.time</code>パッケージのコアサポート</h3>
+<p><code>thymeleaf-extras-java8time</code>追加モジュールはThymeleafコアに統合されました：<code>#temporals</code>式ユーティリティーオブジェクトは常に利用可能です。</p>
+</section>
+<section id="java互換性" class="level3">
+<h3>Java互換性</h3>
+<p>必要な最低バージョンはJDK 8です。</p>
+<p><code>thymeleaf-spring6</code>および<code>thymeleaf-extras-springsecurity6</code>コアライブラリに必要な最低バージョンはJDK 17です。</p>
+</section>
+<section id="web-apiベース式ユーティリティオブジェクトの削除" class="level3">
+<h3>Web APIベース式ユーティリティオブジェクトの削除</h3>
+<p><code>#request</code>・<code>#response</code>・<code>#session</code>・<code>#servletContext</code>はThymeleaf 3.1の式では利用できません。</p>
+</section>
+<section id="式で利用できるクラスの制限強化" class="level3">
+<h3>式で利用できるクラスの制限強化</h3>
+<p>Thymeleaf 3.1ではコアパッケージのクラスの利用を制限しています：<code>java.*</code>・<code>javax.*</code>・<code>jakarta.*</code>・<code>jdk.*</code>・<code>org.ietf.jgss.*</code>・<code>org.omg.*</code>・<code>org.w3c.dom.*</code>・<code>org.xml.sax.*</code>・<code>com.sun.*</code>・<code>sun.*</code></p>
+<p>これらのパッケージのクラスへのメソッド/コンストラクタ呼び出しおよび静的参照は禁止されます。</p>
+<p>この制限の例外としては、これらのパッケージのクラスは常に<em>許可</em>されます：</p>
+<ul>
+<li><p>基本的な<code>java.lang.*</code>・<code>java.math.*</code>クラス：<code>java.lang.Boolean</code>・<code>java.lang.Byte</code>・<code>java.lang.Character</code>・<code>java.lang.Double</code>・<code>java.lang.Enum</code>・<code>java.lang.Float</code>・<code>java.lang.Integer</code>・<code>java.lang.Long</code>・<code>java.lang.Math</code>・<code>java.lang.Number</code>・<code>java.lang.Short</code>・<code>java.lang.String</code>・<code>java.math.BigDecimal</code>・<code>java.math.BigInteger</code>・<code>java.math.RoundingMode</code>。</p></li>
+<li><p>コレクションクラスおよびインターフェース：<code>java.util.Collection</code>・<code>java.util.Enumeration</code>・<code>java.util.Iterable</code>・<code>java.util.Iterator</code>・<code>java.util.List</code>・<code>java.util.ArrayList</code>・<code>java.util.LinkedList</code>・<code>java.util.Set</code>・<code>java.util.HashSet</code>・<code>java.util.LinkedHashSet</code>・<code>java.util.Map</code>・<code>java.util.Map.Entry</code>・<code>java.util.HashMap</code>・<code>java.util.LinkedHashMap</code>。注: インターフェースメソッド（例：<code>Map#get(key)</code>）はどの実装でも許可されます。しかし、ここにある特定の実装もインスタンス化および静的参照が可能です。</p></li>
+<li><p>その他<code>java.util.*</code>内の一般的に使われるクラス：<code>java.util.Properties</code>・<code>java.util.Optional</code>・<code>java.util.stream.Stream</code>・<code>java.util.Locale</code>・<code>java.util.Date</code>・<code>java.util.Calendar</code>。</p></li>
+</ul>
+</section>
+<section id="いくつかの非推奨化と以前に非推奨化されたものの削除" class="level3">
+<h3>いくつかの非推奨化と以前に非推奨化されたものの削除</h3>
+<p>いくつかのものがThymeleaf 3.1で非推奨化されました。</p>
+<ul>
+<li><code>th:insert</code>により<code>th:include</code>が非推奨化されました。<code>th:insert</code>は<code>th:include</code>と文法が少し違うことに注意してください。</li>
+<li>フラグメント挿入のアンラップ構文が非推奨化されました：単に<code>template :: fragment</code>を使う代わりに、今後は<code>~{template :: fragment}</code>が利用されるべきです。</li>
+</ul>
+<p>そして、以前3.0で非推奨化されたものが削除されました：</p>
+<ul>
+<li>以前<code>th:replace</code>により非推奨化されていた<code>th:substituteby</code>が削除されました。</li>
+<li>非推奨だったコンテキスト変数（<code>${execInfo}</code>）としての<code>execInfo</code>の利用が削除されました。3.0から式ユーティリティオブジェクトが利用可能です（<code>${#execInfo}</code>）。</li>
+</ul>
+</section>
+<section id="その他の細かい改善" class="level3">
+<h3>その他の細かい改善</h3>
+<ul>
+<li>依存性のバージョンをアップデートしました。</li>
+<li><code>#temporals</code>式ユーティリティオブジェクトでデフォルトでないロケールでのフォーマットが可能になりました。</li>
+<li>Java Stream（<code>java.util.stream.Stream</code>）の直接繰り返し（例：<code>th:each</code>）がサポートされました。</li>
+<li><code>SpringTemplateEngine</code>インスタンスに自作メッセージリゾルバー（Springのものでなくても）を設定できるようになりました。</li>
+</ul>
+</section>
+<section id="開発者向けプロジェクトソースリポジトリ構造の抜本的見直し" class="level3">
+<h3>（開発者向け）プロジェクトソースリポジトリ構造の抜本的見直し</h3>
+<p>Thymeleaf 3.1は（以前は複数だった）ソースリポジトリの抜本的見直しと、開発観点からのサンプルアプリケーションの処理方法の大幅な改善を含みます：</p>
+<ul>
+<li>以前のThymeleafコードリポジトリのほとんどを<a href="https://github.com/thymeleaf/thymeleaf"><code>thymeleaf</code>GitHubリポジトリ</a>へ統合。以下のものを含みます：
+<ul>
+<li>すべてのThymeleaf依存性とビルド設定を統合・統一する新しいThymeleaf BOM（<code>thymeleaf-parent</code>）。</li>
+<li>SpringおよびSpring Security連携を含む、すべてのThymeleafコアライブラリ。</li>
+<li>すべてのThymeleafテスティングライブラリとそれらの統合。</li>
+<li>すべてのThymeleafテストリポジトリ。</li>
+<li>すべてのThymeleaf公式サンプルアプリケーション（コア・Spring・Spring Security・Spring Bootベースのサンプルアプリ）。</li>
+</ul></li>
+<li>Thymeleafモジュールの完全なツリーを作るための大規模Mavenマルチプロジェクト設定の作成。</li>
+<li>Mavenコマンドラインで非Spring BootベースWebアプリを実行できるように、サンプルアプリケーションを設定。</li>
+<li>より多くの<code>.zip</code>形式での完全な配布パッケージの作成。現在はコアライブラリだけでなくサンプルアプリケーションのバイナリおよび（ビルド可能な）ソースを含む。</li>
+<li>全テストインフラストラクチャをJUnit 5に移行。</li>
+</ul>
+</section>
+</section>
+<section id="thymeleaf-3.1への移行" class="level2">
+<h2>Thymeleaf 3.1への移行</h2>
+<section id="jdkのバージョン" class="level3">
+<h3>JDKのバージョン</h3>
+<p>Thymeleaf 3.1は最低互換レベルをJDK 8に移行しました。しかしSpring 6.0が必要とするバージョンであるため、<code>thymeleaf-spring6</code>と<code>thymeleaf-extras-springsecurity6</code>にはJDK 17が必要です。</p>
+</section>
+<section id="web関連の構造" class="level3">
+<h3>Web関連の構造</h3>
+<p><em>（注：SpringベースのWebアプリケーションでは、ここで説明されていることは開発者には隠蔽されているため、アプリには影響しません。Springユーザーは安全にこの節をスキップできます。）</em></p>
+<p>Thymeleaf 3.1では、利用されるWeb API（例：<code>javax.*</code>または<code>jakarta.*</code>）を抽象化する4つのインターフェースが導入されました。</p>
+<ul>
+<li><code>org.thymeleaf.web.IWebApplication</code>：Webアプリケーションとそれに関連する属性を表す。</li>
+<li><code>org.thymeleaf.web.IWebExchange</code>：Webリクエストのハンドリングを表す。リクエスト・（もしあれば）セッションおよびアプリケーションによって特定の通信と関連付けられた属性を含む。</li>
+<li><code>org.thymeleaf.web.IWebRequest</code>：Webリクエストを表す：URLパス、パラメーター、ヘッダー、Cookie。</li>
+<li><code>org.thymeleaf.web.IWebSession</code>：存在すればWebセッションを表す。関連付けられたすべての属性を含む。</li>
+</ul>
+<p><code>IWebApplication</code>が多かれ少なかれサーブレットAPIの<code>ServletContext</code>に対応するとしても、上記のものとサーブレットAPIのその他の構造は完全には一致しないかもしれません。例えば、サーブレットAPIの<code>HttpServletRequest</code>によるデータの一部（例えばURLとパラメーター）は<code>IWebRequest</code>オブジェクトに含まれるかもしれない一方、他の部分（例えばリクエスト属性）は<code>IWebExchange</code>に含まれるかもしれません。</p>
+<p>Thymeleafは、これらのインターフェースの<code>javax.*</code>および<code>jakarta.*</code>環境の両方の実装を提供します。</p>
+<p>典型的には、Webアプリケーションは初期化時に<code>IWebApplication</code>の特定の実装をこのようにインスタンス化します：</p>
+<pre class="java"><code>final JakartaServletWebApplication application =
+    JakartaServletWebApplication.buildApplication(servletContext);</code></pre>
+<p>各リクエストでは、この特定のアプリケーション実装は、そのようなリクエストのハンドリングをモデリングする<code>IWebExchange</code>オブジェクトを作る方法を提供します。典型的には <code>buildExchange(...)</code>メソッドです：</p>
+<pre class="java"><code>final HttpServletRequest request = ...;
+final HttpServletResponse response = ...;
+...
+final IWebExchange webExchange = this.application.buildExchange(request, response);
+final IWebRequest webRequest = webExchange.getRequest();
+...
+final String path = webRequest.getPathWithinApplication();</code></pre>
+<p>これらのインタフェースはリソースの読み込み・データの保存や読み取り・URLの変換などのためのメソッドを提供します。Webアプリケーションで必要とされる最も一般的な情報のすべてです。併せて、これらのインタフェースの特定の実装は、それらが内部で利用している特定Web APIのネイティブオブジェクトを取得する方法を提供します（例：<code>IWebExchange</code>オブジェクトから内部の<code>HttpServletRequest</code>を取得する）。</p>
+<p>更に、あなたのアプリケーションは特定のWeb APIのクラス（例：<code>jakarta.*</code>クラス）を利用し続けることも可能ということを覚えておいてください。Thymeleaf APIと直接やり取りをする際のみこれらの抽象化の利用が必要です。</p>
+</section>
+<section id="spring-6.0とspring-security-6.0そしてspring-boot-3.0" class="level3">
+<h3>Spring 6.0とSpring Security 6.0（そしてSpring Boot 3.0）</h3>
+<p>Thymeleafの新しいSpring 6.0およびSpring Security 6.0連携は、Spring 5.xと同等であるかのように設定されています。</p>
+<p>以前の<code>thymeleaf-spring5</code>または<code>thymeleaf-extras-springsecurity5</code>依存性を、新しい<code>thymeleaf-spring6</code>または<code>thymeleaf-extras-springsecurity6</code>のものに置き換える以外に変更は必要ありません。</p>
+<p>Spring Bootベースのアプリケーションの場合は、変更は必要ありません。新しいSpring Boot 3.0は、Thymeleaf Spring Boot Starterが追加されるとThymeleaf 3.1を使うように設定されています。</p>
+</section>
+<section id="式の制限" class="level3">
+<h3>式の制限</h3>
+<p>テンプレートのセキュリティを改善するために、Thymeleaf 3.1は変数式（<code>${...}</code>および<code>*{...}</code>）に一連の制限を適用しています。これはあなたの既存コードに影響があるかもしれません。</p>
+<p><em>“What’s new”</em>の節で説明したとおり、式ユーティリティオブジェクト<code>#request</code>・<code>#response</code>・<code>#session</code>・<code>#servletContext</code>はテンプレート内の式からはもはや利用できません。</p>
+<p>推奨される代替方法は、テンプレートでこれらのオブジェクトから必要とする情報を、コントローラーレベルでモデルに追加することです。これはコントローラーで<code>model#addAttribute(...)</code>を利用するか、<code>@ModelAttribute</code>または<code>@ControllerAdvice</code>アノテーションを利用することで達成できます。</p>
+<pre class="java"><code>@ModelAttribute(&quot;contextPath&quot;)
+public String contextPath(final HttpServletRequest request) {
+    return request.getContextPath();
+}</code></pre>
+<p>しかしその一方で、同様に<em>“What’s new”</em>の節で説明したとおり、いくつかの例外を除いて、JDKおよびJakarta EEコアクラスに属するクラスの利用に厳しい制限があります。Thymeleaf 3.1以降では、禁止されているクラスを変数式で利用できなくなります。</p>
+<p>もしテンプレートで禁止されたクラスのオブジェクトに対して式を実行したい場合は、ラッパークラス（あなたのアプリケーションのパッケージ内に）を作ってオリジナルオブジェクトのメソッドを委譲すればよいです。それは変数式から利用できます。</p>
+</section>
+<section id="thincludeの非推奨化" class="level3">
+<h3>th:includeの非推奨化</h3>
+<p>テンプレートで<code>th:include</code>属性を利用している場合、Thymeleaf 3.1ではまだ利用できるものの将来のバージョンでは削除されることに注意してください。<code>th:include</code>を<code>th:insert</code>に置き換えることを推奨します。しかし完全に同じようには動作しません。</p>
+<p>このように<code>th:include</code>はフラグメントの<em>内容</em>を挿入する一方で：</p>
+<pre class="html"><code>&lt;div id=&quot;main&quot; th:include=&quot;~{::frag}&quot;&gt;...&lt;/div&gt;
+...
+&lt;p th:fragment=&quot;frag&quot; class=&quot;content&quot;&gt;
+    something
+&lt;/p&gt;</code></pre>
+<p>…結果：</p>
+<pre class="html"><code>&lt;div id=&quot;main&quot;&gt;
+      something
+&lt;/div&gt;</code></pre>
+<p>このように<code>th:insert</code>では、<em>定義されているタグを含む</em>フラグメントが挿入されます：</p>
+<pre class="html"><code>&lt;div id=&quot;main&quot; th:insert=&quot;~{::frag}&quot;&gt;...&lt;/div&gt;
+...
+&lt;p th:fragment=&quot;frag&quot; class=&quot;content&quot;&gt;
+    something
+&lt;/p&gt;</code></pre>
+<p>…結果：</p>
+<pre class="html"><code>&lt;div id=&quot;main&quot;&gt;
+  &lt;p class=&quot;content&quot;&gt;
+      something
+  &lt;/p&gt;
+&lt;/div&gt;</code></pre>
+<p><code>th:include</code>と同じ結果を達成したい場合は、<code>th:insert</code>と<code>th:remove</code>を組み合わせる必要があります：</p>
+<pre class="html"><code>&lt;div id=&quot;main&quot; th:insert=&quot;~{::frag}&quot;&gt;...&lt;/div&gt;
+...
+&lt;p th:fragment=&quot;frag&quot; th:remove=&quot;tag&quot; class=&quot;content&quot;&gt;
+    something
+&lt;/p&gt;</code></pre>
+<p>…結果：</p>
+<pre class="html"><code>&lt;div id=&quot;main&quot;&gt;
+      something
+&lt;/div&gt;</code></pre>
+<p>併せて、<code>&lt;th:block&gt;</code>タグを利用してフラグメントを定義できることも覚えておいてください。これは評価後に必ず消えるので高い柔軟性を提供します：</p>
+<pre class="html"><code>&lt;div id=&quot;main&quot; th:insert=&quot;~{::frag}&quot;&gt;...&lt;/div&gt;
+...
+&lt;th:block th:fragment=&quot;frag&quot;&gt;
+    something
+&lt;/th:block&gt;</code></pre>
+<p>結果：</p>
+<pre class="html"><code>&lt;div id=&quot;main&quot;&gt;
+      something
+&lt;/div&gt;</code></pre>
+</section>
+<section id="アンラップドフラグメント式の非推奨化" class="level3">
+<h3>アンラップドフラグメント式の非推奨化</h3>
+<p>Thymeleafのフラグメント式は<code>~{...}</code>のように表されます。これらは多くの属性や式で利用できます。典型的には<code>th:insert</code>や<code>th:replace</code>属性で現れます。</p>
+<p>Thymeleaf 3.1より前では、<code>th:insert</code>・<code>th:replace</code>（または非推奨化された<code>th:include</code>）属性は<code>~{...}</code>エンベロープなしでのフラグメント式を許可していました：</p>
+<pre class="html"><code>&lt;div id=&quot;top&quot; th:insert=&quot;common :: header&quot;&gt;...&lt;/div&gt;</code></pre>
+<p>しかしThymeleaf 3.1からは、まだ動作はしますが、非推奨となり将来のバージョンでは削除されます。上記はこのように書かれるべきです：</p>
+<pre class="html"><code>&lt;div id=&quot;top&quot; th:insert=&quot;~{common :: header}&quot;&gt;...&lt;/div&gt;</code></pre>
+</section>
+</section>
+			</article>
+		</main>
+	</div>
+
+	<div class="fluid-container footer-container">
+		<footer class="footer fluid-block">
+			<div class="footer-sections">
+				<h5>On this site</h5>
+				<ul class="footer-sections-links">
+					<li><a href="../../index.html">Home</a></li>
+					<li><a href="../../download.html">Download</a></li>
+					<li><a href="../../documentation.html">Docs</a></li>
+					<li><a href="../../ecosystem.html">Ecosystem</a></li>
+					<li><a href="../../faq.html">FAQ</a></li>
+					<li id="footer-issue-tracking"><a href="../../issuetracking.html">Issue Tracking</a></li>
+					<li><a href="../../team.html">The Thymeleaf Team</a></li>
+					<li><a href="../../whoisusingthymeleaf.html">Who's using Thymeleaf?</a></li>
+				</ul>
+			</div>
+			<div>
+				<h5>External links</h5>
+				<ul class="footer-sections-links">
+					<li><a href="http://forum.thymeleaf.org/">Forum</a></li>
+					<li><a href="https://twitter.com/thymeleaf">Follow us on Twitter</a></li>
+					<li><a href="https://github.com/thymeleaf">Fork us on GitHub</a></li>
+				</ul>
+			</div>
+		</footer>
+		<div class="copyright fluid-block">Copyright &copy; The Thymeleaf Team</div>
+		<div class="license fluid-block">
+			Thymeleaf is <strong>open source</strong> software distributed under the
+			<a href="https://www.apache.org/licenses/LICENSE-2.0.html">Apache License 2.0</a><br/>
+			This website (excluding the names and logos of Thymeleaf users) is licensed under the <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0 License</a>
+		</div>
+	</div>
+
+</body>
+
+</html>

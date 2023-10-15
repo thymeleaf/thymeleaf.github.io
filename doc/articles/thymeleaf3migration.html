@@ -41,7 +41,6 @@
 					<li><a href="../../faq.html" class="toolbar-link">FAQ</a></li>
 				</ul>
 				<ul id="site-nav-links" class="toolbar-links">
-					<li><a href="http://forum.thymeleaf.org/" class="toolbar-link">Forum</a></li>
 					<li><a href="https://twitter.com/thymeleaf" class="toolbar-link">Twitter</a></li>
 					<li><a href="https://github.com/thymeleaf" class="toolbar-link">GitHub</a></li>
 				</ul>
@@ -157,7 +156,7 @@ public class ThymeleafConfig extends WebMvcConfigurerAdapter implements Applicat
 <section id="textual-template-modes" class="level3">
 <h3>Textual template modes</h3>
 <p>The new textual template modes bring to Thymeleaf the ability to output <strong>CSS</strong>, <strong>Javascript</strong> and <strong>plain text</strong>. This is handy if you want to use the values of server-side variables in your CSS and Javascript files, or to generate plain text content as, for example, in e-mail composing.</p>
-<p>In order to have all Thymeleaf features avaible for the textual modes, a new syntax has been introduced. For example, you can iterate like:</p>
+<p>In order to have all Thymeleaf features available for the textual modes, a new syntax has been introduced. For example, you can iterate like:</p>
 <pre class="text"><code>[# th:each=&quot;item : ${items}&quot;]
   - [# th:utext=&quot;${item}&quot; /]
 [/]</code></pre>
@@ -273,7 +272,7 @@ public class ThymeleafConfig extends WebMvcConfigurerAdapter implements Applicat
 <p>Let’s highlight a few enhancements of the new Dialect system:</p>
 <ul>
 <li>There are not only <em>processors</em> but <em>pre-processors</em> and <em>post-processors</em>, so the template content can be modified before and after being processed. We could, for example, use a pre-processor to serve cached content or a post-processor to minimize and compress the output.</li>
-<li><em>Dialect precedence</em> is a new concept which allows the sorting of processors accross dialects. Processor precedences are now considered relative to dialect precedence, so every processor in a specific dialect can be configured to be executed before any processors from a different dialect just by setting the correct values for this dialect precedence.</li>
+<li><em>Dialect precedence</em> is a new concept which allows the sorting of processors across dialects. Processor precedences are now considered relative to dialect precedence, so every processor in a specific dialect can be configured to be executed before any processors from a different dialect just by setting the correct values for this dialect precedence.</li>
 <li><em>Expression object dialects</em> provide new expression objects or expression utility objects that can be used in expressions anywhere in templates, such as the <code>#strings</code>, <code>#numbers</code>, <code>#dates</code>, etc. provided by the Standard Dialect.</li>
 </ul>
 <p>For further explanation of these features, take a look at:</p>

@@ -41,7 +41,6 @@
 					<li><a href="../../faq.html" class="toolbar-link">FAQ</a></li>
 				</ul>
 				<ul id="site-nav-links" class="toolbar-links">
-					<li><a href="http://forum.thymeleaf.org/" class="toolbar-link">Forum</a></li>
 					<li><a href="https://twitter.com/thymeleaf" class="toolbar-link">Twitter</a></li>
 					<li><a href="https://github.com/thymeleaf" class="toolbar-link">GitHub</a></li>
 				</ul>
@@ -152,7 +151,8 @@ class HomeController {
 &lt;/html&gt;</code></pre>
 <p>You can open the file directly in a browser:</p>
 <figure>
-<img src="images/layouts/homeNotSignedIn.png" alt="Home page when not signed in" /><figcaption>Home page when not signed in</figcaption>
+<img src="images/layouts/homeNotSignedIn.png" alt="Home page when not signed in" />
+<figcaption aria-hidden="true">Home page when not signed in</figcaption>
 </figure>
 <p>In the above example, we are building a page that consists of page header and page footer. In Thymeleaf all fragments can be defined in a single file (e.g. <code>fragments.html</code>) or in a separate files, like in this particular case.</p>
 <p>Let’s shortly analyze the inclusion statement:</p>
@@ -205,7 +205,8 @@ class HomeController {
 &lt;/html&gt;</code></pre>
 <p>…which we can open directly in a browser:</p>
 <figure>
-<img src="images/layouts/header.png" alt="Header page" /><figcaption>Header page</figcaption>
+<img src="images/layouts/header.png" alt="Header page" />
+<figcaption aria-hidden="true">Header page</figcaption>
 </figure>
 <p>And template <code>fragments/footer.html</code></p>
 <pre class="xml"><code>&lt;!DOCTYPE html&gt;
@@ -461,7 +462,8 @@ public SpringTemplateEngine templateEngine() {
 &lt;/html&gt;</code></pre>
 <p>We can open the file directly in a browser:</p>
 <figure>
-<img src="images/layouts/layoutlayoutdialect.png" alt="Layout page" /><figcaption>Layout page</figcaption>
+<img src="images/layouts/layoutlayoutdialect.png" alt="Layout page" />
+<figcaption aria-hidden="true">Layout page</figcaption>
 </figure>
 <p>The above file is our decorator for content pages we will be creating in the application. The most important thing about the above example is <code>layout:fragment="content"</code>. This is the <em>heart</em> of the decorator page (layout). You can also notice, that header and footer are included using Standard Thymeleaf Layout System.</p>
 <p>The content page looks as follows (<code>WEB-INF/views/task/list.html</code>):</p>
@@ -500,7 +502,8 @@ public SpringTemplateEngine templateEngine() {
 &lt;/html&gt;</code></pre>
 <p>And in the browser it looks like this:</p>
 <figure>
-<img src="images/layouts/layoutlayoutdialectlist.png" alt="Layout page" /><figcaption>Layout page</figcaption>
+<img src="images/layouts/layoutlayoutdialectlist.png" alt="Layout page" />
+<figcaption aria-hidden="true">Layout page</figcaption>
 </figure>
 <p>Content of this <code>task/list</code> view will be decorated by the elements of <code>task/layout</code> view. Please note <code>layout:decorate="~{task/layout}"</code> attribute in <code>&lt;html&gt;</code> element. This attribute signals to the Layout Dialect which layout should be used to decorate given view. And please note it is using Thymeleaf Fragment Expression syntax.</p>
 <p>And what about <em>Natural Templates</em> using the Layout Dialect? Again, possible! You simply need to add some prototyping-only markup around the fragments being included in your templates and that’s it!</p>
