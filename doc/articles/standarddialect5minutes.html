@@ -65,167 +65,24 @@
 				<header>
 					<h1>Getting started with the Standard dialects in 5 minutes</h1>
 									</header>
-				<p>This guide will take you through some of the most important concepts you need to know to understand a Thymeleaf template written in the <em>Standard</em> or <em>SpringStandard</em> dialects. It is not a substitute for the tutorials – which are much more comprehensive – but it will teach you enough for getting the feel of the technology.</p>
-<section id="standard-dialects" class="level2">
-<h2>Standard dialects?</h2>
-<p>Thymeleaf is very, very extensible, and it allows you to define your own sets of template attributes (or even tags) with the names you want, evaluating the expressions you want in the syntax you want and applying the logic you want. It’s more like a <em>template engine framework</em>.</p>
-<p>Out of the box, nevertheless, it comes with something called <em>the standard dialects</em> (named <em>Standard</em> and <em>SpringStandard</em>) that define a set of features which should be more than enough for most scenarios. You can identify when these standard dialects are being used in a template because it will contain attributes starting with the <code>th</code> prefix, like <code>&lt;span th:text="..."&gt;</code>.</p>
-<p>Note that the <em>Standard</em> and the <em>SpringStandard</em> dialects are almost identical, except that <em>SpringStandard</em> includes specific features for integrating into Spring MVC applications (like, for example, using <em>Spring Expression Language</em> for expression evaluation instead of <em>OGNL</em>).</p>
-<p>Also note we usually refer to features in the Standard dialects when we talk about Thymeleaf without being more specific.</p>
-</section>
-<section id="standard-expression-syntax" class="level2">
-<h2>Standard Expression syntax</h2>
-<p>Most Thymeleaf attributes allow their values to be set as or containing <em>expressions</em>, which we will call <em>Standard Expressions</em> because of the dialects they are used in. These can be of five types:</p>
-<ul>
-<li><code>${...}</code> : Variable expressions.</li>
-<li><code>*{...}</code> : Selection expressions.</li>
-<li><code>#{...}</code> : Message (i18n) expressions.</li>
-<li><code>@{...}</code> : Link (URL) expressions.</li>
-<li><code>~{...}</code> : Fragment expressions.</li>
-</ul>
-<section id="variable-expressions" class="level3">
-<h3>Variable expressions</h3>
-<p>Variable expressions are OGNL expressions –or Spring EL if you’re integrating Thymeleaf with Spring– executed on the <em>context variables</em> — also called <em>model attributes</em> in Spring jargon. They look like this:</p>
-<pre class="html"><code>${session.user.name}</code></pre>
-<p>And you will find them as attribute values or as a part of them, depending on the attribute:</p>
-<pre class="html"><code>&lt;span th:text=&quot;${book.author.name}&quot;&gt;</code></pre>
-<p>The expression above is equivalent (both in OGNL and SpringEL) to:</p>
-<pre class="java"><code>((Book)context.getVariable(&quot;book&quot;)).getAuthor().getName()</code></pre>
-<p>But we can find variable expressions in scenarios which not only involve <em>output</em>, but more complex processing like <em>conditionals</em>, <em>iteration</em>…</p>
-<pre class="html"><code>&lt;li th:each=&quot;book : ${books}&quot;&gt;</code></pre>
-<p>Here <code>${books}</code> selects the variable called <code>books</code> from the context, and evaluates it as an <em>iterable</em> to be used at a <code>th:each</code> loop.</p>
-</section>
-<section id="selection-expressions" class="level3">
-<h3>Selection expressions</h3>
-<p>Selection expressions are just like variable expressions, except they will be executed on a previously selected object instead of the whole context variables map. They look like this:</p>
-<pre class="html"><code>*{customer.name}</code></pre>
-<p>The object they act on is specified by a <code>th:object</code> attribute:</p>
-<pre class="html"><code>&lt;div th:object=&quot;${book}&quot;&gt;
+				<p>This guide will take you through some of the most important concepts you need to know to understand a Thymeleaf template written in the <em>Standard</em> or <em>SpringStandard</em> dialects. It is not a substitute for the tutorials – which are much more comprehensive – but it will teach you enough for getting the feel of the technology.</p><section id="standard-dialects" class="level2"><h2>Standard dialects?</h2><p>Thymeleaf is very, very extensible, and it allows you to define your own sets of template attributes (or even tags) with the names you want, evaluating the expressions you want in the syntax you want and applying the logic you want. It’s more like a <em>template engine framework</em>.</p><p>Out of the box, nevertheless, it comes with something called <em>the standard dialects</em> (named <em>Standard</em> and <em>SpringStandard</em>) that define a set of features which should be more than enough for most scenarios. You can identify when these standard dialects are being used in a template because it will contain attributes starting with the <code>th</code> prefix, like <code>&lt;span th:text="..."&gt;</code>.</p><p>Note that the <em>Standard</em> and the <em>SpringStandard</em> dialects are almost identical, except that <em>SpringStandard</em> includes specific features for integrating into Spring MVC applications (like, for example, using <em>Spring Expression Language</em> for expression evaluation instead of <em>OGNL</em>).</p><p>Also note we usually refer to features in the Standard dialects when we talk about Thymeleaf without being more specific.</p></section><section id="standard-expression-syntax" class="level2"><h2>Standard Expression syntax</h2><p>Most Thymeleaf attributes allow their values to be set as or containing <em>expressions</em>, which we will call <em>Standard Expressions</em> because of the dialects they are used in. These can be of five types:</p><ul><li><code>${...}</code> : Variable expressions.</li><li><code>*{...}</code> : Selection expressions.</li><li><code>#{...}</code> : Message (i18n) expressions.</li><li><code>@{...}</code> : Link (URL) expressions.</li><li><code>~{...}</code> : Fragment expressions.</li></ul><section id="variable-expressions" class="level3"><h3>Variable expressions</h3><p>Variable expressions are OGNL expressions –or Spring EL if you’re integrating Thymeleaf with Spring– executed on the <em>context variables</em> — also called <em>model attributes</em> in Spring jargon. They look like this:</p><pre class="html"><code>${session.user.name}</code></pre><p>And you will find them as attribute values or as a part of them, depending on the attribute:</p><pre class="html"><code>&lt;span th:text=&quot;${book.author.name}&quot;&gt;</code></pre><p>The expression above is equivalent (both in OGNL and SpringEL) to:</p><pre class="java"><code>((Book)context.getVariable(&quot;book&quot;)).getAuthor().getName()</code></pre><p>But we can find variable expressions in scenarios which not only involve <em>output</em>, but more complex processing like <em>conditionals</em>, <em>iteration</em>…</p><pre class="html"><code>&lt;li th:each=&quot;book : ${books}&quot;&gt;</code></pre><p>Here <code>${books}</code> selects the variable called <code>books</code> from the context, and evaluates it as an <em>iterable</em> to be used at a <code>th:each</code> loop.</p></section><section id="selection-expressions" class="level3"><h3>Selection expressions</h3><p>Selection expressions are just like variable expressions, except they will be executed on a previously selected object instead of the whole context variables map. They look like this:</p><pre class="html"><code>*{customer.name}</code></pre><p>The object they act on is specified by a <code>th:object</code> attribute:</p><pre class="html"><code>&lt;div th:object=&quot;${book}&quot;&gt;
   ...
   &lt;span th:text=&quot;*{title}&quot;&gt;...&lt;/span&gt;
   ...
-&lt;/div&gt;</code></pre>
-<p>So that would be equivalent to:</p>
-<pre class="java"><code>{
+&lt;/div&gt;</code></pre><p>So that would be equivalent to:</p><pre class="java"><code>{
   // th:object=&quot;${book}&quot;
   final Book selection = (Book) context.getVariable(&quot;book&quot;);
   // th:text=&quot;*{title}&quot;
   output(selection.getTitle());
-}</code></pre>
-</section>
-<section id="message-i18n-expressions" class="level3">
-<h3>Message (i18n) expressions</h3>
-<p>Message expressions (often called <em>text externalization</em>, <em>internationalization</em> or <em>i18n</em>) allows us to retrieve locale-specific messages from external sources (<code>.properties</code> files), referencing them by a key and (optionally) applying a set of parameters.</p>
-<p>In Spring applications, this will automatically integrate with Spring’s <code>MessageSource</code> mechanism.</p>
-<pre class="html"><code>#{main.title}</code></pre>
-<pre class="html"><code>#{message.entrycreated(${entryId})}</code></pre>
-<p>You can find them in templates like:</p>
-<pre class="html"><code>&lt;table&gt;
+}</code></pre></section><section id="message-i18n-expressions" class="level3"><h3>Message (i18n) expressions</h3><p>Message expressions (often called <em>text externalization</em>, <em>internationalization</em> or <em>i18n</em>) allows us to retrieve locale-specific messages from external sources (<code>.properties</code> files), referencing them by a key and (optionally) applying a set of parameters.</p><p>In Spring applications, this will automatically integrate with Spring’s <code>MessageSource</code> mechanism.</p><pre class="html"><code>#{main.title}</code></pre><pre class="html"><code>#{message.entrycreated(${entryId})}</code></pre><p>You can find them in templates like:</p><pre class="html"><code>&lt;table&gt;
   ...
   &lt;th th:text=&quot;#{header.address.city}&quot;&gt;...&lt;/th&gt;
   &lt;th th:text=&quot;#{header.address.country}&quot;&gt;...&lt;/th&gt;
   ...
-&lt;/table&gt;</code></pre>
-<p>Note you can use <em>variable expressions</em> inside <em>message expressions</em> if you want the message key to be determined by the value of a context variable, or you want to specify variables as parameters:</p>
-<pre class="html"><code>#{${config.adminWelcomeKey}(${session.user.name})}</code></pre>
-</section>
-<section id="link-url-expressions" class="level3">
-<h3>Link (URL) expressions</h3>
-<p>Link expressions are meant to build URLs and add useful context and session info to them (a process usually called <em>URL rewriting</em>).</p>
-<p>So for a web application deployed at the <code>/myapp</code> context of your web server, an expression such as:</p>
-<pre class="html"><code>&lt;a th:href=&quot;@{/order/list}&quot;&gt;...&lt;/a&gt;</code></pre>
-<p>Could be converted into something like this:</p>
-<pre class="html"><code>&lt;a href=&quot;/myapp/order/list&quot;&gt;...&lt;/a&gt;</code></pre>
-<p>Or even this, if we need to keep sessions and cookies are not enabled (or the server doesn’t know yet):</p>
-<pre class="html"><code>&lt;a href=&quot;/myapp/order/list;jsessionid=23fa31abd41ea093&quot;&gt;...&lt;/a&gt;</code></pre>
-<p>URLs can also take parameters:</p>
-<pre class="html"><code>&lt;a th:href=&quot;@{/order/details(id=${orderId},type=${orderType})}&quot;&gt;...&lt;/a&gt;</code></pre>
-<p>Resulting in something like this:</p>
-<pre class="html"><code>&lt;!-- Note ampersands (&amp;) should be HTML-escaped in tag attributes... --&gt;
-&lt;a href=&quot;/myapp/order/details?id=23&amp;amp;type=online&quot;&gt;...&lt;/a&gt;</code></pre>
-<p>Link expressions can be relative, in which case no application context will be prefixed to the URL:</p>
-<pre class="html"><code>&lt;a th:href=&quot;@{../documents/report}&quot;&gt;...&lt;/a&gt;</code></pre>
-<p>Also server-relative (again, no application context to be prefixed):</p>
-<pre class="html"><code>&lt;a th:href=&quot;@{~/contents/main}&quot;&gt;...&lt;/a&gt;</code></pre>
-<p>And protocol-relative (just like absolute URLs, but browser will use the same HTTP or HTTPS protocol used in the page being displayed):</p>
-<pre class="html"><code>&lt;a th:href=&quot;@{//static.mycompany.com/res/initial}&quot;&gt;...&lt;/a&gt;</code></pre>
-<p>And of course, Link expressions can be absolute:</p>
-<pre class="html"><code>&lt;a th:href=&quot;@{http://www.mycompany.com/main}&quot;&gt;...&lt;/a&gt;</code></pre>
-<p>But wait, in an absolute (or protocol-relative) URL… what value does the Thymeleaf Link Expression add? easy: the possibility of URL-rewriting defined by <em>response filters</em>: In a Servlet-based web application, for every URL being output (context-relative, relative, absolute…) Thymeleaf will always call the <code>HttpServletResponse.encodeUrl(...)</code> mechanism before displaying the URL. Which means that a filter can perform customized URL-rewriting for the application by means of wrapping the <code>HttpServletResponse</code> object (a commonly used mechanism).</p>
-</section>
-<section id="fragment-expressions" class="level3">
-<h3>Fragment expressions</h3>
-<p>Fragment expressions are an easy way to represent fragments of markup and move them around templates. Thanks to these expressions, fragments can be replicated, passed to other templates as arguments, and so on.</p>
-<p>The most common use is for fragment insertion using <code>th:insert</code> or <code>th:replace</code>:</p>
-<pre class="html"><code>&lt;div th:insert=&quot;~{commons :: main}&quot;&gt;...&lt;/div&gt;</code></pre>
-<p>But they can be used anywhere, just as any other variable:</p>
-<pre class="html"><code>&lt;div th:with=&quot;frag=~{footer :: #main/text()}&quot;&gt;
+&lt;/table&gt;</code></pre><p>Note you can use <em>variable expressions</em> inside <em>message expressions</em> if you want the message key to be determined by the value of a context variable, or you want to specify variables as parameters:</p><pre class="html"><code>#{${config.adminWelcomeKey}(${session.user.name})}</code></pre></section><section id="link-url-expressions" class="level3"><h3>Link (URL) expressions</h3><p>Link expressions are meant to build URLs and add useful context and session info to them (a process usually called <em>URL rewriting</em>).</p><p>So for a web application deployed at the <code>/myapp</code> context of your web server, an expression such as:</p><pre class="html"><code>&lt;a th:href=&quot;@{/order/list}&quot;&gt;...&lt;/a&gt;</code></pre><p>Could be converted into something like this:</p><pre class="html"><code>&lt;a href=&quot;/myapp/order/list&quot;&gt;...&lt;/a&gt;</code></pre><p>Or even this, if we need to keep sessions and cookies are not enabled (or the server doesn’t know yet):</p><pre class="html"><code>&lt;a href=&quot;/myapp/order/list;jsessionid=23fa31abd41ea093&quot;&gt;...&lt;/a&gt;</code></pre><p>URLs can also take parameters:</p><pre class="html"><code>&lt;a th:href=&quot;@{/order/details(id=${orderId},type=${orderType})}&quot;&gt;...&lt;/a&gt;</code></pre><p>Resulting in something like this:</p><pre class="html"><code>&lt;!-- Note ampersands (&amp;) should be HTML-escaped in tag attributes... --&gt;
+&lt;a href=&quot;/myapp/order/details?id=23&amp;amp;type=online&quot;&gt;...&lt;/a&gt;</code></pre><p>Link expressions can be relative, in which case no application context will be prefixed to the URL:</p><pre class="html"><code>&lt;a th:href=&quot;@{../documents/report}&quot;&gt;...&lt;/a&gt;</code></pre><p>Also server-relative (again, no application context to be prefixed):</p><pre class="html"><code>&lt;a th:href=&quot;@{~/contents/main}&quot;&gt;...&lt;/a&gt;</code></pre><p>And protocol-relative (just like absolute URLs, but browser will use the same HTTP or HTTPS protocol used in the page being displayed):</p><pre class="html"><code>&lt;a th:href=&quot;@{//static.mycompany.com/res/initial}&quot;&gt;...&lt;/a&gt;</code></pre><p>And of course, Link expressions can be absolute:</p><pre class="html"><code>&lt;a th:href=&quot;@{http://www.mycompany.com/main}&quot;&gt;...&lt;/a&gt;</code></pre><p>But wait, in an absolute (or protocol-relative) URL… what value does the Thymeleaf Link Expression add? easy: the possibility of URL-rewriting defined by <em>response filters</em>: In a Servlet-based web application, for every URL being output (context-relative, relative, absolute…) Thymeleaf will always call the <code>HttpServletResponse.encodeUrl(...)</code> mechanism before displaying the URL. Which means that a filter can perform customized URL-rewriting for the application by means of wrapping the <code>HttpServletResponse</code> object (a commonly used mechanism).</p></section><section id="fragment-expressions" class="level3"><h3>Fragment expressions</h3><p>Fragment expressions are an easy way to represent fragments of markup and move them around templates. Thanks to these expressions, fragments can be replicated, passed to other templates as arguments, and so on.</p><p>The most common use is for fragment insertion using <code>th:insert</code> or <code>th:replace</code>:</p><pre class="html"><code>&lt;div th:insert=&quot;~{commons :: main}&quot;&gt;...&lt;/div&gt;</code></pre><p>But they can be used anywhere, just as any other variable:</p><pre class="html"><code>&lt;div th:with=&quot;frag=~{footer :: #main/text()}&quot;&gt;
   &lt;p th:insert=&quot;${frag}&quot;&gt;
-&lt;/div&gt;</code></pre>
-<p>Fragment expressions can have arguments:</p>
-</section>
-<section id="literals-and-operations" class="level3">
-<h3>Literals and operations</h3>
-<p>A good bunch of types of literals and operations are available:</p>
-<ul>
-<li>Literals:
-<ul>
-<li>Text literals: <code>'one text'</code>, <code>'Another one!'</code>,…</li>
-<li>Number literals: <code>0</code>, <code>34</code>, <code>3.0</code>, <code>12.3</code>,…</li>
-<li>Boolean literals: <code>true</code>, <code>false</code></li>
-<li>Null literal: <code>null</code></li>
-<li>Literal tokens: <code>one</code>, <code>sometext</code>, <code>main</code>,…</li>
-</ul></li>
-<li>Text operations:
-<ul>
-<li>String concatenation: <code>+</code></li>
-<li>Literal substitutions: <code>|The name is ${name}|</code></li>
-</ul></li>
-<li>Arithmetic operations:
-<ul>
-<li>Binary operators: <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>%</code></li>
-<li>Minus sign (unary operator): <code>-</code></li>
-</ul></li>
-<li>Boolean operations:
-<ul>
-<li>Binary operators: <code>and</code>, <code>or</code></li>
-<li>Boolean negation (unary operator): <code>!</code>, <code>not</code></li>
-</ul></li>
-<li>Comparisons and equality:
-<ul>
-<li>Comparators: <code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code>, <code>&lt;=</code> (<code>gt</code>, <code>lt</code>, <code>ge</code>, <code>le</code>)</li>
-<li>Equality operators: <code>==</code>, <code>!=</code> (<code>eq</code>, <code>ne</code>)</li>
-</ul></li>
-<li>Conditional operators:
-<ul>
-<li>If-then: <code>(if) ? (then)</code></li>
-<li>If-then-else: <code>(if) ? (then) : (else)</code></li>
-<li>Default: <code>(value) ?: (defaultvalue)</code></li>
-</ul></li>
-</ul>
-</section>
-<section id="expression-preprocessing" class="level3">
-<h3>Expression preprocessing</h3>
-<p>One last thing to know about expressions is there is something called <em>expression preprocessing</em>, specified between <code>__</code>, which looks like this:</p>
-<pre class="html"><code>#{selection.__${sel.code}__}</code></pre>
-<p>What we are seeing there is a variable expression (<code>${sel.code}</code>) that will be executed first and which result – let’s say, “<code>ALL</code>” – will be used as a part of the real expression to be executed afterwards, in this case an internationalization one (which would look for the message with key <code>selection.ALL</code>).</p>
-</section>
-</section>
-<section id="some-basic-attributes" class="level2">
-<h2>Some basic attributes</h2>
-<p>Let’s have a look at a couple of the most basic attributes in the Standard Dialect. Starting with <code>th:text</code>, which just replaces the body of a tag (notice again the prototyping abilities here):</p>
-<pre class="html"><code>&lt;p th:text=&quot;#{msg.welcome}&quot;&gt;Welcome everyone!&lt;/p&gt;</code></pre>
-<p>Now <code>th:each</code>, which repeats the element it’s in as many times as specified by the array or list returned by its expression, creating also an inner variable for the iteration element with a syntax equivalent to that of a Java <em>foreach</em> expression:</p>
-<pre class="html"><code>&lt;li th:each=&quot;book : ${books}&quot; th:text=&quot;${book.title}&quot;&gt;En las Orillas del Sar&lt;/li&gt;</code></pre>
-<p>Lastly, Thymeleaf includes lots of <code>th</code> attributes for specific XHTML and HTML5 attributes which just evaluate their expressions and set the value of these attributes to their result. Their names mimic those of the attributes which values they set:</p>
-<pre class="html"><code>&lt;form th:action=&quot;@{/createOrder}&quot;&gt;</code></pre>
-<pre class="html"><code>&lt;input type=&quot;button&quot; th:value=&quot;#{form.submit}&quot; /&gt;</code></pre>
-<pre class="html"><code>&lt;a th:href=&quot;@{/admin/users}&quot;&gt;</code></pre>
-</section>
-<section id="want-to-know-more" class="level2">
-<h2>Want to know more?</h2>
-<p>Then the <a href="/documentation.html"><em>“Using Thymeleaf”</em></a> tutorial is what you’re looking for!</p>
-</section>
+&lt;/div&gt;</code></pre><p>Fragment expressions can have arguments:</p></section><section id="literals-and-operations" class="level3"><h3>Literals and operations</h3><p>A good bunch of types of literals and operations are available:</p><ul><li>Literals:<ul><li>Text literals: <code>'one text'</code>, <code>'Another one!'</code>,…</li><li>Number literals: <code>0</code>, <code>34</code>, <code>3.0</code>, <code>12.3</code>,…</li><li>Boolean literals: <code>true</code>, <code>false</code></li><li>Null literal: <code>null</code></li><li>Literal tokens: <code>one</code>, <code>sometext</code>, <code>main</code>,…</li></ul></li><li>Text operations:<ul><li>String concatenation: <code>+</code></li><li>Literal substitutions: <code>|The name is ${name}|</code></li></ul></li><li>Arithmetic operations:<ul><li>Binary operators: <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>%</code></li><li>Minus sign (unary operator): <code>-</code></li></ul></li><li>Boolean operations:<ul><li>Binary operators: <code>and</code>, <code>or</code></li><li>Boolean negation (unary operator): <code>!</code>, <code>not</code></li></ul></li><li>Comparisons and equality:<ul><li>Comparators: <code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code>, <code>&lt;=</code> (<code>gt</code>, <code>lt</code>, <code>ge</code>, <code>le</code>)</li><li>Equality operators: <code>==</code>, <code>!=</code> (<code>eq</code>, <code>ne</code>)</li></ul></li><li>Conditional operators:<ul><li>If-then: <code>(if) ? (then)</code></li><li>If-then-else: <code>(if) ? (then) : (else)</code></li><li>Default: <code>(value) ?: (defaultvalue)</code></li></ul></li></ul></section><section id="expression-preprocessing" class="level3"><h3>Expression preprocessing</h3><p>One last thing to know about expressions is there is something called <em>expression preprocessing</em>, specified between <code>__</code>, which looks like this:</p><pre class="html"><code>#{selection.__${sel.code}__}</code></pre><p>What we are seeing there is a variable expression (<code>${sel.code}</code>) that will be executed first and which result – let’s say, “<code>ALL</code>” – will be used as a part of the real expression to be executed afterwards, in this case an internationalization one (which would look for the message with key <code>selection.ALL</code>).</p></section></section><section id="some-basic-attributes" class="level2"><h2>Some basic attributes</h2><p>Let’s have a look at a couple of the most basic attributes in the Standard Dialect. Starting with <code>th:text</code>, which just replaces the body of a tag (notice again the prototyping abilities here):</p><pre class="html"><code>&lt;p th:text=&quot;#{msg.welcome}&quot;&gt;Welcome everyone!&lt;/p&gt;</code></pre><p>Now <code>th:each</code>, which repeats the element it’s in as many times as specified by the array or list returned by its expression, creating also an inner variable for the iteration element with a syntax equivalent to that of a Java <em>foreach</em> expression:</p><pre class="html"><code>&lt;li th:each=&quot;book : ${books}&quot; th:text=&quot;${book.title}&quot;&gt;En las Orillas del Sar&lt;/li&gt;</code></pre><p>Lastly, Thymeleaf includes lots of <code>th</code> attributes for specific XHTML and HTML5 attributes which just evaluate their expressions and set the value of these attributes to their result. Their names mimic those of the attributes which values they set:</p><pre class="html"><code>&lt;form th:action=&quot;@{/createOrder}&quot;&gt;</code></pre><pre class="html"><code>&lt;input type=&quot;button&quot; th:value=&quot;#{form.submit}&quot; /&gt;</code></pre><pre class="html"><code>&lt;a th:href=&quot;@{/admin/users}&quot;&gt;</code></pre></section><section id="want-to-know-more" class="level2"><h2>Want to know more?</h2><p>Then the <a href="/documentation.html"><em>“Using Thymeleaf”</em></a> tutorial is what you’re looking for!</p></section>
 			</article>
 		</main>
 	</div>

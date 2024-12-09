@@ -68,36 +68,9 @@
 							Written by Rafał Borowiec — <a href="http://blog.codeleak.pl">http://blog.codeleak.pl</a>
 						</div>
 									</header>
-				<section id="introduction" class="level2">
-<h2>Introduction</h2>
-<p>Usually websites share common page components like the header, footer, menu and possibly many more. These page components can be used by the same or different layouts. There are two main styles of organizing layouts in projects: <em>include</em> style and <em>hierarchical</em> style. Both styles can be easily utilized with Thymeleaf without losing its biggest value: <strong>natural templating</strong>.</p>
-<section id="include-style-layouts" class="level3">
-<h3>Include-style layouts</h3>
-<p>In this style pages are built by embedding common page component code directly within each view to generate the final result. In Thymeleaf this can be done using <strong>Thymeleaf Standard Layout System</strong>:</p>
-<pre class="xml"><code>&lt;body&gt;
+				<section id="introduction" class="level2"><h2>Introduction</h2><p>Usually websites share common page components like the header, footer, menu and possibly many more. These page components can be used by the same or different layouts. There are two main styles of organizing layouts in projects: <em>include</em> style and <em>hierarchical</em> style. Both styles can be easily utilized with Thymeleaf without losing its biggest value: <strong>natural templating</strong>.</p><section id="include-style-layouts" class="level3"><h3>Include-style layouts</h3><p>In this style pages are built by embedding common page component code directly within each view to generate the final result. In Thymeleaf this can be done using <strong>Thymeleaf Standard Layout System</strong>:</p><pre class="xml"><code>&lt;body&gt;
     &lt;div th:insert=&quot;footer :: copy&quot;&gt;...&lt;/div&gt;
-&lt;/body&gt;</code></pre>
-<p>The include-style layouts are pretty simple to understand and implement and in fact they offer flexibility in developing views, which is their biggest advantage. The main disadvantage of this solution, though, is that some code duplication is introduced so modifying the layout of a large number of views in big applications can become a bit cumbersome.</p>
-</section>
-<section id="hierarchical-style-layouts" class="level3">
-<h3>Hierarchical-style layouts</h3>
-<p>In hierarchical style, the templates are usually created with a parent-child relation, from the more general part (layout) to the most specific ones (subviews; e.g. page content). Each component of the template may be included dynamically based on the inclusion and substitution of template fragments. In Thymeleaf this can be done using <strong>Thymeleaf Layout Dialect</strong>.</p>
-<p>The main advantages of this solution are the reuse of atomic portions of the view and modular design, whereas the main disadvantage is that much more configuration is needed in order to use them, so the complexity of the views is bigger than with Include Style Layouts which are more “natural” to use.</p>
-</section>
-</section>
-<section id="example-application" class="level2">
-<h2>Example Application</h2>
-<p>All the samples and code fragments presented in this article are available on GitHub at <a href="https://github.com/thymeleaf/thymeleafexamples-layouts">https://github.com/thymeleaf/thymeleafexamples-layouts</a></p>
-</section>
-<section id="thymeleaf-standard-layout-system" class="level2">
-<h2>Thymeleaf Standard Layout System</h2>
-<p>Thymeleaf Standard Layout System offers page fragment inclusion that is similar to <em>JSP includes</em>, with some important improvements over them.</p>
-<section id="basic-inclusion-with-thinsert-and-threplace" class="level3">
-<h3>Basic inclusion with <code>th:insert</code> and <code>th:replace</code></h3>
-<p>Thymeleaf can include parts of other pages as fragments (whereas JSP only includes complete pages) using <code>th:insert</code> (it will simply insert the specified fragment as the body of its host tag) or <code>th:replace</code> (will actually substitute the host tag by the fragment’s). This allows the grouping of fragments into one or several pages. Look at the example.</p>
-<p>The <code>home/homeNotSignedIn.html</code> template is rendered when the anonymous user enters the home page of our application.</p>
-<p>Class <code>thymeleafexamples.layouts.home.HomeController</code></p>
-<pre class="java"><code>@Controller
+&lt;/body&gt;</code></pre><p>The include-style layouts are pretty simple to understand and implement and in fact they offer flexibility in developing views, which is their biggest advantage. The main disadvantage of this solution, though, is that some code duplication is introduced so modifying the layout of a large number of views in big applications can become a bit cumbersome.</p></section><section id="hierarchical-style-layouts" class="level3"><h3>Hierarchical-style layouts</h3><p>In hierarchical style, the templates are usually created with a parent-child relation, from the more general part (layout) to the most specific ones (subviews; e.g. page content). Each component of the template may be included dynamically based on the inclusion and substitution of template fragments. In Thymeleaf this can be done using <strong>Thymeleaf Layout Dialect</strong>.</p><p>The main advantages of this solution are the reuse of atomic portions of the view and modular design, whereas the main disadvantage is that much more configuration is needed in order to use them, so the complexity of the views is bigger than with Include Style Layouts which are more “natural” to use.</p></section></section><section id="example-application" class="level2"><h2>Example Application</h2><p>All the samples and code fragments presented in this article are available on GitHub at <a href="https://github.com/thymeleaf/thymeleafexamples-layouts">https://github.com/thymeleaf/thymeleafexamples-layouts</a></p></section><section id="thymeleaf-standard-layout-system" class="level2"><h2>Thymeleaf Standard Layout System</h2><p>Thymeleaf Standard Layout System offers page fragment inclusion that is similar to <em>JSP includes</em>, with some important improvements over them.</p><section id="basic-inclusion-with-thinsert-and-threplace" class="level3"><h3>Basic inclusion with <code>th:insert</code> and <code>th:replace</code></h3><p>Thymeleaf can include parts of other pages as fragments (whereas JSP only includes complete pages) using <code>th:insert</code> (it will simply insert the specified fragment as the body of its host tag) or <code>th:replace</code> (will actually substitute the host tag by the fragment’s). This allows the grouping of fragments into one or several pages. Look at the example.</p><p>The <code>home/homeNotSignedIn.html</code> template is rendered when the anonymous user enters the home page of our application.</p><p>Class <code>thymeleafexamples.layouts.home.HomeController</code></p><pre class="java"><code>@Controller
 class HomeController {
 
     @GetMapping(&quot;/&quot;)
@@ -105,9 +78,7 @@ class HomeController {
         return principal != null ? &quot;home/homeSignedIn&quot; : &quot;home/homeNotSignedIn&quot;;
     }
 
-}</code></pre>
-<p>Template <code>home/homeNotSignedIn.html</code></p>
-<pre class="xml"><code>&lt;!DOCTYPE html&gt;
+}</code></pre><p>Template <code>home/homeNotSignedIn.html</code></p><pre class="xml"><code>&lt;!DOCTYPE html&gt;
 &lt;html&gt;
   &lt;head&gt;
     ...
@@ -148,19 +119,7 @@ class HomeController {
     &lt;/div&gt;
     ...
   &lt;/body&gt;
-&lt;/html&gt;</code></pre>
-<p>You can open the file directly in a browser:</p>
-<figure>
-<img src="images/layouts/homeNotSignedIn.png" alt="Home page when not signed in" />
-<figcaption aria-hidden="true">Home page when not signed in</figcaption>
-</figure>
-<p>In the above example, we are building a page that consists of page header and page footer. In Thymeleaf all fragments can be defined in a single file (e.g. <code>fragments.html</code>) or in a separate files, like in this particular case.</p>
-<p>Let’s shortly analyze the inclusion statement:</p>
-<pre class="xml"><code>&lt;div th:replace=&quot;fragments/header :: header&quot;&gt;...&lt;/div&gt;</code></pre>
-<p>The first part of the statement, <code>fragments/header</code>, is a template name that we are referencing. This can be a file (like in this example) or it can reference to the same file either by using the <code>this</code> keyword (e.g. <code>this :: header</code>) or without any keyword (e.g. <code>:: header</code>). The expression after double colon is a fragment selector (either fragment name or <em>Markup Selector</em>). As you can also see, the header fragment contains a markup that is used for static prototyping only.</p>
-<p>Header and footer are defined in the following files:</p>
-<p>Template <code>fragments/header.html</code></p>
-<pre class="xml"><code>&lt;!DOCTYPE html&gt;
+&lt;/html&gt;</code></pre><p>You can open the file directly in a browser:</p><figure><img src="images/layouts/homeNotSignedIn.png" alt="Home page when not signed in" /><figcaption>Home page when not signed in</figcaption></figure><p>In the above example, we are building a page that consists of page header and page footer. In Thymeleaf all fragments can be defined in a single file (e.g. <code>fragments.html</code>) or in a separate files, like in this particular case.</p><p>Let’s shortly analyze the inclusion statement:</p><pre class="xml"><code>&lt;div th:replace=&quot;fragments/header :: header&quot;&gt;...&lt;/div&gt;</code></pre><p>The first part of the statement, <code>fragments/header</code>, is a template name that we are referencing. This can be a file (like in this example) or it can reference to the same file either by using the <code>this</code> keyword (e.g. <code>this :: header</code>) or without any keyword (e.g. <code>:: header</code>). The expression after double colon is a fragment selector (either fragment name or <em>Markup Selector</em>). As you can also see, the header fragment contains a markup that is used for static prototyping only.</p><p>Header and footer are defined in the following files:</p><p>Template <code>fragments/header.html</code></p><pre class="xml"><code>&lt;!DOCTYPE html&gt;
 &lt;html&gt;
   &lt;head&gt;
     ...
@@ -202,14 +161,7 @@ class HomeController {
       &lt;/div&gt;
     &lt;/div&gt;
   &lt;/body&gt;
-&lt;/html&gt;</code></pre>
-<p>…which we can open directly in a browser:</p>
-<figure>
-<img src="images/layouts/header.png" alt="Header page" />
-<figcaption aria-hidden="true">Header page</figcaption>
-</figure>
-<p>And template <code>fragments/footer.html</code></p>
-<pre class="xml"><code>&lt;!DOCTYPE html&gt;
+&lt;/html&gt;</code></pre><p>…which we can open directly in a browser:</p><figure><img src="images/layouts/header.png" alt="Header page" /><figcaption>Header page</figcaption></figure><p>And template <code>fragments/footer.html</code></p><pre class="xml"><code>&lt;!DOCTYPE html&gt;
 &lt;html&gt;
   &lt;head&gt;
     ...
@@ -219,33 +171,15 @@ class HomeController {
       &amp;copy; 2016 Footer
     &lt;/div&gt;
   &lt;/body&gt;
-&lt;/html&gt;</code></pre>
-<p>Note how that the referenced fragments are specified with <code>th:fragment</code> attributes. This way we can define multiple fragments in one template file, as it was mentioned earlier.</p>
-<p>What is important here, is that all the templates can still be natural templates and can be viewed in a browser without a running server.</p>
-</section>
-<section id="including-with-markup-selectors" class="level3">
-<h3>Including with Markup Selectors</h3>
-<p>In Thymeleaf, fragments don’t need to be explicitly specified using <code>th:fragment</code> at the page they are extracted from. Thymeleaf can select an arbitrary section of a page as a fragment (even a page living on an external server) by means of its Markup Selector syntax, similar to XPath expressions, CSS or jQuery selectors.</p>
-<pre class="xml"><code>&lt;div th:insert=&quot;https://www.thymeleaf.org :: section.description&quot; &gt;...&lt;/div&gt;</code></pre>
-<p>The above code will include a <code>section</code> with <code>class="description"</code> from <code>thymeleaf.org</code>.</p>
-<p>In order to make it happen, the template engine must be configured with <code>UrlTemplateResolver</code>:</p>
-<pre class="java"><code>@Bean
+&lt;/html&gt;</code></pre><p>Note how that the referenced fragments are specified with <code>th:fragment</code> attributes. This way we can define multiple fragments in one template file, as it was mentioned earlier.</p><p>What is important here, is that all the templates can still be natural templates and can be viewed in a browser without a running server.</p></section><section id="including-with-markup-selectors" class="level3"><h3>Including with Markup Selectors</h3><p>In Thymeleaf, fragments don’t need to be explicitly specified using <code>th:fragment</code> at the page they are extracted from. Thymeleaf can select an arbitrary section of a page as a fragment (even a page living on an external server) by means of its Markup Selector syntax, similar to XPath expressions, CSS or jQuery selectors.</p><pre class="xml"><code>&lt;div th:insert=&quot;https://www.thymeleaf.org :: section.description&quot; &gt;...&lt;/div&gt;</code></pre><p>The above code will include a <code>section</code> with <code>class="description"</code> from <code>thymeleaf.org</code>.</p><p>In order to make it happen, the template engine must be configured with <code>UrlTemplateResolver</code>:</p><pre class="java"><code>@Bean
 public SpringTemplateEngine templateEngine() {
     SpringTemplateEngine templateEngine = new SpringTemplateEngine();    
     templateEngine.addTemplateResolver(new UrlTemplateResolver());
     ...
     return templateEngine;
-}</code></pre>
-<p>For the Markup Selector syntax reference checkout this section in Thymeleaf documentation: <a href="http://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#appendix-c-markup-selector-syntax">Markup Selector syntax</a>.</p>
-</section>
-<section id="using-expressions" class="level3">
-<h3>Using expressions</h3>
-<p>In <code>templatename :: selector</code>, both <code>templatename</code> and <code>selector</code> can be fully-featured expressions. In the below example we want to include different fragments depending on a condition. If the authenticated user is an Admin, we will show a different footer than for a regular user:</p>
-<pre class="xml"><code>&lt;div th:replace=&quot;fragments/footer :: ${#authentication.principal.isAdmin()} ? &#39;footer-admin&#39; : &#39;footer&#39;&quot;&gt;
+}</code></pre><p>For the Markup Selector syntax reference checkout this section in Thymeleaf documentation: <a href="http://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#appendix-c-markup-selector-syntax">Markup Selector syntax</a>.</p></section><section id="using-expressions" class="level3"><h3>Using expressions</h3><p>In <code>templatename :: selector</code>, both <code>templatename</code> and <code>selector</code> can be fully-featured expressions. In the below example we want to include different fragments depending on a condition. If the authenticated user is an Admin, we will show a different footer than for a regular user:</p><pre class="xml"><code>&lt;div th:replace=&quot;fragments/footer :: ${#authentication.principal.isAdmin()} ? &#39;footer-admin&#39; : &#39;footer&#39;&quot;&gt;
   &amp;copy; 2016 The Static Templates
-&lt;/div&gt;</code></pre>
-<p><code>fragments/footer.html</code> has slightly changed, as we need to have two footers defined:</p>
-<pre class="xml"><code>&lt;!DOCTYPE html&gt;
+&lt;/div&gt;</code></pre><p><code>fragments/footer.html</code> has slightly changed, as we need to have two footers defined:</p><pre class="xml"><code>&lt;!DOCTYPE html&gt;
 &lt;html&gt;
   &lt;head&gt;
     ...
@@ -259,13 +193,7 @@ public SpringTemplateEngine templateEngine() {
       &amp;copy; 2016 Admin Footer
     &lt;/div&gt;
   &lt;/body&gt;
-&lt;/html&gt;</code></pre>
-</section>
-<section id="parameterized-inclusion" class="level3">
-<h3>Parameterized inclusion</h3>
-<p>Fragments can specify arguments, just like methods. Whenever they are explicitly specified with a <code>th:fragment</code> attribute, they can provide an argument signature that can then be filled in with arguments from the calling <code>th:insert</code> or <code>th:replace</code> attributes.</p>
-<p>Examples talk best. We can use parameterized inclusion in many contexts but one real life context is displaying messages on different pages of our application after successful form submission. Let’s look at the signup process in the application:</p>
-<pre class="java"><code>@PostMapping(&quot;signup&quot;)
+&lt;/html&gt;</code></pre></section><section id="parameterized-inclusion" class="level3"><h3>Parameterized inclusion</h3><p>Fragments can specify arguments, just like methods. Whenever they are explicitly specified with a <code>th:fragment</code> attribute, they can provide an argument signature that can then be filled in with arguments from the calling <code>th:insert</code> or <code>th:replace</code> attributes.</p><p>Examples talk best. We can use parameterized inclusion in many contexts but one real life context is displaying messages on different pages of our application after successful form submission. Let’s look at the signup process in the application:</p><pre class="java"><code>@PostMapping(&quot;signup&quot;)
 String signup(@Valid @ModelAttribute SignupForm signupForm,
         Errors errors, RedirectAttributes ra) {
     
@@ -279,9 +207,7 @@ String signup(@Valid @ModelAttribute SignupForm signupForm,
     
     return &quot;redirect:/&quot;;
     
-}</code></pre>
-<p>As you can see, after a successful signup the user will be redirected to the home page with a flash attribute filled in. We want to create a reusable and parameterized fragment. This can be done as follows:</p>
-<pre class="xml"><code>&lt;!DOCTYPE html&gt;
+}</code></pre><p>As you can see, after a successful signup the user will be redirected to the home page with a flash attribute filled in. We want to create a reusable and parameterized fragment. This can be done as follows:</p><pre class="xml"><code>&lt;!DOCTYPE html&gt;
 &lt;html&gt;
   &lt;head&gt;
     ...
@@ -292,76 +218,41 @@ String signup(@Valid @ModelAttribute SignupForm signupForm,
       &lt;span th:text=&quot;${message}&quot;&gt;Test&lt;/span&gt;
     &lt;/div&gt;
   &lt;/body&gt;
-&lt;/html&gt;</code></pre>
-<p>The above <code>alert</code> fragment takes two arguments: <code>type</code> and <code>message</code>. The <code>type</code> is the message type used for styling a message whereas the <code>message</code> is a text that will be shown to the user. We ensure that arguments exist and are not empty by using a <code>th:assert</code> attribute.</p>
-<p>In order to include <code>alert</code> in any template we may write the following code (please note, that the value of a variable can be an expression):</p>
-<pre class="xml"><code>&lt;div th:replace=&quot;fragments/alert :: alert (type=&#39;danger&#39;, message=${errorMessage})&quot;&gt;...&lt;/div&gt;</code></pre>
-<p>Parameterized fragments let developers create functional-like fragments that are easier to reuse. Read more about parameterized fragments in the Thymeleaf documentation: <a href="http://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#parameterizable-fragment-signatures">Parameterizable fragment signatures</a>.</p>
-</section>
-<section id="fragment-expressions" class="level3">
-<h3>Fragment Expressions</h3>
-<p>Thymeleaf 3.0 introduced a new type of expression as a part of the general Thymeleaf Standard Expression system: <strong>Fragment Expressions</strong>:</p>
-<pre class="xml"><code>    &lt;div th:insert=&quot;~{fragments/footer :: footer}&quot;&gt;...&lt;/div&gt;</code></pre>
-<p>The idea of this syntax is to be able to use resolved fragments as any other kind of objects in the template execution context for later use:</p>
-<pre class="xml"><code>&lt;div th:replace=&quot;${#authentication.principal.isAdmin()} ? ~{fragments/footer :: footer-admin} : ~{fragments/footer :: footer-admin}&quot;&gt;
+&lt;/html&gt;</code></pre><p>The above <code>alert</code> fragment takes two arguments: <code>type</code> and <code>message</code>. The <code>type</code> is the message type used for styling a message whereas the <code>message</code> is a text that will be shown to the user. We ensure that arguments exist and are not empty by using a <code>th:assert</code> attribute.</p><p>In order to include <code>alert</code> in any template we may write the following code (please note, that the value of a variable can be an expression):</p><pre class="xml"><code>&lt;div th:replace=&quot;fragments/alert :: alert (type=&#39;danger&#39;, message=${errorMessage})&quot;&gt;...&lt;/div&gt;</code></pre><p>Parameterized fragments let developers create functional-like fragments that are easier to reuse. Read more about parameterized fragments in the Thymeleaf documentation: <a href="http://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#parameterizable-fragment-signatures">Parameterizable fragment signatures</a>.</p></section><section id="fragment-expressions" class="level3"><h3>Fragment Expressions</h3><p>Thymeleaf 3.0 introduced a new type of expression as a part of the general Thymeleaf Standard Expression system: <strong>Fragment Expressions</strong>:</p><pre class="xml"><code>    &lt;div th:insert=&quot;~{fragments/footer :: footer}&quot;&gt;...&lt;/div&gt;</code></pre><p>The idea of this syntax is to be able to use resolved fragments as any other kind of objects in the template execution context for later use:</p><pre class="xml"><code>&lt;div th:replace=&quot;${#authentication.principal.isAdmin()} ? ~{fragments/footer :: footer-admin} : ~{fragments/footer :: footer-admin}&quot;&gt;
   &amp;copy; 2016 The Static Templates
-&lt;/div&gt;</code></pre>
-<p>Fragment expression allows creating fragments in a way such that they can be enriched with markup coming from the calling templates, resulting in a layout mechanism that is far more flexible than <code>th:insert</code> and <code>th:replace</code>only.</p>
-<section id="flexible-layout-example" class="level4">
-<h4>Flexible Layout Example</h4>
-<p>The <code>task/layout.html</code> file defines all the fragments that will be used by calling templates. The below <code>header</code> fragment takes <code>breadcrumb</code> parameter that will replace <code>ol</code> markup with its resolved value:</p>
-<pre class="xml"><code>&lt;!--/* Header fragment */--&gt;
+&lt;/div&gt;</code></pre><p>Fragment expression allows creating fragments in a way such that they can be enriched with markup coming from the calling templates, resulting in a layout mechanism that is far more flexible than <code>th:insert</code> and <code>th:replace</code>only.</p><section id="flexible-layout-example" class="level4"><h4>Flexible Layout Example</h4><p>The <code>task/layout.html</code> file defines all the fragments that will be used by calling templates. The below <code>header</code> fragment takes <code>breadcrumb</code> parameter that will replace <code>ol</code> markup with its resolved value:</p><pre class="xml"><code>&lt;!--/* Header fragment */--&gt;
 &lt;div th:fragment=&quot;header(breadcrumb)&quot;&gt;
     &lt;ol class=&quot;breadcrumb container&quot; th:replace=&quot;${breadcrumb}&quot;&gt;
         &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Home&lt;/a&gt;&lt;/li&gt;
     &lt;/ol&gt;
-&lt;/div&gt;</code></pre>
-<p>In the calling template (<code>task/task-list.html</code>) we will use a <em>Markup Selector</em> syntax to pass the element matching <code>.breadcrumb</code> selector:</p>
-<pre class="xml"><code>&lt;!--/* The markup with breadcrumb class will be passed to the header fragment */--&gt;
+&lt;/div&gt;</code></pre><p>In the calling template (<code>task/task-list.html</code>) we will use a <em>Markup Selector</em> syntax to pass the element matching <code>.breadcrumb</code> selector:</p><pre class="xml"><code>&lt;!--/* The markup with breadcrumb class will be passed to the header fragment */--&gt;
 &lt;header th:insert=&quot;task/layout :: header(~{ :: .breadcrumb})&quot;&gt;
     &lt;ol class=&quot;breadcrumb container&quot;&gt;
         &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Home&lt;/a&gt;&lt;/li&gt;
         &lt;li&gt;&lt;a href=&quot;#&quot; th:href=&quot;@{/task}&quot;&gt;Tasks&lt;/a&gt;&lt;/li&gt;
     &lt;/ol&gt;
-&lt;/header&gt;</code></pre>
-<p>As a result, the following HTML will be generated for the <code>task/taks-list</code> view:</p>
-<pre class="xml"><code>&lt;header&gt;
+&lt;/header&gt;</code></pre><p>As a result, the following HTML will be generated for the <code>task/taks-list</code> view:</p><pre class="xml"><code>&lt;header&gt;
     &lt;div&gt;
         &lt;ol class=&quot;breadcrumb container&quot;&gt;
             &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Home&lt;/a&gt;&lt;/li&gt;
             &lt;li&gt;&lt;a href=&quot;[...]&quot;&gt;Tasks&lt;/a&gt;&lt;/li&gt;
         &lt;/ol&gt;
     &lt;/div&gt;
-&lt;/header&gt;</code></pre>
-<p>Similarily, we can use the same fragment with different breadcrumb in another view (<code>task/task.html</code>):</p>
-<pre class="xml"><code>&lt;header th:insert=&quot;task/layout :: header(~{ :: .breadcrumb})&quot;&gt;
+&lt;/header&gt;</code></pre><p>Similarily, we can use the same fragment with different breadcrumb in another view (<code>task/task.html</code>):</p><pre class="xml"><code>&lt;header th:insert=&quot;task/layout :: header(~{ :: .breadcrumb})&quot;&gt;
     &lt;ol class=&quot;breadcrumb container&quot;&gt;
         &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Home&lt;/a&gt;&lt;/li&gt;
         &lt;li&gt;&lt;a href=&quot;#&quot; th:href=&quot;@{/task}&quot;&gt;Tasks&lt;/a&gt;&lt;/li&gt;
         &lt;li th:text=&quot;${&#39;Task &#39; + task.id}&quot;&gt;Task&lt;/li&gt;
     &lt;/ol&gt;
-&lt;/header&gt;</code></pre>
-<p>If there is nothing to be passed to the fragment, we can use a special empty fragment expression - <code>~{}</code>. It will pass an empty value that will be ignored in the <code>header</code> fragment:</p>
-<pre class="xml"><code>&lt;header th:insert=&quot;task/layout :: header(~{})&quot;&gt;
+&lt;/header&gt;</code></pre><p>If there is nothing to be passed to the fragment, we can use a special empty fragment expression - <code>~{}</code>. It will pass an empty value that will be ignored in the <code>header</code> fragment:</p><pre class="xml"><code>&lt;header th:insert=&quot;task/layout :: header(~{})&quot;&gt;
     
-&lt;/header&gt;</code></pre>
-<p>One another feature of the new fragment expression is so called <em>no-operation</em> token that allows the default markup of the fragment to be used in case this is needed:</p>
-<pre class="xml"><code>&lt;header th:insert=&quot;task/layout :: header(_)&quot;&gt;
+&lt;/header&gt;</code></pre><p>One another feature of the new fragment expression is so called <em>no-operation</em> token that allows the default markup of the fragment to be used in case this is needed:</p><pre class="xml"><code>&lt;header th:insert=&quot;task/layout :: header(_)&quot;&gt;
     
-&lt;/header&gt;</code></pre>
-<p>As a result, we will get:</p>
-<pre class="xml"><code>&lt;header&gt;
+&lt;/header&gt;</code></pre><p>As a result, we will get:</p><pre class="xml"><code>&lt;header&gt;
     &lt;ol class=&quot;breadcrumb container&quot;&gt;
         &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Home&lt;/a&gt;&lt;/li&gt;
     &lt;/ol&gt;
-&lt;/header&gt;</code></pre>
-<p>Fragment Expression enables the customization of fragments in ways that until now were only possible using the 3rd party Layout Dialect. Read more about this topic in the Thymeleaf documentation: <a href="http://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#flexible-layouts-beyond-mere-fragment-insertion">Flexible layouts: beyond mere fragment insertion</a></p>
-</section>
-</section>
-<section id="fragment-inclusion-from-spring-controller" class="level3">
-<h3>Fragment inclusion from Spring <code>@Controller</code></h3>
-<p>Fragments can be directly specified from a Spring MVC controller, i.e. <code>signup :: signupForm</code>; which can be useful for AJAX controllers that return only a small fragment of HTML to the browser. In the example below, the signup form fragment will be loaded upon AJAX request and the whole signup view - on regular request:</p>
-<pre class="java"><code>@RequestMapping(value = &quot;signup&quot;)
+&lt;/header&gt;</code></pre><p>Fragment Expression enables the customization of fragments in ways that until now were only possible using the 3rd party Layout Dialect. Read more about this topic in the Thymeleaf documentation: <a href="http://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#flexible-layouts-beyond-mere-fragment-insertion">Flexible layouts: beyond mere fragment insertion</a></p></section></section><section id="fragment-inclusion-from-spring-controller" class="level3"><h3>Fragment inclusion from Spring <code>@Controller</code></h3><p>Fragments can be directly specified from a Spring MVC controller, i.e. <code>signup :: signupForm</code>; which can be useful for AJAX controllers that return only a small fragment of HTML to the browser. In the example below, the signup form fragment will be loaded upon AJAX request and the whole signup view - on regular request:</p><pre class="java"><code>@RequestMapping(value = &quot;signup&quot;)
 public String signup(Model model,
         @RequestHeader(&quot;X-Requested-With&quot;) String requestedWith) {
         
@@ -371,9 +262,7 @@ public String signup(Model model,
     }
     return SIGNUP_VIEW_NAME;
     
-}</code></pre>
-<p>The fragment is defined in <code>signup/signup.html</code>:</p>
-<pre class="xml"><code>&lt;!DOCTYPE html&gt;
+}</code></pre><p>The fragment is defined in <code>signup/signup.html</code>:</p><pre class="xml"><code>&lt;!DOCTYPE html&gt;
 &lt;html&gt;
   &lt;head&gt;
     ...
@@ -384,51 +273,17 @@ public String signup(Model model,
       ...
     &lt;/form&gt;
   &lt;/body&gt;
-&lt;/html&gt;</code></pre>
-<p>The above fragment is loaded when a new user wants to signup from a home page. The modal dialog will be shown upon clicking <code>Signup</code> button and the content will be loaded via AJAX call (see <code>home/homeNotSignedIn.html</code>).</p>
-</section>
-<section id="references" class="level3">
-<h3>References</h3>
-<p>Please check Thymeleaf documentation that describes this topic very thoroughly.</p>
-<ul>
-<li><a href="http://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#template-layout">Template Layout</a>.</li>
-<li><a href="http://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#fragment-specification-syntax">Fragment Expressions</a></li>
-<li><a href="http://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#flexible-layouts-beyond-mere-fragment-insertion">Flexible layouts: beyond mere fragment insertion</a></li>
-</ul>
-</section>
-<section id="thymol" class="level3">
-<h3>Thymol</h3>
-<p>When a Thymeleaf template is used as a static prototype, we cannot see the fragments we are including using the <code>th:insert/th:replace</code> host tags. We can only see the fragments aside, opening their own template documents.</p>
-<p>However, there is a way to see the real fragments included into our pages while prototyping. This can be done using <a href="http://www.thymeleaf.org/ecosystem.html#thymol">Thymol</a>, an unofficial JavaScript library that is an implementation of Thymeleaf’s standard fragment inclusion functionality, providing static support for some Thymeleaf attributes like <code>th:insert</code> or <code>th:replace</code>, conditional display with <code>th:if</code>/<code>th:unless</code>, etc.</p>
-<p>As Thymol’s author states: <em>Thymol was created in order to provide a more accurate static representation of Thymeleaf’s dynamic templating capabilities by offering support for Thymeleaf attributes through a statically accessible javascript library</em></p>
-<p>Thymol documentation and examples can be found on the official project site here: <a href="http://www.thymoljs.org/">Thymol</a>.</p>
-</section>
-</section>
-<section id="thymeleaf-layout-dialect" class="level2">
-<h2>Thymeleaf Layout Dialect</h2>
-<p><a href="https://github.com/ultraq/thymeleaf-layout-dialect">Layout Dialect</a> gives people the possibility of using hierarchical approach, but from a Thymeleaf-only perspective and without the need to use external libraries, like Apache Tiles. Thymeleaf Layout Dialect uses layout/decorator templates to style the content, as well as it can pass entire fragment elements to included pages. Concepts of this library are similar to <a href="http://wiki.sitemesh.org">SiteMesh</a> or JSF with Facelets.</p>
-<section id="configuration" class="level3">
-<h3>Configuration</h3>
-<p>To get started with Layout Dialect we need to include it into the <code>pom.xml</code>. The dependency is:</p>
-<pre class="xml"><code>&lt;dependency&gt;
+&lt;/html&gt;</code></pre><p>The above fragment is loaded when a new user wants to signup from a home page. The modal dialog will be shown upon clicking <code>Signup</code> button and the content will be loaded via AJAX call (see <code>home/homeNotSignedIn.html</code>).</p></section><section id="references" class="level3"><h3>References</h3><p>Please check Thymeleaf documentation that describes this topic very thoroughly.</p><ul><li><a href="http://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#template-layout">Template Layout</a>.</li><li><a href="http://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#fragment-specification-syntax">Fragment Expressions</a></li><li><a href="http://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#flexible-layouts-beyond-mere-fragment-insertion">Flexible layouts: beyond mere fragment insertion</a></li></ul></section><section id="thymol" class="level3"><h3>Thymol</h3><p>When a Thymeleaf template is used as a static prototype, we cannot see the fragments we are including using the <code>th:insert/th:replace</code> host tags. We can only see the fragments aside, opening their own template documents.</p><p>However, there is a way to see the real fragments included into our pages while prototyping. This can be done using <a href="http://www.thymeleaf.org/ecosystem.html#thymol">Thymol</a>, an unofficial JavaScript library that is an implementation of Thymeleaf’s standard fragment inclusion functionality, providing static support for some Thymeleaf attributes like <code>th:insert</code> or <code>th:replace</code>, conditional display with <code>th:if</code>/<code>th:unless</code>, etc.</p><p>As Thymol’s author states: <em>Thymol was created in order to provide a more accurate static representation of Thymeleaf’s dynamic templating capabilities by offering support for Thymeleaf attributes through a statically accessible javascript library</em></p><p>Thymol documentation and examples can be found on the official project site here: <a href="http://www.thymoljs.org/">Thymol</a>.</p></section></section><section id="thymeleaf-layout-dialect" class="level2"><h2>Thymeleaf Layout Dialect</h2><p><a href="https://github.com/ultraq/thymeleaf-layout-dialect">Layout Dialect</a> gives people the possibility of using hierarchical approach, but from a Thymeleaf-only perspective and without the need to use external libraries, like Apache Tiles. Thymeleaf Layout Dialect uses layout/decorator templates to style the content, as well as it can pass entire fragment elements to included pages. Concepts of this library are similar to <a href="http://wiki.sitemesh.org">SiteMesh</a> or JSF with Facelets.</p><section id="configuration" class="level3"><h3>Configuration</h3><p>To get started with Layout Dialect we need to include it into the <code>pom.xml</code>. The dependency is:</p><pre class="xml"><code>&lt;dependency&gt;
   &lt;groupId&gt;nz.net.ultraq.thymeleaf&lt;/groupId&gt;
   &lt;artifactId&gt;thymeleaf-layout-dialect&lt;/artifactId&gt;
   &lt;version&gt;2.0.5&lt;/version&gt;
-&lt;/dependency&gt;</code></pre>
-<p>We will also need to configure the integration by adding an additional dialect to our template engine:</p>
-<pre class="java"><code>@Bean
+&lt;/dependency&gt;</code></pre><p>We will also need to configure the integration by adding an additional dialect to our template engine:</p><pre class="java"><code>@Bean
 public SpringTemplateEngine templateEngine() {
     SpringTemplateEngine templateEngine = new SpringTemplateEngine();
     ...
     templateEngine.addDialect(new LayoutDialect());
     return templateEngine;
-}</code></pre>
-<p>No other changes are required.</p>
-</section>
-<section id="creating-a-layout" class="level3">
-<h3>Creating a layout</h3>
-<p>The layout file is defined in <code>/WEB-INF/views/task/layout.html</code>:</p>
-<pre class="xml"><code>&lt;!DOCTYPE html&gt;
+}</code></pre><p>No other changes are required.</p></section><section id="creating-a-layout" class="level3"><h3>Creating a layout</h3><p>The layout file is defined in <code>/WEB-INF/views/task/layout.html</code>:</p><pre class="xml"><code>&lt;!DOCTYPE html&gt;
 &lt;html&gt;
   &lt;head&gt;
     &lt;!--/*  Each token will be replaced by their respective titles in the resulting page. */--&gt;
@@ -459,15 +314,7 @@ public SpringTemplateEngine templateEngine() {
       &lt;div th:replace=&quot;fragments/footer :: footer&quot;&gt;&amp;copy; 2014 The Static Templates&lt;/div&gt;
     &lt;/div&gt;
   &lt;/body&gt;
-&lt;/html&gt;</code></pre>
-<p>We can open the file directly in a browser:</p>
-<figure>
-<img src="images/layouts/layoutlayoutdialect.png" alt="Layout page" />
-<figcaption aria-hidden="true">Layout page</figcaption>
-</figure>
-<p>The above file is our decorator for content pages we will be creating in the application. The most important thing about the above example is <code>layout:fragment="content"</code>. This is the <em>heart</em> of the decorator page (layout). You can also notice, that header and footer are included using Standard Thymeleaf Layout System.</p>
-<p>The content page looks as follows (<code>WEB-INF/views/task/list.html</code>):</p>
-<pre class="xml"><code>&lt;!DOCTYPE html&gt;
+&lt;/html&gt;</code></pre><p>We can open the file directly in a browser:</p><figure><img src="images/layouts/layoutlayoutdialect.png" alt="Layout page" /><figcaption>Layout page</figcaption></figure><p>The above file is our decorator for content pages we will be creating in the application. The most important thing about the above example is <code>layout:fragment="content"</code>. This is the <em>heart</em> of the decorator page (layout). You can also notice, that header and footer are included using Standard Thymeleaf Layout System.</p><p>The content page looks as follows (<code>WEB-INF/views/task/list.html</code>):</p><pre class="xml"><code>&lt;!DOCTYPE html&gt;
 &lt;html layout:decorate=&quot;~{task/layout}&quot;&gt;
   &lt;head&gt;
     &lt;title&gt;Task List&lt;/title&gt;
@@ -499,20 +346,7 @@ public SpringTemplateEngine templateEngine() {
       &lt;/table&gt;
     &lt;/div&gt;
   &lt;/body&gt;
-&lt;/html&gt;</code></pre>
-<p>And in the browser it looks like this:</p>
-<figure>
-<img src="images/layouts/layoutlayoutdialectlist.png" alt="Layout page" />
-<figcaption aria-hidden="true">Layout page</figcaption>
-</figure>
-<p>Content of this <code>task/list</code> view will be decorated by the elements of <code>task/layout</code> view. Please note <code>layout:decorate="~{task/layout}"</code> attribute in <code>&lt;html&gt;</code> element. This attribute signals to the Layout Dialect which layout should be used to decorate given view. And please note it is using Thymeleaf Fragment Expression syntax.</p>
-<p>And what about <em>Natural Templates</em> using the Layout Dialect? Again, possible! You simply need to add some prototyping-only markup around the fragments being included in your templates and that’s it!</p>
-</section>
-<section id="include-style-approach-with-layout-dialect" class="level3">
-<h3>Include style approach with Layout Dialect</h3>
-<p>Layout Dialect supports not only hierarchical approach – it also provides a way to use it in an include-style way (<code>layout:include</code>). Comparing with standard Thymeleaf includes, with Layout Dialect you can pass HTML elements to the included page. Useful if you have some HTML that you want to reuse, but whose contents are too complex to pass by means of parameterized inclusion in standard Thymeleaf dialect.</p>
-<p>This is an example of a reusable alert fragment using <code>layout:fragment</code> (<code>task/alert.html</code>):</p>
-<pre class="xml"><code>&lt;!DOCTYPE html&gt;
+&lt;/html&gt;</code></pre><p>And in the browser it looks like this:</p><figure><img src="images/layouts/layoutlayoutdialectlist.png" alt="Layout page" /><figcaption>Layout page</figcaption></figure><p>Content of this <code>task/list</code> view will be decorated by the elements of <code>task/layout</code> view. Please note <code>layout:decorate="~{task/layout}"</code> attribute in <code>&lt;html&gt;</code> element. This attribute signals to the Layout Dialect which layout should be used to decorate given view. And please note it is using Thymeleaf Fragment Expression syntax.</p><p>And what about <em>Natural Templates</em> using the Layout Dialect? Again, possible! You simply need to add some prototyping-only markup around the fragments being included in your templates and that’s it!</p></section><section id="include-style-approach-with-layout-dialect" class="level3"><h3>Include style approach with Layout Dialect</h3><p>Layout Dialect supports not only hierarchical approach – it also provides a way to use it in an include-style way (<code>layout:include</code>). Comparing with standard Thymeleaf includes, with Layout Dialect you can pass HTML elements to the included page. Useful if you have some HTML that you want to reuse, but whose contents are too complex to pass by means of parameterized inclusion in standard Thymeleaf dialect.</p><p>This is an example of a reusable alert fragment using <code>layout:fragment</code> (<code>task/alert.html</code>):</p><pre class="xml"><code>&lt;!DOCTYPE html&gt;
 &lt;html&gt;
   &lt;body&gt;
     &lt;th:block layout:fragment=&quot;alert-content&quot;&gt;
@@ -523,16 +357,12 @@ public SpringTemplateEngine templateEngine() {
         &lt;/p&gt;
     &lt;/th:block&gt;
   &lt;/body&gt;
-&lt;/html&gt;</code></pre>
-<p>The calling of the above fragment may look as follows (<code>task/list.html</code>):</p>
-<pre class="xml"><code>    &lt;div layout:insert=&quot;~{task/alert :: alert}&quot; th:with=&quot;type=&#39;info&#39;, header=&#39;Info&#39;&quot; th:remove=&quot;tag&quot;&gt;
+&lt;/html&gt;</code></pre><p>The calling of the above fragment may look as follows (<code>task/list.html</code>):</p><pre class="xml"><code>    &lt;div layout:insert=&quot;~{task/alert :: alert}&quot; th:with=&quot;type=&#39;info&#39;, header=&#39;Info&#39;&quot; th:remove=&quot;tag&quot;&gt;
         &lt;!--/* Implements alert content fragment with simple content */--&gt;
         &lt;th:block layout:fragment=&quot;alert-content&quot;&gt;
             &lt;p&gt;&lt;em&gt;This is a simple list of tasks!&lt;/em&gt;&lt;/p&gt;
         &lt;/th:block&gt;
-    &lt;/div&gt;</code></pre>
-<p>Or:</p>
-<pre class="xml"><code>    &lt;div layout:insert=&quot;~{task/alert :: alert}&quot; th:with=&quot;type=&#39;danger&#39;, header=&#39;Oh snap! You got an error!&#39;&quot; th:remove=&quot;tag&quot;&gt;
+    &lt;/div&gt;</code></pre><p>Or:</p><pre class="xml"><code>    &lt;div layout:insert=&quot;~{task/alert :: alert}&quot; th:with=&quot;type=&#39;danger&#39;, header=&#39;Oh snap! You got an error!&#39;&quot; th:remove=&quot;tag&quot;&gt;
         &lt;!--/* Implements alert content fragment with full-blown HTML content */--&gt;
         &lt;th:block layout:fragment=&quot;alert-content&quot;&gt;
            &lt;p&gt;Duis mollis, est non commodo luctus, nisi erat porttitor ligula...&lt;/p&gt;
@@ -541,23 +371,7 @@ public SpringTemplateEngine templateEngine() {
                 &lt;button type=&quot;button&quot; class=&quot;btn btn-default&quot;&gt;Or do this&lt;/button&gt;
             &lt;/p&gt;
         &lt;/th:block&gt;
-    &lt;/div&gt;</code></pre>
-<p>In this case, the entire <code>alert-content</code> of <code>task/alert</code> (<code>/WEB-INF/views/task/alert.html</code>) template will be replaced by custom HTML above.</p>
-</section>
-<section id="references-1" class="level3">
-<h3>References</h3>
-<p>Please check out the Layout Dialect documentation that describes this topic very thoroughly. You will definitively find some more advanced examples than in this article.</p>
-<p>You can find the documentation here: <a href="https://github.com/ultraq/thymeleaf-layout-dialect">Layout Dialect</a>.</p>
-</section>
-</section>
-<section id="other-layout-options" class="level2">
-<h2>Other Layout Options</h2>
-<p>For some of the developers neither of the solutions presented before is sufficient. Thymeleaf Standard Layout System is not enough and using external libraries is not an option. In that case, the custom solution may be the way to go.</p>
-<section id="thymeleaf-custom-layout" class="level3">
-<h3>Thymeleaf Custom Layout</h3>
-<p>One of such a solutions is well described in this blog post: <a href="http://blog.codeleak.pl/2013/11/thymeleaf-template-layouts-in-spring.html">Thymeleaf template layouts in Spring MVC application with no extensions</a>. The idea of this solution is really simple. Let’s visualize that with an example:</p>
-<p>Example view file (1):</p>
-<pre class="xml"><code>&lt;!DOCTYPE html&gt;
+    &lt;/div&gt;</code></pre><p>In this case, the entire <code>alert-content</code> of <code>task/alert</code> (<code>/WEB-INF/views/task/alert.html</code>) template will be replaced by custom HTML above.</p></section><section id="references-1" class="level3"><h3>References</h3><p>Please check out the Layout Dialect documentation that describes this topic very thoroughly. You will definitively find some more advanced examples than in this article.</p><p>You can find the documentation here: <a href="https://github.com/ultraq/thymeleaf-layout-dialect">Layout Dialect</a>.</p></section></section><section id="other-layout-options" class="level2"><h2>Other Layout Options</h2><p>For some of the developers neither of the solutions presented before is sufficient. Thymeleaf Standard Layout System is not enough and using external libraries is not an option. In that case, the custom solution may be the way to go.</p><section id="thymeleaf-custom-layout" class="level3"><h3>Thymeleaf Custom Layout</h3><p>One of such a solutions is well described in this blog post: <a href="http://blog.codeleak.pl/2013/11/thymeleaf-template-layouts-in-spring.html">Thymeleaf template layouts in Spring MVC application with no extensions</a>. The idea of this solution is really simple. Let’s visualize that with an example:</p><p>Example view file (1):</p><pre class="xml"><code>&lt;!DOCTYPE html&gt;
 &lt;html&gt;
   &lt;head&gt;
     ...
@@ -570,9 +384,7 @@ public SpringTemplateEngine templateEngine() {
       &lt;/p&gt;
     &lt;/div&gt;
   &lt;/body&gt;
-&lt;/html&gt;</code></pre>
-<p>And the layout file (2):</p>
-<pre class="xml"><code>&lt;!DOCTYPE html&gt;
+&lt;/html&gt;</code></pre><p>And the layout file (2):</p><pre class="xml"><code>&lt;!DOCTYPE html&gt;
 &lt;html&gt;
   &lt;head&gt;
     ...
@@ -582,22 +394,7 @@ public SpringTemplateEngine templateEngine() {
     &lt;div th:replace=&quot;${view} :: content&quot;&gt;Page Content&lt;/div&gt;
     &lt;div th:replace=&quot;fragments/footer :: footer&quot;&gt;Footer&lt;/div&gt;
   &lt;/body&gt;
-&lt;/html&gt;</code></pre>
-<p>What will happen?</p>
-<ul>
-<li>Controllers return view names, that translate to single Thymeleaf view file (1)</li>
-<li>Before rendering the view, the original <code>viewName</code> attribute in <code>ModelAndView</code> object is replaced with with the name of the layout view and the original <code>viewName</code> becomes an attribute in <code>ModelAndView</code>.</li>
-<li>The layout view (2) contains several include elements: <code>&lt;div th:replace="${view} :: content"&gt;Page Content&lt;/div&gt;</code></li>
-<li>The actual view file contains fragments, <em>pulled</em> by the template which embeds the actual view</li>
-</ul>
-<p>The project can be found on <a href="https://github.com/kolorobot/thymeleaf-custom-layout">GitHub</a>.</p>
-</section>
-</section>
-<section id="summary" class="level2">
-<h2>Summary</h2>
-<p>In this article, we described many ways of achieving the same: <strong>layouts</strong>. You can build layouts using Thymeleaf Standard Layout System that is based on include-style approach. You also have powerful Layout Dialect, that uses decorator pattern for working with layout files. Finally, you can easily create your own solution.</p>
-<p>Hopefully, this article gives you some more insights on the topic and you will find your preferred approach depending on your needs.</p>
-</section>
+&lt;/html&gt;</code></pre><p>What will happen?</p><ul><li>Controllers return view names, that translate to single Thymeleaf view file (1)</li><li>Before rendering the view, the original <code>viewName</code> attribute in <code>ModelAndView</code> object is replaced with with the name of the layout view and the original <code>viewName</code> becomes an attribute in <code>ModelAndView</code>.</li><li>The layout view (2) contains several include elements: <code>&lt;div th:replace="${view} :: content"&gt;Page Content&lt;/div&gt;</code></li><li>The actual view file contains fragments, <em>pulled</em> by the template which embeds the actual view</li></ul><p>The project can be found on <a href="https://github.com/kolorobot/thymeleaf-custom-layout">GitHub</a>.</p></section></section><section id="summary" class="level2"><h2>Summary</h2><p>In this article, we described many ways of achieving the same: <strong>layouts</strong>. You can build layouts using Thymeleaf Standard Layout System that is based on include-style approach. You also have powerful Layout Dialect, that uses decorator pattern for working with layout files. Finally, you can easily create your own solution.</p><p>Hopefully, this article gives you some more insights on the topic and you will find your preferred approach depending on your needs.</p></section>
 			</article>
 		</main>
 	</div>

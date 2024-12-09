@@ -68,20 +68,7 @@
 							Written by José Miguel Samper &lt;jmiguelsamper AT users.sourceforge.net&gt;
 						</div>
 									</header>
-				<p>In this article we will show how to use Thymeleaf templates for composing email messages of several kinds, and we will integrate this with Spring’s email utilities in order to configure a simple but powerful email system.</p>
-<p>Note that, although this article –and the corresponding example app– uses the Spring Framework, Thymeleaf can also be used for processing email templates in an application without Spring. Also note that the example application is a web application, but there is no need for an app to be web-enabled in order to send email with Thymeleaf.</p>
-<section id="prerequisites" class="level2">
-<h2>Prerequisites</h2>
-<p>This article assumes you are familiar with both Thymeleaf and Spring 4. We will not dive into Spring Mail details, for further information please take a look at the <a href="http://docs.spring.io/spring/docs/4.3.x/spring-framework-reference/html/mail.html">Email chapter at the Spring Documentation</a>.</p>
-</section>
-<section id="example-application" class="level2">
-<h2>Example application</h2>
-<p>All the code in this article comes from a working example application. You can view or download the source from <a href="https://github.com/thymeleaf/thymeleaf/tree/3.1-master/examples/spring6/thymeleaf-examples-spring6-springmail">its GitHub repo</a>. Downloading this application, executing it and exploring its source code is highly recommended <em>(note that you will have to configure your SMTP user name and password (and your SMTP server if you are not using GMail) at <code>src/main/resources/configuration.properties</code>)</em>.</p>
-</section>
-<section id="sending-email-with-spring" class="level2">
-<h2>Sending email with Spring</h2>
-<p>First, you need to configure a <strong>Mail Sender</strong> object in your Spring configuration, as in the following code (your specific configuration needs might differ):</p>
-<pre class="java"><code>@Configuration
+				<p>In this article we will show how to use Thymeleaf templates for composing email messages of several kinds, and we will integrate this with Spring’s email utilities in order to configure a simple but powerful email system.</p><p>Note that, although this article –and the corresponding example app– uses the Spring Framework, Thymeleaf can also be used for processing email templates in an application without Spring. Also note that the example application is a web application, but there is no need for an app to be web-enabled in order to send email with Thymeleaf.</p><section id="prerequisites" class="level2"><h2>Prerequisites</h2><p>This article assumes you are familiar with both Thymeleaf and Spring 4. We will not dive into Spring Mail details, for further information please take a look at the <a href="http://docs.spring.io/spring/docs/4.3.x/spring-framework-reference/html/mail.html">Email chapter at the Spring Documentation</a>.</p></section><section id="example-application" class="level2"><h2>Example application</h2><p>All the code in this article comes from a working example application. You can view or download the source from <a href="https://github.com/thymeleaf/thymeleaf/tree/3.1-master/examples/spring6/thymeleaf-examples-spring6-springmail">its GitHub repo</a>. Downloading this application, executing it and exploring its source code is highly recommended <em>(note that you will have to configure your SMTP user name and password (and your SMTP server if you are not using GMail) at <code>src/main/resources/configuration.properties</code>)</em>.</p></section><section id="sending-email-with-spring" class="level2"><h2>Sending email with Spring</h2><p>First, you need to configure a <strong>Mail Sender</strong> object in your Spring configuration, as in the following code (your specific configuration needs might differ):</p><pre class="java"><code>@Configuration
 @PropertySource(&quot;classpath:mail/emailconfig.properties&quot;)
 public class SpringMailConfig implements ApplicationContextAware, EnvironmentAware {
 
@@ -115,44 +102,13 @@ public class SpringMailConfig implements ApplicationContextAware, EnvironmentAwa
 
     ...
 
-}</code></pre>
-<p>Note that the previous code is getting the configuration from the properties files <code>mail/emailconfig.properties</code> and <code>mail/javamail.properties</code> on your classpath.</p>
-<p>Spring provides a class called <code>MimeMessageHelper</code> to ease the creation of email messages. Let’s see how to use it together with our <code>mailSender</code>.</p>
-<pre class="java"><code>final MimeMessage mimeMessage = this.mailSender.createMimeMessage();
+}</code></pre><p>Note that the previous code is getting the configuration from the properties files <code>mail/emailconfig.properties</code> and <code>mail/javamail.properties</code> on your classpath.</p><p>Spring provides a class called <code>MimeMessageHelper</code> to ease the creation of email messages. Let’s see how to use it together with our <code>mailSender</code>.</p><pre class="java"><code>final MimeMessage mimeMessage = this.mailSender.createMimeMessage();
 final MimeMessageHelper message = new MimeMessageHelper(mimeMessage, &quot;UTF-8&quot;);
 message.setFrom(&quot;sender@example.com&quot;);
 message.setTo(&quot;recipient@example.com&quot;);
 message.setSubject(&quot;This is the message subject&quot;);
 message.setText(&quot;This is the message body&quot;);
-this.mailSender.send(mimeMessage);</code></pre>
-</section>
-<section id="thymeleaf-email-templates" class="level2">
-<h2>Thymeleaf email templates</h2>
-<p>Using Thymeleaf for processing our email templates would allow us to use some interesting features:</p>
-<ul>
-<li><strong>Expressions</strong> in Spring EL.</li>
-<li>Flow control: <strong>iterations</strong>, <strong>conditionals</strong>, …</li>
-<li><strong>Utility functions</strong>: date/number formatting, dealing with lists, arrays…</li>
-<li>Easy <strong>i18n</strong>, integrated with our application’s Spring internationalization infrastructure.</li>
-<li><strong>Natural templating</strong>: our email templates can be static prototypes, written by UI designers.</li>
-<li>etc…</li>
-</ul>
-<p>Also, given the fact that Thymeleaf has no required dependencies on the servlet API, there would be <strong>no need at all to create or send email from a web application</strong>. The techniques explained here could be used with little or no change in a standalone application with no web UI.</p>
-<section id="our-goals" class="level3">
-<h3>Our goals</h3>
-<p>Our example application will be sending five types of emails:</p>
-<ol type="1">
-<li>Text (non-HTML) email.</li>
-<li>Simple HTML (with internationalized greeting).</li>
-<li>HTML text with an attachment.</li>
-<li>HTML text with an inline image.</li>
-<li>HTML text edited by the user.</li>
-</ol>
-</section>
-<section id="spring-configuration" class="level3">
-<h3>Spring configuration</h3>
-<p>In order to process our templates, we will configure a <code>TemplateEngine</code> especially configured for email processing, in our Spring Email configuration:</p>
-<pre class="java"><code>@Configuration
+this.mailSender.send(mimeMessage);</code></pre></section><section id="thymeleaf-email-templates" class="level2"><h2>Thymeleaf email templates</h2><p>Using Thymeleaf for processing our email templates would allow us to use some interesting features:</p><ul><li><strong>Expressions</strong> in Spring EL.</li><li>Flow control: <strong>iterations</strong>, <strong>conditionals</strong>, …</li><li><strong>Utility functions</strong>: date/number formatting, dealing with lists, arrays…</li><li>Easy <strong>i18n</strong>, integrated with our application’s Spring internationalization infrastructure.</li><li><strong>Natural templating</strong>: our email templates can be static prototypes, written by UI designers.</li><li>etc…</li></ul><p>Also, given the fact that Thymeleaf has no required dependencies on the servlet API, there would be <strong>no need at all to create or send email from a web application</strong>. The techniques explained here could be used with little or no change in a standalone application with no web UI.</p><section id="our-goals" class="level3"><h3>Our goals</h3><p>Our example application will be sending five types of emails:</p><ol type="1"><li>Text (non-HTML) email.</li><li>Simple HTML (with internationalized greeting).</li><li>HTML text with an attachment.</li><li>HTML text with an inline image.</li><li>HTML text edited by the user.</li></ol></section><section id="spring-configuration" class="level3"><h3>Spring configuration</h3><p>In order to process our templates, we will configure a <code>TemplateEngine</code> especially configured for email processing, in our Spring Email configuration:</p><pre class="java"><code>@Configuration
 @PropertySource(&quot;classpath:mail/emailconfig.properties&quot;)
 public class SpringMailConfig implements ApplicationContextAware, EnvironmentAware {
 
@@ -216,24 +172,13 @@ public class SpringMailConfig implements ApplicationContextAware, EnvironmentAwa
 
     ...
 
-}</code></pre>
-<p>Note that we have configured three <em>template resolvers</em> for our email-specific engine: one for the TEXT templates, another one for HTML templates, and a third one for editable HTML templates, which we will give the user the opportunity to modify and will reach the template engine as a mere <code>String</code> once modified.</p>
-<p>All three template resolvers are ordered so that they execute in sequence, trying to match their <em>resolvable patterns</em> against the name of the template and only resolving the specified template if its name matches.</p>
-<p>Also note how this <code>TemplateEngine</code> is specific to email processing, and completely separate to the one used for the web interface. This <code>TemplateEngine</code> for the web interface, which will be integrated with Spring MVC by means of a <code>ThymeleafViewResolver</code> is in fact defined in a different <code>@Configuration</code> file extending <code>WebMvcConfigurerAdapter</code> (and which we will not show here in order to focus on email processing).</p>
-</section>
-<section id="executing-the-template-engine" class="level3">
-<h3>Executing the Template Engine</h3>
-<p>At some point in our code, we will need to execute our template engine in order to create the text of our messages. We have chosen to do this in an <code>EmailService</code> class, so that it stays clear that we consider this a responsibility of our <em>business layer</em> (and not the <em>web layer</em>).</p>
-<p>As usual in Thymeleaf, before executing we will need to populate a <em>context</em> containing all the variables we want to use during template execution. Given the fact that our email processing is not web-dependent, an instance of <code>Context</code> will do:</p>
-<pre class="java"><code>final Context ctx = new Context(locale);
+}</code></pre><p>Note that we have configured three <em>template resolvers</em> for our email-specific engine: one for the TEXT templates, another one for HTML templates, and a third one for editable HTML templates, which we will give the user the opportunity to modify and will reach the template engine as a mere <code>String</code> once modified.</p><p>All three template resolvers are ordered so that they execute in sequence, trying to match their <em>resolvable patterns</em> against the name of the template and only resolving the specified template if its name matches.</p><p>Also note how this <code>TemplateEngine</code> is specific to email processing, and completely separate to the one used for the web interface. This <code>TemplateEngine</code> for the web interface, which will be integrated with Spring MVC by means of a <code>ThymeleafViewResolver</code> is in fact defined in a different <code>@Configuration</code> file extending <code>WebMvcConfigurerAdapter</code> (and which we will not show here in order to focus on email processing).</p></section><section id="executing-the-template-engine" class="level3"><h3>Executing the Template Engine</h3><p>At some point in our code, we will need to execute our template engine in order to create the text of our messages. We have chosen to do this in an <code>EmailService</code> class, so that it stays clear that we consider this a responsibility of our <em>business layer</em> (and not the <em>web layer</em>).</p><p>As usual in Thymeleaf, before executing we will need to populate a <em>context</em> containing all the variables we want to use during template execution. Given the fact that our email processing is not web-dependent, an instance of <code>Context</code> will do:</p><pre class="java"><code>final Context ctx = new Context(locale);
 ctx.setVariable(&quot;name&quot;, recipientName);
 ctx.setVariable(&quot;subscriptionDate&quot;, new Date());
 ctx.setVariable(&quot;hobbies&quot;, Arrays.asList(&quot;Cinema&quot;, &quot;Sports&quot;, &quot;Music&quot;));
 ctx.setVariable(&quot;imageResourceName&quot;, imageResourceName); // so that we can reference it from HTML
 
-final String htmlContent = this.templateEngine.process(&quot;html/email-inlineimage.html&quot;, ctx);</code></pre>
-<p>Our <code>email-inlineimage.html</code> is the template file we will use for sending emails with an inlined image, and it looks like:</p>
-<pre class="html"><code>&lt;!DOCTYPE html&gt;
+final String htmlContent = this.templateEngine.process(&quot;html/email-inlineimage.html&quot;, ctx);</code></pre><p>Our <code>email-inlineimage.html</code> is the template file we will use for sending emails with an inlined image, and it looks like:</p><pre class="html"><code>&lt;!DOCTYPE html&gt;
 &lt;html xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;
   &lt;head&gt;
     &lt;title th:remove=&quot;all&quot;&gt;Template for HTML email with inline image&lt;/title&gt;
@@ -267,24 +212,7 @@ final String htmlContent = this.templateEngine.process(&quot;html/email-inlineim
       &lt;em&gt;The Thymeleaf Team&lt;/em&gt;
     &lt;/p&gt;
   &lt;/body&gt;
-&lt;/html&gt;</code></pre>
-<p>Let’s remark some points:</p>
-<ul>
-<li>The former template is fully WYSIWYG; you can check how it looks just by opening it with your browser. That’s much better than sending an email to see the result, isn’t it?</li>
-</ul>
-<figure>
-<img src="images/springmail/inline.png" alt="Image inlined in email" />
-<figcaption aria-hidden="true">Image inlined in email</figcaption>
-</figure>
-<ul>
-<li>We can use all Thymeleaf features. Here for example we have used i18n with a parameterized <code>#{...}</code> expression, <code>th:each</code> to iterate over a list, <code>#dates</code> to format a date…</li>
-<li>The <code>img</code> element has a hardcoded <code>src</code> value —nice for prototyping—, which will be substituted at runtime by something like <code>cid:image.jpg</code> matching the attached image filename.</li>
-</ul>
-</section>
-<section id="text-non-html-email" class="level3">
-<h3>Text (non-HTML) email</h3>
-<p>And what about text email? Well, we have already configured a template resolver for textual email templates, so all we would have to do is create template using Thymeleaf’s textual syntax, just like:</p>
-<pre><code>[( #{greeting(${name})} )]
+&lt;/html&gt;</code></pre><p>Let’s remark some points:</p><ul><li>The former template is fully WYSIWYG; you can check how it looks just by opening it with your browser. That’s much better than sending an email to see the result, isn’t it?</li></ul><figure><img src="images/springmail/inline.png" alt="Image inlined in email" /><figcaption>Image inlined in email</figcaption></figure><ul><li>We can use all Thymeleaf features. Here for example we have used i18n with a parameterized <code>#{...}</code> expression, <code>th:each</code> to iterate over a list, <code>#dates</code> to format a date…</li><li>The <code>img</code> element has a hardcoded <code>src</code> value —nice for prototyping—, which will be substituted at runtime by something like <code>cid:image.jpg</code> matching the attached image filename.</li></ul></section><section id="text-non-html-email" class="level3"><h3>Text (non-HTML) email</h3><p>And what about text email? Well, we have already configured a template resolver for textual email templates, so all we would have to do is create template using Thymeleaf’s textual syntax, just like:</p><pre><code>[( #{greeting(${name})} )]
 
 [# th:if=&quot;${name.length() gt 10}&quot;]Wow! You&#39;ve got a long name (more than 10 chars)![/]
 
@@ -296,15 +224,7 @@ Your hobbies are:
 [/]
 
 Regards,
-    The Thymeleaf Team</code></pre>
-</section>
-</section>
-<section id="putting-it-all-together" class="level2">
-<h2>Putting it all together</h2>
-<section id="the-service-class" class="level3">
-<h3>The service class</h3>
-<p>Finally, let’s see how the method executing this email template at our <code>EmailService</code> service class would look like:</p>
-<pre class="java"><code>public void sendMailWithInline(
+    The Thymeleaf Team</code></pre></section></section><section id="putting-it-all-together" class="level2"><h2>Putting it all together</h2><section id="the-service-class" class="level3"><h3>The service class</h3><p>Finally, let’s see how the method executing this email template at our <code>EmailService</code> service class would look like:</p><pre class="java"><code>public void sendMailWithInline(
   final String recipientName, final String recipientEmail, final String imageResourceName,
   final byte[] imageBytes, final String imageContentType, final Locale locale)
   throws MessagingException {
@@ -335,14 +255,7 @@ Regards,
     // Send mail
     this.mailSender.send(mimeMessage);
 
-}</code></pre>
-<p>Note that we have used an <code>org.springframework.core.io.ByteArrayResource</code> object to attach the image uploaded by the user, which we previously converted into a <code>byte[]</code>.</p>
-<p>You could also make use of <code>FileSystemResource</code> to attach a file directly from the filesystem —thus avoiding loading it into memory—, or <code>UrlResource</code> to attach a remote file.</p>
-</section>
-<section id="the-controller" class="level3">
-<h3>The controller</h3>
-<p>Now for the controller method that calls our service:</p>
-<pre class="java"><code>/*
+}</code></pre><p>Note that we have used an <code>org.springframework.core.io.ByteArrayResource</code> object to attach the image uploaded by the user, which we previously converted into a <code>byte[]</code>.</p><p>You could also make use of <code>FileSystemResource</code> to attach a file directly from the filesystem —thus avoiding loading it into memory—, or <code>UrlResource</code> to attach a remote file.</p></section><section id="the-controller" class="level3"><h3>The controller</h3><p>Now for the controller method that calls our service:</p><pre class="java"><code>/*
 * Send HTML mail with inline image
 */
 @RequestMapping(value = &quot;/sendMailWithInlineImage&quot;, method = RequestMethod.POST)
@@ -358,14 +271,7 @@ public String sendMailWithInline(
         image.getBytes(), image.getContentType(), locale);
     return &quot;redirect:sent.html&quot;;
 
-}</code></pre>
-<p>Cannot be easier. Note how we use a Spring MVC <code>MultipartFile</code> object to model the uploaded file and pass its contents on to the service.</p>
-</section>
-</section>
-<section id="more-examples" class="level2">
-<h2>More examples</h2>
-<p>For the sake of brevity, we have only detailed one of the five types of email our application is able to send. However, you can see the source code required for creating all five types of emails at the <code>springmail</code> example application you can download from the <a href="/documentation.html">documentation page</a>.</p>
-</section>
+}</code></pre><p>Cannot be easier. Note how we use a Spring MVC <code>MultipartFile</code> object to model the uploaded file and pass its contents on to the service.</p></section></section><section id="more-examples" class="level2"><h2>More examples</h2><p>For the sake of brevity, we have only detailed one of the five types of email our application is able to send. However, you can see the source code required for creating all five types of emails at the <code>springmail</code> example application you can download from the <a href="/documentation.html">documentation page</a>.</p></section>
 			</article>
 		</main>
 	</div>

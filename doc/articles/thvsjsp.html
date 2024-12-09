@@ -65,37 +65,7 @@
 				<header>
 					<h1>Spring MVC view layer: Thymeleaf vs. JSP</h1>
 									</header>
-				<p>In this article we will compare the same page (a subscription form) created twice for the same Spring MVC application: once using Thymeleaf and another time using JSP, JSTL and the Spring tag libraries.</p>
-<p>All the code seen here comes from a working application. You can view or download the source code from <a href="https://github.com/thymeleaf/thymeleaf/tree/3.1-master/examples/spring6/thymeleaf-examples-spring6-thvsjsp">its GitHub repo</a>.</p>
-<section id="common-requirements" class="level2">
-<h2>Common requirements</h2>
-<p>Our customers need a form for subscribing new members to a message list, with two fields:</p>
-<ul>
-<li>Email address</li>
-<li>Type of subscription (receive all emails, daily digest)</li>
-</ul>
-<p>We will also need this page to be HTML5 and completely internationalizable, extracting all texts and messages from resource files already configured in our <code>MessageSource</code> objects in our Spring infrastructure.</p>
-<p>Our application will have two <code>@Controller</code>s, which will contain exactly the same code but will forward to different view names:</p>
-<ul>
-<li><code>SubscribeJsp</code> for the JSP page (the <code>subscribejsp</code> view).</li>
-<li><code>SubscribeTh</code> for the Thymeleaf page (the <code>subscribeth</code> view).</li>
-</ul>
-<p>We will have the following classes in our model:</p>
-<ul>
-<li><code>Subscription</code> form-backing bean with two fields: <code>String email</code> and <code>SubscriptionType subscriptionType</code>.</li>
-<li><code>SubscriptionType</code> an enum modeling the <code>subscriptionType</code> field of the form, with values <code>ALL_EMAILS</code> and <code>DAILY_DIGEST</code>.</li>
-</ul>
-<p><em>(In this article we will just focus on the JSP/Thymeleaf template code. If you want to know implementation details for the controller code or Spring configuration, check the source code in the downloadable package)</em></p>
-</section>
-<section id="doing-it-with-jsp" class="level2">
-<h2>Doing it with JSP</h2>
-<p>This is our page:</p>
-<figure>
-<img src="images/thvsjsp/jsp1.png" alt="The JSP page" />
-<figcaption aria-hidden="true">The JSP page</figcaption>
-</figure>
-<p>And this is our JSP code, making use of both JSTL (<code>core</code>) and Spring (<code>tags</code> and <code>form</code>) JSP tag libraries:</p>
-<pre class="html"><code>&lt;%@ taglib prefix=&quot;sf&quot; uri=&quot;http://www.springframework.org/tags/form&quot; %&gt;
+				<p>In this article we will compare the same page (a subscription form) created twice for the same Spring MVC application: once using Thymeleaf and another time using JSP, JSTL and the Spring tag libraries.</p><p>All the code seen here comes from a working application. You can view or download the source code from <a href="https://github.com/thymeleaf/thymeleaf/tree/3.1-master/examples/spring6/thymeleaf-examples-spring6-thvsjsp">its GitHub repo</a>.</p><section id="common-requirements" class="level2"><h2>Common requirements</h2><p>Our customers need a form for subscribing new members to a message list, with two fields:</p><ul><li>Email address</li><li>Type of subscription (receive all emails, daily digest)</li></ul><p>We will also need this page to be HTML5 and completely internationalizable, extracting all texts and messages from resource files already configured in our <code>MessageSource</code> objects in our Spring infrastructure.</p><p>Our application will have two <code>@Controller</code>s, which will contain exactly the same code but will forward to different view names:</p><ul><li><code>SubscribeJsp</code> for the JSP page (the <code>subscribejsp</code> view).</li><li><code>SubscribeTh</code> for the Thymeleaf page (the <code>subscribeth</code> view).</li></ul><p>We will have the following classes in our model:</p><ul><li><code>Subscription</code> form-backing bean with two fields: <code>String email</code> and <code>SubscriptionType subscriptionType</code>.</li><li><code>SubscriptionType</code> an enum modeling the <code>subscriptionType</code> field of the form, with values <code>ALL_EMAILS</code> and <code>DAILY_DIGEST</code>.</li></ul><p><em>(In this article we will just focus on the JSP/Thymeleaf template code. If you want to know implementation details for the controller code or Spring configuration, check the source code in the downloadable package)</em></p></section><section id="doing-it-with-jsp" class="level2"><h2>Doing it with JSP</h2><p>This is our page:</p><figure><img src="images/thvsjsp/jsp1.png" alt="The JSP page" /><figcaption>The JSP page</figcaption></figure><p>And this is our JSP code, making use of both JSTL (<code>core</code>) and Spring (<code>tags</code> and <code>form</code>) JSP tag libraries:</p><pre class="html"><code>&lt;%@ taglib prefix=&quot;sf&quot; uri=&quot;http://www.springframework.org/tags/form&quot; %&gt;
 &lt;%@ taglib prefix=&quot;s&quot; uri=&quot;http://www.springframework.org/tags&quot; %&gt;
 &lt;%@ taglib prefix=&quot;c&quot; uri=&quot;http://java.sun.com/jsp/jstl/core&quot; %&gt;
 &lt;%@ page contentType=&quot;text/html; charset=UTF-8&quot; pageEncoding=&quot;UTF-8&quot;%&gt;
@@ -146,17 +116,7 @@
 
   &lt;/body&gt;
 
-&lt;/html&gt;</code></pre>
-</section>
-<section id="doing-it-with-thymeleaf" class="level2">
-<h2>Doing it with Thymeleaf</h2>
-<p>Now, let’s do the same with Thymeleaf. This is our page:</p>
-<figure>
-<img src="images/thvsjsp/th1.png" alt="The Thymeleaf page" />
-<figcaption aria-hidden="true">The Thymeleaf page</figcaption>
-</figure>
-<p>And this is our Thymeleaf code:</p>
-<pre class="html"><code>&lt;!DOCTYPE html&gt;
+&lt;/html&gt;</code></pre></section><section id="doing-it-with-thymeleaf" class="level2"><h2>Doing it with Thymeleaf</h2><p>Now, let’s do the same with Thymeleaf. This is our page:</p><figure><img src="images/thvsjsp/th1.png" alt="The Thymeleaf page" /><figcaption>The Thymeleaf page</figcaption></figure><p>And this is our Thymeleaf code:</p><pre class="html"><code>&lt;!DOCTYPE html&gt;
 
 &lt;html xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;
 
@@ -201,105 +161,8 @@
 
   &lt;/body&gt;
 
-&lt;/html&gt;</code></pre>
-<p>Things to notice here:</p>
-<ul>
-<li>This looks much more HTML-ish than the JSP version – no strange tags, just some meaningful attributes.</li>
-<li>Variable expressions (<code>${...}</code>) are Spring EL and execute on model attributes, asterisk expressions (<code>*{...}</code>) execute on the form backing bean, hash expressions (<code>#{...}</code>) are for internationalization and link expressions (<code>@{...}</code>) rewrite URLs. (<em>If you want to know more about this, have a look at the <a href="standarddialect5minutes.html">“Getting started with the Standard Dialect in 5 minutes”</a> guide</em>).</li>
-<li>We are allowed to have prototype code there: for example, we can set an <code>Email:</code> text in the label for the first field, knowing that Thymeleaf will substitute it with the internationalized text with key <code>subscription.email</code> when it executes the page.</li>
-<li>We have even been able to add an <code>&lt;li&gt;</code> for a second radiobutton just for prototyping pleasure. It will be removed when Thymeleaf executes our page.</li>
-</ul>
-</section>
-<section id="lets-change-the-page-style" class="level2">
-<h2>Let’s change the page style!</h2>
-<p>Imagine that now our pages are written we suddenly decide that we do not want green anymore for that region around the submit button, but rather a pale blue. Anyway we’re not sure about the exact tone of blue that will fit better, so we will have to try some combinations before deciding on a specific one.</p>
-<p>Let’s see the steps we would have to take with each technology:</p>
-<section id="changing-the-page-style-using-jsp" class="level3">
-<h3>Changing the page style using JSP</h3>
-<p><strong>Step 1</strong>: <em>Deploy the application into our development server and start it up</em>. Our JSP page will not render without starting the server, so this will be a requirement.</p>
-<p><strong>Step 2</strong>: <em>Navigate through the pages until we find the one to change</em>. Normally, the page to change will be one among several dozen pages in our application, and it is quite possible that in order to reach it we will need to click links, submit forms and/or query databases.</p>
-<p><strong>Step 3</strong>: <em>Fire up firebug, dragonfly, or our favourite in-browser web development tool</em>. This will allow us to modify our styles acting directly on the browser’s DOM, and thus see immediate results.</p>
-<p><strong>Step 4</strong>: <em>Make the colour changes</em>. Probably trying a couple of different tones of blue before deciding on the one we like.</p>
-<figure>
-<img src="images/thvsjsp/jsp2.png" alt="Fine-tuned JSP page" />
-<figcaption aria-hidden="true">Fine-tuned JSP page</figcaption>
-</figure>
-<p><strong>Step 5</strong>: <em>Copy-paste the changes into our CSS files</em>.</p>
-<p>Done!</p>
-</section>
-<section id="changing-the-page-style-using-thymeleaf" class="level3">
-<h3>Changing the page style using Thymeleaf</h3>
-<p><strong>Step 1</strong>: <em>Double-click on the <code>.html</code> template file itself and let our browser open it</em>. Being a Thymeleaf template, it will show just fine, only with template/prototype data (note the subscription type options):</p>
-<figure>
-<img src="images/thvsjsp/th2.png" alt="Thymeleaf page - valid as a prototype" />
-<figcaption aria-hidden="true">Thymeleaf page - valid as a prototype</figcaption>
-</figure>
-<p><strong>Step 2</strong>: <em>Open the <code>.css</code> file with our favourite text editor</em>. The template file statically links to the CSS in its <code>&lt;link rel="stylesheet" ...&gt;</code> tag (with an <code>href</code> that Thymeleaf substitutes when executing the template by the one generated by <code>th:href</code>). So any changes we make to that CSS will be applied to the static page our browser is displaying.</p>
-<p><strong>Step 3</strong>: <em>Make the colour changes</em>. As was the case with JSP, we will probably have to try several colour combinations, which will be refreshed in our browser just by pressing F5.</p>
-<p>Done!</p>
-</section>
-<section id="that-was-a-big-difference" class="level3">
-<h3>That was a big difference!</h3>
-<p>The difference in the number of steps is not really important here (we could also have used firebug with the Thymeleaf template). What is really important is the complexity, the effort and the time required by each of the steps required for JSP. Having to deploy and start the whole application made JSP just lose.</p>
-<p>What’s more: think of how this difference would evolve if:</p>
-<ul>
-<li>Our development server was not local but remote.</li>
-<li>Changes didn’t involve only CSS but also adding/removing some HTML code.</li>
-<li>We still hadn’t implemented the required logic in our application to actually <em>reach that page</em> once deployed.</li>
-</ul>
-<p>This last point is an important one: what if our application was still being developed, the Java logic needed to show this or other previous pages wasn’t still working alright, and we had to show the new colour to our customer? (or even let him/her choose on the fly!)…</p>
-</section>
-<section id="and-what-about-trying-to-use-the-jsp-as-a-static-prototype" class="level3">
-<h3>And what about trying to use the JSP as a static prototype?</h3>
-<p>OK, you can say now, <em>but why did we start the application to modify the JSP instead of just opening it like you did with the Thymeleaf one? Can’t we just do that?</em>.</p>
-<p>The short answer is NO.</p>
-<p>But let’s try anyway: of course, we will have to rename our file so that its name ends in <code>.html</code> instead of <code>.jsp</code>, but let’s see what happens when we open our browser:</p>
-<figure>
-<img src="images/thvsjsp/jsp3.png" alt="JSP page directly opened on a browser" />
-<figcaption aria-hidden="true">JSP page directly opened on a browser</figcaption>
-</figure>
-<p><em>WHAT? Where’s our page gone?</em> Well, it’s still there, but in order to make our page work as JSP we had to add lots of JSP tags and features that made it work wonderfully when executed by our web server… but at the same time made it be HTML no more. And therefore made it undisplayable for a browser.</p>
-<p>Again, let’s remind ourselves what the Thymeleaf template looked like when we double-clicked on it:</p>
-<figure>
-<img src="images/thvsjsp/th2.png" alt="Thymeleaf page directly opened on a browser" />
-<figcaption aria-hidden="true">Thymeleaf page directly opened on a browser</figcaption>
-</figure>
-<p>Definitely not in the same league, right?</p>
-</section>
-</section>
-<section id="got-html5" class="level2">
-<h2>Got HTML5?</h2>
-<p>But hey – we said at the beginning that our page was going to be HTML5, so… why don’t we use some of the cool new HTML5 form-related features?</p>
-<p>For example, there is now an <code>&lt;input type="email" ...&gt;</code>, which will make our browser check that the text input by users has the shape of an email address. And also, there is a new property for all inputs called <code>placeholder</code> which shows a text in the field that automatically disappears when the input gains focus (usually by the user clicking on it).</p>
-<p>Sounds good, doesn’t it? Unfortunately not all browsers support this yet (as of 2011, Opera 11 and Firefox 4 do), but we are safe using these features anyway because all browsers will treat an input of a type they do not understand (<code>email</code>) as a <code>text</code> input, and will silently ignore the <code>placeholder</code> attribute in the same way they ignore Thymeleaf’s <code>th:*</code> ones.</p>
-<section id="doing-html5-with-jsp" class="level3">
-<h3>Doing HTML5 with JSP</h3>
-<section id="before-spring-3.1" class="level4">
-<h4>Before Spring 3.1</h4>
-<p>Spring MVC’s JSP tag libraries didn’t offer complete support for HTML5 until Spring 3.1, so before this version there was no way to write an <em>email type</em> input tag other than do it in plain HTML, like:</p>
-<pre class="html"><code>&lt;input type=&quot;email&quot; id=&quot;email&quot; name=&quot;email&quot; placeholder=&quot;your@email&quot; value=&quot;&quot; /&gt;</code></pre>
-<p>But this was not correct! In Spring MVC we should never write a JSP input field like that, because we wouldn’t be correctly <em>binding</em> our input to the <code>email</code> property of the form-backing bean. In order to do so, we would need to use an <code>&lt;s:eval/&gt;</code> tag, which will apply all the required transformations (like <em>property editors</em>) and make our plain-HTML tag work as if an <code>&lt;sf:email/&gt;</code> tag existed:</p>
-<pre class="html"><code>&lt;input type=&quot;email&quot; id=&quot;email&quot; name=&quot;email&quot; placeholder=&quot;your@email&quot;
-       value=&quot;&lt;s:eval expression=&#39;subscription.email&#39; /&gt;&quot; /&gt;</code></pre>
-</section>
-<section id="since-spring-3.1" class="level4">
-<h4>Since Spring 3.1</h4>
-<p>In Spring 3.1 there still is no <code>&lt;sf:email ...&gt;</code> tag, but the existing <code>&lt;sf:input ...&gt;</code> allows us to specify a <code>type</code> attribute with value <code>email</code>, which will work just fine:</p>
-<pre class="html"><code>&lt;sf:input path=&quot;email&quot; type=&quot;email&quot; /&gt;</code></pre>
-<p>And this will correctly perform our <em>form bindings</em> :-).</p>
-</section>
-</section>
-<section id="doing-html5-with-thymeleaf" class="level3">
-<h3>Doing HTML5 with Thymeleaf</h3>
-<p>Thymeleaf has complete support for HTML5 (even with Spring 3.0), so we will only have to change the <code>type</code> of our input and add a <code>placeholder</code>, and it will work out of the box, correctly binding our property and integrating with Spring MVCs <em>property editors</em> and more importantly, being displayed as a usual <code>input</code> box when displayed as a prototype —something the <code>sf:input</code> tag won’t—:</p>
-<pre class="html"><code>&lt;input type=&quot;email&quot; th:field=&quot;*{email}&quot; placeholder=&quot;your@email&quot; /&gt;</code></pre>
-<p>Done!</p>
-<figure>
-<img src="images/thvsjsp/th3.png" alt="Final result with Thymeleaf" />
-<figcaption aria-hidden="true">Final result with Thymeleaf</figcaption>
-</figure>
-</section>
-</section>
+&lt;/html&gt;</code></pre><p>Things to notice here:</p><ul><li>This looks much more HTML-ish than the JSP version – no strange tags, just some meaningful attributes.</li><li>Variable expressions (<code>${...}</code>) are Spring EL and execute on model attributes, asterisk expressions (<code>*{...}</code>) execute on the form backing bean, hash expressions (<code>#{...}</code>) are for internationalization and link expressions (<code>@{...}</code>) rewrite URLs. (<em>If you want to know more about this, have a look at the <a href="standarddialect5minutes.html">“Getting started with the Standard Dialect in 5 minutes”</a> guide</em>).</li><li>We are allowed to have prototype code there: for example, we can set an <code>Email:</code> text in the label for the first field, knowing that Thymeleaf will substitute it with the internationalized text with key <code>subscription.email</code> when it executes the page.</li><li>We have even been able to add an <code>&lt;li&gt;</code> for a second radiobutton just for prototyping pleasure. It will be removed when Thymeleaf executes our page.</li></ul></section><section id="lets-change-the-page-style" class="level2"><h2>Let’s change the page style!</h2><p>Imagine that now our pages are written we suddenly decide that we do not want green anymore for that region around the submit button, but rather a pale blue. Anyway we’re not sure about the exact tone of blue that will fit better, so we will have to try some combinations before deciding on a specific one.</p><p>Let’s see the steps we would have to take with each technology:</p><section id="changing-the-page-style-using-jsp" class="level3"><h3>Changing the page style using JSP</h3><p><strong>Step 1</strong>: <em>Deploy the application into our development server and start it up</em>. Our JSP page will not render without starting the server, so this will be a requirement.</p><p><strong>Step 2</strong>: <em>Navigate through the pages until we find the one to change</em>. Normally, the page to change will be one among several dozen pages in our application, and it is quite possible that in order to reach it we will need to click links, submit forms and/or query databases.</p><p><strong>Step 3</strong>: <em>Fire up firebug, dragonfly, or our favourite in-browser web development tool</em>. This will allow us to modify our styles acting directly on the browser’s DOM, and thus see immediate results.</p><p><strong>Step 4</strong>: <em>Make the colour changes</em>. Probably trying a couple of different tones of blue before deciding on the one we like.</p><figure><img src="images/thvsjsp/jsp2.png" alt="Fine-tuned JSP page" /><figcaption>Fine-tuned JSP page</figcaption></figure><p><strong>Step 5</strong>: <em>Copy-paste the changes into our CSS files</em>.</p><p>Done!</p></section><section id="changing-the-page-style-using-thymeleaf" class="level3"><h3>Changing the page style using Thymeleaf</h3><p><strong>Step 1</strong>: <em>Double-click on the <code>.html</code> template file itself and let our browser open it</em>. Being a Thymeleaf template, it will show just fine, only with template/prototype data (note the subscription type options):</p><figure><img src="images/thvsjsp/th2.png" alt="Thymeleaf page - valid as a prototype" /><figcaption>Thymeleaf page - valid as a prototype</figcaption></figure><p><strong>Step 2</strong>: <em>Open the <code>.css</code> file with our favourite text editor</em>. The template file statically links to the CSS in its <code>&lt;link rel="stylesheet" ...&gt;</code> tag (with an <code>href</code> that Thymeleaf substitutes when executing the template by the one generated by <code>th:href</code>). So any changes we make to that CSS will be applied to the static page our browser is displaying.</p><p><strong>Step 3</strong>: <em>Make the colour changes</em>. As was the case with JSP, we will probably have to try several colour combinations, which will be refreshed in our browser just by pressing F5.</p><p>Done!</p></section><section id="that-was-a-big-difference" class="level3"><h3>That was a big difference!</h3><p>The difference in the number of steps is not really important here (we could also have used firebug with the Thymeleaf template). What is really important is the complexity, the effort and the time required by each of the steps required for JSP. Having to deploy and start the whole application made JSP just lose.</p><p>What’s more: think of how this difference would evolve if:</p><ul><li>Our development server was not local but remote.</li><li>Changes didn’t involve only CSS but also adding/removing some HTML code.</li><li>We still hadn’t implemented the required logic in our application to actually <em>reach that page</em> once deployed.</li></ul><p>This last point is an important one: what if our application was still being developed, the Java logic needed to show this or other previous pages wasn’t still working alright, and we had to show the new colour to our customer? (or even let him/her choose on the fly!)…</p></section><section id="and-what-about-trying-to-use-the-jsp-as-a-static-prototype" class="level3"><h3>And what about trying to use the JSP as a static prototype?</h3><p>OK, you can say now, <em>but why did we start the application to modify the JSP instead of just opening it like you did with the Thymeleaf one? Can’t we just do that?</em>.</p><p>The short answer is NO.</p><p>But let’s try anyway: of course, we will have to rename our file so that its name ends in <code>.html</code> instead of <code>.jsp</code>, but let’s see what happens when we open our browser:</p><figure><img src="images/thvsjsp/jsp3.png" alt="JSP page directly opened on a browser" /><figcaption>JSP page directly opened on a browser</figcaption></figure><p><em>WHAT? Where’s our page gone?</em> Well, it’s still there, but in order to make our page work as JSP we had to add lots of JSP tags and features that made it work wonderfully when executed by our web server… but at the same time made it be HTML no more. And therefore made it undisplayable for a browser.</p><p>Again, let’s remind ourselves what the Thymeleaf template looked like when we double-clicked on it:</p><figure><img src="images/thvsjsp/th2.png" alt="Thymeleaf page directly opened on a browser" /><figcaption>Thymeleaf page directly opened on a browser</figcaption></figure><p>Definitely not in the same league, right?</p></section></section><section id="got-html5" class="level2"><h2>Got HTML5?</h2><p>But hey – we said at the beginning that our page was going to be HTML5, so… why don’t we use some of the cool new HTML5 form-related features?</p><p>For example, there is now an <code>&lt;input type="email" ...&gt;</code>, which will make our browser check that the text input by users has the shape of an email address. And also, there is a new property for all inputs called <code>placeholder</code> which shows a text in the field that automatically disappears when the input gains focus (usually by the user clicking on it).</p><p>Sounds good, doesn’t it? Unfortunately not all browsers support this yet (as of 2011, Opera 11 and Firefox 4 do), but we are safe using these features anyway because all browsers will treat an input of a type they do not understand (<code>email</code>) as a <code>text</code> input, and will silently ignore the <code>placeholder</code> attribute in the same way they ignore Thymeleaf’s <code>th:*</code> ones.</p><section id="doing-html5-with-jsp" class="level3"><h3>Doing HTML5 with JSP</h3><section id="before-spring-3.1" class="level4"><h4>Before Spring 3.1</h4><p>Spring MVC’s JSP tag libraries didn’t offer complete support for HTML5 until Spring 3.1, so before this version there was no way to write an <em>email type</em> input tag other than do it in plain HTML, like:</p><pre class="html"><code>&lt;input type=&quot;email&quot; id=&quot;email&quot; name=&quot;email&quot; placeholder=&quot;your@email&quot; value=&quot;&quot; /&gt;</code></pre><p>But this was not correct! In Spring MVC we should never write a JSP input field like that, because we wouldn’t be correctly <em>binding</em> our input to the <code>email</code> property of the form-backing bean. In order to do so, we would need to use an <code>&lt;s:eval/&gt;</code> tag, which will apply all the required transformations (like <em>property editors</em>) and make our plain-HTML tag work as if an <code>&lt;sf:email/&gt;</code> tag existed:</p><pre class="html"><code>&lt;input type=&quot;email&quot; id=&quot;email&quot; name=&quot;email&quot; placeholder=&quot;your@email&quot;
+       value=&quot;&lt;s:eval expression=&#39;subscription.email&#39; /&gt;&quot; /&gt;</code></pre></section><section id="since-spring-3.1" class="level4"><h4>Since Spring 3.1</h4><p>In Spring 3.1 there still is no <code>&lt;sf:email ...&gt;</code> tag, but the existing <code>&lt;sf:input ...&gt;</code> allows us to specify a <code>type</code> attribute with value <code>email</code>, which will work just fine:</p><pre class="html"><code>&lt;sf:input path=&quot;email&quot; type=&quot;email&quot; /&gt;</code></pre><p>And this will correctly perform our <em>form bindings</em> :-).</p></section></section><section id="doing-html5-with-thymeleaf" class="level3"><h3>Doing HTML5 with Thymeleaf</h3><p>Thymeleaf has complete support for HTML5 (even with Spring 3.0), so we will only have to change the <code>type</code> of our input and add a <code>placeholder</code>, and it will work out of the box, correctly binding our property and integrating with Spring MVCs <em>property editors</em> and more importantly, being displayed as a usual <code>input</code> box when displayed as a prototype —something the <code>sf:input</code> tag won’t—:</p><pre class="html"><code>&lt;input type=&quot;email&quot; th:field=&quot;*{email}&quot; placeholder=&quot;your@email&quot; /&gt;</code></pre><p>Done!</p><figure><img src="images/thvsjsp/th3.png" alt="Final result with Thymeleaf" /><figcaption>Final result with Thymeleaf</figcaption></figure></section></section>
 			</article>
 		</main>
 	</div>

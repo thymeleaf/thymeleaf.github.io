@@ -65,24 +65,9 @@
 				<header>
 					<h1>Say Hello Again! Extending Thymeleaf even more in another 5 minutes</h1>
 									</header>
-				<p>This article is a continuation of <a href="sayhelloextendingthymeleaf5minutes.html"><em>“Say Hello! Extending Thymeleaf in 5 minutes”</em></a> and is meant to be read after it. Code in this article comes from the same example application, which you can view or download from <a href="https://github.com/thymeleaf/thymeleaf/tree/3.1-master/examples/spring6/thymeleaf-examples-spring6-sayhello">its GitHub repo</a>.</p>
-<section id="some-improvements-for-our-hello-dialect" class="level2">
-<h2>Some improvements for our ‘hello’ dialect</h2>
-<p>So far our <code>HelloDialect</code> allowed us to turn this:</p>
-<pre class="html"><code>&lt;p hello:sayto=&quot;World&quot;&gt;Hi ya!&lt;/p&gt;</code></pre>
-<p>…into this:</p>
-<pre class="html"><code>&lt;p&gt;Hello World!&lt;/p&gt;</code></pre>
-<p>And it works just fine… but we want to add some nice additional features. For example:</p>
-<ul>
-<li>Allow Spring EL expressions as attribute values, like in most tags in the <em>Spring Thymeleaf Dialect</em>. For example: <code>hello:sayto="${user.name}"</code></li>
-<li>Internationalize output: say <em>Hello</em> for English, <em>Hola</em> for Spanish, <em>Olá</em> for Portuguese, etc.</li>
-</ul>
-<p>And we will need all that because we want to be able to create a new attribute, called “<code>saytoplanet</code>” and salute all the planets in the solar system, with a template like this:</p>
-<pre class="html"><code>&lt;ul&gt;
+				<p>This article is a continuation of <a href="sayhelloextendingthymeleaf5minutes.html"><em>“Say Hello! Extending Thymeleaf in 5 minutes”</em></a> and is meant to be read after it. Code in this article comes from the same example application, which you can view or download from <a href="https://github.com/thymeleaf/thymeleaf/tree/3.1-master/examples/spring6/thymeleaf-examples-spring6-sayhello">its GitHub repo</a>.</p><section id="some-improvements-for-our-hello-dialect" class="level2"><h2>Some improvements for our ‘hello’ dialect</h2><p>So far our <code>HelloDialect</code> allowed us to turn this:</p><pre class="html"><code>&lt;p hello:sayto=&quot;World&quot;&gt;Hi ya!&lt;/p&gt;</code></pre><p>…into this:</p><pre class="html"><code>&lt;p&gt;Hello World!&lt;/p&gt;</code></pre><p>And it works just fine… but we want to add some nice additional features. For example:</p><ul><li>Allow Spring EL expressions as attribute values, like in most tags in the <em>Spring Thymeleaf Dialect</em>. For example: <code>hello:sayto="${user.name}"</code></li><li>Internationalize output: say <em>Hello</em> for English, <em>Hola</em> for Spanish, <em>Olá</em> for Portuguese, etc.</li></ul><p>And we will need all that because we want to be able to create a new attribute, called “<code>saytoplanet</code>” and salute all the planets in the solar system, with a template like this:</p><pre class="html"><code>&lt;ul&gt;
   &lt;li th:each=&quot;planet : ${planets}&quot; hello:saytoplanet=&quot;${planet}&quot;&gt;Hello Planet!&lt;/li&gt;
-&lt;/ul&gt;</code></pre>
-<p>…backed by a Spring MVC controller that includes all those planets as a model attribute called <code>planets</code>:</p>
-<pre class="java"><code>@Controller
+&lt;/ul&gt;</code></pre><p>…backed by a Spring MVC controller that includes all those planets as a model attribute called <code>planets</code>:</p><pre class="java"><code>@Controller
 public class SayHelloController {
 
   public SayHelloController() {
@@ -101,12 +86,7 @@ public class SayHelloController {
     return &quot;sayhello&quot;;
   }
 
-}</code></pre>
-</section>
-<section id="adding-a-new-processor-to-our-dialect" class="level2">
-<h2>Adding a new processor to our dialect</h2>
-<p>The first thing we want to do is add a new <em>processor</em> to our existing <code>HelloDialect</code>. For this we modify the dialect’s <code>getProcessors()</code> method in order to include our new <code>SayToPlanetAttrProcessor</code> class:</p>
-<pre class="java"><code>public class HelloDialect extends AbstractProcessorDialect {
+}</code></pre></section><section id="adding-a-new-processor-to-our-dialect" class="level2"><h2>Adding a new processor to our dialect</h2><p>The first thing we want to do is add a new <em>processor</em> to our existing <code>HelloDialect</code>. For this we modify the dialect’s <code>getProcessors()</code> method in order to include our new <code>SayToPlanetAttrProcessor</code> class:</p><pre class="java"><code>public class HelloDialect extends AbstractProcessorDialect {
 
   ...
 
@@ -127,20 +107,7 @@ public class SayHelloController {
 
   ...
 
-}</code></pre>
-</section>
-<section id="using-expressions-as-attribute-values" class="level2">
-<h2>Using expressions as attribute values</h2>
-<p>Now we want to add to our new processor the ability of parsing and executing expressions in the same way we can do in the <em>Standard</em> and <em>SpringStandard</em> dialects, this is, <em>Thymeleaf standard expressions</em>:</p>
-<ul>
-<li><code>${...}</code> Spring EL variable expressions.</li>
-<li><code>#{...}</code> externalization of messages.</li>
-<li><code>@{...}</code> link specifications.</li>
-<li><code>(cond)? (then) : (else)</code> conditional/default expressions.</li>
-<li>etc…</li>
-</ul>
-<p>In order to achieve this, we will make use of the <em>Standard Expression Parser</em>, which will parse the attribute value into an executable <em>expression</em> object:</p>
-<pre class="java"><code>public class SayToPlanetAttributeTagProcessor extends AbstractAttributeTagProcessor {
+}</code></pre></section><section id="using-expressions-as-attribute-values" class="level2"><h2>Using expressions as attribute values</h2><p>Now we want to add to our new processor the ability of parsing and executing expressions in the same way we can do in the <em>Standard</em> and <em>SpringStandard</em> dialects, this is, <em>Thymeleaf standard expressions</em>:</p><ul><li><code>${...}</code> Spring EL variable expressions.</li><li><code>#{...}</code> externalization of messages.</li><li><code>@{...}</code> link specifications.</li><li><code>(cond)? (then) : (else)</code> conditional/default expressions.</li><li>etc…</li></ul><p>In order to achieve this, we will make use of the <em>Standard Expression Parser</em>, which will parse the attribute value into an executable <em>expression</em> object:</p><pre class="java"><code>public class SayToPlanetAttributeTagProcessor extends AbstractAttributeTagProcessor {
 
     private static final String ATTR_NAME = &quot;saytoplanet&quot;;
     private static final int PRECEDENCE = 10000;
@@ -188,33 +155,11 @@ public class SayHelloController {
         
     }
 
-}</code></pre>
-<p>Note that, as we did in the previous article, we are extending the <code>AbstractAttributeTagProcessor</code> convenience abstract class.</p>
-</section>
-<section id="adding-internationalization" class="level2">
-<h2>Adding internationalization</h2>
-<p>Now we want to internationalize the message returned by our attribute processor. This means replacing this English-only message building code:</p>
-<pre class="java"><code>&quot;Hello, planet &quot; + planet;</code></pre>
-<p>…with a message built from an externalized String that we must somehow obtain from our code. The context object (<code>ITemplateContext</code>) offers what we need:</p>
-<pre class="java"><code>    public String getMessage(
+}</code></pre><p>Note that, as we did in the previous article, we are extending the <code>AbstractAttributeTagProcessor</code> convenience abstract class.</p></section><section id="adding-internationalization" class="level2"><h2>Adding internationalization</h2><p>Now we want to internationalize the message returned by our attribute processor. This means replacing this English-only message building code:</p><pre class="java"><code>&quot;Hello, planet &quot; + planet;</code></pre><p>…with a message built from an externalized String that we must somehow obtain from our code. The context object (<code>ITemplateContext</code>) offers what we need:</p><pre class="java"><code>    public String getMessage(
             final Class&lt;?&gt; origin, 
             final String key, 
             final Object[] messageParameters, 
-            final boolean useAbsentMessageRepresentation);</code></pre>
-<p>Its arguments have the following meaning:</p>
-<ul>
-<li><code>origin</code> the <em>origin</em> class to be used for message resolution. When calling from a processor, this is normally the processor class itself.</li>
-<li><code>key</code> the key of the message to be retrieved.</li>
-<li><code>messageParameters</code> the parameters to be applied to the requested message.</li>
-<li><code>useAbsentMessageRepresentation</code> whether an <em>absent message representation</em> should be returned in the case that the message does not exist or not</li>
-</ul>
-<p>So let’s use this to achieve some internationalization. First we will need some <code>.properties</code> files, like <code>SayToPlanetAttributeTagProcessor_es.properties</code> for Spanish:</p>
-<pre class="html"><code>    msg.helloplanet=&amp;iexcl;Hola, planeta {0}!</code></pre>
-<p><code>SayToPlanetAttributeTagProcessor_pt.properties</code> for Portuguese:</p>
-<pre class="html"><code>msg.helloplanet=Ol&amp;aacute;, planeta {0}!</code></pre>
-<p>…etc.</p>
-<p>And now we will have to modify the <code>SayToPlanetAttributeTagProcessor</code> processor class to make use of these messages:</p>
-<pre class="java"><code>protected void doProcess(
+            final boolean useAbsentMessageRepresentation);</code></pre><p>Its arguments have the following meaning:</p><ul><li><code>origin</code> the <em>origin</em> class to be used for message resolution. When calling from a processor, this is normally the processor class itself.</li><li><code>key</code> the key of the message to be retrieved.</li><li><code>messageParameters</code> the parameters to be applied to the requested message.</li><li><code>useAbsentMessageRepresentation</code> whether an <em>absent message representation</em> should be returned in the case that the message does not exist or not</li></ul><p>So let’s use this to achieve some internationalization. First we will need some <code>.properties</code> files, like <code>SayToPlanetAttributeTagProcessor_es.properties</code> for Spanish:</p><pre class="html"><code>    msg.helloplanet=&amp;iexcl;Hola, planeta {0}!</code></pre><p><code>SayToPlanetAttributeTagProcessor_pt.properties</code> for Portuguese:</p><pre class="html"><code>msg.helloplanet=Ol&amp;aacute;, planeta {0}!</code></pre><p>…etc.</p><p>And now we will have to modify the <code>SayToPlanetAttributeTagProcessor</code> processor class to make use of these messages:</p><pre class="java"><code>protected void doProcess(
         final ITemplateContext context, final IProcessableElementTag tag,
         final AttributeName attributeName, final String attributeValue,
         final IElementTagStructureHandler structureHandler) {
@@ -257,24 +202,7 @@ public class SayHelloController {
      */
     structureHandler.setBody(HtmlEscape.escapeHtml5(i18nMessage), false);
     
-}</code></pre>
-<p>And that’s it! Let’s have a look at the results of executing our template with Spanish locale:</p>
-<ul>
-<li>¡Hola, planeta Mercury!</li>
-<li>¡Hola, planeta Venus!</li>
-<li>¡Hola, planeta Earth!</li>
-<li>¡Hola, planeta Mars!</li>
-<li>¡Hola, planeta Jupiter!</li>
-<li>¡Hola, planeta Saturn!</li>
-<li>¡Hola, planeta Uranus!</li>
-<li>¡Hola, planeta Neptune!</li>
-</ul>
-</section>
-<section id="exercise-for-the-reader-internationalize-the-planet-names" class="level2">
-<h2>Exercise for the reader: internationalize the planet names</h2>
-<p>Now we’ve applied internationalization to the message output by our attribute processor, but our planet names are still all in English because they are <em>hard coded</em> variables in our context (in Spring language, <em>model attributes</em>).</p>
-<p>So, how about internationalizing those planet names? The <code>#{...}</code> expressions we can use in this attribute now should make this quite easy, and there are also some examples in articles like <a href="standarddialect5minutes.html"><em>“Getting started with the Standard Dialect in 5 minutes”</em></a> and the <a href="/documentation.html">tutorials</a> quite similar to this scenario.</p>
-</section>
+}</code></pre><p>And that’s it! Let’s have a look at the results of executing our template with Spanish locale:</p><ul><li>¡Hola, planeta Mercury!</li><li>¡Hola, planeta Venus!</li><li>¡Hola, planeta Earth!</li><li>¡Hola, planeta Mars!</li><li>¡Hola, planeta Jupiter!</li><li>¡Hola, planeta Saturn!</li><li>¡Hola, planeta Uranus!</li><li>¡Hola, planeta Neptune!</li></ul></section><section id="exercise-for-the-reader-internationalize-the-planet-names" class="level2"><h2>Exercise for the reader: internationalize the planet names</h2><p>Now we’ve applied internationalization to the message output by our attribute processor, but our planet names are still all in English because they are <em>hard coded</em> variables in our context (in Spring language, <em>model attributes</em>).</p><p>So, how about internationalizing those planet names? The <code>#{...}</code> expressions we can use in this attribute now should make this quite easy, and there are also some examples in articles like <a href="standarddialect5minutes.html"><em>“Getting started with the Standard Dialect in 5 minutes”</em></a> and the <a href="/documentation.html">tutorials</a> quite similar to this scenario.</p></section>
 			</article>
 		</main>
 	</div>

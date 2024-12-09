@@ -65,30 +65,7 @@
 				<header>
 					<h1>Say Hello! Extending Thymeleaf in 5 minutes</h1>
 									</header>
-				<p>Extending Thymeleaf is easy: we only have to create a dialect and add it to our template engine. Let’s see how.</p>
-<p>All the code seen here comes from a working application. You can view or download the source code from <a href="https://github.com/thymeleaf/thymeleaf/tree/3.1-master/examples/spring6/thymeleaf-examples-spring6-sayhello">its GitHub repo</a>.</p>
-<section id="dialects" class="level2">
-<h2>Dialects</h2>
-<p>Thymeleaf Dialects are sets of features we can use in your templates. These features include:</p>
-<ul>
-<li><strong>Processing logic</strong> specified via <em>processors</em> that apply to attributes in our tags (or tags themselves).</li>
-<li><strong>Preprocessing and Postprocessing logic</strong> specified via <em>pre-processors</em> and <em>post-processors</em> that apply to our template before (pre) or after (post) processing actually takes place.</li>
-<li><strong>Expression objects</strong> which can be used in Thymeleaf Standard Expressions (like <code>#arrays</code>, <code>#dates</code>, etc.) in order to perform the specialized operations we might need.</li>
-</ul>
-<p>All of these features are optional, and a dialect can specify only some of them. For example, a dialect might not need to specify any processors, but declare a couple of <em>expression objects</em>.</p>
-<p>If you’ve seen fragments of code written in the <em>Standard Dialects</em>, you should have noticed that the processable attributes start with <code>th:</code>. That “<code>th</code>” is called the <strong>dialect prefix</strong>, and it means that all tags and attributes processed by that dialect will start with such prefix. Each dialect can specify its own prefix.</p>
-<p>It is important also to note that <strong>a Template Engine can be set several dialects at a time</strong>, thus allowing the processing of templates including features from all of the specified dialects (think of dialects as a sort of <em>JSP taglibs</em> in steroids). What’s more, some of these dialects can <em>share prefix</em>, effectively acting as an aggregate dialect.</p>
-</section>
-<section id="the-simplest-dialect-ever-say-hello" class="level2">
-<h2>The simplest dialect ever: Say Hello!</h2>
-<p>Let’s create a dialect for one of our applications. This will be a Spring MVC application, so we will be already using the SpringStandard dialect (have a look at the <a href="/documentation.html">Thymeleaf + Spring tutorial</a> for more details). But we want to add a new attribute that allows us to say hello to whoever we want, like this:</p>
-<pre class="html"><code>&lt;p hello:sayto=&quot;World&quot;&gt;Hi ya!&lt;/p&gt;</code></pre>
-<section id="the-processor" class="level3">
-<h3>The processor</h3>
-<p>First, we will have to create the attribute processor that will take care of displaying our salutation message.</p>
-<p>All processors implement the <code>org.thymeleaf.processor.IProcessor</code> interface, and specifically a tag processor implements the <code>org.thymeleaf.processor.element.IElementTagProcessor</code> because it is a processor that applies on an <em>element</em> (in XML/HTML jargon), and specifically on the <em>open tag</em> of such element.</p>
-<p>Besides, this is a processor that will be triggered by a specific attribute in such <em>open tag</em> (<code>hello:sayto</code>), so we will be extending a useful abstract class that will give us most of the class infrastructure we need: <code>org.thymeleaf.processor.element.AbstractAttributeTagProcessor</code>.</p>
-<pre class="java"><code>public class SayToAttributeTagProcessor extends AbstractAttributeTagProcessor {
+				<p>Extending Thymeleaf is easy: we only have to create a dialect and add it to our template engine. Let’s see how.</p><p>All the code seen here comes from a working application. You can view or download the source code from <a href="https://github.com/thymeleaf/thymeleaf/tree/3.1-master/examples/spring6/thymeleaf-examples-spring6-sayhello">its GitHub repo</a>.</p><section id="dialects" class="level2"><h2>Dialects</h2><p>Thymeleaf Dialects are sets of features we can use in your templates. These features include:</p><ul><li><strong>Processing logic</strong> specified via <em>processors</em> that apply to attributes in our tags (or tags themselves).</li><li><strong>Preprocessing and Postprocessing logic</strong> specified via <em>pre-processors</em> and <em>post-processors</em> that apply to our template before (pre) or after (post) processing actually takes place.</li><li><strong>Expression objects</strong> which can be used in Thymeleaf Standard Expressions (like <code>#arrays</code>, <code>#dates</code>, etc.) in order to perform the specialized operations we might need.</li></ul><p>All of these features are optional, and a dialect can specify only some of them. For example, a dialect might not need to specify any processors, but declare a couple of <em>expression objects</em>.</p><p>If you’ve seen fragments of code written in the <em>Standard Dialects</em>, you should have noticed that the processable attributes start with <code>th:</code>. That “<code>th</code>” is called the <strong>dialect prefix</strong>, and it means that all tags and attributes processed by that dialect will start with such prefix. Each dialect can specify its own prefix.</p><p>It is important also to note that <strong>a Template Engine can be set several dialects at a time</strong>, thus allowing the processing of templates including features from all of the specified dialects (think of dialects as a sort of <em>JSP taglibs</em> in steroids). What’s more, some of these dialects can <em>share prefix</em>, effectively acting as an aggregate dialect.</p></section><section id="the-simplest-dialect-ever-say-hello" class="level2"><h2>The simplest dialect ever: Say Hello!</h2><p>Let’s create a dialect for one of our applications. This will be a Spring MVC application, so we will be already using the SpringStandard dialect (have a look at the <a href="/documentation.html">Thymeleaf + Spring tutorial</a> for more details). But we want to add a new attribute that allows us to say hello to whoever we want, like this:</p><pre class="html"><code>&lt;p hello:sayto=&quot;World&quot;&gt;Hi ya!&lt;/p&gt;</code></pre><section id="the-processor" class="level3"><h3>The processor</h3><p>First, we will have to create the attribute processor that will take care of displaying our salutation message.</p><p>All processors implement the <code>org.thymeleaf.processor.IProcessor</code> interface, and specifically a tag processor implements the <code>org.thymeleaf.processor.element.IElementTagProcessor</code> because it is a processor that applies on an <em>element</em> (in XML/HTML jargon), and specifically on the <em>open tag</em> of such element.</p><p>Besides, this is a processor that will be triggered by a specific attribute in such <em>open tag</em> (<code>hello:sayto</code>), so we will be extending a useful abstract class that will give us most of the class infrastructure we need: <code>org.thymeleaf.processor.element.AbstractAttributeTagProcessor</code>.</p><pre class="java"><code>public class SayToAttributeTagProcessor extends AbstractAttributeTagProcessor {
 
     private static final String ATTR_NAME = &quot;sayto&quot;;
     private static final int PRECEDENCE = 10000;
@@ -118,14 +95,7 @@
     }
 
 
-}</code></pre>
-</section>
-<section id="the-dialect-class" class="level3">
-<h3>The dialect class</h3>
-<p>Creating our processor was very easy, but now we will need to create the <em>dialect class</em>, which will be in charge of telling Thymeleaf that our processor is available.</p>
-<p>The most basic dialect interface, <code>org.thymeleaf.dialect.IDialect</code>, only tells Thymeleaf that a specific class is a <em>dialect</em>. But the engine will need to know what that dialect is capable of offering, and in order to declare that, the dialect class will implement one or several of a set of <code>IDialect</code> sub-interfaces.</p>
-<p>Specifically, out dialect will offer *processors, and as such it will implement the <code>org.thymeleaf.dialect.IProcessorDialect</code>. And in order to make it easier, instead of directly implementing the interface we will extend an abstract class called <code>org.thymeleaf.dialect.AbstractProcessorDialect</code>:</p>
-<pre class="java"><code>public class HelloDialect extends AbstractProcessorDialect {
+}</code></pre></section><section id="the-dialect-class" class="level3"><h3>The dialect class</h3><p>Creating our processor was very easy, but now we will need to create the <em>dialect class</em>, which will be in charge of telling Thymeleaf that our processor is available.</p><p>The most basic dialect interface, <code>org.thymeleaf.dialect.IDialect</code>, only tells Thymeleaf that a specific class is a <em>dialect</em>. But the engine will need to know what that dialect is capable of offering, and in order to declare that, the dialect class will implement one or several of a set of <code>IDialect</code> sub-interfaces.</p><p>Specifically, out dialect will offer *processors, and as such it will implement the <code>org.thymeleaf.dialect.IProcessorDialect</code>. And in order to make it easier, instead of directly implementing the interface we will extend an abstract class called <code>org.thymeleaf.dialect.AbstractProcessorDialect</code>:</p><pre class="java"><code>public class HelloDialect extends AbstractProcessorDialect {
 
     public HelloDialect() {
         super(
@@ -150,28 +120,14 @@
     }
 
 
-}</code></pre>
-</section>
-</section>
-<section id="using-the-hello-dialect" class="level2">
-<h2>Using the hello dialect</h2>
-<p>Using our new dialect is very easy. This being a Spring MVC application, we just have to add it to our <code>templateEngine</code> bean during configuration.</p>
-<pre class="java"><code>@Bean
+}</code></pre></section></section><section id="using-the-hello-dialect" class="level2"><h2>Using the hello dialect</h2><p>Using our new dialect is very easy. This being a Spring MVC application, we just have to add it to our <code>templateEngine</code> bean during configuration.</p><pre class="java"><code>@Bean
 public SpringTemplateEngine templateEngine(){
     SpringTemplateEngine templateEngine = new SpringTemplateEngine();
     templateEngine.setEnableSpringELCompiler(true);
     templateEngine.setTemplateResolver(templateResolver());
     templateEngine.addDialect(new HelloDialect());
     return templateEngine;
-}</code></pre>
-<p>Note that by using <code>addDialect(...)</code> (instead of <code>setDialect(...)</code>) we are telling the engine that we want to make use of our new dialect <em>in addition to</em> the default <code>StandardDialect</code>. So all the standard <code>th:*</code> attributes will be also available.</p>
-<p>And now our new attribute would work seamlessly:</p>
-<pre class="html"><code>&lt;p&gt;Hello World!&lt;/p&gt;</code></pre>
-</section>
-<section id="want-to-know-more" class="level2">
-<h2>Want to know more?</h2>
-<p>Then have a look at <a href="sayhelloagainextendingthymeleafevenmore5minutes.html"><em>“Say Hello Again! Extending Thymeleaf even more in another 5 minutes”</em></a>.</p>
-</section>
+}</code></pre><p>Note that by using <code>addDialect(...)</code> (instead of <code>setDialect(...)</code>) we are telling the engine that we want to make use of our new dialect <em>in addition to</em> the default <code>StandardDialect</code>. So all the standard <code>th:*</code> attributes will be also available.</p><p>And now our new attribute would work seamlessly:</p><pre class="html"><code>&lt;p&gt;Hello World!&lt;/p&gt;</code></pre></section><section id="want-to-know-more" class="level2"><h2>Want to know more?</h2><p>Then have a look at <a href="sayhelloagainextendingthymeleafevenmore5minutes.html"><em>“Say Hello Again! Extending Thymeleaf even more in another 5 minutes”</em></a>.</p></section>
 			</article>
 		</main>
 	</div>

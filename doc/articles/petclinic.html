@@ -68,56 +68,7 @@
 							Written by Soraya Sánchez &lt;sschz AT users.sourceforge.net&gt;
 						</div>
 									</header>
-				<p><strong>Note</strong>: this article refers to an older version of Thymeleaf (Thymeleaf 2.1).</p>
-<section id="the-spring-petclinic-application" class="level2">
-<h2>The Spring PetClinic application</h2>
-<p><em>PetClinic</em> is one of the example applications created by SpringSource for the Spring Framework. It is designed to display and manage information related to pets and veterinarians in a pet clinic. The original SpringSource version lives in GitHub <a href="https://github.com/SpringSource/spring-petclinic">here</a>, and the thymeleaf-enabled version lives also in GitHub <a href="https://github.com/thymeleaf/thymeleafexamples-petclinic">here</a>.</p>
-<figure>
-<img src="images/petclinic/home.png" alt="PetClinic home page" />
-<figcaption aria-hidden="true">PetClinic home page</figcaption>
-</figure>
-<p><em>Pet Clinic</em> originally includes a view layer created with JSP, which we will replace using Thymeleaf:</p>
-<ul>
-<li>Modifications will be focused on the view layer: the JSP files will be replaced and the application will be reconfigured. All Java code will be left untouched.</li>
-<li>The original markup will be cleaned, but all the application’s interface will have to display exactly the same as the original.</li>
-<li>No CSS stylesheet files will be changed. No JavaScript libraries will be added, modified or upgraded.</li>
-<li>Thymeleaf template files should display OK when opened statically on a browser (<em>Natural templates</em>).</li>
-</ul>
-<p>All the code of the PetClinic+Thymeleaf application can be obtained at the <a href="/documentation.html">Thymeleaf Project’s Documentation</a> page. Note that the original JSP files and JSP tags have not been removed from the source tree but rather moved to the <code>doc/old_viewlayer</code> folder at the source tree, so that you can still access them in order to compare with the new templates.</p>
-<p>The version of the PetClinic application used as a base is the state of its <em>master branch at Github</em> as of 17 March 2013.</p>
-<section id="the-original-jsp-view-layer" class="level3">
-<h3>The original JSP view layer</h3>
-<p>The original JSP view layer has a number of problems we will try to fix when converting the view layer to Thymeleaf:</p>
-<ul>
-<li>JSPs include tags from JSTL, Spring Tag Libs and other external libraries. None of these are understandable by browsers, so there is no way for them to display the pages statically (no static prototyping possible).</li>
-<li>JSTL tags use the JSP EL (Expression Language), whereas the tags from the JSP Spring taglibs use Spring EL. Two different expression languages are therefore mixed in the same pages.</li>
-<li>The original JSP templates are not well-formed HTML documents. For example, the <em>“ownersList”</em> page:
-<ol type="1">
-<li>Does not contain a head tag, adding instead one from another JSP using a <em>JSP include</em> (=&gt; not understandable by browsers).</li>
-<li>Header and footer contents have been replaced by JSP include tags (=&gt; not understandable by browsers) so the pages can’t be displayed statically including their header and footer. And anyway, even if those contents were in the page, as pages contain JSP and JSTL tags, we wouldn’t be able to see a real prototype.</li>
-</ol></li>
-</ul>
-</section>
-</section>
-<section id="configuration" class="level2">
-<h2>Configuration</h2>
-<section id="basic-project-configuration" class="level3">
-<h3>Basic project configuration</h3>
-<p>Some basic configuration steps will be needed:</p>
-<ul>
-<li>The <code>pom.xml</code> file will be modified in order to add the Thymeleaf dependencies to it and remove the JSP-related ones.</li>
-<li>The <code>web.xml</code> file will be modified in order to remove JSP-related servlets and filters.</li>
-</ul>
-</section>
-<section id="mvc-view-config.xml" class="level3">
-<h3>mvc-view-config.xml</h3>
-<p>Our next configuration step will be to add three required beans at the Spring beans configuration file, <code>mvc-view-config.xml</code>:</p>
-<ul>
-<li>The Thymeleaf <em>template resolver</em> that will be in charge of reading the template files to be processed. For this application we will use a <code>ServletContextTemplateResolver</code>.</li>
-<li>The Thymeleaf <em>template engine</em> instance, of class <code>SpringTemplateEngine</code>.</li>
-<li>The Thymeleaf <em>view resolver</em>, a <code>ThymeleafViewResolver</code> instance implementing Spring’s <code>org.springframework.web.servlet.ViewResolver</code> interface. This bean will substitute the original <code>InternalResourceViewResolver</code> bean which enabled JSP support in the original application.</li>
-</ul>
-<pre class="xml"><code>&lt;bean id=&quot;templateResolver&quot; class=&quot;org.thymeleaf.templateresolver.ServletContextTemplateResolver&quot;&gt;
+				<p><strong>Note</strong>: this article refers to an older version of Thymeleaf (Thymeleaf 2.1).</p><section id="the-spring-petclinic-application" class="level2"><h2>The Spring PetClinic application</h2><p><em>PetClinic</em> is one of the example applications created by SpringSource for the Spring Framework. It is designed to display and manage information related to pets and veterinarians in a pet clinic. The original SpringSource version lives in GitHub <a href="https://github.com/SpringSource/spring-petclinic">here</a>, and the thymeleaf-enabled version lives also in GitHub <a href="https://github.com/thymeleaf/thymeleafexamples-petclinic">here</a>.</p><figure><img src="images/petclinic/home.png" alt="PetClinic home page" /><figcaption>PetClinic home page</figcaption></figure><p><em>Pet Clinic</em> originally includes a view layer created with JSP, which we will replace using Thymeleaf:</p><ul><li>Modifications will be focused on the view layer: the JSP files will be replaced and the application will be reconfigured. All Java code will be left untouched.</li><li>The original markup will be cleaned, but all the application’s interface will have to display exactly the same as the original.</li><li>No CSS stylesheet files will be changed. No JavaScript libraries will be added, modified or upgraded.</li><li>Thymeleaf template files should display OK when opened statically on a browser (<em>Natural templates</em>).</li></ul><p>All the code of the PetClinic+Thymeleaf application can be obtained at the <a href="/documentation.html">Thymeleaf Project’s Documentation</a> page. Note that the original JSP files and JSP tags have not been removed from the source tree but rather moved to the <code>doc/old_viewlayer</code> folder at the source tree, so that you can still access them in order to compare with the new templates.</p><p>The version of the PetClinic application used as a base is the state of its <em>master branch at Github</em> as of 17 March 2013.</p><section id="the-original-jsp-view-layer" class="level3"><h3>The original JSP view layer</h3><p>The original JSP view layer has a number of problems we will try to fix when converting the view layer to Thymeleaf:</p><ul><li>JSPs include tags from JSTL, Spring Tag Libs and other external libraries. None of these are understandable by browsers, so there is no way for them to display the pages statically (no static prototyping possible).</li><li>JSTL tags use the JSP EL (Expression Language), whereas the tags from the JSP Spring taglibs use Spring EL. Two different expression languages are therefore mixed in the same pages.</li><li>The original JSP templates are not well-formed HTML documents. For example, the <em>“ownersList”</em> page:<ol type="1"><li>Does not contain a head tag, adding instead one from another JSP using a <em>JSP include</em> (=&gt; not understandable by browsers).</li><li>Header and footer contents have been replaced by JSP include tags (=&gt; not understandable by browsers) so the pages can’t be displayed statically including their header and footer. And anyway, even if those contents were in the page, as pages contain JSP and JSTL tags, we wouldn’t be able to see a real prototype.</li></ol></li></ul></section></section><section id="configuration" class="level2"><h2>Configuration</h2><section id="basic-project-configuration" class="level3"><h3>Basic project configuration</h3><p>Some basic configuration steps will be needed:</p><ul><li>The <code>pom.xml</code> file will be modified in order to add the Thymeleaf dependencies to it and remove the JSP-related ones.</li><li>The <code>web.xml</code> file will be modified in order to remove JSP-related servlets and filters.</li></ul></section><section id="mvc-view-config.xml" class="level3"><h3>mvc-view-config.xml</h3><p>Our next configuration step will be to add three required beans at the Spring beans configuration file, <code>mvc-view-config.xml</code>:</p><ul><li>The Thymeleaf <em>template resolver</em> that will be in charge of reading the template files to be processed. For this application we will use a <code>ServletContextTemplateResolver</code>.</li><li>The Thymeleaf <em>template engine</em> instance, of class <code>SpringTemplateEngine</code>.</li><li>The Thymeleaf <em>view resolver</em>, a <code>ThymeleafViewResolver</code> instance implementing Spring’s <code>org.springframework.web.servlet.ViewResolver</code> interface. This bean will substitute the original <code>InternalResourceViewResolver</code> bean which enabled JSP support in the original application.</li></ul><pre class="xml"><code>&lt;bean id=&quot;templateResolver&quot; class=&quot;org.thymeleaf.templateresolver.ServletContextTemplateResolver&quot;&gt;
   &lt;property name=&quot;prefix&quot; value=&quot;/WEB-INF/thymeleaf/&quot; /&gt;
   &lt;property name=&quot;suffix&quot; value=&quot;.html&quot; /&gt;
   &lt;property name=&quot;templateMode&quot; value=&quot;HTML5&quot; /&gt;
@@ -144,26 +95,7 @@
       &lt;/bean&gt;
     &lt;/list&gt;
   &lt;/property&gt;
-&lt;/bean&gt;</code></pre>
-<p>Note that, as a difference from the original application, our templates will live at the <code>/WEB-INF/thymeleaf</code> folder instead of the original <code>/WEB-INF/jsp</code>.</p>
-</section>
-</section>
-<section id="from-jsp-to-thymeleaf" class="level2">
-<h2>From JSP to Thymeleaf</h2>
-<p>PetClinic includes more than 10 JSP templates, and we will rewrite all of them using Thymeleaf. However, for the sake of brevity, we will focus on <code>owners/ownerslist.jsp</code>, which we will convert into <code>owners/ownersList.html</code>.</p>
-<p>Remember you can see all the templates at the source code, downloadable from <a href="/documentation.html">the documentation page</a>, and also that you can review the original JSP files at the <code>doc/old_viewlayer</code> folder.</p>
-<p>The <em>owners/ownersList</em> page looks like this:</p>
-<figure>
-<img src="images/petclinic/owners.png" alt="Owners page" />
-<figcaption aria-hidden="true">Owners page</figcaption>
-</figure>
-<p>In order to convert this page to Thymeleaf, we will:</p>
-<ul>
-<li>Rename <code>ownersList.jsp</code> to <code>ownersList.html</code>.</li>
-<li>Remove all <code>&lt;%@ taglib %&gt;</code> directives as we do not need any JSP tag libraries</li>
-<li>Replace the <code>jsp:include</code> tags which add head, header and footer to the page with tags containing the thymeleaf attributes <code>th:substituteby</code> or <code>th:include</code>. Those page fragments have been kept in the <code>fragments</code> folder and converted to thymeleaf as well</li>
-</ul>
-<pre class="html"><code>&lt;!-- ownersList.jsp --&gt;
+&lt;/bean&gt;</code></pre><p>Note that, as a difference from the original application, our templates will live at the <code>/WEB-INF/thymeleaf</code> folder instead of the original <code>/WEB-INF/jsp</code>.</p></section></section><section id="from-jsp-to-thymeleaf" class="level2"><h2>From JSP to Thymeleaf</h2><p>PetClinic includes more than 10 JSP templates, and we will rewrite all of them using Thymeleaf. However, for the sake of brevity, we will focus on <code>owners/ownerslist.jsp</code>, which we will convert into <code>owners/ownersList.html</code>.</p><p>Remember you can see all the templates at the source code, downloadable from <a href="/documentation.html">the documentation page</a>, and also that you can review the original JSP files at the <code>doc/old_viewlayer</code> folder.</p><p>The <em>owners/ownersList</em> page looks like this:</p><figure><img src="images/petclinic/owners.png" alt="Owners page" /><figcaption>Owners page</figcaption></figure><p>In order to convert this page to Thymeleaf, we will:</p><ul><li>Rename <code>ownersList.jsp</code> to <code>ownersList.html</code>.</li><li>Remove all <code>&lt;%@ taglib %&gt;</code> directives as we do not need any JSP tag libraries</li><li>Replace the <code>jsp:include</code> tags which add head, header and footer to the page with tags containing the thymeleaf attributes <code>th:substituteby</code> or <code>th:include</code>. Those page fragments have been kept in the <code>fragments</code> folder and converted to thymeleaf as well</li></ul><pre class="html"><code>&lt;!-- ownersList.jsp --&gt;
 &lt;%@ taglib prefix=&quot;spring&quot; uri=&quot;http://www.springframework.org/tags&quot; %&gt;
 &lt;%@ taglib prefix=&quot;fmt&quot; uri=&quot;http://java.sun.com/jsp/jstl/fmt&quot; %&gt;
 &lt;%@ taglib prefix=&quot;c&quot; uri=&quot;http://java.sun.com/jsp/jstl/core&quot; %&gt;
@@ -185,8 +117,7 @@
     &lt;/div&gt;
   &lt;/body&gt;
 
-&lt;/html&gt;</code></pre>
-<pre class="html"><code>&lt;!-- ownersList.html --&gt;
+&lt;/html&gt;</code></pre><pre class="html"><code>&lt;!-- ownersList.html --&gt;
 &lt;!DOCTYPE html&gt;
 
 &lt;html lang=&quot;en&quot;&gt;
@@ -295,13 +226,7 @@
 
   &lt;/body&gt;
 
-&lt;/html&gt;</code></pre>
-<p>Note how our <code>ownersList.html</code> contains more code at its head, header and footer sections than the original JSP file. Doing it this way is merely optional, and its only aim is to allow the <code>ownersList.html</code> Thymeleaf-enabled template to display statically as a prototype (something nearly impossible with JSP).</p>
-<p><em>Is this additional code worth it?</em> If you need or want to use design prototypes, indeed! You will see clearly how much a difference this is at the last section of this article. And anyway… remember this prototyping code is optional!</p>
-<ul>
-<li>Change the page body. The original code looks like this:</li>
-</ul>
-<pre class="html"><code>&lt;!-- ownersList.jsp --&gt;
+&lt;/html&gt;</code></pre><p>Note how our <code>ownersList.html</code> contains more code at its head, header and footer sections than the original JSP file. Doing it this way is merely optional, and its only aim is to allow the <code>ownersList.html</code> Thymeleaf-enabled template to display statically as a prototype (something nearly impossible with JSP).</p><p><em>Is this additional code worth it?</em> If you need or want to use design prototypes, indeed! You will see clearly how much a difference this is at the last section of this article. And anyway… remember this prototyping code is optional!</p><ul><li>Change the page body. The original code looks like this:</li></ul><pre class="html"><code>&lt;!-- ownersList.jsp --&gt;
 &lt;datatables:table id=&quot;owners&quot; data=&quot;${selections}&quot; cdn=&quot;true&quot; row=&quot;owner&quot; theme=&quot;bootstrap2&quot;
   cssClass=&quot;table table-striped&quot; paginate=&quot;false&quot; info=&quot;false&quot; export=&quot;pdf&quot;&gt;
   &lt;datatables:column title=&quot;Name&quot; cssStyle=&quot;width: 150px;&quot; display=&quot;html&quot;&gt;
@@ -322,9 +247,7 @@
     &lt;/c:forEach&gt;
   &lt;/datatables:column&gt;
   &lt;datatables:export type=&quot;pdf&quot; cssClass=&quot;btn btn-small&quot; /&gt;
-&lt;/datatables:table&gt;</code></pre>
-<p>Which we will replace with:</p>
-<pre class="html"><code>&lt;!-- ownersList.html --&gt;
+&lt;/datatables:table&gt;</code></pre><p>Which we will replace with:</p><pre class="html"><code>&lt;!-- ownersList.html --&gt;
 &lt;h2&gt;Owners&lt;/h2&gt;
 
 &lt;table class=&quot;table table-striped&quot;&gt;
@@ -354,26 +277,7 @@
       &lt;/td&gt;
     &lt;/tr&gt;
   &lt;/tbody&gt;
-&lt;/table&gt;</code></pre>
-<ul>
-<li>In the code above you can see how we used HTML code instead of a collection of JSP tags from an external library. Not only this makes our code much clearer and more readable, but also more standard and <em>understandable by browsers</em>, which will allow us to use this template as a <em>static prototype</em>. Again, we will see the advantages of this in the next section.</li>
-</ul>
-</section>
-<section id="and-what-about-the-natural-templates-thing" class="level2">
-<h2>And what about the <em>Natural Templates</em> thing?</h2>
-<p>Before we started this migration, we set a goal that our new Thymeleaf templates would be able to display correctly when open statically in a browser (without starting the application server) thanks to the <em>Natural Templating</em> capabilities of Thymeleaf.</p>
-<p>Well, let’s have a look at how the original <code>owners/ownersList.jsp</code> template looks like when seen statically:</p>
-<figure>
-<img src="images/petclinic/ownerslist_jsp_static.png" alt="Owners list (JSP), statically opened" />
-<figcaption aria-hidden="true">Owners list (JSP), statically opened</figcaption>
-</figure>
-<p>…and now let’s have a look at our new Thymeleaf-powered <code>owners/ownersList.html</code>:</p>
-<figure>
-<img src="images/petclinic/ownerslist_thymeleaf_static.png" alt="Owners list (thymeleaf), statically opened" />
-<figcaption aria-hidden="true">Owners list (thymeleaf), statically opened</figcaption>
-</figure>
-<p>There we are. Data is not valid, because it is a prototype. But it looks good!</p>
-</section>
+&lt;/table&gt;</code></pre><ul><li>In the code above you can see how we used HTML code instead of a collection of JSP tags from an external library. Not only this makes our code much clearer and more readable, but also more standard and <em>understandable by browsers</em>, which will allow us to use this template as a <em>static prototype</em>. Again, we will see the advantages of this in the next section.</li></ul></section><section id="and-what-about-the-natural-templates-thing" class="level2"><h2>And what about the <em>Natural Templates</em> thing?</h2><p>Before we started this migration, we set a goal that our new Thymeleaf templates would be able to display correctly when open statically in a browser (without starting the application server) thanks to the <em>Natural Templating</em> capabilities of Thymeleaf.</p><p>Well, let’s have a look at how the original <code>owners/ownersList.jsp</code> template looks like when seen statically:</p><figure><img src="images/petclinic/ownerslist_jsp_static.png" alt="Owners list (JSP), statically opened" /><figcaption>Owners list (JSP), statically opened</figcaption></figure><p>…and now let’s have a look at our new Thymeleaf-powered <code>owners/ownersList.html</code>:</p><figure><img src="images/petclinic/ownerslist_thymeleaf_static.png" alt="Owners list (thymeleaf), statically opened" /><figcaption>Owners list (thymeleaf), statically opened</figcaption></figure><p>There we are. Data is not valid, because it is a prototype. But it looks good!</p></section>
 			</article>
 		</main>
 	</div>
