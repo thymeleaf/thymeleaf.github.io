@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"org.thymeleaf.extras.springsecurity6.auth"},{"l":"org.thymeleaf.extras.springsecurity6.dialect"},{"l":"org.thymeleaf.extras.springsecurity6.dialect.expression"},{"l":"org.thymeleaf.extras.springsecurity6.dialect.processor"},{"l":"org.thymeleaf.extras.springsecurity6.util"}];updateSearchResults();
