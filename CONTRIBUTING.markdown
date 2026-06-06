@@ -18,7 +18,7 @@ unacceptable behavior to [the project leads][thymeleaf-team].
 We use GitHub issues to track bugs and enhancements.
 If you have a general usage question please ask on
 [Stack Overflow][stackoverflow].
-The Thymeleaf team and the broader community monitor the 
+The Thymeleaf maintainers and the broader community monitor the 
 [`thymeleaf`][stackoverflow-thymeleaf] tag.
 
 If you are reporting a bug, please help to speed up problem diagnosis by
@@ -99,7 +99,7 @@ step, please have a look at the [Thymeleaf CLA repository][cla].
     algorithms is always welcome.
   - Writing unit tests for new, existing and modified code is always welcome
     too. For any new algorithms or functionality contributed, or substantial
-    modifications made to existing ones, the team might consider these a
+    modifications made to existing ones, the projecct maintainers might consider these a
     requirement.
 
 
@@ -107,6 +107,6 @@ step, please have a look at the [Thymeleaf CLA repository][cla].
 
 [cla]: https://github.com/thymeleaf/thymeleaf-org/blob/CLA_CURRENT/CLA/
 [code-of-coduct]: https://github.com/thymeleaf/thymeleaf-org/blob/CoC_CURRENT/CoC/THYMELEAF_CODE_OF_CONDUCT.markdown
-[thymeleaf-team]: https://www.thymeleaf.org/team.html
+[thymeleaf-team]: mailto:contact@thymeleaf.org
 [stackoverflow]: https://stackoverflow.com
 [stackoverflow-thymeleaf]: https://stackoverflow.com/tags/thymeleaf
