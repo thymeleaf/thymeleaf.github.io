@@ -68,7 +68,7 @@
 							Written by José Miguel Samper &lt;jmiguelsamper AT users.sourceforge.net&gt;
 						</div>
 									</header>
-				<p>Have you switched to Thymeleaf but your login and error pages are still using JSP? In this article we will see how to configure your Spring application to use Thymeleaf for login and error pages.</p><p>All the code seen here comes from a working application. You can view or download the source code from <a href="https://github.com/thymeleaf/thymeleaf/tree/3.1-master/examples/springsecurity6/thymeleaf-examples-springsecurity6-websecurity">its GitHub repo</a>.</p><p><strong>Note</strong> that the Thymeleaf integration packages for Spring Security support both Spring MVC and Spring WebFlux applications since Spring Security 5, but this article will focus on a Spring MVC configuration.</p><section id="prerequisites" class="level2"><h2>Prerequisites</h2><p>We assume you are familiar with Thymeleaf and Spring Security, and you have a working application using these technologies. If you don’t know Spring Security, you could be interested on reading the <a href="http://static.springsource.org/spring-security/site/reference.html">Spring Security Documentation</a>.</p></section><section id="login-pages" class="level2"><h2>Login pages</h2><p>With Spring Security you could specify any URL to act as a login page, just like:</p><pre class="java"><code>@Override
+				<p>Have you switched to Thymeleaf but your login and error pages are still using JSP? In this article we will see how to configure your Spring application to use Thymeleaf for login and error pages.</p><p>All the code seen here comes from a working application. You can view or download the source code from <a href="https://github.com/thymeleaf/thymeleaf/tree/3.1-master/examples/springsecurity6/thymeleaf-examples-springsecurity6-websecurity">its GitHub repo</a>.</p><p><strong>Note</strong> that the Thymeleaf integration packages for Spring Security support both Spring MVC and Spring WebFlux applications since Spring Security 5, but this article will focus on a Spring MVC configuration.</p><section id="prerequisites" class="level2"><h2>Prerequisites</h2><p>We assume you are familiar with Thymeleaf and Spring Security, and you have a working application using these technologies. If you don’t know Spring Security, you could be interested on reading the <a href="https://docs.spring.io/spring-security/reference/index.html">Spring Security Documentation</a>.</p></section><section id="login-pages" class="level2"><h2>Login pages</h2><p>With Spring Security you could specify any URL to act as a login page, just like:</p><pre class="java"><code>@Override
 protected void configure(final HttpSecurity http) throws Exception {
     http
         .formLogin()
@@ -122,6 +122,7 @@ public class ErrorController {
         logger.error(&quot;Exception during execution of SpringSecurity application&quot;, throwable);
         String errorMessage = (throwable != null ? throwable.getMessage() : &quot;Unknown error&quot;);
         model.addAttribute(&quot;errorMessage&quot;, errorMessage);
+        model.addAttribute(&quot;httpStatus&quot;, HttpStatus.INTERNAL_SERVER_ERROR);
         return &quot;error&quot;;
     }
 
@@ -132,12 +133,12 @@ public class ErrorController {
         &lt;meta charset=&quot;utf-8&quot; /&gt;
         &lt;link rel=&quot;stylesheet&quot; href=&quot;css/main.css&quot; th:href=&quot;@{/css/main.css}&quot; /&gt;
     &lt;/head&gt;
-    &lt;body th:with=&quot;httpStatus=${T(org.springframework.http.HttpStatus).valueOf(#response.status)}&quot;&gt;
-        &lt;h1 th:text=&quot;|${httpStatus} - ${httpStatus.reasonPhrase}|&quot;&gt;404&lt;/h1&gt;
+    &lt;body&gt;
+        &lt;h1 th:text=&quot;|${httpStatus} - ${httpStatus.reasonPhrase}|&quot;&gt;500 - Internal Server Error&lt;/h1&gt;
         &lt;p th:utext=&quot;${errorMessage}&quot;&gt;Error java.lang.NullPointerException&lt;/p&gt;
         &lt;a href=&quot;index.html&quot; th:href=&quot;@{/index.html}&quot;&gt;Back to Home Page&lt;/a&gt;
     &lt;/body&gt;
-&lt;/html&gt;</code></pre><p>Note how we are using Spring’s <code>HttpStatus</code> enum in order to obtain detailed information about the response status that has been set (which in this case will always be <code>500</code>, but this allows us to use this <code>error.html</code> in other error reporting scenarios).</p></section><section id="spring-security-dialect" class="level2"><h2>Spring Security Dialect</h2><p>In Spring MVC environments, the <a href="https://github.com/thymeleaf/thymeleaf-extras-springsecurity">Spring Security integration module</a> works as a replacement of the <a href="http://docs.spring.io/spring-security/site/docs/4.2.x/reference/html/taglibs.html">Spring security taglib</a>.</p><p>We use this dialect in the example in order to print the logged user credentials and to show different content to different roles.</p><p>The <strong>sec:authorize</strong> attribute renders its content when the attribute expression is evaluated to <strong>true</strong>:</p><pre class="html"><code>&lt;div sec:authorize=&quot;isAuthenticated()&quot;&gt;
+&lt;/html&gt;</code></pre><p>Note how we pass Spring’s <code>HttpStatus</code> enum value as a model attribute, so that the template can display detailed information about the error status (which in this case will always be <code>500</code>, but this allows us to reuse this <code>error.html</code> in other error reporting scenarios where a different <code>HttpStatus</code> is set on the model).</p></section><section id="spring-security-dialect" class="level2"><h2>Spring Security Dialect</h2><p>In Spring MVC environments, the <a href="https://github.com/thymeleaf/thymeleaf-extras-springsecurity">Spring Security integration module</a> works as a replacement of the <a href="https://docs.spring.io/spring-security/reference/servlet/integrations/jsp-taglibs.html">Spring security taglib</a>.</p><p>We use this dialect in the example in order to print the logged user credentials and to show different content to different roles.</p><p>The <strong>sec:authorize</strong> attribute renders its content when the attribute expression is evaluated to <strong>true</strong>:</p><pre class="html"><code>&lt;div sec:authorize=&quot;isAuthenticated()&quot;&gt;
   This content is only shown to authenticated users.
 &lt;/div&gt;
 &lt;div sec:authorize=&quot;hasRole(&#39;ROLE_ADMIN&#39;)&quot;&gt;
@@ -146,7 +147,7 @@ public class ErrorController {
 &lt;div sec:authorize=&quot;hasRole(&#39;ROLE_USER&#39;)&quot;&gt;
   This content is only shown to users.
 &lt;/div&gt;</code></pre><p>The <strong>sec:authentication</strong> attribute is used to print logged user name and roles:</p><pre class="html"><code>Logged user: &lt;span sec:authentication=&quot;name&quot;&gt;Bob&lt;/span&gt;
-Roles: &lt;span sec:authentication=&quot;principal.authorities&quot;&gt;[ROLE_USER, ROLE_ADMIN]&lt;/span&gt;</code></pre></section>
+Roles: &lt;span sec:authentication=&quot;authorities&quot;&gt;[ROLE_USER, ROLE_ADMIN]&lt;/span&gt;</code></pre></section>
 			</article>
 		</main>
 	</div>
@@ -162,6 +163,8 @@ Roles: &lt;span sec:authentication=&quot;principal.authorities&quot;&gt;[ROLE_US
 					<li><a href="../../ecosystem.html">Ecosystem</a></li>
 					<li><a href="../../faq.html">FAQ</a></li>
 					<li id="footer-issue-tracking"><a href="../../issuetracking.html">Issue Tracking</a></li>
+					<li><a href="../../team.html">The Thymeleaf Team</a></li>
+					<li><a href="../../whoisusingthymeleaf.html">Who's using Thymeleaf?</a></li>
 				</ul>
 			</div>
 			<div>

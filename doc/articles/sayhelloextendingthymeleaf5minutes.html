@@ -120,7 +120,18 @@
     }
 
 
-}</code></pre></section></section><section id="using-the-hello-dialect" class="level2"><h2>Using the hello dialect</h2><p>Using our new dialect is very easy. This being a Spring MVC application, we just have to add it to our <code>templateEngine</code> bean during configuration.</p><pre class="java"><code>@Bean
+}</code></pre></section></section><section id="using-the-hello-dialect" class="level2"><h2>Using the hello dialect</h2><p>Using our new dialect is very easy. This being a Spring MVC application, we just have to add it to our <code>templateEngine</code> bean during configuration, along with the <code>templateResolver</code> bean it depends on:</p><pre class="java"><code>@Bean
+public SpringResourceTemplateResolver templateResolver(){
+    SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
+    templateResolver.setApplicationContext(this.applicationContext);
+    templateResolver.setPrefix(&quot;/WEB-INF/templates/&quot;);
+    templateResolver.setSuffix(&quot;.html&quot;);
+    templateResolver.setTemplateMode(TemplateMode.HTML);
+    templateResolver.setCacheable(true);
+    return templateResolver;
+}
+
+@Bean
 public SpringTemplateEngine templateEngine(){
     SpringTemplateEngine templateEngine = new SpringTemplateEngine();
     templateEngine.setEnableSpringELCompiler(true);
@@ -143,6 +154,8 @@ public SpringTemplateEngine templateEngine(){
 					<li><a href="../../ecosystem.html">Ecosystem</a></li>
 					<li><a href="../../faq.html">FAQ</a></li>
 					<li id="footer-issue-tracking"><a href="../../issuetracking.html">Issue Tracking</a></li>
+					<li><a href="../../team.html">The Thymeleaf Team</a></li>
+					<li><a href="../../whoisusingthymeleaf.html">Who's using Thymeleaf?</a></li>
 				</ul>
 			</div>
 			<div>

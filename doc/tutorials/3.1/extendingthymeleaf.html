@@ -98,7 +98,7 @@
 
     public Map&lt;String,ExpressionObjectDefinition&gt; getObjectDefinitions();
 
-    public Object buildObject(final IProcessingContext processingContext, final String expressionObjectName);
+    public Object buildObject(final IExpressionContext context, final String expressionObjectName);
 
 }</code></pre></section><section id="execution-attribute-dialects-iexecutionattributedialect" class="level3"><h3>Execution Attribute dialects: <code>IExecutionAttributeDialect</code></h3><p>Dialects implementing this interface are allowed to provide <em>execution attributes</em>, i.e. objects that are available to every processor being executed during template processing.</p><p>For example, the Standard Dialect implements this interface in order to provide to every processor:</p><ul><li>The <em>Thymeleaf Standard Expression parser</em> so that Standard Expressions in any attribute can be parsed and executed.</li><li>The <em>Variable Expression Evaluator</em> so that <code>${...}</code> expressions are executed either in OGNL or SpringEL (depending on whether we are using the Spring integration module or not).</li><li>The <em>Conversion Service</em> that performs conversion operations in <code>${{...}}</code> expressions.</li></ul><p>Note that these objects are not available at the context, so they cannot be used from template expressions. Their availability is limited to implementations of extension points such as processors, pre-processors, etc.</p><p>The <code>IExecutionAttributeDialect</code> interface is very simple:</p><pre class="java"><code>public interface IExecutionAttributeDialect extends IDialect {
 
@@ -158,13 +158,13 @@ structureHandler.removeAttribute(attributeName);
 
     public void setTemplateData(final TemplateData templateData);
 
-    public void setBody(final String text, final boolean processable);
+    public void setBody(final CharSequence text, final boolean processable);
     public void setBody(final IModel model, final boolean processable);
 
     public void insertBefore(final IModel model); // cannot be processable
     public void insertImmediatelyAfter(final IModel model, final boolean processable);
 
-    public void replaceWith(final String text, final boolean processable);
+    public void replaceWith(final CharSequence text, final boolean processable);
     public void replaceWith(final IModel model, final boolean processable);
 
 
@@ -585,7 +585,7 @@ final IModel model = modelFactory.createModel();
 
 model.add(modelFactory.createOpenElementTag(&quot;div&quot;, &quot;class&quot;, &quot;headlines&quot;));
 model.add(modelFactory.createText(HtmlEscape.escapeHtml5(headlineText)));
-model.add(modelFactory.createCloseElementTag(&quot;div&quot;));</code></pre><p>Note how markup events needs to be created <em>one event at a time</em>, and how the open and close tags for the same <code>div</code> element have to be created separately and in the correct order. This is because models are <em>sequences of events</em> and not nodes in a Document Object Model (DOM).</p><p>The model factory offers a quite complete set of methods for creating all types of events: tags, texts, DOCTYPEs… and also useful methods for modifying the attributes in a tag (by creating a new <code>tag</code> instance, given they are immutable), such as:</p><pre class="java"><code>final IOpenElemenTag newTag = modelFactory.setAttribute(tag, &quot;class&quot;, &quot;newvalue&quot;);</code></pre><p>Also, the model factory is able to create <code>IModel</code> instances from scratch (like the <code>modelFactory.createModel()</code> above), from a single existing event, and also from a piece of markup that we want to convert into its corresponding sequence of events by <em>parsing</em> it:</p><pre class="java"><code>final IModel model = 
+model.add(modelFactory.createCloseElementTag(&quot;div&quot;));</code></pre><p>Note how markup events needs to be created <em>one event at a time</em>, and how the open and close tags for the same <code>div</code> element have to be created separately and in the correct order. This is because models are <em>sequences of events</em> and not nodes in a Document Object Model (DOM).</p><p>The model factory offers a quite complete set of methods for creating all types of events: tags, texts, DOCTYPEs… and also useful methods for modifying the attributes in a tag (by creating a new <code>tag</code> instance, given they are immutable), such as:</p><pre class="java"><code>final IOpenElementTag newTag = modelFactory.setAttribute(tag, &quot;class&quot;, &quot;newvalue&quot;);</code></pre><p>Also, the model factory is able to create <code>IModel</code> instances from scratch (like the <code>modelFactory.createModel()</code> above), from a single existing event, and also from a piece of markup that we want to convert into its corresponding sequence of events by <em>parsing</em> it:</p><pre class="java"><code>final IModel model = 
         modelFactory.parse(
                 context.getTemplateData(), 
                 &quot;&lt;div class=&#39;headlines&#39;&gt;Some headlines&lt;/div&gt;&quot;);</code></pre></section></section><section id="a-model-processor-for-our-match-day-today-banner" class="level2"><h2>3.5. A model processor for our “Match Day Today” banner</h2><p>The last processor we will include in our dialect is of a different nature than the ones we’ve seen so far: it is a <strong>model processor</strong>, not a <em>tag processor</em>.</p><p>As already mentioned in a previous section, model processors do not execute on a specific tag event, but on the complete sequence of events (i.e. the <em>model</em>) that contains the entire element they are matching.</p><p>So if we have a model processor that matches <code>&lt;p&gt;</code> tags with attribute <code>score:matcher</code>, and a fragment of template such as:</p><pre class="html"><code>&lt;p score:matcher=&quot;whatever&quot;&gt;
