@@ -85,6 +85,54 @@
 				<section class="subsection">
 					<header>
 						<h3>
+							<a id="thymeleaf-spring-security" href="#thymeleaf-spring-security" class="anchor"></a>
+							Thymeleaf + Spring Security
+						</h3>
+					</header>
+					<p><a href="https://github.com/thymeleaf/thymeleaf/tree/main/lib">https://github.com/thymeleaf/thymeleaf</a> (<code>lib/thymeleaf-extras-springsecurity5</code> and <code>lib/thymeleaf-extras-springsecurity6</code>)</p>
+
+					<p>The Thymeleaf Extras Spring Security library provides a dialect
+					that allows integrating several authorization and authentication
+					aspects of Spring Security (versions 5.x and 6.x) into Thymeleaf-based
+					applications. Features:</p>
+					<ul>
+						<li>
+							<strong>Thymeleaf-based equivalent to the Spring Security JSP tag
+							library</strong>.
+						</li>
+						<li>
+							Adds new expression utility objects like <code>#authentication</code>
+							and <code>#authorization</code> for <strong>integrating Spring
+							Security capabilities into Thymeleaf expressions</strong>.
+						</li>
+						<li>
+							Adds new attributes like <code>sec:authentication</code> and
+							<code>sec:authorized</code> for easier configuration of security.
+						</li>
+					</ul>
+
+					<p>With this library, role-based access restrictions defined in Spring
+					Security can be easily used:</p>
+
+					<pre><code class="language-xml"><!--
+						<div sec:authorize="hasRole('ROLE_ADMIN')">
+							This will only be displayed if authenticated user has role ROLE_ADMIN.
+						</div>
+					--></code></pre>
+
+					<p>The security-related objects can also be included in your normal
+					Thymeleaf expressions:</p>
+
+					<pre><code class="language-html"><!--
+						<div th:text="${#authentication.name}">
+							The value of the "name" property of the authentication object should appear here.
+						</div>
+					--></code></pre>
+				</section>
+
+				<section class="subsection">
+					<header>
+						<h3>
 							<a id="thymeleaf-testing-library" href="#thymeleaf-testing-library" class="anchor"></a>
 							Thymeleaf Testing Library
 						</h3>
@@ -178,161 +226,6 @@
 					</figure>
 				</section>
 
-				<section class="subsection">
-					<header>
-						<h3>
-							<a id="thymeleaf-apache-tiles-2" href="#thymeleaf-apache-tiles-2" class="anchor"></a>
-							Thymeleaf + Apache Tiles 2
-						</h3>
-					</header>
-					<p><a href="https://github.com/thymeleaf/thymeleaf-extras-tiles2">https://github.com/thymeleaf/thymeleaf-extras-tiles2</a></p>
-
-					<p>The Thymeleaf Extras Tiles 2 library provides a dialect that allows
-					using Apache Tiles 2 as the layout method of Thymeleaf-based
-					applications. Features:</p>
-					<ul>
-						<li>
-							Use <strong>Thymeleaf templates in Tiles definitions</strong>.
-						</li>
-						<li>
-							Use Thymeleaf template fragments in layout definitions,
-							<strong>natural templates</strong> possible with Tiles!
-						</li>
-						<li>
-							<strong>Mix JSP and Thymeleaf</strong> templates in the same
-							layout if required.
-						</li>
-						<li>
-							Optional <strong>Spring MVC 3</strong> and <strong>Spring Web
-							Flow 2.3</strong> integrations.
-						</li>
-					</ul>
-
-					<p>With this library, Tiles definitions can specify Thymeleaf
-					templates, or even only fragments of them (in the usual
-					<code>th:include</code> notation):</p>
-
-					<pre><code class="language-xml"><!--
-						<tiles-definitions>
-							...
-							<definition name="main" template="basic_layout">
-								<put-attribute name="content">
-									<definition template="basic_contentlayout :: content">
-										<put-attribute name="text" value="main :: text" />
-									</definition>
-								</put-attribute>
-								<put-attribute name="side" value="${config.sideColumnTemplate}" />
-							</definition>
-							...
-						</tiles-definitions>
-					--></code></pre>
-
-					<p>...and templates can call the Thymeleaf Tiles Dialect to include
-					other parts of the layout:</p>
-
-					<pre><code class="language-html"><!--
-						<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
-						...
-						<body>
-							...
-							<div tiles:include="side">
-								some prototyping markup over here...
-							</div>
-							...
-						</body>
-						</html>
-					--></code></pre>
-				</section>
-
-				<section class="subsection">
-					<header>
-						<h3>
-							<a id="thymeleaf-spring-security" href="#thymeleaf-spring-security" class="anchor"></a>
-							Thymeleaf + Spring Security
-						</h3>
-					</header>
-					<p><a href="https://github.com/thymeleaf/thymeleaf/tree/main/lib">https://github.com/thymeleaf/thymeleaf</a> (<code>lib/thymeleaf-extras-springsecurity5</code> and <code>lib/thymeleaf-extras-springsecurity6</code>)</p>
-
-					<p>The Thymeleaf Extras Spring Security library provides a dialect
-					that allows integrating several authorization and authentication
-					aspects of Spring Security (versions 5.x and 6.x) into Thymeleaf-based
-					applications. Features:</p>
-					<ul>
-						<li>
-							<strong>Thymeleaf-based equivalent to the Spring Security JSP tag
-							library</strong>.
-						</li>
-						<li>
-							Adds new expression utility objects like <code>#authentication</code>
-							and <code>#authorization</code> for <strong>integrating Spring
-							Security capabilities into Thymeleaf expressions</strong>.
-						</li>
-						<li>
-							Adds new attributes like <code>sec:authentication</code> and
-							<code>sec:authorized</code> for easier configuration of security.
-						</li>
-					</ul>
-
-					<p>With this library, role-based access restrictions defined in Spring
-					Security can be easily used:</p>
-
-					<pre><code class="language-xml"><!--
-						<div sec:authorize="hasRole('ROLE_ADMIN')">
-							This will only be displayed if authenticated user has role ROLE_ADMIN.
-						</div>
-					--></code></pre>
-
-					<p>The security-related objects can also be included in your normal
-					Thymeleaf expressions:</p>
-
-					<pre><code class="language-html"><!--
-						<div th:text="${#authentication.name}">
-							The value of the "name" property of the authentication object should appear here.
-						</div>
-					--></code></pre>
-				</section>
-
-				<section class="subsection">
-					<header>
-						<h3>
-							<a id="thymeleaf-conditional-comments" href="#thymeleaf-conditional-comments" class="anchor"></a>
-							Thymeleaf + IE Conditional Comments
-						</h3>
-					</header>
-					<p><a href="https://github.com/thymeleaf/thymeleaf-extras-conditionalcomments">https://github.com/thymeleaf/thymeleaf-extras-conditionalcomments</a></p>
-
-					<p>The Thymeleaf Extras Conditional Comments library provides support
-					for Internet Explorer <em>conditional comments</em> in Thymeleaf
-					templates.</p>
-					<ul>
-						<li>
-							Process Thymeleaf <strong>attribute processors inside conditional
-							comments</strong>.
-						</li>
-						<li>
-							Supports the whole syntax of conditional comments.
-						</li>
-					</ul>
-
-					<p>IE Conditional comments look like this:</p>
-
-					<script type="text/plain" class="language-html">
-						<!--[if lt IE 8]>
-						<link rel="stylesheet" th:href="@{/resources/blueprint/ie.css}"
-							type="text/css" media="screen, projection">
-						<![endif]-->
-					</script>
-
-					<p>...and thanks to this library, they are correctly executed like:</p>
-
-					<script type="text/plain" class="language-html">
-						<!--[if lt IE 8]>
-						<link rel="stylesheet" href="/myapp/resources/blueprint/ie.css"
-							type="text/css" media="screen, projection">
-						<![endif]-->
-					</script>
-				</section>
-
 			</section>
 
 			<section>
@@ -361,117 +254,6 @@
 					code reuse.  If you've ever used SiteMesh for your JSPs, or Facelets
 					with JSFs, then the concepts of this library will be very familiar to
 					you.</p>
-				</section>
-
-				<section class="subsection">
-					<header>
-						<h3>
-							<a id="dandelion" href="#dandelion" class="anchor"></a>
-							Dandelion Project
-						</h3>
-					</header>
-					<p class="community-authors">by Thibault Duchateau and Romain Lespinasse</p>
-					<p><a href="https://dandelion.github.io">https://dandelion.github.io</a></p>
-
-					<p>Dandelion is a free and Open Source Java framework aimed at making
-					web development simpler in JVM-based environments.</p>
-
-					<p>It helps to <strong>manipulate the web assets (JS, CSS)</strong> in
-					many ways: good organization and classical optimizations like
-					minification, merging, compression or caching. It also facilitates the
-					integration of powerful JavaScript libraries thanks to a set of
-					extensible components.</p>
-				</section>
-
-				<section class="subsection">
-					<header>
-						<h3>
-							<a id="pages-dialect" href="#pages-dialect" class="anchor"></a>
-							PagesDialect
-						</h3>
-					</header>
-					<p class="community-authors">by Jos&eacute; Samper</p>
-					<p><a href="http://pagesdialect.sourceforge.net/">http://pagesdialect.sourceforge.net/</a></p>
-
-					<p>PagesDialect is a custom dialect that provides some Collection
-					processing utilities, like pagination, sorting or exporting.</p>
-				</section>
-
-				<section class="subsection">
-					<header>
-						<h3>
-							<a id="thymeleaf-with-dialect" href="#thymeleaf-with-dialect" class="anchor"></a>
-							Thymeleaf With Dialect
-						</h3>
-					</header>
-					<p class="community-authors">by Martin Frey</p>
-					<p><a href="https://github.com/Antibrumm/thymeleaf-extras-with-dialect">https://github.com/Antibrumm/thymeleaf-extras-with-dialect</a></p>
-
-					<p>A dialect for Thymeleaf that allows you to use attributes with a
-					"with" prefix to avoid having long <code>th:with</code> expressions.</p>
-				</section>
-
-				<section class="subsection">
-					<header>
-						<h3>
-							<a id="thymeleaf-cache-dialect" href="#thymeleaf-cache-dialect" class="anchor"></a>
-							Thymeleaf Cache Dialect
-						</h3>
-					</header>
-					<p class="community-authors">by Martin Frey</p>
-					<p><a href="https://github.com/Antibrumm/thymeleaf-extras-cache-dialect">https://github.com/Antibrumm/thymeleaf-extras-cache-dialect</a></p>
-
-					<p>Some parts of our webpage will not change often during the lifetime
-					of the application or is dependent only on a usersession.</p>
-
-					<p>This dialect will cache the resulting output of the element it is
-					declared on and will replace the element on a cache hit.</p>
-				</section>
-
-				<section class="subsection">
-					<header>
-						<h3>
-							<a id="html5-validation-dialect" href="#html5-validation-dialect" class="anchor"></a>
-							HTML5 Validation Dialect
-						</h3>
-					</header>
-					<p class="community-authors">by Francisco P&eacute;rez and Jos&eacute; Samper</p>
-					<p><a href="http://html5valdialect.sourceforge.net/">http://html5valdialect.sourceforge.net/</a></p>
-
-					<p>This dialect reads <em>JSR-303</em> annotations and modifies the
-					HTML code introducing HTML5 form validation code matching the
-					annotations.</p>
-				</section>
-
-				<section class="subsection">
-					<header>
-						<h3>
-							<a id="wuic-dialect" href="#wuic-dialect" class="anchor"></a>
-							WUIC Dialect
-						</h3>
-					</header>
-					<p class="community-authors">by Guillaume Drouet</p>
-					<p><a href="https://wuic.github.io/">https://wuic.github.io/</a></p>
-
-					<p>WUIC is a Java project that helps developers manage their web
-					statics. JS/CSS minification and aggregation, sprites computation,
-					server/browser cache with eviction on any changes, etc. The dialect
-					helps Thymeleaf users use WUIC features when writing their templates.</p>
-				</section>
-
-				<section class="subsection">
-					<header>
-						<h3>
-							<a id="data-attribute-dialect" href="#data-attribute-dialect" class="anchor"></a>
-							Data Attribute Dialect
-						</h3>
-					</header>
-					<p class="community-authors">by Max Bruchmann</p>
-					<p><a href="https://github.com/mxab/thymeleaf-extras-data-attribute">https://github.com/mxab/thymeleaf-extras-data-attribute</a></p>
-
-					<p>Thymeleaf Data Attributes dialect evaluates thymeleaf expressions
-					in <code>data:*</code> attributes and sets the result as
-					<code>data-*</code> attribute of the HTML tag.</p>
 				</section>
 
 				<section class="subsection">
@@ -534,58 +316,6 @@
 						these functions are also available as separate extensions for use in non-MVC environments.</p>
 				</section>
 
-				<section class="subsection">
-					<header>
-						<h3>
-							<a id="hdiv-thymeleaf" href="#hdiv-thymeleaf" class="anchor"></a>
-							HDIV + Thymeleaf
-						</h3>
-					</header>
-					<p class="community-authors">by The HDIV Project</p>
-					<p><a href="https://www.hdiv.org">https://www.hdiv.org</a></p>
-
-					<p>HDIV is a <strong>web application security framework</strong> that
-						helps to avoid most common web security risks (<em>OWASP top ten</em>).
-						HDIV controls the data flow between the server and the client side,
-						applying security validations transparently and without updating
-						applications source code.</p>
-
-					<p>HDIV applies integrity checks (avoiding for instance parameter
-						tampering and URLs manipulation) to all the data that is sent to the
-						client from the server and generic input validations to the data that
-						come from text fields. In addition to that HDIV adds aleatory tokens
-						to each link and form in order to avoid CSRF web risk.</p>
-				</section>
-
-				<section class="subsection">
-					<header>
-						<h3>
-							<a id="thymeleaf-play-12" href="#thymeleaf-play-12" class="anchor"></a>
-							Thymeleaf module for Play Framework 1.2
-						</h3>
-					</header>
-					<p class="community-authors">by Satoshi Takata</p>
-					<p><a href="https://github.com/choreo/play-thymeleaf">https://github.com/choreo/play-thymeleaf</a></p>
-
-					<p>This module allows you to use Thymeleaf as a substitute for the
-						Groovy templates in the view layer of Play Framework 1.2.</p>
-				</section>
-
-				<section class="subsection">
-					<header>
-						<h3>
-							<a id="thymeleaf-play-2" href="#thymeleaf-play-2" class="anchor"></a>
-							Thymeleaf module for Play Framework 2 (Scala)
-						</h3>
-					</header>
-					<p class="community-authors">by Dmitry Avershin</p>
-					<p><a href="https://github.com/dmitraver/scala-play-thymeleaf-plugin">https://github.com/dmitraver/scala-play-thymeleaf-plugin</a></p>
-
-					<p>A module for Play Framework (Scala) to use Thymeleaf template
-						engine as an alternative to Twirl, which is a standard Play Framework
-						template engine.</p>
-				</section>
-
 			</section>
 
 			<section>
@@ -614,61 +344,6 @@
 				<section class="subsection">
 					<header>
 						<h3>
-							<a id="thymol" href="#thymol" class="anchor"></a>
-							Thymol
-						</h3>
-					</header>
-					<p class="community-authors">by Jim Benson</p>
-					<p><a href="https://github.com/thymol/thymol.js">https://github.com/thymol/thymol.js</a></p>
-
-					<p>Thymol is a useful JavaScript library that allows developers to
-					<strong>apply their <code>th:include</code>/<code>th:replace</code>
-					fragment inclusions statically</strong> (without executing the
-					application).</p>
-
-					<p>Additionally, it provides a lot of powerful features for static
-					prototyping like allowing developers to statically evaluate
-					conditional fragments (<code>th:if</code>/<code>th:unless</code>) on
-					their prototypes, improving the experience of Natural Template
-					development.</p>
-				</section>
-
-				<section class="subsection">
-					<header>
-						<h3>
-							<a id="thymeleaf-fragment" href="#thymeleaf-fragment" class="anchor"></a>
-							thymeleaf-fragment.js
-						</h3>
-					</header>
-					<p class="community-authors">by <a href="https://www.blackpepper.co.uk/">Black Pepper Software</a></p>
-					<p><a href="https://github.com/BlackPepperSoftware/thymeleaf-fragment.js">https://github.com/BlackPepperSoftware/thymeleaf-fragment.js</a></p>
-
-					<p>thymeleaf-fragment.js provides a simple script that only processes <code>th:include</code>,
-					<code>th:insert</code> and <code>th:replace</code> attributes using jQuery. This allows natural
-					templates that use fragments to be viewed in the browser as static prototypes.</p>
-				</section>
-
-				<section class="subsection">
-					<header>
-						<h3>
-							<a id="thymus" href="#thymus" class="anchor"></a>
-							Thymus
-						</h3>
-					</header>
-					<p class="community-authors">by Will Hoover</p>
-					<p><a href="https://ugate.github.io/thymus">https://ugate.github.io/thymus</a></p>
-
-					<p>thymus.js is a Thymeleaf inspired JQuery plug-in that can be used
-					as a Thymeleaf client-side controller for fragmented model/view
-					updates via the client's browser. thymus.js is flexible enough to be
-					run independent of Thymeleaf, but can also be used as a powerful
-					production companion to Thymeleaf and/or as an offline prototyping
-					engine.</p>
-				</section>
-
-				<section class="subsection">
-					<header>
-						<h3>
 							<a id="spring-mvc-quickstart-maven-archetype" href="#spring-mvc-quickstart-maven-archetype" class="anchor"></a>
 							Spring MVC Quickstart Maven Archetype
 						</h3>
@@ -681,77 +356,6 @@
 					JPA), mongoDB and JUnit.</p>
 				</section>
 
-				<section class="subsection">
-					<header>
-						<h3>
-							<a id="thymeleaf-spring-mvc-maven-archetype" href="#thymeleaf-spring-mvc-maven-archetype" class="anchor"></a>
-							Thymeleaf + Spring MVC Maven Archetype
-						</h3>
-					</header>
-					<p class="community-authors">by &Aacute;lex Soto</p>
-					<p><a href="http://www.lordofthejars.com/2012/01/once-upon-time-and-long-ago-i-heard.html">http://www.lordofthejars.com/2012/01/once-upon-time-and-long-ago-i-heard.html</a></p>
-
-					<p>A maven archetype for bootstrapping web applications using Spring
-					MVC and Thymeleaf.</p>
-				</section>
-
-				<section class="subsection">
-					<header>
-						<h3>
-							<a id="thymesheet" href="#thymesheet" class="anchor"></a>
-							Thymesheet
-						</h3>
-					</header>
-					<p class="community-authors">by Adam Perry</p>
-					<p><a href="https://connect-group.github.io/thymesheet/">https://connect-group.github.io/thymesheet/</a></p>
-
-					<p>Thymesheet is an extension for Thymeleaf which allows you to move
-					attributes such as <code>th:if</code>, <code>th:text</code> etc, into
-					an external CSS3 file.  This means that absolutely no Java/server
-					logic is embedded in the HTML at all - taking natural templating one
-					step further!  Compatible with Tiles, Spring, Conditional Comments,
-					and any Thymeleaf dialect.</p>
-				</section>
-
-				<section class="subsection">
-					<header>
-						<h3>
-							<a id="thymeleaf-jawr-extension" href="#thymeleaf-jawr-extension" class="anchor"></a>
-							Thymeleaf JAWR Extension
-						</h3>
-					</header>
-					<p class="community-authors">by Danny Trunk</p>
-					<p><a href="https://github.com/dtrunk90/thymeleaf-jawr-extension">https://github.com/dtrunk90/thymeleaf-jawr-extension</a></p>
-
-					<p>A dialect for Thymeleaf template engine enabling the use of Jawr (a
-					tunable packaging solution for Javascript and CSS which allows for
-					rapid development of resources in separate module files).</p>
-				</section>
-
-			</section>
-
-			<section>
-				<header>
-					<h2>
-						<a id="demos" href="#demos" class="anchor"></a>
-						Demos
-					</h2>
-				</header>
-
-				<section class="subsection">
-					<header>
-						<h3>
-							<a id="sql-dialect-standalone-servlet" href="#sql-dialect-standalone-servlet" class="anchor"></a>
-							SQL dialect and standalone servlet
-						</h3>
-					</header>
-					<p class="community-authors">by Jos&eacute; Samper</p>
-					<p><a href="https://github.com/jmiguelsamper/thymeleaf-extras-sqldialect">https://github.com/jmiguelsamper/thymeleaf-extras-sqldialect</a></p>
-
-					<p>This example web application introduces a way of doing PHP-like web pages using Thymeleaf
-					with zero Java code.
-					For that, a new SQL dialect and a servlet for standalone execution of templates are introduced.</p>
-				</section>
 			</section>
 		</main>
 	</div>
