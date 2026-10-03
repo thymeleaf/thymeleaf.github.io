@@ -134,7 +134,7 @@ public ThymeleafViewResolver viewResolver(){
     viewResolver.setTemplateEngine(templateEngine());
     // NOTE &#39;order&#39; and &#39;viewNames&#39; are optional
     viewResolver.setOrder(1);
-    viewResolver.setViewNames(new String[] {&quot;.html&quot;, &quot;.xhtml&quot;});
+    viewResolver.setViewNames(new String[] {&quot;*.html&quot;, &quot;*.xhtml&quot;});
     return viewResolver;
 }</code></pre><p>…or in XML:</p><pre class="xml"><code>&lt;bean class=&quot;org.thymeleaf.spring6.view.ThymeleafViewResolver&quot;&gt;
   &lt;property name=&quot;templateEngine&quot; ref=&quot;templateEngine&quot; /&gt;
