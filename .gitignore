@@ -2,3 +2,12 @@
 *.iml
 .classpath
 .project
+
+# Agent instructions, configuration, skill links and local reports: never committed
+# (block from danielfernandez-ai-playbook, templates/project-gitignore)
+AGENTS.md
+CLAUDE.md
+.agents/
+.claude/
+.junie/
+.cursor/
